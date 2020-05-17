@@ -40,11 +40,8 @@ describe("Restaurant Routes Suite", () => {
             const response = await makeRegisterRequest(TestRequests.register.ok);
 
             expectStatusCode(response, 200);
-            expectJSONResponse(response, {
-                success: true,
-                data: {
-                    message: "Successfully registered Bob's Burgers"
-                }
+            expectSuccessResponse(response, {
+                message: "Successfully registered Bob's Burgers"
             })
         })
     });
@@ -101,6 +98,13 @@ function expectContentType(response, contentType) {
 
 function expectHeader(response, header, value) {
     expect(response.header[header]).toBe(value);
+}
+
+function expectSuccessResponse(response, data) {
+    expectJSONResponse(response, {
+        success: true,
+        data: data
+    })
 }
 
 async function makeQRCodeRequest(query) {

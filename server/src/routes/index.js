@@ -1,6 +1,8 @@
 const router = require("express").Router();
-const restaurant = require("./restaurant");
+const restaurantRoute = require("./restaurant");
+const checkInRoute = require("./check-in");
 
-router.use("/restaurant", restaurant);
+router.use("/restaurant", restaurantRoute);
+router.use("/check_in", checkInRoute)
 
 module.exports = router;
