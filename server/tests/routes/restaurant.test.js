@@ -12,7 +12,9 @@ describe("Restaurant Routes Suite", () => {
             expectStatusCode(response, 400);
             expectJSONResponse(response, {
                 success: false,
-                message: "No name or number was provided"
+                data: {
+                    error: "No name or number was provided"
+                }
             });
         })
 
@@ -24,7 +26,9 @@ describe("Restaurant Routes Suite", () => {
             expectStatusCode(response, 400);
             expectJSONResponse(response, {
                 success: false,
-                message: "No name was provided"
+                data: {
+                    error: "No name was provided"
+                }
             })
         })
 
@@ -36,7 +40,9 @@ describe("Restaurant Routes Suite", () => {
             expectStatusCode(response, 400);
             expectJSONResponse(response, {
                 success: false,
-                message: "No number was provided"
+                data: {
+                    error: "No number was provided"
+                }
             })
         })
 
@@ -49,7 +55,9 @@ describe("Restaurant Routes Suite", () => {
             expectStatusCode(response, 200);
             expectJSONResponse(response, {
                 success: true,
-                message: "Successfully registered Bob's Burgers"
+                data: {
+                    message: "Successfully registered Bob's Burgers"
+                }
             })
         })
     });
@@ -61,7 +69,9 @@ describe("Restaurant Routes Suite", () => {
             expectStatusCode(response, 400);
             expectJSONResponse(response, {
                 success: false,
-                message: "No restaurant was provided"
+                data: {
+                    error: "No restaurant was provided"
+                }
             })
         })
 

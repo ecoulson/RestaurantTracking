@@ -6,3 +6,8 @@ function isLastElement(i, list) {
 function isFirstElement(i, list) {
     return i === 0;
 }
+
+module.exports = {
+    isLastElement,
+    isFirstElement
+}
