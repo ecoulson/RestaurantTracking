@@ -4,7 +4,10 @@ function streamQRCode(res, restaurant) {
     qrcode.toFileStream(res, getQRCodeContent(restaurant))
 }
 
-// Should get cuttly link
 function getQRCodeContent(restaurant) {
-    return `http://cnn.com`
+    return `http://localhost:8080/checking?restaurant=${restaurant._id}`
+}
+
+module.exports = {
+    streamQRCode
 }

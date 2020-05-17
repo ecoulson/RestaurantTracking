@@ -1,8 +1,13 @@
 const request = require("supertest");
 const app = require("../../src/app");
+const Restaurant = require("../../src/models/restaurant")
 
 const REGISTER_URL = "/restaurant/register";
 const CODE_URL = "/restaurant/code";
+
+afterEach(() => {
+    jest.clearAllMocks();
+});
 
 describe("Restaurant Routes Suite", () => {
     describe("Registration Route", () => {
@@ -47,6 +52,9 @@ describe("Restaurant Routes Suite", () => {
         })
 
         test("A successful registration", async () => {
+            Restaurant.prototype.save = jest.fn().mockReturnValue(Promise.resolve({
+                _id: "XD"
+            }));
             const response = await makeRegisterRequest({
                 number: "4255035202",
                 name: "Bob's Burgers"
@@ -76,7 +84,10 @@ describe("Restaurant Routes Suite", () => {
         })
 
         test("A successful qrcode generation", async () => {
-            const response = await makeQRCodeRequest(1);
+            Restaurant.findById = jest.fn().mockReturnValue(Promise.resolve({
+                _id: "XD"
+            }));
+            const response = await makeQRCodeRequest("1a");
 
             expectStatusCode(response, 200);
             expectHeader(response, "transfer-encoding", "chunked");

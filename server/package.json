@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "test": "jest tests",
+    "test": "jest tests --runInBand",
     "start": "node ./src/server.js"
   },
   "author": "",
@@ -15,5 +15,13 @@
     "mongoose": "^5.9.14",
     "qrcode": "^1.4.4",
     "supertest": "^4.0.2"
+  },
+  "devDependencies": {
+    "@shelf/jest-mongodb": "^1.1.5",
+    "mockingoose": "^2.13.2",
+    "mongodb-memory-server": "^6.6.0",
+    "sinon": "^9.0.2",
+    "sinon-as-promised": "^4.0.3",
+    "sinon-mongoose": "^2.3.0"
   }
 }
