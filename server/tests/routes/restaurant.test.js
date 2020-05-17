@@ -1,9 +1,12 @@
 const request = require("supertest");
 const app = require("../../src/app");
-const Restaurant = require("../../src/models/restaurant")
+const Restaurant = require("../../src/models/restaurant");
+const TestRequests = require("./restaurant.data.json");
+const ModelMock = require("../mocks/mongoose/ModelMock");
 
 const REGISTER_URL = "/restaurant/register";
 const CODE_URL = "/restaurant/code";
+const RestaurantMock = new ModelMock(Restaurant);
 
 afterEach(() => {
     jest.clearAllMocks();
@@ -12,53 +15,29 @@ afterEach(() => {
 describe("Restaurant Routes Suite", () => {
     describe("Registration Route", () => {
         test("A registration request with an empty body", async () => {
-            const response = await makeRegisterRequest();
+            const response = await makeRegisterRequest(TestRequests.empty);
 
             expectStatusCode(response, 400);
-            expectJSONResponse(response, {
-                success: false,
-                data: {
-                    error: "No name or number was provided"
-                }
-            });
+            expectErrorResponse(response, "No name or number was provided");
         })
 
         test("A registration request without a name", async () => {
-            const response = await makeRegisterRequest({
-                number: "4255035202"
-            })
+            const response = await makeRegisterRequest(TestRequests.register.noName)
 
             expectStatusCode(response, 400);
-            expectJSONResponse(response, {
-                success: false,
-                data: {
-                    error: "No name was provided"
-                }
-            })
+            expectErrorResponse(response, "No name was provided");
         })
 
         test("A registration request without a number", async () => {
-            const response = await makeRegisterRequest({
-                name: "Bob's Burgers"
-            });
+            const response = await makeRegisterRequest(TestRequests.register.noNumber)
 
             expectStatusCode(response, 400);
-            expectJSONResponse(response, {
-                success: false,
-                data: {
-                    error: "No number was provided"
-                }
-            })
+            expectErrorResponse(response, "No number was provided");
         })
 
         test("A successful registration", async () => {
-            Restaurant.prototype.save = jest.fn().mockReturnValue(Promise.resolve({
-                _id: "XD"
-            }));
-            const response = await makeRegisterRequest({
-                number: "4255035202",
-                name: "Bob's Burgers"
-            });
+            RestaurantMock.methods.mockSave();
+            const response = await makeRegisterRequest(TestRequests.register.ok);
 
             expectStatusCode(response, 200);
             expectJSONResponse(response, {
@@ -72,22 +51,17 @@ describe("Restaurant Routes Suite", () => {
 
     describe("QRCode Route", () => {
         test("A qrcode request with no query", async () => {
-            const response = await makeQRCodeRequest();
+            const response = await makeQRCodeRequest(TestRequests.empty);
 
             expectStatusCode(response, 400);
-            expectJSONResponse(response, {
-                success: false,
-                data: {
-                    error: "No restaurant was provided"
-                }
-            })
+            expectErrorResponse(response, "No restaurant was provided");
         })
 
         test("A successful qrcode generation", async () => {
-            Restaurant.findById = jest.fn().mockReturnValue(Promise.resolve({
-                _id: "XD"
-            }));
-            const response = await makeQRCodeRequest("1a");
+            RestaurantMock.statics.mockFindById({
+                _id: "1"
+            });
+            const response = await makeQRCodeRequest(TestRequests.code.ok);
 
             expectStatusCode(response, 200);
             expectHeader(response, "transfer-encoding", "chunked");
@@ -107,6 +81,15 @@ function expectStatusCode(response, status) {
     expect(response.status).toBe(status);
 }
 
+function expectErrorResponse(response, message) {
+    expectJSONResponse(response, {
+        success: false,
+        data: {
+            error: message
+        }
+    })
+}
+
 function expectJSONResponse(response, body) {
     expectContentType(response, "application/json; charset=utf-8");
     expect(response.body).toEqual(body);
@@ -120,9 +103,9 @@ function expectHeader(response, header, value) {
     expect(response.header[header]).toBe(value);
 }
 
-async function makeQRCodeRequest(restaurant) {
-    if (restaurant) {
-        return await makeGetRequest(`${CODE_URL}?restaurant=${restaurant}`)
+async function makeQRCodeRequest(query) {
+    if (query.restaurant) {
+        return await makeGetRequest(`${CODE_URL}?restaurant=${query.restaurant}`)
     }
     return await makeGetRequest(CODE_URL)
 }

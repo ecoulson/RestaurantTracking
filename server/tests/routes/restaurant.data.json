@@ -1,0 +1,20 @@
+{
+    "empty": {},
+    "register": {
+        "noName": {
+            "number": "4255035202"
+        },
+        "noNumber": {
+            "name": "Bob's Burgers"
+        },
+        "ok": {
+            "number": "4255035202",
+            "name": "Bob's Burgers"
+        }
+    },
+    "code": {
+        "ok": {
+            "restaurant": "1"
+        }
+    }
+}

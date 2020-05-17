@@ -4,13 +4,16 @@ const { Response } = require("../lib/HTTP");
 const Restaurant = require("../models/restaurant");
 const { streamQRCode } = require("../lib/QRCode");
 
+const CODE_PROPERTIES = ["restaurant"];
+const RESTAURANT_PROPERTIES = ["name", "number"]
+
 router.get("/code", async (req, res) => {
-    let missingProperties = StructureValidator.getMissingProperties(req.query, ["restaurant"]);
+    let missingProperties = StructureValidator.getMissingProperties(req.query, CODE_PROPERTIES);
     if (StructureValidator.isMissingProperties(missingProperties)) {
         return StructureValidator.sendMissingPropertyError(res, missingProperties);
     }
     const restaurant = await getRestaurant(req.query);
-    streamQRCode(res, restaurant);
+    return streamQRCode(res, restaurant);
 });
 
 async function getRestaurant(query) {
@@ -18,14 +21,12 @@ async function getRestaurant(query) {
 }
 
 router.post("/register", async (req, res) => {
-    let missingProperties = StructureValidator.getMissingProperties(req.body, ["name", "number"]);
+    let missingProperties = StructureValidator.getMissingProperties(req.body, RESTAURANT_PROPERTIES);
     if (StructureValidator.isMissingProperties(missingProperties)) {
         return StructureValidator.sendMissingPropertyError(res, missingProperties);
     }
     await saveRestaurantToDB(req.body);
-    return Response.sendData(res, {
-        message: `Successfully registered ${req.body.name}`,
-    })
+    return sendSuccessfulRegistration(res, req.body.name)
 });
 
 async function saveRestaurantToDB(body) {
@@ -33,8 +34,13 @@ async function saveRestaurantToDB(body) {
         name: body.name,
         number: body.number
     });
-    Restaurant.create(doc);
     await doc.save();
+}
+
+function sendSuccessfulRegistration(res, name) {
+    return Response.sendData(res, {
+        message: `Successfully registered ${name}`,
+    })
 }
 
 module.exports = router;
