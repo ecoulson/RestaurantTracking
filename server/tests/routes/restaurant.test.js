@@ -47,13 +47,6 @@ describe("Restaurant Routes Suite", () => {
     });
 
     describe("QRCode Route", () => {
-        test("A qrcode request with no query", async () => {
-            const response = await makeQRCodeRequest(TestRequests.empty);
-
-            expectStatusCode(response, 400);
-            expectErrorResponse(response, "No restaurant was provided");
-        })
-
         test("A successful qrcode generation", async () => {
             RestaurantMock.statics.mockFindById({
                 _id: "1"
@@ -107,9 +100,9 @@ function expectSuccessResponse(response, data) {
     })
 }
 
-async function makeQRCodeRequest(query) {
-    if (query.restaurant) {
-        return await makeGetRequest(`${CODE_URL}?restaurant=${query.restaurant}`)
+async function makeQRCodeRequest(params) {
+    if (params.restaurant) {
+        return await makeGetRequest(`${CODE_URL}/${params.restaurant}`)
     }
     return await makeGetRequest(CODE_URL)
 }

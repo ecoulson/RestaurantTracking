@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "test": "jest tests --runInBand",
+    "test": "jest tests --maxWorkers=4",
     "start": "node ./src/server.js"
   },
   "author": "",

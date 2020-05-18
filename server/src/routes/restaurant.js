@@ -4,20 +4,20 @@ const { Response } = require("../lib/HTTP");
 const Restaurant = require("../models/restaurant");
 const { streamQRCode } = require("../lib/QRCode");
 
-const CODE_PROPERTIES = ["restaurant"];
+const CODE_PROPERTIES = ["restaurantId"];
 const RESTAURANT_PROPERTIES = ["name", "number"]
 
-router.get("/code", async (req, res) => {
-    let missingProperties = StructureValidator.getMissingProperties(req.query, CODE_PROPERTIES);
+router.get("/code/:restaurantId", async (req, res) => {
+    let missingProperties = StructureValidator.getMissingProperties(req.params, CODE_PROPERTIES);
     if (StructureValidator.isMissingProperties(missingProperties)) {
         return StructureValidator.sendMissingPropertyError(res, missingProperties);
     }
-    const restaurant = await getRestaurant(req.query);
+    const restaurant = await getRestaurant(req.params);
     return streamQRCode(res, restaurant);
 });
 
-async function getRestaurant(query) {
-    return await Restaurant.findById(query.restaurant);
+async function getRestaurant(params) {
+    return await Restaurant.findById(params.restaurantId);
 }
 
 router.post("/register", async (req, res) => {
