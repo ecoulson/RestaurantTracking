@@ -1,12 +1,9 @@
 const FAILURE_CODE = 400;
 const SUCCESS_CODE = 200;
+const FORBIDDEN_CODE = 403;
 
-function sendError(res, data) {
-    sendResponse(res, data, FAILURE_CODE)
-}
-
-function sendData(res, data) {
-    sendResponse(res, data, SUCCESS_CODE)
+function sendError(res, error) {
+    sendResponse(res, error, FAILURE_CODE)
 }
 
 function sendResponse(res, data, status) {
@@ -16,7 +13,18 @@ function sendResponse(res, data, status) {
     });
 }
 
+function sendData(res, data) {
+    sendResponse(res, data, SUCCESS_CODE)
+}
+
+function sendForbidden(res) {
+    sendResponse(res, {
+        error: "Access forbidden"
+    }, FORBIDDEN_CODE)
+}
+
 module.exports = {
     sendError,
     sendData,
+    sendForbidden
 }

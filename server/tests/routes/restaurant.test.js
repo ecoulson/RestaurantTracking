@@ -8,8 +8,15 @@ const REGISTER_URL = "/restaurant/register";
 const CODE_URL = "/restaurant/code";
 const RestaurantMock = new ModelMock(Restaurant);
 
+const OLD_ENV = process.env;
+
+beforeAll(() => {
+    process.env.SERVER_SECRET = "token"
+});
+
 afterEach(() => {
     jest.clearAllMocks();
+    process.env = OLD_ENV;
 });
 
 describe("Restaurant Routes Suite", () => {
@@ -64,7 +71,7 @@ async function makeRegisterRequest(data) {
 }
 
 async function makePostRequest(url, data) {
-    return await request(app).post(url).send(data);
+    return await request(app).post(url).send(data).set('Authorization', "Bearer token");
 }
 
 function expectStatusCode(response, status) {
@@ -108,5 +115,5 @@ async function makeQRCodeRequest(params) {
 }
 
 async function makeGetRequest(url) {
-    return await request(app).get(url);
+    return await request(app).get(url).set('Authorization', "Bearer token");;
 } 

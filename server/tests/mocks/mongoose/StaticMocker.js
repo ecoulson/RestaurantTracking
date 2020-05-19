@@ -8,6 +8,10 @@ class StaticMocker {
     mockFindById(value) {
         mockReturn("findById", value);
     }
+
+    mockFind(value) {
+        mockReturn("find", value);
+    }
 }
 
 function mockReturn (method, value) {

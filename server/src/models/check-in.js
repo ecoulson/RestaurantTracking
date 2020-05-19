@@ -14,7 +14,7 @@ const CheckInSchema = new mongoose.Schema({
 });
 
 CheckInSchema.statics.findByRestaurantId = async function(restaurantId) {
-    return await this.find({ restaurantId }).exec();
+    return await this.find({ restaurantId });
 } 
 
 CheckInSchema.methods.serialize = function() {

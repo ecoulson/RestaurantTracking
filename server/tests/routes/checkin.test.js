@@ -4,7 +4,7 @@ const CheckIn = require("../../src/models/check-in");
 const TestRequests = require("./checkin.data.json");
 const ModelMock = require("../mocks/mongoose/ModelMock");
 
-const CHECKIN_URL = "/check_in/";
+const CHECKIN_URL = "/check_in";
 const CheckInMock = new ModelMock(CheckIn);
 
 describe("Check In Routes Suite", () => {
@@ -63,12 +63,35 @@ describe("Check In Routes Suite", () => {
             const response = await makeCheckInRequest(TestRequests.post.ok);
 
             expectStatusCode(response, 200);
-            expectJSONResponse(response, {
-                success: true,
-                data: {
-                    message: "Successfully checked in"
-                }
-            })
+            expectSuccessResponse(response, {
+                message: "Successfully checked in"
+            });
+        })
+    });
+
+    describe("Gets all check-ins at a specific restaurant", () => {
+        test("A get check ins request with no query", async () => {
+            const response = await getCheckinsAtRestaurantRequest(TestRequests.empty);
+
+            expectStatusCode(response, 400);
+            expectErrorResponse(response, "No restaurantId was provided");
+        });
+
+        test("A get check ins request with duplicate query parameters", async () => {
+            const response = await getDuplicateCheckinsAtRestaurantRequest(TestRequests.get.ok);
+
+            expectStatusCode(response, 400);
+            expectErrorResponse(response, "Duplicate restaurantId was provided");
+        })
+
+        test("A successful get check ins request", async () => {
+            CheckInMock.statics.mockFind([])
+            const response = await getCheckinsAtRestaurantRequest(TestRequests.get.ok);
+
+            expectStatusCode(response, 200);
+            expectSuccessResponse(response, {
+                checkIns: []
+            });
         })
     });
 });
@@ -105,6 +128,24 @@ function expectContentType(response, contentType) {
 
 function expectHeader(response, header, value) {
     expect(response.header[header]).toBe(value);
+}
+
+function expectSuccessResponse(response, data) {
+    expectJSONResponse(response, {
+        success: true,
+        data: data
+    })
+}
+
+async function getCheckinsAtRestaurantRequest(query) {
+    if (query && query.restaurantId) {
+        return await makeGetRequest(`${CHECKIN_URL}?restaurantId=${query.restaurantId}`)
+    }
+    return await makeGetRequest(CHECKIN_URL)
+}
+
+async function getDuplicateCheckinsAtRestaurantRequest(query) {
+    return await makeGetRequest(`${CHECKIN_URL}?restaurantId=${query.restaurantId}&restaurantId=${query.restaurantId}`)
 }
 
 async function makeGetRequest(url) {

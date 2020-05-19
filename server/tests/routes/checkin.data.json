@@ -27,5 +27,10 @@
             "email": "test@test.com",
             "restaurantId": "1"
         }
+    },
+    "get": {
+        "ok": {
+            "restaurantId": "1"
+        }
     }
 }
