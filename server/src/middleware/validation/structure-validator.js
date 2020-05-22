@@ -1,5 +1,5 @@
-const { isFirstElement, isLastElement } = require("../../list-helper");
-const Response = require("../../HTTP/response");
+const { isFirstElement, isLastElement } = require("../../lib/list-helper");
+const Response = require("../../lib/HTTP/response");
 
 class StructureValidator {
     getMissingProperties(object, properties) {

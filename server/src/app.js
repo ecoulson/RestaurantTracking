@@ -10,6 +10,7 @@ const csrf = require("csurf");
 const RateLimit = require('express-rate-limit');
 const MongoStore = require('rate-limit-mongo');
 const session = require('express-session');
+const { errorHandler, devErrorHandler } = require("./middleware/error-handling");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -56,5 +57,11 @@ if (process.env.NODE_ENV === "production") {
 }
 
 app.use("/", routes);
+
+if (process.env.NODE_ENV !== "development") {
+    app.use(errorHandler);
+} else {
+    app.use(devErrorHandler);
+}
 
 module.exports = app;

@@ -1,4 +1,4 @@
-const { StructureValidator } = require("../../../../src/lib/middleware/validation");
+const { StructureValidator } = require("../../../src/middleware/validation");
 
 describe("Request Structure Test Suite", () => {
     describe("getMissingProperties", () => {

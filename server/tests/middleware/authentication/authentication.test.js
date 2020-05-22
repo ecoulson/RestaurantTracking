@@ -1,4 +1,4 @@
-const authenticate = require("../../../../src/lib/middleware/authentication");
+const authenticate = require("../../../src/middleware/authentication");
 const { mockRequest, mockResponse } = require("mock-req-res");
 const { match } = require("sinon");
 

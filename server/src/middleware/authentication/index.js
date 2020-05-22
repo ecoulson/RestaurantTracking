@@ -1,12 +1,12 @@
-const response = require("../../HTTP/response");
+const { Response } = require("../../lib/HTTP");
 
 function authenticate(req, res, next) {
     if (!hasAuthorizationHeader(req.headers)) {
-        return response.sendForbidden(res)
+        return Response.sendForbidden(res)
     }
     const token = getAuthToken(req.headers);
     if (!isValidToken(token)) {
-        return response.sendForbidden(res);
+        return Response.sendForbidden(res);
     }
     return next();
 }

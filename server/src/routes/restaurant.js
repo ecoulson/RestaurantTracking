@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { validateParams, validateBody } = require("../lib/middleware/validation");
+const { validateParams, validateBody } = require("../middleware/validation");
 const { Response } = require("../lib/HTTP");
 const Restaurant = require("../models/restaurant");
 const { streamQRCode } = require("../lib/QR-code");
