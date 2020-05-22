@@ -40,7 +40,16 @@ describe("Restaurant Routes Suite", () => {
 
             expectStatusCode(response, 400);
             expectErrorResponse(response, "No number was provided");
-        })
+        });
+
+        test("Database error occurs", async () => {
+            RestaurantMock.shouldThrow().methods.mockSave();;
+    
+            const response = await makeRegisterRequest(TestRequests.register.ok);
+    
+            expectStatusCode(response, 400);
+            expectErrorResponse(response, "Database error");
+        });
 
         test("A successful registration", async () => {
             RestaurantMock.methods.mockSave();
@@ -55,6 +64,15 @@ describe("Restaurant Routes Suite", () => {
     });
 
     describe("QRCode Route", () => {
+        test("Database error occurs", async () => {
+            RestaurantMock.shouldThrow().statics.mockFindById();;
+    
+            const response = await makeQRCodeRequest(TestRequests.code.ok);
+    
+            expectStatusCode(response, 400);
+            expectErrorResponse(response, "Database error");
+        });
+
         test("A successful qrcode generation", async () => {
             RestaurantMock.statics.mockFindById({
                 _id: "1"
@@ -68,6 +86,15 @@ describe("Restaurant Routes Suite", () => {
     });
 
     describe("Get Restaurant", () => {
+        test("Database error occurs", async () => {
+            RestaurantMock.shouldThrow().statics.mockFindById();
+
+            const response = await makeFindRestaurantRequest("1");
+
+            expectStatusCode(response, 400);
+            expectErrorResponse(response, "Database error");
+        });
+
         test("Successfully finds restaurant", async () => {
             RestaurantMock.statics.mockFindById({
                 _id: "1",
@@ -75,7 +102,7 @@ describe("Restaurant Routes Suite", () => {
                 number: "4255035202"
             });
 
-            const response = await request(app).get("/restaurant/1").set('Authorization', "Bearer token");;
+            const response = await makeFindRestaurantRequest("1");
 
             expectStatusCode(response, 200);
             expectSuccessResponse(response, {
@@ -140,3 +167,9 @@ async function makeQRCodeRequest(params) {
 async function makeGetRequest(url) {
     return await request(app).get(url).set('Authorization', "Bearer token");;
 } 
+
+async function makeFindRestaurantRequest(id) {
+    return await request(app)
+            .get(`/restaurant/${id}`)
+            .set('Authorization', "Bearer token");;
+}

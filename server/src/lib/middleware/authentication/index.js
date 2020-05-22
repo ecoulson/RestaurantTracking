@@ -1,4 +1,4 @@
-const response = require("../HTTP/response");
+const response = require("../../HTTP/response");
 
 function authenticate(req, res, next) {
     if (!hasAuthorizationHeader(req.headers)) {

@@ -1,8 +1,13 @@
 class StaticMocker {
     constructor(model) {
         this.model = model
+        this.shouldThrow = false;
 
         mockReturn = mockReturn.bind(this);
+    }
+
+    setErrorMode() {
+        this.shouldThrow = true;
     }
 
     mockFindById(value) {
@@ -15,7 +20,14 @@ class StaticMocker {
 }
 
 function mockReturn (method, value) {
-    this.model[method] = jest.fn().mockReturnValue(Promise.resolve(value));
+    if (this.shouldThrow) {
+        this.model[method] = jest.fn().mockImplementationOnce(() => {
+            this.shouldThrow = false;
+            throw new Error("Database error");
+        });
+    } else {
+        this.model[method] = jest.fn().mockReturnValueOnce(Promise.resolve(value));
+    }
 }
 
 module.exports = StaticMocker;

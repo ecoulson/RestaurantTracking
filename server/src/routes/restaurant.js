@@ -1,33 +1,33 @@
 const router = require("express").Router();
-const { StructureValidator } = require("../lib/HTTP");
+const { validateParams, validateBody } = require("../lib/middleware/validation");
 const { Response } = require("../lib/HTTP");
 const Restaurant = require("../models/restaurant");
-const { streamQRCode } = require("../lib/QRCode");
+const { streamQRCode } = require("../lib/QR-code");
 
 const CODE_PROPERTIES = ["restaurantId"];
 const FIND_BY_ID_PROPERTIES = ["restaurantId"];
 const RESTAURANT_PROPERTIES = ["name", "number"]
 
-router.get("/:restaurantId/generate", async (req, res) => {
-    let missingProperties = StructureValidator.getMissingProperties(req.params, CODE_PROPERTIES);
-    if (StructureValidator.isMissingProperties(missingProperties)) {
-        return StructureValidator.sendMissingPropertyError(res, missingProperties);
-    }
-    const restaurant = await getRestaurant(req.params);
-    return streamQRCode(res, restaurant);
+router.get("/:restaurantId/generate", validateParams(CODE_PROPERTIES), async (req, res) => {
+    try {
+        const restaurant = await getRestaurant(req.params.restaurantId);
+        return streamQRCode(res, restaurant);
+    } catch (error) {
+        return Response.sendError(res, { error: error.message });
+    } 
 });
 
-async function getRestaurant(params) {
-    return await Restaurant.findById(params.restaurantId);
+async function getRestaurant(restaurantId) {
+    return await Restaurant.findById(restaurantId);
 }
 
-router.post("/register", async (req, res) => {
-    let missingProperties = StructureValidator.getMissingProperties(req.body, RESTAURANT_PROPERTIES);
-    if (StructureValidator.isMissingProperties(missingProperties)) {
-        return StructureValidator.sendMissingPropertyError(res, missingProperties);
+router.post("/register", validateBody(RESTAURANT_PROPERTIES), async (req, res) => {
+    try {
+        await saveRestaurantToDB(req.body);
+        return sendSuccessfulRegistration(res, req.body.name)
+    } catch(error) {
+        return Response.sendError(res, { error: error.message });
     }
-    await saveRestaurantToDB(req.body);
-    return sendSuccessfulRegistration(res, req.body.name)
 });
 
 async function saveRestaurantToDB(body) {
@@ -44,15 +44,15 @@ function sendSuccessfulRegistration(res, name) {
     })
 }
 
-router.get("/:restaurantId", async (req, res) => {
-    let missingProperties = StructureValidator.getMissingProperties(req.params, FIND_BY_ID_PROPERTIES);
-    if (StructureValidator.isMissingProperties(missingProperties)) {
-        return StructureValidator.sendMissingPropertyError(res, missingProperties);
+router.get("/:restaurantId", validateParams(FIND_BY_ID_PROPERTIES),  async (req, res) => {
+    try {
+        const restaurant = await getRestaurant(req.params.restaurantId);
+        return Response.sendData(res, {
+            restaurant
+        });
+    } catch (error) {
+        return Response.sendError(res, { error: error.message });
     }
-    const restaurant = await getRestaurant(req.params);
-    Response.sendData(res, {
-        restaurant
-    });
-})
+});
 
 module.exports = router;

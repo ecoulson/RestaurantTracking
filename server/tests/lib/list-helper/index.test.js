@@ -1,4 +1,4 @@
-const { isFirstElement, isLastElement } = require("../../../src/lib/ListHelper");;
+const { isFirstElement, isLastElement } = require("../../../src/lib/list-helper");;
 
 describe("List Helper Suite", () => {
     describe("First element tests", () => {

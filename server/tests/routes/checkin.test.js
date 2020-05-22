@@ -58,6 +58,15 @@ describe("Check In Routes Suite", () => {
             expectErrorResponse(response, "No email or number was provided");
         })
 
+        test("Database error occurs", async () => {
+            CheckInMock.shouldThrow().methods.mockSave();
+    
+            const response = await makeCheckInRequest(TestRequests.post.ok);
+    
+            expectStatusCode(response, 400);
+            expectErrorResponse(response, "Database error");
+        });
+
         test("A successful registration", async () => {
             CheckInMock.methods.mockSave();
             const response = await makeCheckInRequest(TestRequests.post.ok);
@@ -83,6 +92,15 @@ describe("Check In Routes Suite", () => {
             expectStatusCode(response, 400);
             expectErrorResponse(response, "Duplicate restaurantId was provided");
         })
+
+        test("Database error occurs", async () => {
+            CheckInMock.shouldThrow().statics.mockFind([]);
+    
+            const response = await getCheckinsAtRestaurantRequest(TestRequests.get.ok);
+    
+            expectStatusCode(response, 400);
+            expectErrorResponse(response, "Database error");
+        });
 
         test("A successful get check ins request", async () => {
             CheckInMock.statics.mockFind([])
