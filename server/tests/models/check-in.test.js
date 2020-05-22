@@ -1,4 +1,4 @@
-const TestDatabase = require("../database");
+const TestDatabase = require("../helpers/database");
 const CheckIn = require("../../src/models/check-in");
 
 beforeAll(async () => await TestDatabase.connect());
