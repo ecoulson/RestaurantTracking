@@ -1,8 +1,15 @@
-const request = require("supertest");
-const app = require("../../src/app");
 const CheckIn = require("../../src/models/check-in");
 const TestRequests = require("./checkin.data.json");
 const ModelMock = require("../mocks/mongoose/ModelMock");
+const { 
+    expectErrorResponse, 
+    expectStatusCode, 
+    expectSuccessResponse
+} = require("../helpers/expect");
+const {
+    makeGetRequest,
+    makePostRequest
+} = require("../helpers/request");
 
 const CHECKIN_URL = "/check_in";
 const CheckInMock = new ModelMock(CheckIn);
@@ -118,43 +125,6 @@ async function makeCheckInRequest(body) {
     return await makePostRequest(CHECKIN_URL, body);
 }
 
-async function makePostRequest(url, data) {
-    return await request(app).post(url).send(data);
-}
-
-function expectStatusCode(response, status) {
-    expect(response.status).toBe(status);
-}
-
-function expectErrorResponse(response, message) {
-    expectJSONResponse(response, {
-        success: false,
-        data: {
-            error: message
-        }
-    })
-}
-
-function expectJSONResponse(response, body) {
-    expectContentType(response, "application/json; charset=utf-8");
-    expect(response.body).toEqual(body);
-}
-
-function expectContentType(response, contentType) {
-    expectHeader(response, "content-type", contentType);
-}
-
-function expectHeader(response, header, value) {
-    expect(response.header[header]).toBe(value);
-}
-
-function expectSuccessResponse(response, data) {
-    expectJSONResponse(response, {
-        success: true,
-        data: data
-    })
-}
-
 async function getCheckinsAtRestaurantRequest(query) {
     if (query && query.restaurantId) {
         return await makeGetRequest(`${CHECKIN_URL}?restaurantId=${query.restaurantId}`)
@@ -165,7 +135,3 @@ async function getCheckinsAtRestaurantRequest(query) {
 async function getDuplicateCheckinsAtRestaurantRequest(query) {
     return await makeGetRequest(`${CHECKIN_URL}?restaurantId=${query.restaurantId}&restaurantId=${query.restaurantId}`)
 }
-
-async function makeGetRequest(url) {
-    return await request(app).get(url);
-} 
