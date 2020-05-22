@@ -5,7 +5,7 @@ const TestRequests = require("./restaurant.data.json");
 const ModelMock = require("../mocks/mongoose/ModelMock");
 
 const REGISTER_URL = "/restaurant/register";
-const CODE_URL = "/restaurant/code";
+const CODE_URL = "/restaurant/";
 const RestaurantMock = new ModelMock(Restaurant);
 
 const OLD_ENV = process.env;
@@ -44,6 +44,7 @@ describe("Restaurant Routes Suite", () => {
 
         test("A successful registration", async () => {
             RestaurantMock.methods.mockSave();
+            
             const response = await makeRegisterRequest(TestRequests.register.ok);
 
             expectStatusCode(response, 200);
@@ -58,10 +59,32 @@ describe("Restaurant Routes Suite", () => {
             RestaurantMock.statics.mockFindById({
                 _id: "1"
             });
+            
             const response = await makeQRCodeRequest(TestRequests.code.ok);
 
             expectStatusCode(response, 200);
             expectHeader(response, "transfer-encoding", "chunked");
+        })
+    });
+
+    describe("Get Restaurant", () => {
+        test("Successfully finds restaurant", async () => {
+            RestaurantMock.statics.mockFindById({
+                _id: "1",
+                name: "Bob's Burgers",
+                number: "4255035202"
+            });
+
+            const response = await request(app).get("/restaurant/1").set('Authorization', "Bearer token");;
+
+            expectStatusCode(response, 200);
+            expectSuccessResponse(response, {
+                restaurant: {
+                    name: "Bob's Burgers",
+                    _id: "1",
+                    number: "4255035202"
+                }
+            });
         })
     })
 });
@@ -109,7 +132,7 @@ function expectSuccessResponse(response, data) {
 
 async function makeQRCodeRequest(params) {
     if (params.restaurant) {
-        return await makeGetRequest(`${CODE_URL}/${params.restaurant}`)
+        return await makeGetRequest(`${CODE_URL}/${params.restaurant}/generate`)
     }
     return await makeGetRequest(CODE_URL)
 }
