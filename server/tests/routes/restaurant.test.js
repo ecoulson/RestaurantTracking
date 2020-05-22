@@ -1,13 +1,20 @@
-const request = require("supertest");
-const app = require("../../src/app");
 const Restaurant = require("../../src/models/restaurant");
 const TestRequests = require("./restaurant.data.json");
 const ModelMock = require("../mocks/mongoose/ModelMock");
+const { 
+    expectErrorResponse, 
+    expectStatusCode, 
+    expectSuccessResponse,
+    expectHeader
+} = require("../helpers/expect");
+const {
+    makeGetRequest,
+    makePostRequest
+} = require("../helpers/request");
 
 const REGISTER_URL = "/restaurant/register";
 const CODE_URL = "/restaurant/";
 const RestaurantMock = new ModelMock(Restaurant);
-
 const OLD_ENV = process.env;
 
 beforeAll(() => {
@@ -120,63 +127,12 @@ async function makeRegisterRequest(data) {
     return await makePostRequest(REGISTER_URL, data)
 }
 
-async function makePostRequest(url, data) {
-    return await makeRequest("post", url, data);
-}
-
-async function makeRequest(method, url, data) {
-    if (data) {
-        return await request(app)[method](url)
-                        .set('Authorization', "Bearer token")
-                        .send(data);
-    } 
-    return await request(app)[method](url)
-                    .set('Authorization', "Bearer token");
-}
-
-function expectStatusCode(response, status) {
-    expect(response.status).toBe(status);
-}
-
-function expectErrorResponse(response, message) {
-    expectJSONResponse(response, {
-        success: false,
-        data: {
-            error: message
-        }
-    })
-}
-
-function expectJSONResponse(response, body) {
-    expectContentType(response, "application/json; charset=utf-8");
-    expect(response.body).toEqual(body);
-}
-
-function expectContentType(response, contentType) {
-    expectHeader(response, "content-type", contentType);
-}
-
-function expectHeader(response, header, value) {
-    expect(response.header[header]).toBe(value);
-}
-
-function expectSuccessResponse(response, data) {
-    expectJSONResponse(response, {
-        success: true,
-        data: data
-    })
-}
-
 async function makeQRCodeRequest(params) {
     if (params.restaurant) {
         return await makeGetRequest(`${CODE_URL}/${params.restaurant}/generate`)
     }
     return await makeGetRequest(CODE_URL)
 }
-
-async function makeGetRequest(url) {
-    return await makeRequest("get", url);
-} 
 
 async function makeFindRestaurantRequest(id) {
     return await makeGetRequest(`/restaurant/${id}`);
