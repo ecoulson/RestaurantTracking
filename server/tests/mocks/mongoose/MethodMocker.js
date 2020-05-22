@@ -1,8 +1,13 @@
 class MethodMocker {
     constructor(model) {
         this.model = model
+        this.shouldThrow = false;
 
         mockReturn = mockReturn.bind(this);
+    }
+
+    setErrorMode() {
+        this.shouldThrow = true;
     }
 
     mockSave(value) {
@@ -11,7 +16,16 @@ class MethodMocker {
 }
 
 function mockReturn (method, value) {
-    this.model.prototype[method] = jest.fn().mockReturnValue(Promise.resolve(value));
+    if (this.shouldThrow) {
+        this.model.prototype[method] = jest.fn().mockImplementationOnce(() => {
+            this.shouldThrow = false;
+            throw new Error("Database error");
+        });
+    } else {
+        this.model.prototype[method] = jest.fn().mockReturnValueOnce(
+            Promise.resolve(value)
+        );
+    }
 }
 
 module.exports = MethodMocker;

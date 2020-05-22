@@ -1,13 +1,20 @@
-const request = require("supertest");
-const app = require("../../src/app");
 const Restaurant = require("../../src/models/restaurant");
 const TestRequests = require("./restaurant.data.json");
 const ModelMock = require("../mocks/mongoose/ModelMock");
+const { 
+    expectErrorResponse, 
+    expectStatusCode, 
+    expectSuccessResponse,
+    expectHeader
+} = require("../helpers/expect");
+const {
+    makeGetRequest,
+    makePostRequest
+} = require("../helpers/request");
 
 const REGISTER_URL = "/restaurant/register";
-const CODE_URL = "/restaurant/code";
+const CODE_URL = "/restaurant/:id/generate";
 const RestaurantMock = new ModelMock(Restaurant);
-
 const OLD_ENV = process.env;
 
 beforeAll(() => {
@@ -40,10 +47,20 @@ describe("Restaurant Routes Suite", () => {
 
             expectStatusCode(response, 400);
             expectErrorResponse(response, "No number was provided");
-        })
+        });
+
+        test("Database error occurs", async () => {
+            RestaurantMock.shouldThrow().methods.mockSave();;
+    
+            const response = await makeRegisterRequest(TestRequests.register.ok);
+    
+            expectStatusCode(response, 400);
+            expectErrorResponse(response, "Database error");
+        });
 
         test("A successful registration", async () => {
             RestaurantMock.methods.mockSave();
+            
             const response = await makeRegisterRequest(TestRequests.register.ok);
 
             expectStatusCode(response, 200);
@@ -54,14 +71,54 @@ describe("Restaurant Routes Suite", () => {
     });
 
     describe("QRCode Route", () => {
+        test("Database error occurs", async () => {
+            RestaurantMock.shouldThrow().statics.mockFindById();;
+    
+            const response = await makeQRCodeRequest(TestRequests.code.ok);
+    
+            expectStatusCode(response, 400);
+            expectErrorResponse(response, "Database error");
+        });
+
         test("A successful qrcode generation", async () => {
             RestaurantMock.statics.mockFindById({
                 _id: "1"
             });
+            
             const response = await makeQRCodeRequest(TestRequests.code.ok);
 
             expectStatusCode(response, 200);
             expectHeader(response, "transfer-encoding", "chunked");
+        })
+    });
+
+    describe("Get Restaurant", () => {
+        test("Database error occurs", async () => {
+            RestaurantMock.shouldThrow().statics.mockFindById();
+
+            const response = await makeFindRestaurantRequest("1");
+
+            expectStatusCode(response, 400);
+            expectErrorResponse(response, "Database error");
+        });
+
+        test("Successfully finds restaurant", async () => {
+            RestaurantMock.statics.mockFindById({
+                _id: "1",
+                name: "Bob's Burgers",
+                number: "4255035202"
+            });
+
+            const response = await makeFindRestaurantRequest("1");
+
+            expectStatusCode(response, 200);
+            expectSuccessResponse(response, {
+                restaurant: {
+                    name: "Bob's Burgers",
+                    _id: "1",
+                    number: "4255035202"
+                }
+            });
         })
     })
 });
@@ -70,50 +127,13 @@ async function makeRegisterRequest(data) {
     return await makePostRequest(REGISTER_URL, data)
 }
 
-async function makePostRequest(url, data) {
-    return await request(app).post(url).send(data).set('Authorization', "Bearer token");
-}
-
-function expectStatusCode(response, status) {
-    expect(response.status).toBe(status);
-}
-
-function expectErrorResponse(response, message) {
-    expectJSONResponse(response, {
-        success: false,
-        data: {
-            error: message
-        }
-    })
-}
-
-function expectJSONResponse(response, body) {
-    expectContentType(response, "application/json; charset=utf-8");
-    expect(response.body).toEqual(body);
-}
-
-function expectContentType(response, contentType) {
-    expectHeader(response, "content-type", contentType);
-}
-
-function expectHeader(response, header, value) {
-    expect(response.header[header]).toBe(value);
-}
-
-function expectSuccessResponse(response, data) {
-    expectJSONResponse(response, {
-        success: true,
-        data: data
-    })
-}
-
 async function makeQRCodeRequest(params) {
-    if (params.restaurant) {
-        return await makeGetRequest(`${CODE_URL}/${params.restaurant}`)
+    if (params.restaurantId) {
+        return await makeGetRequest(CODE_URL.replace(":id", params.restaurantId))
     }
-    return await makeGetRequest(CODE_URL)
+    return await makeGetRequest(CODE_URL.replace(":id", "1"))
 }
 
-async function makeGetRequest(url) {
-    return await request(app).get(url).set('Authorization', "Bearer token");;
-} 
+async function makeFindRestaurantRequest(id) {
+    return await makeGetRequest(`/restaurant/${id}`);
+}

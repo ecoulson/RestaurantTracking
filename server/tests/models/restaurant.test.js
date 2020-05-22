@@ -1,4 +1,4 @@
-const TestDatabase = require("../database");
+const TestDatabase = require("../helpers/database");
 const Restaurant = require("../../src/models/restaurant");
 
 beforeAll(async () => await TestDatabase.connect());
