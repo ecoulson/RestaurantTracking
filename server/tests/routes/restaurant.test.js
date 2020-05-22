@@ -13,7 +13,7 @@ const {
 } = require("../helpers/request");
 
 const REGISTER_URL = "/restaurant/register";
-const CODE_URL = "/restaurant/";
+const CODE_URL = "/restaurant/:id/generate";
 const RestaurantMock = new ModelMock(Restaurant);
 const OLD_ENV = process.env;
 
@@ -128,10 +128,10 @@ async function makeRegisterRequest(data) {
 }
 
 async function makeQRCodeRequest(params) {
-    if (params.restaurant) {
-        return await makeGetRequest(`${CODE_URL}/${params.restaurant}/generate`)
+    if (params.restaurantId) {
+        return await makeGetRequest(CODE_URL.replace(":id", params.restaurantId))
     }
-    return await makeGetRequest(CODE_URL)
+    return await makeGetRequest(CODE_URL.replace(":id", "1"))
 }
 
 async function makeFindRestaurantRequest(id) {

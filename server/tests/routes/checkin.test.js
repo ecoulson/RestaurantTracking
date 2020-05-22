@@ -76,6 +76,7 @@ describe("Check In Routes Suite", () => {
 
         test("A successful registration", async () => {
             CheckInMock.methods.mockSave();
+            
             const response = await makeCheckInRequest(TestRequests.post.ok);
 
             expectStatusCode(response, 200);
@@ -110,7 +111,8 @@ describe("Check In Routes Suite", () => {
         });
 
         test("A successful get check ins request", async () => {
-            CheckInMock.statics.mockFind([])
+            CheckInMock.statics.mockFind([]);
+
             const response = await getCheckinsAtRestaurantRequest(TestRequests.get.ok);
 
             expectStatusCode(response, 200);
