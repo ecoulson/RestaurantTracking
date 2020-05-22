@@ -121,7 +121,17 @@ async function makeRegisterRequest(data) {
 }
 
 async function makePostRequest(url, data) {
-    return await request(app).post(url).send(data).set('Authorization', "Bearer token");
+    return await makeRequest("post", url, data);
+}
+
+async function makeRequest(method, url, data) {
+    if (data) {
+        return await request(app)[method](url)
+                        .set('Authorization', "Bearer token")
+                        .send(data);
+    } 
+    return await request(app)[method](url)
+                    .set('Authorization', "Bearer token");
 }
 
 function expectStatusCode(response, status) {
@@ -165,11 +175,9 @@ async function makeQRCodeRequest(params) {
 }
 
 async function makeGetRequest(url) {
-    return await request(app).get(url).set('Authorization', "Bearer token");;
+    return await makeRequest("get", url);
 } 
 
 async function makeFindRestaurantRequest(id) {
-    return await request(app)
-            .get(`/restaurant/${id}`)
-            .set('Authorization', "Bearer token");;
+    return await makeGetRequest(`/restaurant/${id}`);
 }
