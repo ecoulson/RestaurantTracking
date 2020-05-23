@@ -7,6 +7,32 @@ body, html {
     background-color: #F7F7F5;
 }
 
+.app {
+    margin: 0 auto;
+    background-color: #F7F7F5;
+    max-width: 1000px;
+}
+
+@media screen and (min-width: 1000px) {
+    .app {
+        box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.3);
+        height: 90vh;
+        margin: 5vh auto;
+        border-radius: 15px;
+        border: 3px solid white;
+        box-sizing: border-box;
+    }
+
+    body {
+        background-image: url("https://img.wallpapersafari.com/tablet/768/1024/40/82/6kQvYi.jpg");
+        background-size: contain;
+    }
+}
+
+br {
+    height: 15px;
+}
+
 h1, h2, h3, h4, h5, h6, p {
     color: #3B3A39;
 }
@@ -20,7 +46,7 @@ label {
 }
 
 .logo {
-    margin-top: 25px;
+    padding-top: 15px;
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -35,9 +61,9 @@ label {
 
 .restaurant-name {
     margin-top: 10px;
-    font-size: 48px;
+    font-size: 36px;
     font-weight: bold;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 fieldset {
@@ -51,7 +77,7 @@ fieldset {
 }
 
 .form-instructions {
-    margin-top: 20px;
+    margin-top: 15px;
     font-size: 20px;
     font-weight: lighter;
 }
@@ -66,7 +92,7 @@ fieldset {
 .form-inputs {
     outline: none;
     border-radius: 0px;
-    padding: 15px 10px 15px 10px;
+    padding: 10px;
     border-width: 2px;
     border: 2px solid #939499;
     width: 100%;
@@ -128,7 +154,7 @@ fieldset {
 
 .fade-out-animation {
     animation-name: fade-out;
-    animation-duration: 1s;
+    animation-duration: 0.5s;
     animation-timing-function: linear;
     animation-fill-mode: forwards;
 }
@@ -153,7 +179,7 @@ fieldset {
 
 .fade-in-animation {
     animation-name: fade-in;
-    animation-duration: 1s;
+    animation-duration: 0.5s;
     animation-timing-function: linear;
     animation-fill-mode: forwards;
 }

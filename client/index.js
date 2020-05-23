@@ -95,7 +95,7 @@ function fadeIn(element) {
     element.classList.add("fade-in-animation");
     setTimeout(() => {
         element.classList.remove("fade-in-animation");
-    }, 1000)
+    }, 500)
 }
 
 function fadeOut(element) {
@@ -103,7 +103,7 @@ function fadeOut(element) {
     setTimeout(() => {
         hide(element);
         element.classList.remove("fade-out-animation");
-    }, 1000)
+    }, 500)
 }
 
 function show(element) {
