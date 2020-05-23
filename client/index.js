@@ -41,6 +41,8 @@ const EmailInput = getById("email-input");
 const PhoneNumberInput = getById("phone-input");
 const SubmitButton = getById("submit");
 const RestaurantName = getById("restaurant-name");
+const ErrorMessage = getById("error-message");
+
 
 const QueryParameters = new URLSearchParams(window.location.search);
 const RestaurantId = QueryParameters.get("restaurantId");
@@ -48,10 +50,9 @@ const RestaurantId = QueryParameters.get("restaurantId");
 updateRestaurantName();
 
 async function updateRestaurantName() {
-    // GET /restaurant/RestaurantID
     const response = await getRestaurant();
-    const payload = await response.payload();
-    RestaurantName.innerHTML = payload.data.restaurant.name;
+    const payload = await response.json();
+    RestaurantName.textContent = payload.data.restaurant.name;
 }
 
 function getRestaurant() {
@@ -72,20 +73,28 @@ function listenForClick(element, onClickHandler) {
 
 async function submit() {
     if (getInputValue(EmailInput) == "" && getInputValue(PhoneNumberInput) == "") {
-        console.log("Please enter a phone number or email.")
+        showError("Please enter a phone number or email.");
     } else {
         hide(Screen1);
         show(Screen2);
         const response = await sendFormDataToServer();
         const payload = await response.json();
         if (payload.success) {
-            hide(Screen2)
-            show(Screen3)
+            hide(Screen2);
+            show(Screen3);
         } else{
-            hide(Screen2)
-            show(Screen4)
+            hide(Screen2);
+            show(Screen4);
         }
     }
+}
+
+function showError(message) {
+    ErrorMessage.textContent = message;
+    fadeIn(ErrorMessage);
+    setTimeout(function () {
+        fadeOut(ErrorMessage);
+    }, 5 * 1000);
 }
 
 function sendFormDataToServer() {
@@ -115,12 +124,28 @@ function getById(id) {
     return document.getElementById(id);
 }
 
-function show(screen) {
-    screen.style.display = "block";
+function fadeIn(element) {
+    show(element);
+    element.classList.add("fade-in-animation");
+    setTimeout(() => {
+        element.classList.remove("fade-in-animation");
+    }, 1000)
 }
 
-function hide(screen) {
-    screen.style.display = "none";
+function fadeOut(element) {
+    element.classList.add("fade-out-animation");
+    setTimeout(() => {
+        hide(element);
+        element.classList.remove("fade-out-animation");
+    }, 1000)
+}
+
+function show(element) {
+    element.style.display = "block";
+}
+
+function hide(element) {
+    element.style.display = "none";
 }
 
 show(Screen1);
