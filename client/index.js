@@ -1,37 +1,3 @@
-/* Flow Screens
-
-Screen 1
-Actions
-________
-1. people will enter either their email or phone number
-2. they will then submit
-3. we check that they have included an email or phone number
-4. if they have included an email or phone 
-    number we then send them to page 2 otherwise 
-    we display some feedback to the user prompting them
-    to enter an email or phone number
-5. we then send the data to our server (requires evan's code)
-
-Todos
-_____
-1. we need to get the html inputs for email and phone
-2. we can check their values for an email or phone number
-
-Screen 2
-________
-1. we wait for the server to tell us that it has received and check in the user
-2. if it sucessfully checks in the user then it goes to screen3 otherwise it goes to screen 4
-
-Screen 3
-________
-No actions can be taken
-
-Screen 4
-________
-no actions can be taken
-*/
-
-
 const Screen1 = getScreen(1);
 const Screen2 = getScreen(2);
 const Screen3 = getScreen(3);
