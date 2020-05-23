@@ -1,6 +1,6 @@
 const Restaurant = require("../models/restaurant");
 const { streamQRCode } = require("../lib/QR-code");
-const { Response } = require("../lib/HTTP")
+const { Response } = require("../lib/HTTP");
 
 async function generateQRCode(req, res) {
     const restaurant = await findRestaurant(req.params.restaurantId);
