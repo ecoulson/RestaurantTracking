@@ -34,9 +34,10 @@ label {
 }
 
 .restaurant-name {
-    margin-top: 40px;
+    margin-top: 10px;
     font-size: 48px;
     font-weight: bold;
+    margin-bottom: 20px;
 }
 
 fieldset {
@@ -46,6 +47,7 @@ fieldset {
     width: 75%;
     margin: 0 auto;
     max-width: 300px;
+    padding: 0;
 }
 
 .form-instructions {
@@ -58,31 +60,45 @@ fieldset {
     width: 10em;
     font-size: 12px;
     width: 100%;
+    margin-top: -15px;
 }
 
 .form-inputs {
-    padding: 5px 10px 5px 10px;
+    outline: none;
+    border-radius: 0px;
+    padding: 15px 10px 15px 10px;
     border-width: 2px;
-    border: 2px solid #565864;
+    border: 2px solid #939499;
     width: 100%;
     display: block;
     box-sizing: border-box;
-    font-size: 34px;
+    font-size: 20px;
+}
+
+.form-inputs:focus {
+    border: 2px solid #565864;
+}
+
+.disabled {
+    background-color: #F7F7F5;
 }
 
 .or {
     text-align: center;
-    font-weight: bold;
-    text-decoration: underline;
-
+    font-weight: 500;
+    font-size: 28px;
+    margin: 0;
 }
 
 .submit {
-    width: 80px;
+    margin-top: 20px;
+    width: auto;
     background-color: #45dfc2;
-    border: none;
+    border: 0.07em solid #39b69f;
     padding: 5px 10px 5px 10px;
-    font-size: 15px;
+    font-size: 28px;
+    font-weight: 500;
+    letter-spacing: 1px;
     font-family: 'myriad-pro', 'sans-serif', Helvetica;
 }
 
