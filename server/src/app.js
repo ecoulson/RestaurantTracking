@@ -28,17 +28,21 @@ if (process.env.NODE_ENV !== "test") {
             secure: true,
             domain: process.env.COOKIE_DOMAIN,
             path: process.env.COOKIE_PATH,
-            expires: new Date(Date.now() + 60 * 60 * 1000)
+            expires: new Date(Date.now() + 1000)
         }
     }));
+    
     app.use(morgan("dev"));
     app.use(helmet());
-    app.use(csrf({ cookie: true }));
 
-    app.use((req, res, next) => {
-        res.locals.csrfToken = req.csrfToken();
-        next();
-    })
+    // app.use(csrf({ cookie: {
+    //     httpOnly: true,
+    //     secure: true
+    // }}));
+    
+    // app.use((req, res, next) => {
+    //     next();
+    // })
 }
 
 if (process.env.NODE_ENV === "production") {

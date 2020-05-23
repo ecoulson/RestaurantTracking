@@ -1,6 +1,7 @@
 const Restaurant = require("../models/restaurant");
 const { streamQRCode } = require("../lib/QR-code");
-const { Response } = require("../lib/HTTP")
+const { Response } = require("../lib/HTTP");
+const urlShortner = require("../lib/URL-shortner");
 
 async function generateQRCode(req, res) {
     const restaurant = await findRestaurant(req.params.restaurantId);
@@ -21,6 +22,9 @@ async function saveRestaurantToDB(body) {
         name: body.name,
         number: body.number
     });
+    doc.update({
+        url: await urlShortner(doc._id) 
+    })
     await doc.save();
 }
 
