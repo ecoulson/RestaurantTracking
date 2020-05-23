@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const path = require("path");
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const routes = require("./routes");
@@ -33,12 +34,12 @@ if (process.env.NODE_ENV !== "test") {
     }));
     app.use(morgan("dev"));
     app.use(helmet());
-    app.use(csrf({ cookie: true }));
+    // app.use(csrf({ cookie: true }));
 
-    app.use((req, res, next) => {
-        res.locals.csrfToken = req.csrfToken();
-        next();
-    })
+    // app.use((req, res, next) => {
+    //     res.locals.csrfToken = req.csrfToken();
+    //     next();
+    // })
 }
 
 if (process.env.NODE_ENV === "production") {
@@ -56,6 +57,7 @@ if (process.env.NODE_ENV === "production") {
     app.use(limiter)
 }
 
+app.use("/", express.static(path.join(__dirname, '..', '..', 'client')))
 app.use("/", routes);
 
 if (process.env.NODE_ENV !== "development") {
