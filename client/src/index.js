@@ -13,12 +13,22 @@ const ErrorMessage = getById("error-message");
 const QueryParameters = new URLSearchParams(window.location.search);
 const RestaurantId = QueryParameters.get("restaurantId");
 
-updateRestaurantName();
+if (RestaurantId === null) {
+    showError("Failed to find restaurant");
+} else {
+    updateRestaurantName();
+}
 
 async function updateRestaurantName() {
-    const response = await getRestaurant();
-    const payload = await response.json();
-    RestaurantName.textContent = payload.data.restaurant.name;
+    try {
+        const response = await getRestaurant();
+        const payload = await response.json();
+        RestaurantName.textContent = payload.data.restaurant.name;
+        document.title = `Adapt: ${payload.data.restaurant.name}`
+        fadeIn(Screen1);
+    } catch(error) {
+        showError("Failed to find restaurant");
+    }
 }
 
 function getRestaurant() {
@@ -113,5 +123,3 @@ function show(element) {
 function hide(element) {
     element.style.display = "none";
 }
-
-show(Screen1);

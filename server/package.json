@@ -6,8 +6,7 @@
     "security-test": "snyk test ",
     "test": "NODE_ENV=test jest tests",
     "start": "node ./src/server.js",
-    "snyk-protect": "snyk protect",
-    "prepare": "npm run snyk-protect"
+    "snyk-protect": "snyk protect"
   },
   "author": "",
   "license": "ISC",
@@ -28,7 +27,21 @@
     "qrcode": "^1.4.4",
     "rate-limit-mongo": "^2.1.0",
     "snyk": "^1.321.0",
-    "supertest": "^4.0.2"
+    "supertest": "^4.0.2",
+    "webpack": "^4.43.0",
+    "webpack-dev-middleware": "^3.7.2",
+    "webpack-hot-middleware": "^2.25.0",
+    "@babel/core": "^7.9.6",
+    "@babel/polyfill": "^7.8.7",
+    "@babel/preset-env": "^7.9.6",
+    "babel-loader": "^8.1.0",
+    "copy-webpack-plugin": "^6.0.1",
+    "css-loader": "^3.5.3",
+    "script-loader": "^0.7.2",
+    "style-loader": "^1.2.1",
+    "url-loader": "^4.1.0",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.11.0"
   },
   "devDependencies": {
     "@shelf/jest-mongodb": "^1.1.5",
