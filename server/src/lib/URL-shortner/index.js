@@ -10,8 +10,7 @@ async function generateBitlyLink(restaurantId) {
     }, {
         headers: {
             Authorization: `Bearer ${process.env.BITLY_ACCESS_TOKEN}`
-        },
-        
+        }
     })
 }
 

@@ -32,9 +32,15 @@ function sendSuccessfulRegistration(res, name) {
 
 async function getRestaurant(req, res) {
     const restaurant = await findRestaurant(req.params.restaurantId);
-    return Response.sendData(res, {
-        restaurant
-    });
+    if (restaurant) {
+        return Response.sendData(res, {
+            restaurant
+        });
+    } else {
+        return Response.sendError(res, {
+            error: "Could not find restaurant"
+        })
+    }
 }
 
 module.exports = {

@@ -42,7 +42,7 @@ describe("Restaurant Routes Suite", () => {
             expectErrorResponse(response, "No name was provided");
         })
 
-        test("A registration request without a number", async () => {
+        test("A registration request without a restaurantId", async () => {
             const response = await makeRegisterRequest(TestRequests.register.noNumber)
 
             expectStatusCode(response, 400);
@@ -100,6 +100,13 @@ describe("Restaurant Routes Suite", () => {
 
             expectStatusCode(response, 400);
             expectErrorResponse(response, "Database error");
+        });
+
+        test("Fails to find a restaurant", async () => {
+            const response = await makeFindRestaurantRequest("1");
+
+            expectStatusCode(response, 400);
+            expectErrorResponse(response, "Could not find restaurant");
         });
 
         test("Successfully finds restaurant", async () => {
