@@ -46,6 +46,7 @@
   },
   "devDependencies": {
     "@shelf/jest-mongodb": "^1.1.5",
+    "faker": "^4.1.0",
     "jest-sinon": "^1.0.4",
     "mock-req-res": "^1.1.4",
     "mockingoose": "^2.13.2",

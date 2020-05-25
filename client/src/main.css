@@ -222,17 +222,23 @@ fieldset {
     }
 }
 
+#screen-2 {
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+}
+
 #screen-3 {
     position: absolute;
-    height: 100%;
-    width: 100%;
+    height: 100vh;
+    width: 100vw;
     background-color:#45dfc2;
 }
 
 #screen-4 {
     position: absolute;
-    height: 100%;
-    width: 100%;
+    height: 100vh;
+    width: 100vw;
     background-color: #df6445;
 }
 

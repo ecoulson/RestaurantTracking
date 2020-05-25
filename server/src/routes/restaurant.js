@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const { validateParams, validateBody } = require("../middleware/validation");
 const { catchErrors } = require("../middleware/error-handling");
-const RestaurantController = require("../controllers/restaurant");
+const RestaurantController = require("../services/restaurant");
 const authenticate = require("../middleware/authentication");
 
 const CODE_PROPERTIES = ["restaurantId"];

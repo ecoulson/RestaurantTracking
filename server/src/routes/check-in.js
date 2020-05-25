@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const { validateQuery, validateBody, checkQueryDuplication } = require("../middleware/validation");
-const CheckInController = require("../controllers/check-in");
+const CheckInController = require("../services/check-in");
 const { catchErrors } = require("../middleware/error-handling");
 
 const CHECK_IN_PROPERTIES = ["email", "number", "restaurantId"]
