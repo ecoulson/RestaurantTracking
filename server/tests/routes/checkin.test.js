@@ -1,6 +1,6 @@
+jest.mock("../../src/models/check-in");
 const CheckIn = require("../../src/models/check-in");
 const TestRequests = require("./checkin.data.json");
-const ModelMock = require("../mocks/mongoose/ModelMock");
 const { 
     expectErrorResponse, 
     expectStatusCode, 
@@ -12,7 +12,6 @@ const {
 } = require("../helpers/request");
 
 const CHECKIN_URL = "/check_in";
-const CheckInMock = new ModelMock(CheckIn);
 
 describe("Check In Routes Suite", () => {
     describe("Create Check In Event Route", () => {
@@ -66,7 +65,7 @@ describe("Check In Routes Suite", () => {
         })
 
         test("Database error occurs", async () => {
-            CheckInMock.shouldThrow().methods.mockSave();
+            CheckIn.prototype.save.mockRejectedValue(new Error("Database error"));
     
             const response = await makeCheckInRequest(TestRequests.post.ok);
     
@@ -75,8 +74,7 @@ describe("Check In Routes Suite", () => {
         });
 
         test("A successful registration", async () => {
-            CheckInMock.methods.mockSave();
-            
+            CheckIn.prototype.save.mockResolvedValue({});
             const response = await makeCheckInRequest(TestRequests.post.ok);
 
             expectStatusCode(response, 200);
@@ -102,7 +100,7 @@ describe("Check In Routes Suite", () => {
         })
 
         test("Database error occurs", async () => {
-            CheckInMock.shouldThrow().statics.mockFind([]);
+            CheckIn.findByRestaurantId.mockRejectedValue(new Error("Database error"));
     
             const response = await getCheckinsAtRestaurantRequest(TestRequests.get.ok);
     
@@ -111,7 +109,7 @@ describe("Check In Routes Suite", () => {
         });
 
         test("A successful get check ins request", async () => {
-            CheckInMock.statics.mockFind([]);
+            CheckIn.findByRestaurantId.mockResolvedValue([]);
 
             const response = await getCheckinsAtRestaurantRequest(TestRequests.get.ok);
 

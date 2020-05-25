@@ -1,6 +1,6 @@
+jest.mock("../../src/models/restaurant");
 const Restaurant = require("../../src/models/restaurant");
 const TestRequests = require("./restaurant.data.json");
-const ModelMock = require("../mocks/mongoose/ModelMock");
 const { 
     expectErrorResponse, 
     expectStatusCode, 
@@ -14,7 +14,6 @@ const {
 
 const REGISTER_URL = "/restaurant/register";
 const CODE_URL = "/restaurant/:id/generate";
-const RestaurantMock = new ModelMock(Restaurant);
 const OLD_ENV = process.env;
 
 beforeAll(() => {
@@ -50,7 +49,7 @@ describe("Restaurant Routes Suite", () => {
         });
 
         test("Database error occurs", async () => {
-            RestaurantMock.shouldThrow().methods.mockSave();;
+            Restaurant.prototype.save.mockRejectedValue(new Error("Database error"))
     
             const response = await makeRegisterRequest(TestRequests.register.ok);
     
@@ -59,7 +58,7 @@ describe("Restaurant Routes Suite", () => {
         });
 
         test("A successful registration", async () => {
-            RestaurantMock.methods.mockSave();
+            Restaurant.prototype.save.mockResolvedValue({})
             
             const response = await makeRegisterRequest(TestRequests.register.ok);
 
@@ -72,7 +71,7 @@ describe("Restaurant Routes Suite", () => {
 
     describe("QRCode Route", () => {
         test("Database error occurs", async () => {
-            RestaurantMock.shouldThrow().statics.mockFindById();;
+            Restaurant.findById.mockRejectedValue(new Error("Database error"));
     
             const response = await makeQRCodeRequest(TestRequests.code.ok);
     
@@ -81,7 +80,7 @@ describe("Restaurant Routes Suite", () => {
         });
 
         test("A successful qrcode generation", async () => {
-            RestaurantMock.statics.mockFindById({
+            Restaurant.findById.mockResolvedValue({
                 _id: "1"
             });
             
@@ -94,7 +93,7 @@ describe("Restaurant Routes Suite", () => {
 
     describe("Get Restaurant", () => {
         test("Database error occurs", async () => {
-            RestaurantMock.shouldThrow().statics.mockFindById();
+            Restaurant.findById.mockRejectedValue(new Error("Database error"));
 
             const response = await makeFindRestaurantRequest("1");
 
@@ -103,6 +102,8 @@ describe("Restaurant Routes Suite", () => {
         });
 
         test("Fails to find a restaurant", async () => {
+            Restaurant.findById.mockResolvedValue(null);
+
             const response = await makeFindRestaurantRequest("1");
 
             expectStatusCode(response, 400);
@@ -110,7 +111,7 @@ describe("Restaurant Routes Suite", () => {
         });
 
         test("Successfully finds restaurant", async () => {
-            RestaurantMock.statics.mockFindById({
+            Restaurant.findById.mockResolvedValue({
                 _id: "1",
                 name: "Bob's Burgers",
                 number: "4255035202"
