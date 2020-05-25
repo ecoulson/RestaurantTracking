@@ -19,27 +19,7 @@ describe("Check In Routes Suite", () => {
             const response = await makeCheckInRequest({});
 
             expectStatusCode(response, 400);
-            expectErrorResponse(response, "No email, number, or restaurantId was provided");
-        })
-
-        test("A checkin request with a mising number field", async () => {
-            const response = await makeCheckInRequest({
-                email: faker.internet.email(),
-                restaurantId: faker.random.uuid()
-            });
-
-            expectStatusCode(response, 400);
-            expectErrorResponse(response, "No number was provided");
-        })
-
-        test("A checkin request with a mising email field", async () => {
-            const response = await makeCheckInRequest({
-                number: faker.phone.phoneNumber(),
-                restaurantId: faker.random.uuid()
-            });
-
-            expectStatusCode(response, 400);
-            expectErrorResponse(response, "No email was provided");
+            expectErrorResponse(response, "No restaurantId was provided");
         })
 
         test("A checkin request with a mising restaurantId field", async () => {
@@ -58,7 +38,7 @@ describe("Check In Routes Suite", () => {
             });
 
             expectStatusCode(response, 400);
-            expectErrorResponse(response, "No email or restaurantId was provided");
+            expectErrorResponse(response, "No restaurantId was provided");
         })
 
         test("A checkin request with a only an email field", async () => {
@@ -67,7 +47,7 @@ describe("Check In Routes Suite", () => {
             });
 
             expectStatusCode(response, 400);
-            expectErrorResponse(response, "No number or restaurantId was provided");
+            expectErrorResponse(response, "No restaurantId was provided");
         })
 
         test("A checkin request with a only a restaurantId field", async () => {
