@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const path = require("path");
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const routes = require("./routes");
@@ -11,11 +12,32 @@ const RateLimit = require('express-rate-limit');
 const MongoStore = require('rate-limit-mongo');
 const session = require('express-session');
 const { errorHandler, devErrorHandler } = require("./middleware/error-handling");
+const webpack = require('webpack');
+const webpackDevMiddleware = require('webpack-dev-middleware');
+const webpackHotMiddleware = require('webpack-hot-middleware');
+const config = require('../webpack.config');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser());
 app.use(cors());
+
+if (process.env.NODE_ENV === "development") {
+    config.entry.unshift('webpack-hot-middleware/client?reload=true&timeout=1000');
+
+    //Add HMR plugin
+    config.plugins.push(new webpack.HotModuleReplacementPlugin());
+
+    const compiler = webpack(config);
+
+    //Enable "webpack-dev-middleware"
+    app.use(webpackDevMiddleware(compiler, {
+        publicPath: config.output.publicPath
+    }));
+
+    //Enable "webpack-hot-middleware"
+    app.use(webpackHotMiddleware(compiler));
+}
 
 if (process.env.NODE_ENV !== "test") {
     app.use(session({  
@@ -28,17 +50,21 @@ if (process.env.NODE_ENV !== "test") {
             secure: true,
             domain: process.env.COOKIE_DOMAIN,
             path: process.env.COOKIE_PATH,
-            expires: new Date(Date.now() + 60 * 60 * 1000)
+            expires: new Date(Date.now() + 1000)
         }
     }));
+    
     app.use(morgan("dev"));
     app.use(helmet());
-    app.use(csrf({ cookie: true }));
 
-    app.use((req, res, next) => {
-        res.locals.csrfToken = req.csrfToken();
-        next();
-    })
+    // app.use(csrf({ cookie: {
+    //     httpOnly: true,
+    //     secure: true
+    // }}));
+    
+    // app.use((req, res, next) => {
+    //     next();
+    // })
 }
 
 if (process.env.NODE_ENV === "production") {
@@ -56,6 +82,7 @@ if (process.env.NODE_ENV === "production") {
     app.use(limiter)
 }
 
+app.use("/", express.static(path.join(__dirname, '..', '..', 'client', 'build')));
 app.use("/", routes);
 
 if (process.env.NODE_ENV !== "development") {

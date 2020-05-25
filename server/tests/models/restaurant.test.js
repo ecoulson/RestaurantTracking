@@ -1,3 +1,4 @@
+const faker = require('faker');
 const TestDatabase = require("../helpers/database");
 const Restaurant = require("../../src/models/restaurant");
 
@@ -9,8 +10,9 @@ describe('Restaurant Model Suite', () => {
     describe("Create Restaurant", () => {
         test("Successfully Create Restaurant", async () => {
             let doc = new Restaurant({
-                name: "Bob's Burgers",
-                number: "4255035202"
+                name: faker.company.companyName(),
+                number: faker.phone.phoneNumber(),
+                url: faker.internet.url()
             });
             await doc.save();
     
