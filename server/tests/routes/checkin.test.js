@@ -52,7 +52,7 @@ describe("Check In Routes Suite", () => {
 
         test("A checkin request with a only a restaurantId field", async () => {
             const response = await makeCheckInRequest({
-                restaurantId: faker.random.uuid()
+                restaurantId: mongoObjectId()
             });
 
             expectStatusCode(response, 400);
@@ -65,7 +65,7 @@ describe("Check In Routes Suite", () => {
             const response = await makeCheckInRequest({
                 number: faker.phone.phoneNumber(),
                 email: faker.internet.email(),
-                restaurantId: faker.random.uuid()
+                restaurantId: mongoObjectId()
             });
     
             expectStatusCode(response, 400);
@@ -77,7 +77,7 @@ describe("Check In Routes Suite", () => {
             const response = await makeCheckInRequest({
                 number: faker.phone.phoneNumber(),
                 email: faker.internet.email(),
-                restaurantId: faker.random.uuid()
+                restaurantId: mongoObjectId()
             });
 
             expectStatusCode(response, 200);
@@ -97,7 +97,7 @@ describe("Check In Routes Suite", () => {
 
         test("A get check ins request with duplicate query parameters", async () => {
             const response = await getDuplicateCheckinsAtRestaurantRequest({
-                restaurantId: faker.random.uuid()
+                restaurantId: mongoObjectId()
             });
 
             expectStatusCode(response, 400);
@@ -108,7 +108,7 @@ describe("Check In Routes Suite", () => {
             CheckIn.findByRestaurantId.mockRejectedValue(new Error("Database error"));
     
             const response = await getCheckinsAtRestaurantRequest({
-                restaurantId: faker.random.uuid()
+                restaurantId: mongoObjectId()
             });
     
             expectStatusCode(response, 400);
@@ -119,7 +119,7 @@ describe("Check In Routes Suite", () => {
             CheckIn.findByRestaurantId.mockResolvedValue([]);
 
             const response = await getCheckinsAtRestaurantRequest({
-                restaurantId: faker.random.uuid()
+                restaurantId: mongoObjectId()
             });
 
             expectStatusCode(response, 200);
@@ -144,3 +144,10 @@ async function getCheckinsAtRestaurantRequest(query) {
 async function getDuplicateCheckinsAtRestaurantRequest(query) {
     return await makeGetRequest(`${CHECKIN_URL}?restaurantId=${query.restaurantId}&restaurantId=${query.restaurantId}`)
 }
+
+const mongoObjectId = function () {
+    var timestamp = (new Date().getTime() / 1000 | 0).toString(16);
+    return timestamp + 'xxxxxxxxxxxxxxxx'.replace(/[x]/g, function() {
+        return (Math.random() * 16 | 0).toString(16);
+    }).toLowerCase();
+};

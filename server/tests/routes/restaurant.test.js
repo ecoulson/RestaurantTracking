@@ -1,5 +1,7 @@
 jest.mock("../../src/models/restaurant");
+jest.mock("../../src/lib/URL-Shortener");
 const Restaurant = require("../../src/models/restaurant");
+const URLShortener = require("../../src/lib/URL-shortener");
 const { 
     expectErrorResponse, 
     expectStatusCode, 
@@ -53,18 +55,30 @@ describe("Restaurant Routes Suite", () => {
         });
 
         test("Database error occurs", async () => {
+            const url = faker.internet.url();
+            URLShortener.mockResolvedValue({
+                data: {
+                    link: url
+                }
+            })
             Restaurant.prototype.save.mockRejectedValue(new Error("Database error"));
     
             const response = await makeRegisterRequest({
                 number: faker.phone.phoneNumber(),
                 name: faker.company.companyName()
             });
-    
+            
             expectStatusCode(response, 400);
             expectErrorResponse(response, "Database error");
         });
 
         test("A successful registration", async () => {
+            const url = faker.internet.url();
+            URLShortener.mockResolvedValue({
+                data: {
+                    link: url
+                }
+            })
             Restaurant.prototype.save.mockResolvedValue({})
             const request = {
                 number: faker.phone.phoneNumber(),
@@ -85,7 +99,7 @@ describe("Restaurant Routes Suite", () => {
             Restaurant.findById.mockRejectedValue(new Error("Database error"));
     
             const response = await makeQRCodeRequest({
-                restaurantId: faker.random.uuid()
+                restaurantId: mongoObjectId()
             });
     
             expectStatusCode(response, 400);
@@ -94,7 +108,8 @@ describe("Restaurant Routes Suite", () => {
 
         test("A successful qrcode generation", async () => {
             const restaurant = {
-                _id: faker.random.uuid()
+                _id: mongoObjectId(),
+                url: faker.internet.url()
             }
             Restaurant.findById.mockResolvedValue(restaurant);
             
@@ -111,7 +126,7 @@ describe("Restaurant Routes Suite", () => {
         test("Database error occurs", async () => {
             Restaurant.findById.mockRejectedValue(new Error("Database error"));
 
-            const response = await makeFindRestaurantRequest(faker.random.uuid());
+            const response = await makeFindRestaurantRequest(mongoObjectId());
 
             expectStatusCode(response, 400);
             expectErrorResponse(response, "Database error");
@@ -120,7 +135,7 @@ describe("Restaurant Routes Suite", () => {
         test("Fails to find a restaurant", async () => {
             Restaurant.findById.mockResolvedValue(null);
 
-            const response = await makeFindRestaurantRequest(faker.random.uuid());
+            const response = await makeFindRestaurantRequest(mongoObjectId());
 
             expectStatusCode(response, 400);
             expectErrorResponse(response, "Could not find restaurant");
@@ -128,9 +143,10 @@ describe("Restaurant Routes Suite", () => {
 
         test("Successfully finds restaurant", async () => {
             const restaurant = {
-                _id: faker.random.uuid(),
+                _id: mongoObjectId(),
                 name: faker.company.companyName(),
-                number: faker.phone.phoneNumber()
+                number: faker.phone.phoneNumber(),
+                url: faker.internet.url()
             }
             Restaurant.findById.mockResolvedValue(restaurant);
 
@@ -150,8 +166,15 @@ async function makeQRCodeRequest(params) {
     if (params.restaurantId) {
         return await makeGetRequest(CODE_URL.replace(":id", params.restaurantId))
     }
-    return await makeGetRequest(CODE_URL.replace(":id", "1"))
+    return await makeGetRequest(CODE_URL.replace(":id", "null"))
 }
+
+const mongoObjectId = function () {
+    var timestamp = (new Date().getTime() / 1000 | 0).toString(16);
+    return timestamp + 'xxxxxxxxxxxxxxxx'.replace(/[x]/g, function() {
+        return (Math.random() * 16 | 0).toString(16);
+    }).toLowerCase();
+};
 
 async function makeFindRestaurantRequest(id) {
     return await makeGetRequest(`/restaurant/${id}`);

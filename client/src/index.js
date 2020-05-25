@@ -8,7 +8,17 @@ const PhoneNumberInput = getById("phone-input");
 const SubmitButton = getById("submit");
 const RestaurantName = getById("restaurant-name");
 const ErrorMessage = getById("error-message");
+const Screens = document.getElementsByClassName("screen");
 
+Array.from(Screens).forEach((screen) => {
+    screen.style.height = `${window.innerHeight}px`;
+})
+
+window.addEventListener("resize", () => {
+    Array.from(Screens).forEach((screen) => {
+        screen.style.height = `${window.innerHeight}px`;
+    });  
+})
 
 const QueryParameters = new URLSearchParams(window.location.search);
 const RestaurantId = QueryParameters.get("restaurantId");

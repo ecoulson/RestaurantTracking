@@ -11,7 +11,8 @@ describe('Restaurant Model Suite', () => {
         test("Successfully Create Restaurant", async () => {
             let doc = new Restaurant({
                 name: faker.company.companyName(),
-                number: faker.phone.phoneNumber()
+                number: faker.phone.phoneNumber(),
+                url: faker.internet.url()
             });
             await doc.save();
     
