@@ -1,3 +1,6 @@
+import { AsYouType, parsePhoneNumberFromString } from '../../server/node_modules/libphonenumber-js'
+import IsEmail from '../../server/node_modules/isemail';
+
 const Screen1 = getScreen(1);
 const Screen2 = getScreen(2);
 const Screen3 = getScreen(3);
@@ -9,6 +12,13 @@ const SubmitButton = getById("submit");
 const RestaurantName = getById("restaurant-name");
 const ErrorMessage = getById("error-message");
 const Screens = document.getElementsByClassName("screen");
+
+PhoneNumberInput.addEventListener("keyup", (event) => {
+    if (event.keyCode !== 8) {
+        const number = parsePhoneNumberFromString(PhoneNumberInput.value, "US");
+        PhoneNumberInput.value = new AsYouType("US").input(number.nationalNumber);
+    }
+})
 
 Array.from(Screens).forEach((screen) => {
     screen.style.height = `${window.innerHeight}px`;
@@ -58,8 +68,13 @@ function listenForClick(element, onClickHandler) {
 }
 
 async function submit() {
+    const number = parsePhoneNumberFromString(PhoneNumberInput.value, "US");
     if (getInputValue(EmailInput) == "" && getInputValue(PhoneNumberInput) == "") {
         showError("Please enter a phone number or email.");
+    } else if (PhoneNumberInput.value !== "" && !number.isValid()) {
+        showError("Please enter a valid phone number");
+    } else if (EmailInput.value !== "" && !IsEmail.validate(EmailInput.value)) {
+        showError("Please enter a valid email");
     } else {
         hide(Screen1);
         show(Screen2);
