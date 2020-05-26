@@ -1,3 +1,5 @@
+import { AsYouType, parsePhoneNumberFromString } from '../../server/node_modules/libphonenumber-js'
+
 const Screen1 = getScreen(1);
 const Screen2 = getScreen(2);
 const Screen3 = getScreen(3);
@@ -9,6 +11,11 @@ const SubmitButton = getById("submit");
 const RestaurantName = getById("restaurant-name");
 const ErrorMessage = getById("error-message");
 const Screens = document.getElementsByClassName("screen");
+const EmailRegex = new RegExp("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?");
+
+PhoneNumberInput.addEventListener("keyup", (event) => {
+    PhoneNumberInput.value = new AsYouType("US").input(PhoneNumberInput.value);
+})
 
 Array.from(Screens).forEach((screen) => {
     screen.style.height = `${window.innerHeight}px`;
@@ -60,7 +67,15 @@ function listenForClick(element, onClickHandler) {
 async function submit() {
     if (getInputValue(EmailInput) == "" && getInputValue(PhoneNumberInput) == "") {
         showError("Please enter a phone number or email.");
-    } else {
+    }
+    const number = parsePhoneNumberFromString(PhoneNumberInput.value, "US");
+    if (PhoneNumberInput.value !== "" && !number.isValid()) {
+        showError("Please enter a valid phone number");
+    }
+    if (!EmailRegex.test(EmailInput.value)) {
+        showError("Please enter a valid email");
+    }
+    else {
         hide(Screen1);
         show(Screen2);
         const response = await sendFormDataToServer();
