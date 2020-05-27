@@ -1,10 +1,9 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "",
   "scripts": {
     "security-test": "snyk test ",
-    "build": "webpack -d",
+    "build": "webpack -p",
     "test": "NODE_ENV=test jest ./tests",
     "start": "node ./src/server.js",
     "snyk-protect": "snyk protect"
@@ -62,5 +61,18 @@
     "sinon-as-promised": "^4.0.3",
     "sinon-mongoose": "^2.3.0"
   },
-  "snyk": true
+  "snyk": true,
+  "main": "jest-mongo-config.js",
+  "directories": {
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ecoulson/RestaurantTracking.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ecoulson/RestaurantTracking/issues"
+  },
+  "homepage": "https://github.com/ecoulson/RestaurantTracking#readme",
+  "description": ""
 }
