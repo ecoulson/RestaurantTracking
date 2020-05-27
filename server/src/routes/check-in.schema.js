@@ -6,6 +6,11 @@ const CheckingInUserSchema = Joi.object({
     number: Joi.string()
 }).or("email", "number");
 
+const GetCheckinSchema = Joi.object({
+    restaurantId: Joi.string().hex().required(),
+})
+
 module.exports = {
-    CheckingInUserSchema
+    CheckingInUserSchema,
+    GetCheckinSchema
 };

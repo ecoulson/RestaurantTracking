@@ -106,7 +106,9 @@ describe("Check In Routes Suite", () => {
             const response = await getCheckinsAtRestaurantRequest({});
 
             expectStatusCode(response, 400);
-            expectErrorResponse(response, "No restaurantId was provided");
+            expectErrorResponse(response, [
+                "\"restaurantId\" is required",
+            ]);
         });
 
         test("A get check ins request with duplicate query parameters", async () => {

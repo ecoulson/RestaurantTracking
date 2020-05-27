@@ -1,30 +1,31 @@
 const router = require("express").Router();
-const { validateParams, validateBody } = require("../middleware/validation");
+const { hapiValidation } = require("../middleware/validation");
 const { catchErrors } = require("../middleware/error-handling");
 const RestaurantService = require("../services/restaurant");
 const authenticate = require("../middleware/authentication");
-
-const CODE_PROPERTIES = ["restaurantId"];
-const FIND_BY_ID_PROPERTIES = ["restaurantId"];
-const RESTAURANT_PROPERTIES = ["name", "number"]
+const { 
+    GenerateQRCodeSchema, 
+    RegisterRestaurantSchema,
+    FindRestaurantByIdSchema
+} = require("./restaurant.schema");
 
 router.get(
     "/:restaurantId/generate",
     authenticate,
-    validateParams(CODE_PROPERTIES), 
+    hapiValidation(GenerateQRCodeSchema, "params"),
     catchErrors(RestaurantService.generateQRCode)
 );
 
 router.post(
     "/register",
     authenticate,
-    validateBody(RESTAURANT_PROPERTIES), 
+    hapiValidation(RegisterRestaurantSchema, "body"),
     catchErrors(RestaurantService.registerRestaurant)
 );
 
 router.get(
     "/:restaurantId", 
-    validateParams(FIND_BY_ID_PROPERTIES), 
+    hapiValidation(FindRestaurantByIdSchema, "params"),
     catchErrors(RestaurantService.getRestaurant)
 );
 

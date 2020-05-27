@@ -33,7 +33,9 @@ describe("Restaurant Routes Suite", () => {
             const response = await makeRegisterRequest({});
 
             expectStatusCode(response, 400);
-            expectErrorResponse(response, "No name or number was provided");
+            expectErrorResponse(response, [
+                "\"name\" is required"
+            ]);
         })
 
         test("A registration request without a name", async () => {
@@ -42,7 +44,9 @@ describe("Restaurant Routes Suite", () => {
             })
 
             expectStatusCode(response, 400);
-            expectErrorResponse(response, "No name was provided");
+            expectErrorResponse(response, [
+                "\"name\" is required"
+            ]);
         })
 
         test("A registration request without a restaurantId", async () => {
@@ -51,7 +55,9 @@ describe("Restaurant Routes Suite", () => {
             })
 
             expectStatusCode(response, 400);
-            expectErrorResponse(response, "No number was provided");
+            expectErrorResponse(response, [
+                "\"number\" is required"
+            ]);
         });
 
         test("Database error occurs", async () => {
