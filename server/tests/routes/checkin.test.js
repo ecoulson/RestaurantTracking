@@ -1,5 +1,5 @@
-const createMock = require("../mocks/models");
-const CheckIn = createMock(require("../../src/models/check-in"));
+require("../mocks/models")("../../src/models/check-in");
+const CheckIn = require("../../src/models/check-in");
 const faker = require("faker");
 const { 
     expectErrorResponse, 
@@ -23,7 +23,9 @@ describe("Check In Routes Suite", () => {
             const response = await makeCheckInRequest({});
 
             expectStatusCode(response, 400);
-            expectErrorResponse(response, "No restaurantId was provided");
+            expectErrorResponse(response, [
+                "No email or number was provided"
+            ]);
         })
 
         test("A checkin request with a mising restaurantId field", async () => {
@@ -33,7 +35,9 @@ describe("Check In Routes Suite", () => {
             });
 
             expectStatusCode(response, 400);
-            expectErrorResponse(response, "No restaurantId was provided");
+            expectErrorResponse(response, [
+                "\"restaurantId\" is required"
+            ]);
         });
 
         test("A checkin request with a only a number field", async () => {
@@ -42,7 +46,9 @@ describe("Check In Routes Suite", () => {
             });
 
             expectStatusCode(response, 400);
-            expectErrorResponse(response, "No restaurantId was provided");
+            expectErrorResponse(response, [
+                "\"restaurantId\" is required"
+            ]);
         })
 
         test("A checkin request with a only an email field", async () => {
@@ -51,7 +57,9 @@ describe("Check In Routes Suite", () => {
             });
 
             expectStatusCode(response, 400);
-            expectErrorResponse(response, "No restaurantId was provided");
+            expectErrorResponse(response, [
+                "\"restaurantId\" is required"
+            ]);
         })
 
         test("A checkin request with a only a restaurantId field", async () => {
@@ -60,7 +68,9 @@ describe("Check In Routes Suite", () => {
             });
 
             expectStatusCode(response, 400);
-            expectErrorResponse(response, "No email or number was provided");
+            expectErrorResponse(response, [
+                "No email or number was provided"
+            ]);
         })
 
         test("Database error occurs", async () => {
