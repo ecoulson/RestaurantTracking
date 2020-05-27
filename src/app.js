@@ -71,9 +71,7 @@ if (process.env.NODE_ENV === "production") {
     const limiter = new RateLimit({
         store: new MongoStore({
             uri: process.env.CONNECTION_STRING,
-            collectionName: "rate-records",
-            user: process.env.MONGO_USER,
-            password: process.env.MONGO_PASS
+            collectionName: "rate-records"
         }),
         max: 100,
         windowMs: 15 * 60 * 1000
