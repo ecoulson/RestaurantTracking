@@ -1,4 +1,4 @@
-jest.mock("../../src/models/check-in");
+require("../mocks/models")("../../src/models/check-in");
 const CheckIn = require("../../src/models/check-in");
 const faker = require("faker");
 const { 
@@ -10,8 +10,15 @@ const {
     makeGetRequest,
     makePostRequest
 } = require("../helpers/request");
+const Chance = require('chance');
+
+const chance = new Chance();
 
 const CHECKIN_URL = "/check_in";
+
+beforeEach(() => {
+    jest.resetAllMocks()
+})
 
 describe("Check In Routes Suite", () => {
     describe("Create Check In Event Route", () => {
@@ -19,26 +26,32 @@ describe("Check In Routes Suite", () => {
             const response = await makeCheckInRequest({});
 
             expectStatusCode(response, 400);
-            expectErrorResponse(response, "No restaurantId was provided");
+            expectErrorResponse(response, [
+                "No email or number was provided"
+            ]);
         })
 
         test("A checkin request with a mising restaurantId field", async () => {
             const response = await makeCheckInRequest({
                 email: faker.internet.email(),
-                number: faker.phone.phoneNumber(),
+                number: chance.phone({ country: 'us' }),
             });
 
             expectStatusCode(response, 400);
-            expectErrorResponse(response, "No restaurantId was provided");
+            expectErrorResponse(response, [
+                "\"restaurantId\" is required"
+            ]);
         });
 
         test("A checkin request with a only a number field", async () => {
             const response = await makeCheckInRequest({
-                number: faker.phone.phoneNumber(),
+                number: chance.phone({ country: 'us' }),
             });
 
             expectStatusCode(response, 400);
-            expectErrorResponse(response, "No restaurantId was provided");
+            expectErrorResponse(response, [
+                "\"restaurantId\" is required"
+            ]);
         })
 
         test("A checkin request with a only an email field", async () => {
@@ -47,7 +60,9 @@ describe("Check In Routes Suite", () => {
             });
 
             expectStatusCode(response, 400);
-            expectErrorResponse(response, "No restaurantId was provided");
+            expectErrorResponse(response, [
+                "\"restaurantId\" is required"
+            ]);
         })
 
         test("A checkin request with a only a restaurantId field", async () => {
@@ -56,14 +71,16 @@ describe("Check In Routes Suite", () => {
             });
 
             expectStatusCode(response, 400);
-            expectErrorResponse(response, "No email or number was provided");
+            expectErrorResponse(response, [
+                "No email or number was provided"
+            ]);
         })
 
         test("Database error occurs", async () => {
             CheckIn.prototype.save.mockRejectedValue(new Error("Database error"));
     
             const response = await makeCheckInRequest({
-                number: faker.phone.phoneNumber(),
+                number: chance.phone({ country: 'us' }),
                 email: faker.internet.email(),
                 restaurantId: mongoObjectId()
             });
@@ -75,7 +92,7 @@ describe("Check In Routes Suite", () => {
         test("A successful registration", async () => {
             CheckIn.prototype.save.mockResolvedValue({});
             const response = await makeCheckInRequest({
-                number: faker.phone.phoneNumber(),
+                number: chance.phone({ country: 'us' }),
                 email: faker.internet.email(),
                 restaurantId: mongoObjectId()
             });
@@ -92,7 +109,9 @@ describe("Check In Routes Suite", () => {
             const response = await getCheckinsAtRestaurantRequest({});
 
             expectStatusCode(response, 400);
-            expectErrorResponse(response, "No restaurantId was provided");
+            expectErrorResponse(response, [
+                "\"restaurantId\" is required",
+            ]);
         });
 
         test("A get check ins request with duplicate query parameters", async () => {

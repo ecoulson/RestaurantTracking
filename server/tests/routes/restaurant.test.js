@@ -1,4 +1,4 @@
-jest.mock("../../src/models/restaurant");
+require("../mocks/models")("../../src/models/restaurant");
 jest.mock("../../src/lib/URL-Shortener");
 const Restaurant = require("../../src/models/restaurant");
 const URLShortener = require("../../src/lib/URL-shortener");
@@ -13,6 +13,9 @@ const {
     makePostRequest
 } = require("../helpers/request");
 const faker = require("faker");
+const Chance = require('chance');
+
+const chance = new Chance();
 
 const REGISTER_URL = "/restaurant/register";
 const CODE_URL = "/restaurant/:id/generate";
@@ -33,16 +36,20 @@ describe("Restaurant Routes Suite", () => {
             const response = await makeRegisterRequest({});
 
             expectStatusCode(response, 400);
-            expectErrorResponse(response, "No name or number was provided");
+            expectErrorResponse(response, [
+                "\"name\" is required"
+            ]);
         })
 
         test("A registration request without a name", async () => {
             const response = await makeRegisterRequest({
-                number: faker.phone.phoneNumber()
+                number: chance.phone()
             })
 
             expectStatusCode(response, 400);
-            expectErrorResponse(response, "No name was provided");
+            expectErrorResponse(response, [
+                "\"name\" is required"
+            ]);
         })
 
         test("A registration request without a restaurantId", async () => {
@@ -51,7 +58,9 @@ describe("Restaurant Routes Suite", () => {
             })
 
             expectStatusCode(response, 400);
-            expectErrorResponse(response, "No number was provided");
+            expectErrorResponse(response, [
+                "\"number\" is required"
+            ]);
         });
 
         test("Database error occurs", async () => {
@@ -64,7 +73,7 @@ describe("Restaurant Routes Suite", () => {
             Restaurant.prototype.save.mockRejectedValue(new Error("Database error"));
     
             const response = await makeRegisterRequest({
-                number: faker.phone.phoneNumber(),
+                number: chance.phone(),
                 name: faker.company.companyName()
             });
             
@@ -81,7 +90,7 @@ describe("Restaurant Routes Suite", () => {
             })
             Restaurant.prototype.save.mockResolvedValue({})
             const request = {
-                number: faker.phone.phoneNumber(),
+                number: chance.phone(),
                 name: faker.company.companyName()
             }
 
@@ -145,7 +154,7 @@ describe("Restaurant Routes Suite", () => {
             const restaurant = {
                 _id: mongoObjectId(),
                 name: faker.company.companyName(),
-                number: faker.phone.phoneNumber(),
+                number: chance.phone(),
                 url: faker.internet.url()
             }
             Restaurant.findById.mockResolvedValue(restaurant);
