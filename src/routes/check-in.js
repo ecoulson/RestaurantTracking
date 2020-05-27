@@ -13,6 +13,7 @@ router.post(
 );
 
 function ensureEmailOrNumberIsProvided(req, res, next) {
+    console.log(req.body);
     if (!req.body.email && !req.body.number) {
         return Response.sendError(res, {
             error: [

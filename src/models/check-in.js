@@ -1,8 +1,14 @@
 const mongoose = require("mongoose");
 
 const CheckInSchema = new mongoose.Schema({
-    email: String,
-    number: String,
+    email: {
+        type: String,
+        default: ""
+    },
+    number: {
+        type: String,
+        default: ""
+    },
     timeCheckedIn: {
         type: Date,
         default: Date.now()

@@ -106,8 +106,8 @@ function sendFormDataToServer() {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            email: getInputValue(EmailInput),
-            number: getInputValue(PhoneNumberInput),
+            email: getInputValue(EmailInput) == "" ? null : getInputValue(EmailInput),
+            number: getInputValue(PhoneNumberInput) == "" ? null : getInputValue(PhoneNumberInput),
             restaurantId: RestaurantId
         })
     })
