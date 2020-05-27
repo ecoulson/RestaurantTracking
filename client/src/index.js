@@ -1,5 +1,5 @@
-import { AsYouType, parsePhoneNumberFromString } from '../../server/node_modules/libphonenumber-js'
-import IsEmail from '../../server/node_modules/isemail';
+import { AsYouType, parsePhoneNumberFromString } from 'libphonenumber-js'
+import IsEmail from 'isemail';
 
 const Screen1 = getScreen(1);
 const Screen2 = getScreen(2);
