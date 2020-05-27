@@ -19,6 +19,8 @@ function createModelMock(filePath) {
     for (const method of additionalMethods) {
         Mock.prototype[method] = jest.fn();
     }
+    Mock.prototype["update"] = jest.fn();
+    
     for (const static of modelStatics) {
         Mock[static] = jest.fn();
     }

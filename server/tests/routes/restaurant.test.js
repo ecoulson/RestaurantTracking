@@ -1,4 +1,4 @@
-jest.mock("../../src/models/restaurant");
+require("../mocks/models")("../../src/models/restaurant");
 jest.mock("../../src/lib/URL-Shortener");
 const Restaurant = require("../../src/models/restaurant");
 const URLShortener = require("../../src/lib/URL-shortener");
