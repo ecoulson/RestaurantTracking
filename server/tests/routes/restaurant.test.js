@@ -13,6 +13,9 @@ const {
     makePostRequest
 } = require("../helpers/request");
 const faker = require("faker");
+const Chance = require('chance');
+
+const chance = new Chance();
 
 const REGISTER_URL = "/restaurant/register";
 const CODE_URL = "/restaurant/:id/generate";
@@ -40,7 +43,7 @@ describe("Restaurant Routes Suite", () => {
 
         test("A registration request without a name", async () => {
             const response = await makeRegisterRequest({
-                number: faker.phone.phoneNumber()
+                number: chance.phone()
             })
 
             expectStatusCode(response, 400);
@@ -70,7 +73,7 @@ describe("Restaurant Routes Suite", () => {
             Restaurant.prototype.save.mockRejectedValue(new Error("Database error"));
     
             const response = await makeRegisterRequest({
-                number: faker.phone.phoneNumber(),
+                number: chance.phone(),
                 name: faker.company.companyName()
             });
             
@@ -87,7 +90,7 @@ describe("Restaurant Routes Suite", () => {
             })
             Restaurant.prototype.save.mockResolvedValue({})
             const request = {
-                number: faker.phone.phoneNumber(),
+                number: chance.phone(),
                 name: faker.company.companyName()
             }
 
@@ -151,7 +154,7 @@ describe("Restaurant Routes Suite", () => {
             const restaurant = {
                 _id: mongoObjectId(),
                 name: faker.company.companyName(),
-                number: faker.phone.phoneNumber(),
+                number: chance.phone(),
                 url: faker.internet.url()
             }
             Restaurant.findById.mockResolvedValue(restaurant);

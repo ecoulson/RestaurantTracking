@@ -10,6 +10,9 @@ const {
     makeGetRequest,
     makePostRequest
 } = require("../helpers/request");
+const Chance = require('chance');
+
+const chance = new Chance();
 
 const CHECKIN_URL = "/check_in";
 
@@ -31,7 +34,7 @@ describe("Check In Routes Suite", () => {
         test("A checkin request with a mising restaurantId field", async () => {
             const response = await makeCheckInRequest({
                 email: faker.internet.email(),
-                number: faker.phone.phoneNumber(),
+                number: chance.phone({ country: 'us' }),
             });
 
             expectStatusCode(response, 400);
@@ -42,7 +45,7 @@ describe("Check In Routes Suite", () => {
 
         test("A checkin request with a only a number field", async () => {
             const response = await makeCheckInRequest({
-                number: faker.phone.phoneNumber(),
+                number: chance.phone({ country: 'us' }),
             });
 
             expectStatusCode(response, 400);
@@ -77,7 +80,7 @@ describe("Check In Routes Suite", () => {
             CheckIn.prototype.save.mockRejectedValue(new Error("Database error"));
     
             const response = await makeCheckInRequest({
-                number: faker.phone.phoneNumber(),
+                number: chance.phone({ country: 'us' }),
                 email: faker.internet.email(),
                 restaurantId: mongoObjectId()
             });
@@ -89,7 +92,7 @@ describe("Check In Routes Suite", () => {
         test("A successful registration", async () => {
             CheckIn.prototype.save.mockResolvedValue({});
             const response = await makeCheckInRequest({
-                number: faker.phone.phoneNumber(),
+                number: chance.phone({ country: 'us' }),
                 email: faker.internet.email(),
                 restaurantId: mongoObjectId()
             });
