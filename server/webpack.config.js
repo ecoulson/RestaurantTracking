@@ -2,6 +2,7 @@ const path = require("path");
 const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
+    mode: process.env.NODE_ENV,
     entry: [ "@babel/polyfill", "../client/src/" ],
     output: {
         path: path.join(__dirname, '..', 'client', 'build'),

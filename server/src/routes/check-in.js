@@ -1,15 +1,17 @@
 const { Response } = require("../lib/HTTP");
 const router = require("express").Router();
 const { validateQuery, validateBody, checkQueryDuplication } = require("../middleware/validation");
-const CheckInController = require("../services/check-in");
+const CheckInService = require("../services/check-in");
 const { catchErrors } = require("../middleware/error-handling");
+const { CheckingInUserSchema } = require("./check-in.schema");
 
 const CHECK_IN_PROPERTIES = ["restaurantId"]
 router.post(
     "/", 
     validateBody(CHECK_IN_PROPERTIES), 
     validateOptions,
-    catchErrors(CheckInController.checkIn)
+    // hapiValidation,
+    catchErrors(CheckInService.checkIn)
 );
 
 function validateOptions(req, res, next) {
@@ -21,12 +23,22 @@ function validateOptions(req, res, next) {
     return next();
 }
 
+function hapiValidation(req, res, next) {
+    const validationResult = CheckingInUserSchema.validate(req.body);
+    if (validationResult.error) {
+        return Response.sendError(res, {
+            error: validationResult.error
+        })
+    }
+    return next();
+}
+
 const GET_CHECK_INS_PROPERTIES = ["restaurantId"]
 router.get(
     "/", 
-    validateQuery(GET_CHECK_INS_PROPERTIES), 
     checkQueryDuplication("restaurantId"),  
-    catchErrors(CheckInController.findRestuarant)
+    validateQuery(GET_CHECK_INS_PROPERTIES), 
+    catchErrors(CheckInService.findRestuarant)
 );
 
 module.exports = router;

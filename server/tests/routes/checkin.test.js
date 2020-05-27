@@ -1,5 +1,5 @@
-jest.mock("../../src/models/check-in");
-const CheckIn = require("../../src/models/check-in");
+const createMock = require("../mocks/models");
+const CheckIn = createMock(require("../../src/models/check-in"));
 const faker = require("faker");
 const { 
     expectErrorResponse, 
@@ -12,6 +12,10 @@ const {
 } = require("../helpers/request");
 
 const CHECKIN_URL = "/check_in";
+
+beforeEach(() => {
+    jest.resetAllMocks()
+})
 
 describe("Check In Routes Suite", () => {
     describe("Create Check In Event Route", () => {
