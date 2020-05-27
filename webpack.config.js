@@ -6,7 +6,7 @@ module.exports = {
     entry: [ "@babel/polyfill", "./client/src/" ],
     output: {
         path: path.join(__dirname, 'client', 'build'),
-        publicPath: '/',
+        publicPath: '',
         filename: 'index.js'
     },
     devServer: {
@@ -39,11 +39,6 @@ module.exports = {
                 ]
             }
         ]
-    },
-    optimization: {
-        splitChunks: {
-            chunks: 'all',
-        },
     },
     plugins: [
         new CopyPlugin({

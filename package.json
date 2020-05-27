@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "security-test": "snyk test ",
-    "build": "webpack -p",
+    "build": "webpack -d",
     "test": "NODE_ENV=test jest ./tests",
     "start": "node ./src/server.js",
     "snyk-protect": "snyk protect"
