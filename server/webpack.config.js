@@ -3,15 +3,15 @@ const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     mode: process.env.NODE_ENV,
-    entry: [ "@babel/polyfill", "../client/src/" ],
+    entry: [ "@babel/polyfill", "./client/src/" ],
     output: {
-        path: path.join(__dirname, '..', 'client', 'build'),
+        path: path.join(__dirname, 'client', 'build'),
         publicPath: '/',
         filename: 'index.js'
     },
     devServer: {
-        contentBase: path.join(__dirname, '..', 'client', 'src'),
-        port: 8080,
+        contentBase: path.join(__dirname, 'client', 'src'),
+        port: process.env.PORT,
         host: `localhost`,
     },
     module: {
@@ -43,8 +43,8 @@ module.exports = {
     plugins: [
         new CopyPlugin({
             patterns: [
-                { from: "../client/src/index.html", to: "./index.html" },
-                { from: "../client/src/main.css", to: "./main.css" }
+                { from: "./client/src/index.html", to: "./index.html" },
+                { from: "./client/src/main.css", to: "./main.css" }
             ]
         })
     ]
