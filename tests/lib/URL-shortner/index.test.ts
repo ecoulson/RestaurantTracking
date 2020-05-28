@@ -1,14 +1,14 @@
 jest.mock("axios");
-const axios = require("axios").default;
-const faker = require("faker");
-const URLShortner = require("../../../src/lib/URL-shortener");
+import axios from "axios";
+import faker from "faker";
+import URLShortner from "../../../src/lib/URL-shortener";
 
 const BITLY_URL = "https://api-ssl.bitly.com/v4/shorten";
 const OLD_ENV = process.env;
 
 beforeAll(() => {
     process.env.HOST_NAME = "localhost";
-    process.env.PORT = 8080;
+    process.env.PORT = "8080";
     process.env.BITLY_ACCESS_TOKEN = faker.random.uuid()
 });
 
@@ -22,7 +22,7 @@ describe("URL Shortener Suite", () => {
         test("A registration request with an empty body", async () => {
             const restaurantId = mongoObjectId();
             const url = `http://${process.env.HOST_NAME}.localhost:${process.env.PORT}?restaurantId=${restaurantId}`
-            const id = mongoObjectId()
+            const id = mongoObjectId();
             const bitlyResponse = {
                 "created_at": faker.date.recent(),
                 "id": `bit.ly/${id}`,
@@ -35,8 +35,8 @@ describe("URL Shortener Suite", () => {
                 "references": {
                     "group": `https://api-ssl.bitly.com/v4/groups/${mongoObjectId()}`
                 }
-            }
-            axios.post.mockResolvedValue({
+            };
+            (axios.post as any).mockResolvedValue({
                 data: bitlyResponse
             });
 

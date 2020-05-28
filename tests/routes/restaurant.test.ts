@@ -1,20 +1,21 @@
-require("../mocks/models")("../../src/models/restaurant");
+import { createModelMock } from "../mocks/models";
+createModelMock("../../src/models/restaurant");
 jest.mock("../../src/lib/URL-Shortener");
-const Restaurant = require("../../src/models/restaurant");
-const URLShortener = require("../../src/lib/URL-shortener");
-const { 
+import Restaurant from "../../src/models/restaurant";
+import URLShortener from "../../src/lib/URL-shortener";
+import { 
     expectErrorResponse, 
     expectStatusCode, 
     expectSuccessResponse,
     expectHeader
-} = require("../helpers/expect");
-const {
+} from "../helpers/expect";
+import {
     makeGetRequest,
     makePostRequest
-} = require("../helpers/request");
-const faker = require("faker");
-const Chance = require('chance');
-const { generateObjectId } = require("../helpers/mongo");
+} from "../helpers/request";
+import faker from "faker";
+import Chance from "chance";
+import { generateObjectId } from "../helpers/mongo";
 
 const chance = new Chance();
 
@@ -66,7 +67,7 @@ describe("Restaurant Routes Suite", () => {
 
         test("Database error occurs", async () => {
             const url = faker.internet.url();
-            URLShortener.mockResolvedValue({
+            (URLShortener as any).mockResolvedValue({
                 data: {
                     link: url
                 }
@@ -84,7 +85,7 @@ describe("Restaurant Routes Suite", () => {
 
         test("A successful registration", async () => {
             const url = faker.internet.url();
-            URLShortener.mockResolvedValue({
+            (URLShortener as any).mockResolvedValue({
                 data: {
                     link: url
                 }
@@ -107,7 +108,7 @@ describe("Restaurant Routes Suite", () => {
 
     describe("QRCode Generation Route", () => {
         test("Database error occurs", async () => {
-            Restaurant.findById.mockRejectedValue(new Error("Database error"));
+            (Restaurant.findById as any).mockRejectedValue(new Error("Database error"));
             const id = generateObjectId();
 
             const response = await makeQRCodeRequest({
@@ -122,8 +123,8 @@ describe("Restaurant Routes Suite", () => {
             const restaurant = {
                 _id: generateObjectId(),
                 url: faker.internet.url()
-            }
-            Restaurant.findById.mockResolvedValue(restaurant);
+            };
+            (Restaurant.findById as any).mockResolvedValue(restaurant);
             
             const response = await makeQRCodeRequest({
                 restaurantId: restaurant._id
@@ -136,7 +137,7 @@ describe("Restaurant Routes Suite", () => {
 
     describe("Get Restaurant", () => {
         test("Database error occurs", async () => {
-            Restaurant.findById.mockRejectedValue(new Error("Database error"));
+            (Restaurant.findById as any).mockRejectedValue(new Error("Database error"));
 
             const response = await makeFindRestaurantRequest(generateObjectId());
 
@@ -145,7 +146,7 @@ describe("Restaurant Routes Suite", () => {
         });
 
         test("Fails to find a restaurant", async () => {
-            Restaurant.findById.mockResolvedValue(null);
+            (Restaurant.findById as any).mockResolvedValue(null);
 
             const response = await makeFindRestaurantRequest(generateObjectId());
 
@@ -159,8 +160,8 @@ describe("Restaurant Routes Suite", () => {
                 name: faker.company.companyName(),
                 number: chance.phone(),
                 url: faker.internet.url()
-            }
-            Restaurant.findById.mockResolvedValue(restaurant);
+            };
+            (Restaurant.findById as any).mockResolvedValue(restaurant);
 
             const response = await makeFindRestaurantRequest(restaurant._id);
 

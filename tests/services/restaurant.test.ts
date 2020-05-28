@@ -1,12 +1,13 @@
-require("../mocks/models")("../../src/models/Restaurant");
-const Restaurant = require("../../src/models/restaurant");
-const RestaurantService = require("../../src/services/restaurant");
-const { mockRequest, mockResponse } = require("mock-req-res");
+import { createModelMock } from "../mocks/models";
+createModelMock("../../src/models/Restaurant");
+import Restaurant from "../../src/models/restaurant";
+import * as RestaurantService from "../../src/services/restaurant";
+import { mockRequest, mockResponse } from "mock-req-res";
 
 describe("Restaurant Service Test", () => {
     describe("Generate QR Code", () => {
         test("Generate a QR Code for a restaurant that doesn't exist", async () => {
-            Restaurant.findById.mockResolvedValue(null);
+            (Restaurant.findById as any).mockResolvedValue(null);
             const req = mockRequest({
                 params: {
                     restaurantId: null

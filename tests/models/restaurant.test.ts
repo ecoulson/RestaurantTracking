@@ -1,6 +1,6 @@
-const faker = require('faker');
-const TestDatabase = require("../helpers/database");
-const Restaurant = require("../../src/models/restaurant");
+import faker from 'faker';
+import * as TestDatabase from "../helpers/database";
+import Restaurant from "../../src/models/restaurant";
 
 beforeAll(async () => await TestDatabase.connect());
 afterEach(async () => await TestDatabase.clearDatabase());

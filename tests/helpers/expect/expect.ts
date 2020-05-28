@@ -31,7 +31,7 @@ function expectSuccessResponse(response, data) {
     })
 }
 
-module.exports = {
+export {
     expectStatusCode,
     expectErrorResponse,
     expectSuccessResponse,

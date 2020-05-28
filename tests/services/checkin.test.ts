@@ -1,9 +1,10 @@
-require("../mocks/models")("../../src/models/check-in");
-require("../mocks/models")("../../src/models/restaurant");
-const CheckIn = require("../../src/models/check-in");
-const Restaurant = require("../../src/models/restaurant");
-const CheckInService = require("../../src/services/check-in");
-const { mockRequest, mockResponse } = require("mock-req-res");
+import { createModelMock } from "../mocks/models";
+createModelMock("../../src/models/check-in");
+createModelMock("../../src/models/restaurant");
+import CheckIn from "../../src/models/check-in";
+import Restaurant from "../../src/models/restaurant";
+import * as CheckInService from "../../src/services/check-in";
+import { mockRequest, mockResponse } from "mock-req-res";
 const faker = require("faker");
 const Chance = require('chance');
 
@@ -13,7 +14,7 @@ describe("Checkin Service Test", () => {
     describe("checkIn", () => {
         test("A successful check in", async () => {
             CheckIn.prototype.save.mockResolvedValue({});
-            Restaurant.findById.mockResolvedValue(null);
+            (Restaurant.findById as any).mockResolvedValue(null);
             const request = mockRequest({
                 body: {
                     number: chance.phone({ country: 'us' }),

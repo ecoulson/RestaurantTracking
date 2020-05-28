@@ -1,19 +1,20 @@
-require("../mocks/models")("../../src/models/check-in");
-require("../mocks/models")("../../src/models/restaurant");
-const CheckIn = require("../../src/models/check-in");
-const Restaurant = require("../../src/models/restaurant");
-const faker = require("faker");
-const { 
+import { createModelMock } from "../mocks/models";
+createModelMock("../../src/models/check-in");
+createModelMock("../../src/models/restaurant");
+import CheckIn from "../../src/models/check-in";
+import Restaurant from "../../src/models/restaurant";
+import faker from "faker";
+import { 
     expectErrorResponse, 
     expectStatusCode, 
     expectSuccessResponse
-} = require("../helpers/expect");
-const {
+} from "../helpers/expect";
+import {
     makeGetRequest,
     makePostRequest
-} = require("../helpers/request");
-const Chance = require('chance');
-const { generateObjectId } = require("../helpers/mongo");
+} from "../helpers/request";
+import Chance from 'chance';
+import { generateObjectId } from "../helpers/mongo";
 
 const chance = new Chance();
 
@@ -81,7 +82,7 @@ describe("Check In Routes Suite", () => {
 
         test("Database error occurs", async () => {
             CheckIn.prototype.save.mockRejectedValue(new Error("Database error"));
-            Restaurant.findById.mockResolvedValue({});
+            (Restaurant.findById as any).mockResolvedValue({});
     
             const response = await makeCheckInRequest({
                 number: chance.phone({ country: 'us' }),
@@ -95,7 +96,7 @@ describe("Check In Routes Suite", () => {
 
         test("A successful check in", async () => {
             CheckIn.prototype.save.mockResolvedValue({});
-            Restaurant.findById.mockResolvedValue({});
+            (Restaurant.findById as any).mockResolvedValue({});
             
             const response = await makeCheckInRequest({
                 number: chance.phone({ country: 'us' }),
@@ -130,7 +131,7 @@ describe("Check In Routes Suite", () => {
         })
 
         test("Database error occurs", async () => {
-            CheckIn.findByRestaurantId.mockRejectedValue(new Error("Database error"));
+            ((CheckIn as any).findByRestaurantId as any).mockRejectedValue(new Error("Database error"));
     
             const response = await getCheckinsAtRestaurantRequest({
                 restaurantId: generateObjectId()
@@ -141,7 +142,7 @@ describe("Check In Routes Suite", () => {
         });
 
         test("A successful get check ins request", async () => {
-            CheckIn.findByRestaurantId.mockResolvedValue([]);
+            ((CheckIn as any).findByRestaurantId as any).mockResolvedValue([]);
 
             const response = await getCheckinsAtRestaurantRequest({
                 restaurantId: generateObjectId()
