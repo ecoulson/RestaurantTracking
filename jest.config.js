@@ -13,5 +13,8 @@ module.exports = {
             statements: 80
         }
     },
+    testPathIgnorePatterns: [
+        './dist/*',
+    ],
     coverageReporters: ['json', 'lcov', 'text', 'clover']
 };
