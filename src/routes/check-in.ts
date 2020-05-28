@@ -1,9 +1,11 @@
-const { Response } = require("../lib/HTTP");
-const router = require("express").Router();
-const { hapiValidation, checkQueryDuplication } = require("../middleware/validation");
-const CheckInService = require("../services/check-in");
-const { catchErrors } = require("../middleware/error-handling");
-const { CheckingInUserSchema, GetCheckinSchema } = require("./check-in.schema");
+import { Response } from "../lib/HTTP";
+import { Router } from "express";
+import { hapiValidation, queryDuplicationMiddleware } from "../middleware/validation";
+import * as CheckInService from "../services/check-in";
+import { catchErrors } from "../middleware/error-handling";
+import { CheckingInUserSchema, GetCheckinSchema } from "./check-in.schema";
+
+const router = Router();
 
 router.post(
     "/", 
@@ -25,9 +27,9 @@ function ensureEmailOrNumberIsProvided(req, res, next) {
 
 router.get(
     "/", 
-    checkQueryDuplication("restaurantId"),  
+    queryDuplicationMiddleware("restaurantId"),  
     hapiValidation(GetCheckinSchema, "query"),
     catchErrors(CheckInService.findRestuarant)
 );
 
-module.exports = router;
+export default router;

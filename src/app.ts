@@ -1,21 +1,22 @@
-const express = require("express");
-const app = express();
-const path = require("path");
-const bodyParser = require('body-parser')
-const cookieParser = require('cookie-parser')
-const routes = require("./routes");
-const helmet = require("helmet");
-const cors = require('cors');
-const RateLimit = require('express-rate-limit');
-const MongoStore = require('rate-limit-mongo');
-const session = require('express-session');
-const { errorHandler, devErrorHandler } = require("./middleware/error-handling");
-const webpack = require('webpack');
-const webpackDevMiddleware = require('webpack-dev-middleware');
-const webpackHotMiddleware = require('webpack-hot-middleware');
-const config = require('../webpack.config');
-const { requestLogger } = require("./lib/logging");
+import express from "express";
+import path from "path";
+import bodyParser from "body-parser";
+import cookieParser from "cookie-parser";
+import helmet from "helmet";
+import cors from "cors";
+import RateLimit from "express-rate-limit";
+import MongoStore from "rate-limit-mongo";
+import session from "express-session";
+import webpack from "webpack";
+import webpackDevMiddleware from "webpack-dev-middleware";
+import webpackHotMiddleware from "webpack-hot-middleware";
+import { errorHandler, devErrorHandler } from "./middleware/error-handling";
+import { requestLogger } from "./lib/logging";
+import routes from "./routes";
 
+const config = require('../webpack.config');
+
+const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser());
@@ -41,7 +42,6 @@ if (process.env.NODE_ENV === "development") {
 if (process.env.NODE_ENV !== "test") {
     app.use(session({  
         secret: process.env.COOKIE_SALT,
-        key: process.env.COOKIE_ID, 
         resave: false,
         saveUninitialized: false,
         cookie: {
@@ -58,7 +58,7 @@ if (process.env.NODE_ENV !== "test") {
 }
 
 if (process.env.NODE_ENV === "production") {
-    const limiter = new RateLimit({
+    const limiter = RateLimit({
         store: new MongoStore({
             uri: process.env.CONNECTION_STRING,
             collectionName: "rate-records"
@@ -79,4 +79,4 @@ if (process.env.NODE_ENV !== "development") {
     app.use(devErrorHandler);
 }
 
-module.exports = app;
+export default app;

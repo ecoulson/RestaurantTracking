@@ -23,7 +23,7 @@ function sendForbidden(res) {
     }, FORBIDDEN_CODE)
 }
 
-module.exports = {
+export {
     sendError,
     sendData,
     sendForbidden

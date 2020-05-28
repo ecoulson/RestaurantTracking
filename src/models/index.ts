@@ -1,7 +1,7 @@
 const Restaurant = require("./restaurant");
 const CheckIn = require("./check-in");
 
-module.exports = {
+export default {
     Restaurant,
     CheckIn
 }

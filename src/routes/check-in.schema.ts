@@ -1,6 +1,8 @@
-const Joi = require("@hapi/joi");
-const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
-const { logger } = require("../lib/logging"); 
+import Joi from "@hapi/joi";
+import { PhoneNumberUtil } from "google-libphonenumber";
+import { logger } from "../lib/logging"; 
+
+const phoneUtil = PhoneNumberUtil.getInstance();
 
 const CheckingInUserSchema = Joi.object({
     restaurantId: Joi.string().hex().required(),
@@ -21,7 +23,7 @@ const GetCheckinSchema = Joi.object({
     restaurantId: Joi.string().hex().required(),
 })
 
-module.exports = {
+export {
     CheckingInUserSchema,
     GetCheckinSchema
 };

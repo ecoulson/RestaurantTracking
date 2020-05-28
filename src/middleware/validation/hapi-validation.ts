@@ -22,4 +22,6 @@ function getErrors(errors) {
     })
 }
 
-module.exports = hapiValidation
+export { 
+    hapiValidation
+}

@@ -27,4 +27,6 @@ function sendDuplicateError(res, param) {
     });
 }
 
-module.exports = queryDuplicationMiddleware;
+export { 
+    queryDuplicationMiddleware
+};

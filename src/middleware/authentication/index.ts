@@ -1,5 +1,5 @@
-const { Response } = require("../../lib/HTTP");
-const { logger } = require("../../lib/logging");
+import { Response } from "../../lib/HTTP";
+import { logger } from "../../lib/logging";
 
 function authenticate(req, res, next) {
     logger.debug(`Checking for authorization headers`);
@@ -38,4 +38,6 @@ function isValidToken(token) {
     return token && token === process.env.SERVER_SECRET
 }
 
-module.exports = authenticate;
+export { 
+    authenticate
+};

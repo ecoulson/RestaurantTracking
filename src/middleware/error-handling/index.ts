@@ -1,5 +1,5 @@
-const { Response } = require("../../lib/HTTP");
-const { logger } = require("../../lib/logging");
+import { Response } from "../../lib/HTTP";
+import { logger } from "../../lib/logging";
 
 function devErrorHandler(err, req, res, next) {
     logger.error(err.message);
@@ -14,7 +14,7 @@ const errorHandler = (err, req, res, next) => Response.sendError(res, { error: e
 
 const catchErrors = action => (req, res, next) => action(req, res).catch(next)
 
-module.exports = {
+export {
     devErrorHandler,
     errorHandler,
     catchErrors

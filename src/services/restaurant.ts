@@ -1,8 +1,8 @@
-const Restaurant = require("../models/restaurant");
-const { streamQRCode } = require("../lib/QR-code");
-const { Response } = require("../lib/HTTP");
-const URLShortner = require("../lib/URL-shortener");
-const { logger } = require("../lib/logging");
+import Restaurant from "../models/restaurant";
+import { streamQRCode } from "../lib/QR-code";
+import { Response } from "../lib/HTTP";
+import URLShortner from "../lib/URL-shortener";
+import { logger } from "../lib/logging";
 
 async function generateQRCode(req, res) {
     logger.info(`Generating a QR Code for restaurant with id ${req.params.restaurantId}`);
@@ -37,14 +37,13 @@ async function registerRestaurant(req, res) {
 
 async function saveRestaurantToDB(body) {
     logger.debug(`Saving a restaurant by the name ${body.name} to the database`);
-    const doc = new Restaurant({
+    const doc : any = new Restaurant({
         name: body.name,
         number: body.number,
         url: ""
     });
-    await doc.save({
-        url: (await URLShortner(doc._id)).data.link
-    });
+    doc.url = (await URLShortner(doc._id)).data.link 
+    await doc.save();
     logger.debug(`Saved a restaurant with the name ${body.name} to the database`)
 }
 
@@ -71,7 +70,7 @@ async function getRestaurant(req, res) {
     }
 }
 
-module.exports = {
+export {
     generateQRCode,
     registerRestaurant,
     getRestaurant

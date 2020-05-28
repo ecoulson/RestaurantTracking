@@ -1,6 +1,6 @@
-const expressWinston = require("express-winston");
-const { createLogger, format, transports } = require("winston");
-const { combine, timestamp, label, prettyPrint, printf, colorize, json } = format;
+import * as expressWinston from "express-winston";
+import { createLogger, format, transports } from "winston";
+const { combine, timestamp, label, printf, colorize } = format;
 
 const loggerFormat = printf(({ level, message, label, timestamp }) => {
     try {
@@ -59,7 +59,7 @@ const requestLogger = expressWinston.logger({
     )
 })
 
-module.exports = {
+export {
     logger,
     requestLogger
 };

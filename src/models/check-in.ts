@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const { logger } = require("../lib/logging");
+import mongoose from "mongoose";
+import { logger } from "../lib/logging";
 
 const CheckInSchema = new mongoose.Schema({
     email: {
@@ -37,4 +37,4 @@ CheckInSchema.methods.serialize = function() {
     }
 }
 
-module.exports = mongoose.model("checkin", CheckInSchema);
+export default mongoose.model("checkin", CheckInSchema);

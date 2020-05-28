@@ -1,13 +1,15 @@
-const router = require("express").Router();
-const { hapiValidation } = require("../middleware/validation");
-const { catchErrors } = require("../middleware/error-handling");
-const RestaurantService = require("../services/restaurant");
-const authenticate = require("../middleware/authentication");
-const { 
+import { Router } from "express";
+import { hapiValidation } from "../middleware/validation";
+import { catchErrors } from "../middleware/error-handling";
+import * as RestaurantService from "../services/restaurant";
+import { authenticate } from "../middleware/authentication";
+import { 
     GenerateQRCodeSchema, 
     RegisterRestaurantSchema,
     FindRestaurantByIdSchema
-} = require("./restaurant.schema");
+} from "./restaurant.schema";
+
+const router = Router();
 
 router.get(
     "/:restaurantId/generate",
@@ -29,4 +31,4 @@ router.get(
     catchErrors(RestaurantService.getRestaurant)
 );
 
-module.exports = router;
+export default router;

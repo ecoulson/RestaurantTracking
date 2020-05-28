@@ -1,6 +1,6 @@
-const { Response } = require("../lib/HTTP");
-const CheckIn = require("../models/check-in");
-const Restaurant = require("../models/restaurant");
+import { Response } from "../lib/HTTP";
+import CheckIn from "../models/check-in";
+import Restaurant from "../models/restaurant";
 
 async function checkIn(req, res) {
     const restaurant = await Restaurant.findById(req.body.restaurantId);
@@ -26,11 +26,11 @@ async function saveCheckInToDB(req) {
 
 async function findRestuarant(req, res) {
     return Response.sendData(res, { 
-        checkIns: await CheckIn.findByRestaurantId(req.query.restaurantId) 
+        checkIns: await (CheckIn as any).findByRestaurantId(req.query.restaurantId) 
     })
 }
 
-module.exports = {
+export {
     checkIn,
     findRestuarant
 }
