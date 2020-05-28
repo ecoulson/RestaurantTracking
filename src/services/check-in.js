@@ -1,7 +1,14 @@
 const { Response } = require("../lib/HTTP");
 const CheckIn = require("../models/check-in");
+const Restaurant = require("../models/restaurant");
 
 async function checkIn(req, res) {
+    const restaurant = await Restaurant.findById(req.body.restaurantId);
+    if (!restaurant) {
+        Response.sendError(res, {
+            error: "Can not check in to a restaurant that does not exist"
+        })
+    }
     await saveCheckInToDB(req);
     Response.sendData(res, {
         message: "Successfully checked in"

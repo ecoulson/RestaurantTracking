@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { logger } = require("../lib/logging");
 
 const CheckInSchema = new mongoose.Schema({
     email: {
@@ -20,10 +21,12 @@ const CheckInSchema = new mongoose.Schema({
 });
 
 CheckInSchema.statics.findByRestaurantId = async function(restaurantId) {
+    logger.debug(`Querying restaurant collection for restaurant with id ${restaurantId}`)
     return await this.find({ restaurantId });
 } 
 
 CheckInSchema.methods.serialize = function() {
+    logger.debug(`Serializing checkin document with id ${this._id}`);
     return {
         __v: this.__v,
         _id: this._id,

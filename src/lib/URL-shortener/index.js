@@ -1,5 +1,5 @@
 const axios = require("axios").default;
-const ngrok = require("../../../tools/ngrok")
+const ngrok = require("../../../tools/ngrok");
 
 const BITLY_URL = "https://api-ssl.bitly.com/v4/shorten";
 

@@ -14,6 +14,7 @@ const {
 } = require("../helpers/request");
 const faker = require("faker");
 const Chance = require('chance');
+const { generateObjectId } = require("../helpers/mongo");
 
 const chance = new Chance();
 
@@ -35,10 +36,10 @@ describe("Restaurant Routes Suite", () => {
         test("A registration request with an empty body", async () => {
             const response = await makeRegisterRequest({});
 
-            expectStatusCode(response, 400);
             expectErrorResponse(response, [
                 "\"name\" is required"
             ]);
+            expectStatusCode(response, 400);
         })
 
         test("A registration request without a name", async () => {
@@ -46,10 +47,10 @@ describe("Restaurant Routes Suite", () => {
                 number: chance.phone()
             })
 
-            expectStatusCode(response, 400);
             expectErrorResponse(response, [
                 "\"name\" is required"
             ]);
+            expectStatusCode(response, 400);
         })
 
         test("A registration request without a restaurantId", async () => {
@@ -57,10 +58,10 @@ describe("Restaurant Routes Suite", () => {
                 name: faker.company.companyName()
             })
 
-            expectStatusCode(response, 400);
             expectErrorResponse(response, [
                 "\"number\" is required"
             ]);
+            expectStatusCode(response, 400);
         });
 
         test("Database error occurs", async () => {
@@ -77,8 +78,8 @@ describe("Restaurant Routes Suite", () => {
                 name: faker.company.companyName()
             });
             
-            expectStatusCode(response, 400);
             expectErrorResponse(response, "Database error");
+            expectStatusCode(response, 400);
         });
 
         test("A successful registration", async () => {
@@ -88,7 +89,8 @@ describe("Restaurant Routes Suite", () => {
                     link: url
                 }
             })
-            Restaurant.prototype.save.mockResolvedValue({})
+            Restaurant.prototype.save.mockResolvedValue({});
+            
             const request = {
                 number: chance.phone(),
                 name: faker.company.companyName()
@@ -96,28 +98,29 @@ describe("Restaurant Routes Suite", () => {
 
             const response = await makeRegisterRequest(request);
 
-            expectStatusCode(response, 200);
             expectSuccessResponse(response, {
                 message: `Successfully registered ${request.name}`
             })
+            expectStatusCode(response, 200);
         })
     });
 
-    describe("QRCode Route", () => {
+    describe("QRCode Generation Route", () => {
         test("Database error occurs", async () => {
             Restaurant.findById.mockRejectedValue(new Error("Database error"));
-    
+            const id = generateObjectId();
+
             const response = await makeQRCodeRequest({
-                restaurantId: mongoObjectId()
+                restaurantId: id
             });
     
+            expectErrorResponse(response, `Failed to find a restaurant with id ${id}`);
             expectStatusCode(response, 400);
-            expectErrorResponse(response, "Database error");
         });
 
         test("A successful qrcode generation", async () => {
             const restaurant = {
-                _id: mongoObjectId(),
+                _id: generateObjectId(),
                 url: faker.internet.url()
             }
             Restaurant.findById.mockResolvedValue(restaurant);
@@ -126,8 +129,8 @@ describe("Restaurant Routes Suite", () => {
                 restaurantId: restaurant._id
             });
 
-            expectStatusCode(response, 200);
             expectHeader(response, "transfer-encoding", "chunked");
+            expectStatusCode(response, 200);
         })
     });
 
@@ -135,24 +138,24 @@ describe("Restaurant Routes Suite", () => {
         test("Database error occurs", async () => {
             Restaurant.findById.mockRejectedValue(new Error("Database error"));
 
-            const response = await makeFindRestaurantRequest(mongoObjectId());
+            const response = await makeFindRestaurantRequest(generateObjectId());
 
+            expectErrorResponse(response, "Could not find restaurant");
             expectStatusCode(response, 400);
-            expectErrorResponse(response, "Database error");
         });
 
         test("Fails to find a restaurant", async () => {
             Restaurant.findById.mockResolvedValue(null);
 
-            const response = await makeFindRestaurantRequest(mongoObjectId());
+            const response = await makeFindRestaurantRequest(generateObjectId());
 
-            expectStatusCode(response, 400);
             expectErrorResponse(response, "Could not find restaurant");
+            expectStatusCode(response, 400);
         });
 
         test("Successfully finds restaurant", async () => {
             const restaurant = {
-                _id: mongoObjectId(),
+                _id: generateObjectId(),
                 name: faker.company.companyName(),
                 number: chance.phone(),
                 url: faker.internet.url()
@@ -161,8 +164,8 @@ describe("Restaurant Routes Suite", () => {
 
             const response = await makeFindRestaurantRequest(restaurant._id);
 
-            expectStatusCode(response, 200);
             expectSuccessResponse(response, { restaurant });
+            expectStatusCode(response, 200);
         })
     })
 });
@@ -177,13 +180,6 @@ async function makeQRCodeRequest(params) {
     }
     return await makeGetRequest(CODE_URL.replace(":id", "null"))
 }
-
-const mongoObjectId = function () {
-    var timestamp = (new Date().getTime() / 1000 | 0).toString(16);
-    return timestamp + 'xxxxxxxxxxxxxxxx'.replace(/[x]/g, function() {
-        return (Math.random() * 16 | 0).toString(16);
-    }).toLowerCase();
-};
 
 async function makeFindRestaurantRequest(id) {
     return await makeGetRequest(`/restaurant/${id}`);
