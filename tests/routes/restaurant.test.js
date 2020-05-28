@@ -35,10 +35,10 @@ describe("Restaurant Routes Suite", () => {
         test("A registration request with an empty body", async () => {
             const response = await makeRegisterRequest({});
 
-            expectStatusCode(response, 400);
             expectErrorResponse(response, [
                 "\"name\" is required"
             ]);
+            expectStatusCode(response, 400);
         })
 
         test("A registration request without a name", async () => {
@@ -46,10 +46,10 @@ describe("Restaurant Routes Suite", () => {
                 number: chance.phone()
             })
 
-            expectStatusCode(response, 400);
             expectErrorResponse(response, [
                 "\"name\" is required"
             ]);
+            expectStatusCode(response, 400);
         })
 
         test("A registration request without a restaurantId", async () => {
@@ -57,10 +57,10 @@ describe("Restaurant Routes Suite", () => {
                 name: faker.company.companyName()
             })
 
-            expectStatusCode(response, 400);
             expectErrorResponse(response, [
                 "\"number\" is required"
             ]);
+            expectStatusCode(response, 400);
         });
 
         test("Database error occurs", async () => {
@@ -77,8 +77,8 @@ describe("Restaurant Routes Suite", () => {
                 name: faker.company.companyName()
             });
             
-            expectStatusCode(response, 400);
             expectErrorResponse(response, "Database error");
+            expectStatusCode(response, 400);
         });
 
         test("A successful registration", async () => {
@@ -88,7 +88,8 @@ describe("Restaurant Routes Suite", () => {
                     link: url
                 }
             })
-            Restaurant.prototype.save.mockResolvedValue({})
+            Restaurant.prototype.save.mockResolvedValue({});
+            
             const request = {
                 number: chance.phone(),
                 name: faker.company.companyName()
@@ -96,10 +97,10 @@ describe("Restaurant Routes Suite", () => {
 
             const response = await makeRegisterRequest(request);
 
-            expectStatusCode(response, 200);
             expectSuccessResponse(response, {
                 message: `Successfully registered ${request.name}`
             })
+            expectStatusCode(response, 200);
         })
     });
 
@@ -111,8 +112,8 @@ describe("Restaurant Routes Suite", () => {
                 restaurantId: mongoObjectId()
             });
     
-            expectStatusCode(response, 400);
             expectErrorResponse(response, "Database error");
+            expectStatusCode(response, 400);
         });
 
         test("A successful qrcode generation", async () => {
@@ -126,8 +127,8 @@ describe("Restaurant Routes Suite", () => {
                 restaurantId: restaurant._id
             });
 
-            expectStatusCode(response, 200);
             expectHeader(response, "transfer-encoding", "chunked");
+            expectStatusCode(response, 200);
         })
     });
 
@@ -137,8 +138,8 @@ describe("Restaurant Routes Suite", () => {
 
             const response = await makeFindRestaurantRequest(mongoObjectId());
 
-            expectStatusCode(response, 400);
             expectErrorResponse(response, "Database error");
+            expectStatusCode(response, 400);
         });
 
         test("Fails to find a restaurant", async () => {
@@ -146,8 +147,8 @@ describe("Restaurant Routes Suite", () => {
 
             const response = await makeFindRestaurantRequest(mongoObjectId());
 
-            expectStatusCode(response, 400);
             expectErrorResponse(response, "Could not find restaurant");
+            expectStatusCode(response, 400);
         });
 
         test("Successfully finds restaurant", async () => {
@@ -161,8 +162,8 @@ describe("Restaurant Routes Suite", () => {
 
             const response = await makeFindRestaurantRequest(restaurant._id);
 
-            expectStatusCode(response, 200);
             expectSuccessResponse(response, { restaurant });
+            expectStatusCode(response, 200);
         })
     })
 });
