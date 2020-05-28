@@ -2,7 +2,6 @@ import { Response } from "../lib/HTTP";
 import CheckIn from "../models/check-in";
 import Restaurant from "../models/restaurant";
 
-// comment to test CI
 async function checkIn(req, res) {
     const restaurant = await Restaurant.findById(req.body.restaurantId);
     if (!restaurant) {
