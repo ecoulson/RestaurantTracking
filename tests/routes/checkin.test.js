@@ -1,5 +1,7 @@
 require("../mocks/models")("../../src/models/check-in");
+require("../mocks/models")("../../src/models/restaurant");
 const CheckIn = require("../../src/models/check-in");
+const Restaurant = require("../../src/models/restaurant");
 const faker = require("faker");
 const { 
     expectErrorResponse, 
@@ -78,6 +80,7 @@ describe("Check In Routes Suite", () => {
 
         test("Database error occurs", async () => {
             CheckIn.prototype.save.mockRejectedValue(new Error("Database error"));
+            Restaurant.findById.mockResolvedValue({});
     
             const response = await makeCheckInRequest({
                 number: chance.phone({ country: 'us' }),
@@ -89,8 +92,10 @@ describe("Check In Routes Suite", () => {
             expectErrorResponse(response, "Database error");
         });
 
-        test("A successful registration", async () => {
+        test("A successful check in", async () => {
             CheckIn.prototype.save.mockResolvedValue({});
+            Restaurant.findById.mockResolvedValue({});
+            
             const response = await makeCheckInRequest({
                 number: chance.phone({ country: 'us' }),
                 email: faker.internet.email(),

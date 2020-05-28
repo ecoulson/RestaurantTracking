@@ -1,7 +1,6 @@
 const { Response } = require("../../lib/HTTP");
 
 function devErrorHandler(err, req, res, next) {
-    console.log(errr);
     err.stack = err.stack || ''
     Response.sendError(res, { 
         error: err.message,

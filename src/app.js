@@ -4,10 +4,8 @@ const path = require("path");
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const routes = require("./routes");
-const morgan = require("morgan");
 const helmet = require("helmet");
 const cors = require('cors');
-const csrf = require("csurf");
 const RateLimit = require('express-rate-limit');
 const MongoStore = require('rate-limit-mongo');
 const session = require('express-session');
@@ -16,6 +14,7 @@ const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const config = require('../webpack.config');
+const { requestLogger } = require("./lib/logging");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -54,17 +53,8 @@ if (process.env.NODE_ENV !== "test") {
         }
     }));
     
-    app.use(morgan("dev"));
+    app.use(requestLogger)
     app.use(helmet());
-
-    // app.use(csrf({ cookie: {
-    //     httpOnly: true,
-    //     secure: true
-    // }}));
-    
-    // app.use((req, res, next) => {
-    //     next();
-    // })
 }
 
 if (process.env.NODE_ENV === "production") {

@@ -2,13 +2,22 @@ const Restaurant = require("../models/restaurant");
 const { streamQRCode } = require("../lib/QR-code");
 const { Response } = require("../lib/HTTP");
 const URLShortner = require("../lib/URL-shortener");
+const { logger } = require("../lib/logging");
 
 async function generateQRCode(req, res) {
+    logger.debug(`>>> generating a QR Code for restaurant with id ${req.params.restaurantId}`);
     const restaurant = await findRestaurant(req.params.restaurantId);
+    if (!restaurant) {
+        logger.error(`Failed to generate a QR Code for restaurant with id ${req.params.restaurantId} because it does not exsist`);
+        return Response.sendError(res, {
+            error: `Failed to find a restaurant with id ${req.params.restaurantId}`
+        });
+    }
     return streamQRCode(res, restaurant);
 }
 
 async function findRestaurant(restaurantId) {
+    logger.debug(`>>> finding a restaurant with id ${restaurantId}`);
     return await Restaurant.findById(restaurantId);
 }
 
