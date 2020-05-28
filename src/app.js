@@ -64,7 +64,7 @@ if (process.env.NODE_ENV === "production") {
             collectionName: "rate-records"
         }),
         max: 100,
-        windowMs: 15 * 60 * 1000
+        windowMs: 60 * 1000
     });
     
     app.use(limiter)

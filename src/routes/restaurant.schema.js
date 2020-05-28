@@ -12,7 +12,7 @@ const RegisterRestaurantSchema = Joi.object({
         logger.debug(`Validating ${value} as a US phone number`);
         const number = phoneUtil.parseAndKeepRawInput(value, "US");
         if (!phoneUtil.isPossibleNumber(number)) {
-            logger.debug(`${value} is not a possible US phone number`);
+            logger.warn(`${value} is not a possible US phone number`);
             return helpers.error("any.invalid");
         }
         logger.debug(`${value} is a possible US phone number`);

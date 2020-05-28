@@ -17,13 +17,13 @@ async function generateQRCode(req, res) {
 }
 
 async function findRestaurant(restaurantId) {
-    logger.debug(`>>> Finding a restaurant with id ${restaurantId}`);
+    logger.debug(`Finding a restaurant with id ${restaurantId}`);
     try {
         const restaurant = await Restaurant.findById(restaurantId);
-        logger.debug(`>>> Found a restaurant with id ${restaurantId}`);
+        logger.debug(`Found a restaurant with id ${restaurantId}`);
         return restaurant;
     } catch (error) {
-        logger.debug(`>>> Failed to find a restaurant with id ${restaurantId}`);
+        logger.debug(`Failed to find a restaurant with id ${restaurantId}`);
         return null;
     }
 }

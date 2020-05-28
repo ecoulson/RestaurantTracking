@@ -13,6 +13,7 @@ const {
     makePostRequest
 } = require("../helpers/request");
 const Chance = require('chance');
+const { generateObjectId } = require("../helpers/mongo");
 
 const chance = new Chance();
 
@@ -27,10 +28,10 @@ describe("Check In Routes Suite", () => {
         test("A checkin request with an empty body", async () => {
             const response = await makeCheckInRequest({});
 
-            expectStatusCode(response, 400);
             expectErrorResponse(response, [
                 "No email or number was provided"
             ]);
+            expectStatusCode(response, 400);
         })
 
         test("A checkin request with a mising restaurantId field", async () => {
@@ -39,10 +40,10 @@ describe("Check In Routes Suite", () => {
                 number: chance.phone({ country: 'us' }),
             });
 
-            expectStatusCode(response, 400);
             expectErrorResponse(response, [
                 "\"restaurantId\" is required"
             ]);
+            expectStatusCode(response, 400);
         });
 
         test("A checkin request with a only a number field", async () => {
@@ -50,10 +51,10 @@ describe("Check In Routes Suite", () => {
                 number: chance.phone({ country: 'us' }),
             });
 
-            expectStatusCode(response, 400);
             expectErrorResponse(response, [
                 "\"restaurantId\" is required"
             ]);
+            expectStatusCode(response, 400);
         })
 
         test("A checkin request with a only an email field", async () => {
@@ -61,21 +62,21 @@ describe("Check In Routes Suite", () => {
                 email: faker.internet.email()
             });
 
-            expectStatusCode(response, 400);
             expectErrorResponse(response, [
                 "\"restaurantId\" is required"
             ]);
+            expectStatusCode(response, 400);
         })
 
         test("A checkin request with a only a restaurantId field", async () => {
             const response = await makeCheckInRequest({
-                restaurantId: mongoObjectId()
+                restaurantId: generateObjectId()
             });
 
-            expectStatusCode(response, 400);
             expectErrorResponse(response, [
                 "No email or number was provided"
             ]);
+            expectStatusCode(response, 400);
         })
 
         test("Database error occurs", async () => {
@@ -85,11 +86,11 @@ describe("Check In Routes Suite", () => {
             const response = await makeCheckInRequest({
                 number: chance.phone({ country: 'us' }),
                 email: faker.internet.email(),
-                restaurantId: mongoObjectId()
+                restaurantId: generateObjectId()
             });
     
-            expectStatusCode(response, 400);
             expectErrorResponse(response, "Database error");
+            expectStatusCode(response, 400);
         });
 
         test("A successful check in", async () => {
@@ -99,13 +100,13 @@ describe("Check In Routes Suite", () => {
             const response = await makeCheckInRequest({
                 number: chance.phone({ country: 'us' }),
                 email: faker.internet.email(),
-                restaurantId: mongoObjectId()
+                restaurantId: generateObjectId()
             });
 
-            expectStatusCode(response, 200);
             expectSuccessResponse(response, {
                 message: "Successfully checked in"
             });
+            expectStatusCode(response, 200);
         })
     });
 
@@ -113,43 +114,43 @@ describe("Check In Routes Suite", () => {
         test("A get check ins request with no query", async () => {
             const response = await getCheckinsAtRestaurantRequest({});
 
-            expectStatusCode(response, 400);
             expectErrorResponse(response, [
                 "\"restaurantId\" is required",
             ]);
+            expectStatusCode(response, 400);
         });
 
         test("A get check ins request with duplicate query parameters", async () => {
             const response = await getDuplicateCheckinsAtRestaurantRequest({
-                restaurantId: mongoObjectId()
+                restaurantId: generateObjectId()
             });
 
-            expectStatusCode(response, 400);
             expectErrorResponse(response, "Duplicate restaurantId was provided");
+            expectStatusCode(response, 400);
         })
 
         test("Database error occurs", async () => {
             CheckIn.findByRestaurantId.mockRejectedValue(new Error("Database error"));
     
             const response = await getCheckinsAtRestaurantRequest({
-                restaurantId: mongoObjectId()
+                restaurantId: generateObjectId()
             });
     
-            expectStatusCode(response, 400);
             expectErrorResponse(response, "Database error");
+            expectStatusCode(response, 400);
         });
 
         test("A successful get check ins request", async () => {
             CheckIn.findByRestaurantId.mockResolvedValue([]);
 
             const response = await getCheckinsAtRestaurantRequest({
-                restaurantId: mongoObjectId()
+                restaurantId: generateObjectId()
             });
 
-            expectStatusCode(response, 200);
             expectSuccessResponse(response, {
                 checkIns: []
             });
+            expectStatusCode(response, 200);
         })
     });
 });
@@ -168,10 +169,3 @@ async function getCheckinsAtRestaurantRequest(query) {
 async function getDuplicateCheckinsAtRestaurantRequest(query) {
     return await makeGetRequest(`${CHECKIN_URL}?restaurantId=${query.restaurantId}&restaurantId=${query.restaurantId}`)
 }
-
-const mongoObjectId = function () {
-    var timestamp = (new Date().getTime() / 1000 | 0).toString(16);
-    return timestamp + 'xxxxxxxxxxxxxxxx'.replace(/[x]/g, function() {
-        return (Math.random() * 16 | 0).toString(16);
-    }).toLowerCase();
-};
