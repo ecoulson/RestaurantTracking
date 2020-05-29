@@ -1,6 +1,6 @@
 import { createModelMock } from "../mocks/models";
 createModelMock("../../src/models/restaurant");
-jest.mock("../../src/lib/URL-Shortener");
+jest.mock("../../src/lib/URL-shortener");
 import Restaurant from "../../src/models/restaurant";
 import URLShortener from "../../src/lib/URL-shortener";
 import { 

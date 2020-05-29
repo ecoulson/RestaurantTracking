@@ -1,5 +1,5 @@
 import { createModelMock } from "../mocks/models";
-createModelMock("../../src/models/Restaurant");
+createModelMock("../../src/models/restaurant");
 import Restaurant from "../../src/models/restaurant";
 import * as RestaurantService from "../../src/services/restaurant";
 import { mockRequest, mockResponse } from "mock-req-res";
