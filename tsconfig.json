@@ -12,8 +12,10 @@
         "*": [
             "node_modules/*",
             "src/types/*",
-            "tests/*"
         ]
-    }
+    },
   },
+  "exclude": [
+    "./tests"
+  ]
 }
