@@ -17,6 +17,10 @@ const CheckInSchema = new mongoose.Schema({
     restaurantId: { 
         type: String,
         required: true
+    },
+    ipAddress: {
+        type: String,
+        required: true
     }
 });
 

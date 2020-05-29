@@ -1,6 +1,7 @@
 import { Response } from "../lib/HTTP";
 import CheckIn from "../models/check-in";
 import Restaurant from "../models/restaurant";
+import requestIp from "request-ip";
 
 async function checkIn(req, res) {
     const restaurant = await Restaurant.findById(req.body.restaurantId);
@@ -19,7 +20,8 @@ async function saveCheckInToDB(req) {
     const checkIn = new CheckIn({
         number: req.body.number,
         email: req.body.email,
-        restaurantId: req.body.restaurantId
+        restaurantId: req.body.restaurantId,
+        ipAddress: requestIp.getClientIp(req)
     })
     await checkIn.save();
 }
