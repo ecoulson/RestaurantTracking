@@ -44,7 +44,8 @@ module.exports = {
         new CopyPlugin({
             patterns: [
                 { from: "./client/src/index.html", to: "./index.html" },
-                { from: "./client/src/main.css", to: "./main.css" }
+                { from: "./client/src/main.css", to: "./main.css" },
+                { from: "./client/src/logo.svg", to: "./logo.svg" }
             ]
         })
     ]
