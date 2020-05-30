@@ -4,4 +4,4 @@ dist/
 client/build
 coverage/
 .DS_Store
-*/**/.DS_Store
+*/.DS_Store

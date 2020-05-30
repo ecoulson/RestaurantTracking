@@ -29,7 +29,7 @@ router.get(
     "/", 
     queryDuplicationMiddleware("restaurantId"),  
     hapiValidation(GetCheckinSchema, "query"),
-    catchErrors(CheckInService.findRestuarant)
+    catchErrors(CheckInService.findCheckinsByRestaurant)
 );
 
 export default router;
