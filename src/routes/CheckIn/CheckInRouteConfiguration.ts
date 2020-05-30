@@ -1,10 +1,10 @@
-import { Response as ResponseHelper } from "../lib/HTTP";
+import { Response as ResponseHelper } from "../../lib/HTTP";
 import { Request, Response, NextFunction } from "express";
-import { hapiValidation, queryDuplicationMiddleware } from "../middleware/validation";
-import * as CheckInService from "../services/check-in";
+import { hapiValidation, queryDuplicationMiddleware } from "../../middleware/validation";
 import { CheckingInUserSchema, GetCheckinSchema } from "./CheckInRouteSchemas";
-import RouterConfiguration from "./RouterConfiguration";
-import CheckInController from "../controllers/CheckInController";
+import RouterConfiguration from "../RouterConfiguration";
+import CheckInController from "../../controllers/CheckIn/CheckInController";
+import { authenticate } from "../../middleware/authentication";
 
 export default class CheckInRouteConfiguration extends RouterConfiguration<CheckInController> {
     constructor() {
@@ -15,12 +15,13 @@ export default class CheckInRouteConfiguration extends RouterConfiguration<Check
         this.post("/", [
             this.ensureEmailOrNumberIsProvided,
             hapiValidation(CheckingInUserSchema, "body")
-        ], CheckInService.checkIn);
+        ], this.controller.handleCheckin);
 
         this.get("/", [
+            authenticate,
             queryDuplicationMiddleware("restaurantId"),  
             hapiValidation(GetCheckinSchema, "query")
-        ], CheckInService.findCheckinsByRestaurant)
+        ], this.controller.handleGetCheckins)
     }
 
     private ensureEmailOrNumberIsProvided(req : Request, res : Response, next : NextFunction) {

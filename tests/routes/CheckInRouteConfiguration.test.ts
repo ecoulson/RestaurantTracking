@@ -20,9 +20,16 @@ const chance = new Chance();
 
 const CHECKIN_URL = "/check_in";
 
-beforeEach(() => {
-    jest.resetAllMocks()
-})
+const OLD_ENV = process.env;
+
+beforeAll(() => {
+    process.env.SERVER_SECRET = "token"
+});
+
+afterEach(() => {
+    jest.clearAllMocks();
+    process.env = OLD_ENV;
+});
 
 describe("Check In Routes Suite", () => {
     describe("Create Check In Event Route", () => {

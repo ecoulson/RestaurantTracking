@@ -1,14 +1,14 @@
-import { hapiValidation } from "../middleware/validation";
-import { catchErrors } from "../middleware/error-handling";
-import * as RestaurantService from "../services/restaurant";
-import { authenticate } from "../middleware/authentication";
+import { hapiValidation } from "../../middleware/validation";
+import { catchErrors } from "../../middleware/error-handling";
+import * as RestaurantService from "../../services/restaurant";
+import { authenticate } from "../../middleware/authentication";
 import { 
     GenerateQRCodeSchema, 
     RegisterRestaurantSchema,
     FindRestaurantByIdSchema
 } from "./RestaurantRouteSchemas";
-import RouterConfiguration from "./RouterConfiguration";
-import RestaurantController from "../controllers/RestaurantController";
+import RouterConfiguration from "../RouterConfiguration";
+import RestaurantController from "../../controllers/RestaurantController";
 
 export default class RestaurantRouteConfiguration extends RouterConfiguration<RestaurantController> {
     constructor() {

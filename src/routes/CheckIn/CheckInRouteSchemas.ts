@@ -1,6 +1,6 @@
 import Joi from "@hapi/joi";
 import { PhoneNumberUtil } from "google-libphonenumber";
-import { logger } from "../lib/logging"; 
+import { logger } from "../../lib/logging"; 
 
 const phoneUtil = PhoneNumberUtil.getInstance();
 

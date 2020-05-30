@@ -14,19 +14,15 @@ describe("Checkin Service Test", () => {
     describe("checkIn", () => {
         test("A successful check in", async () => {
             CheckInModel.prototype.save.mockResolvedValue({});
-            (RestaurantModel.findById as any).mockResolvedValue(null);
-            const request = mockRequest({
-                body: {
-                    number: chance.phone({ country: 'us' }),
-                    email: faker.internet.email(),
-                    restaurantId: mongoObjectId()
-                }
-            })
-            const response = mockResponse();
+            (RestaurantModel.findById as any).mockResolvedValue({});
 
-            await CheckInService.checkIn(request, response);
+            const result : boolean = await CheckInService.checkIn({
+                number: chance.phone({ country: 'us' }),
+                email: faker.internet.email(),
+                restaurantId: mongoObjectId()
+            }, "1.1.1.1");
 
-            expect(response.status).toHaveBeenCalledWith(400);
+            expect(result).toBeTruthy();
         })
     });
 
@@ -52,17 +48,10 @@ describe("Checkin Service Test", () => {
                     }
                 }
             ]);
-            const request = mockRequest({
-                query: {
-                    restaurantId: id
-                }
-            });
-            const response = mockResponse();
 
-            await CheckInService.findCheckinsByRestaurant(request, response);
+            const report = await CheckInService.findCheckinsByRestaurant(id);
 
-            expect(response.status).toBeCalledWith(200);
-            expect(response.send).toBeCalledWith(`"__v","_id","email","ipAddress","number","restaurantId","timeCheckedIn"\n"0","${id}","${email}","${ip}","${number}","${id}","${timeCheckedIn}"`);
+            expect(report).toEqual(`"__v","_id","email","ipAddress","number","restaurantId","timeCheckedIn"\n"0","${id}","${email}","${ip}","${number}","${id}","${timeCheckedIn}"`);
         })
     })
 });

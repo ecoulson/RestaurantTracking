@@ -1,44 +1,38 @@
-import { Response } from "../lib/HTTP";
 import CheckIn from "../models/check-in/CheckInModel";
 import RestaurantModel from "../models/restaurant/RestaurantModel";
-import requestIp from "request-ip";
-import { Response as ExpressRes, Request } from "express";
-import { Document } from "mongoose";
+import ICheckInRequestBody from "../controllers/CheckIn/ICheckInRequestBody";
+import ICheckIn from "../models/check-in/ICheckIn";
 
-async function checkIn(req, res) {
-    const restaurant = await RestaurantModel.findById(req.body.restaurantId);
+async function checkIn(checkIn : ICheckInRequestBody, ipAddress : string) : Promise<boolean> {
+    const restaurant = await RestaurantModel.findById(checkIn.restaurantId);
     if (!restaurant) {
-        return Response.sendError(res, {
-            error: "Can not check in to a restaurant that does not exist"
-        })
+        return false;
     }
-    await saveCheckInToDB(req);
-    return Response.sendData(res, {
-        message: "Successfully checked in"
+    await saveCheckInToDB(checkIn, ipAddress);
+    return true;
+}
+
+async function saveCheckInToDB(checkIn : ICheckInRequestBody, ipAddress: string) : Promise<void> {
+    const checkInDocument = new CheckIn({
+        number: checkIn.number,
+        email: checkIn.email,
+        restaurantId: checkIn.restaurantId,
+        ipAddress: ipAddress
     });
+    await checkInDocument.save();
 }
 
-async function saveCheckInToDB(req) {
-    const checkIn = new CheckIn({
-        number: req.body.number,
-        email: req.body.email,
-        restaurantId: req.body.restaurantId,
-        ipAddress: requestIp.getClientIp(req)
-    });
-    await checkIn.save();
+async function findCheckinsByRestaurant(restaurantId : string) : Promise<string> {
+    const checkIns = await CheckIn.findByRestaurantId(restaurantId);
+    return convertCheckinsByRestaurntToCSV(checkIns);
 }
 
-async function findCheckinsByRestaurant(req : Request, res : ExpressRes) {
-    const checkIns = await CheckIn.findByRestaurantId(req.query.restaurantId as string);
-    res.status(200).send(convertCheckinsByRestaurntToCSV(checkIns));
-}
-
-function convertCheckinsByRestaurntToCSV(checkIns : Document[]) {
+function convertCheckinsByRestaurntToCSV(checkIns : ICheckIn[]) {
     if (checkIns.length === 0) {
         return "";
     }
     checkIns = checkIns.map((checkIn) => {
-        return (checkIn as any).serialize();
+        return checkIn.serialize();
     })
     let csv = [];
     let row = [];
