@@ -6,8 +6,16 @@ import mongoose from "mongoose";
 main();
 
 async function main() {
+    configure();
     await connectToDatabase();
     startServer();
+}
+
+function configure() {
+    if (process.env.REVIEW_APP) {
+        process.env.HOST_NAME = `restaurant-records-pr-${process.env.HEROKU_PR_NUMBER}.herokuapp.com`;
+        process.env.COOKIE_DOMAIN = `restaurant-records-pr-${process.env.HEROKU_PR_NUMBER}.herokuapp.com`;
+    }
 }
 
 async function connectToDatabase() {
