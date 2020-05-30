@@ -1,5 +1,5 @@
 import * as TestDatabase from "../helpers/database";
-import CheckIn from "../../src/models/check-in";
+import CheckInModel from "../../src/models/check-in/CheckInModel";
 import faker from 'faker';
 
 beforeAll(async () => await TestDatabase.connect());
@@ -11,7 +11,7 @@ describe('Check In Model Suite', () => {
         test("Successfully Create Check In By Email", async () => {
             const expectedCheckIn : any = await createEmailCheckIn("1");
     
-            let foundCheckIn : any = await CheckIn.findById(expectedCheckIn._id).exec();
+            let foundCheckIn : any = await CheckInModel.findById(expectedCheckIn._id).exec();
     
             expect(foundCheckIn.serialize()).toEqual(expectedCheckIn.serialize());
         });
@@ -19,7 +19,7 @@ describe('Check In Model Suite', () => {
         test("Successfully Create Check In By Phone Number", async () => {
             const expectedCheckIn : any = await createPhoneNumberCheckIn("1");
     
-            let foundCheckIn : any = await CheckIn.findById(expectedCheckIn._id).exec();
+            let foundCheckIn : any = await CheckInModel.findById(expectedCheckIn._id).exec();
     
             expect(foundCheckIn.serialize()).toEqual(expectedCheckIn.serialize());
         });
@@ -31,7 +31,7 @@ describe('Check In Model Suite', () => {
             const checkInB : any = await createEmailCheckIn("1");
             await createEmailCheckIn("2");
 
-            let checkInEvents = await (CheckIn as any).findByRestaurantId("1");
+            let checkInEvents = await CheckInModel.findByRestaurantId("1");
             checkInEvents = checkInEvents.map((checkInEvent) => {
                 return checkInEvent.serialize();
             })
@@ -42,7 +42,7 @@ describe('Check In Model Suite', () => {
 });
 
 async function createEmailCheckIn(id) {
-    let doc = new CheckIn({
+    let doc = new CheckInModel({
         email: faker.internet.email(),
         restaurantId: id,
         ipAddress: "::1"
@@ -51,7 +51,7 @@ async function createEmailCheckIn(id) {
 }
 
 async function createPhoneNumberCheckIn(id) {
-    let doc = new CheckIn({
+    let doc = new CheckInModel({
         number: faker.phone.phoneNumber(),
         restaurantId: id,
         ipAddress: "::1"

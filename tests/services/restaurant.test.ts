@@ -1,13 +1,13 @@
 import { createModelMock } from "../mocks/models";
-createModelMock("../../src/models/restaurant");
-import Restaurant from "../../src/models/restaurant";
+createModelMock("../../src/models/restaurant/RestaurantModel");
+import RestaurantModel from "../../src/models/restaurant/RestaurantModel";
 import * as RestaurantService from "../../src/services/restaurant";
 import { mockRequest, mockResponse } from "mock-req-res";
 
 describe("Restaurant Service Test", () => {
     describe("Generate QR Code", () => {
         test("Generate a QR Code for a restaurant that doesn't exist", async () => {
-            (Restaurant.findById as any).mockResolvedValue(null);
+            (RestaurantModel.findById as jest.Mock).mockResolvedValue(null);
             const req = mockRequest({
                 params: {
                     restaurantId: null

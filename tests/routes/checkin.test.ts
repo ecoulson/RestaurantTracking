@@ -1,8 +1,7 @@
 import { createModelMock } from "../mocks/models";
-createModelMock("../../src/models/check-in");
-createModelMock("../../src/models/restaurant");
-import CheckIn from "../../src/models/check-in";
-import Restaurant from "../../src/models/restaurant";
+createModelMock("../../src/models/check-in/CheckInModel");
+createModelMock("../../src/models/restaurant/RestaurantModel");
+import RestaurantModel from "../../src/models/restaurant/RestaurantModel";
 import faker from "faker";
 import { 
     expectErrorResponse, 
@@ -15,6 +14,7 @@ import {
 } from "../helpers/request";
 import Chance from 'chance';
 import { generateObjectId } from "../helpers/mongo";
+import CheckInModel from "../../src/models/check-in/CheckInModel";
 
 const chance = new Chance();
 
@@ -81,8 +81,8 @@ describe("Check In Routes Suite", () => {
         })
 
         test("Database error occurs", async () => {
-            CheckIn.prototype.save.mockRejectedValue(new Error("Database error"));
-            (Restaurant.findById as any).mockResolvedValue({});
+            CheckInModel.prototype.save.mockRejectedValue(new Error("Database error"));
+            (RestaurantModel.findById as jest.Mock).mockResolvedValue({});
     
             const response = await makeCheckInRequest({
                 number: chance.phone({ country: 'us' }),
@@ -95,8 +95,8 @@ describe("Check In Routes Suite", () => {
         });
 
         test("A successful check in", async () => {
-            CheckIn.prototype.save.mockResolvedValue({});
-            (Restaurant.findById as any).mockResolvedValue({});
+            CheckInModel.prototype.save.mockResolvedValue({});
+            (RestaurantModel.findById as jest.Mock).mockResolvedValue({});
             
             const response = await makeCheckInRequest({
                 number: chance.phone({ country: 'us' }),
@@ -131,7 +131,7 @@ describe("Check In Routes Suite", () => {
         })
 
         test("Database error occurs", async () => {
-            ((CheckIn as any).findByRestaurantId as any).mockRejectedValue(new Error("Database error"));
+            (CheckInModel.findByRestaurantId as jest.Mock).mockRejectedValue(new Error("Database error"));
     
             const response = await getCheckinsAtRestaurantRequest({
                 restaurantId: generateObjectId()

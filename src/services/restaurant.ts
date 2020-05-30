@@ -1,4 +1,4 @@
-import Restaurant from "../models/restaurant";
+import RestaurantModel from "../models/restaurant/RestaurantModel";
 import { streamQRCode } from "../lib/QR-code";
 import { Response } from "../lib/HTTP";
 import URLShortner from "../lib/URL-shortener";
@@ -19,7 +19,7 @@ async function generateQRCode(req, res) {
 async function findRestaurant(restaurantId) {
     logger.debug(`Finding a restaurant with id ${restaurantId}`);
     try {
-        const restaurant = await Restaurant.findById(restaurantId);
+        const restaurant = await RestaurantModel.findById(restaurantId);
         logger.debug(`Found a restaurant with id ${restaurantId}`);
         return restaurant;
     } catch (error) {
@@ -37,13 +37,13 @@ async function registerRestaurant(req, res) {
 
 async function saveRestaurantToDB(body) {
     logger.debug(`Saving a restaurant by the name ${body.name} to the database`);
-    const doc : any = new Restaurant({
+    const restaurant : any = new RestaurantModel({
         name: body.name,
         number: body.number,
         url: ""
     });
-    doc.url = (await URLShortner(doc._id)).data.link 
-    await doc.save();
+    restaurant.url = (await URLShortner(restaurant._id)).data.link 
+    await restaurant.save();
     logger.debug(`Saved a restaurant with the name ${body.name} to the database`)
 }
 

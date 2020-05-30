@@ -1,12 +1,12 @@
 import { Response } from "../lib/HTTP";
-import CheckIn from "../models/check-in";
-import Restaurant from "../models/restaurant";
+import CheckIn from "../models/check-in/CheckInModel";
+import RestaurantModel from "../models/restaurant/RestaurantModel";
 import requestIp from "request-ip";
 import { Response as ExpressRes, Request } from "express";
 import { Document } from "mongoose";
 
 async function checkIn(req, res) {
-    const restaurant = await Restaurant.findById(req.body.restaurantId);
+    const restaurant = await RestaurantModel.findById(req.body.restaurantId);
     if (!restaurant) {
         return Response.sendError(res, {
             error: "Can not check in to a restaurant that does not exist"
@@ -29,7 +29,7 @@ async function saveCheckInToDB(req) {
 }
 
 async function findCheckinsByRestaurant(req : Request, res : ExpressRes) {
-    const checkIns = await (CheckIn as any).findByRestaurantId(req.query.restaurantId);
+    const checkIns = await CheckIn.findByRestaurantId(req.query.restaurantId as string);
     res.status(200).send(convertCheckinsByRestaurntToCSV(checkIns));
 }
 

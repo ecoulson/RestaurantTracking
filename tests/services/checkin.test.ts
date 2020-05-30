@@ -1,10 +1,10 @@
 import { createModelMock } from "../mocks/models";
-createModelMock("../../src/models/check-in");
-createModelMock("../../src/models/restaurant");
-import CheckIn from "../../src/models/check-in";
-import Restaurant from "../../src/models/restaurant";
+createModelMock("../../src/models/check-in/CheckInModel");
+createModelMock("../../src/models/restaurant/RestaurantModel");
+import RestaurantModel from "../../src/models/restaurant/RestaurantModel";
 import * as CheckInService from "../../src/services/check-in";
 import { mockRequest, mockResponse } from "mock-req-res";
+import CheckInModel from "../../src/models/check-in/CheckInModel";
 const faker = require("faker");
 const Chance = require('chance');
 
@@ -13,8 +13,8 @@ const chance = new Chance();
 describe("Checkin Service Test", () => {
     describe("checkIn", () => {
         test("A successful check in", async () => {
-            CheckIn.prototype.save.mockResolvedValue({});
-            (Restaurant.findById as any).mockResolvedValue(null);
+            CheckInModel.prototype.save.mockResolvedValue({});
+            (RestaurantModel.findById as any).mockResolvedValue(null);
             const request = mockRequest({
                 body: {
                     number: chance.phone({ country: 'us' }),
@@ -37,7 +37,7 @@ describe("Checkin Service Test", () => {
             const number = chance.phone({ country: 'us' });
             const email = faker.internet.email();
             const timeCheckedIn = new Date().toUTCString();
-            ((CheckIn as any).findByRestaurantId as any).mockResolvedValue([
+            (CheckInModel.findByRestaurantId as jest.Mock).mockResolvedValue([
                 {
                     serialize: () => {
                         return {
