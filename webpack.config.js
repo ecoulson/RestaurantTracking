@@ -45,7 +45,7 @@ module.exports = {
             patterns: [
                 { from: "./client/src/index.html", to: "./index.html" },
                 { from: "./client/src/main.css", to: "./main.css" },
-                { from: "./client/src/logo.svg", to: "./logo.svg" }
+                { from: "./client/src/images", to: "./images" }
             ]
         })
     ]
