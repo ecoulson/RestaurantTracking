@@ -2,6 +2,7 @@ import CheckIn from "../models/check-in/CheckInModel";
 import RestaurantModel from "../models/restaurant/RestaurantModel";
 import ICheckInRequestBody from "../controllers/CheckIn/ICheckIn";
 import ICheckIn from "../models/check-in/ICheckIn";
+import CSVResponse from "../lib/HTTP/CSVResponse";
 
 export default class CheckInService {
     async checkIn(checkIn : ICheckInRequestBody, ipAddress : string) : Promise<boolean> {
@@ -29,26 +30,9 @@ export default class CheckInService {
     }
     
     private convertCheckinsByRestaurntToCSV(checkIns : ICheckIn[]) {
-        if (checkIns.length === 0) {
-            return "";
-        }
         checkIns = checkIns.map((checkIn) => {
             return checkIn.serialize();
         })
-        let csv = [];
-        let row = [];
-        const keys = Object.keys(checkIns[0]).sort();
-        for (let key of keys) {
-            row.push(`"${key}"`);
-        }
-        csv.push(row.join(","));
-        for (let checkIn of checkIns) {
-            row = [];
-            for (let key of keys) {
-                row.push(`"${checkIn[key]}"`);
-            }
-            csv.push(row.join(","));
-        }
-        return csv.join("\n");
+        return new CSVResponse().build(checkIns)
     }
 }
