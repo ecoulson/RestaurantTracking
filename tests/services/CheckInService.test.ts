@@ -2,8 +2,7 @@ import { createModelMock } from "../mocks/models";
 createModelMock("../../src/models/check-in/CheckInModel");
 createModelMock("../../src/models/restaurant/RestaurantModel");
 import RestaurantModel from "../../src/models/restaurant/RestaurantModel";
-import * as CheckInService from "../../src/services/check-in";
-import { mockRequest, mockResponse } from "mock-req-res";
+import CheckInService from "../../src/services/CheckInService";
 import CheckInModel from "../../src/models/check-in/CheckInModel";
 const faker = require("faker");
 const Chance = require('chance');
@@ -13,10 +12,11 @@ const chance = new Chance();
 describe("Checkin Service Test", () => {
     describe("checkIn", () => {
         test("A successful check in", async () => {
+            const service = new CheckInService();
             CheckInModel.prototype.save.mockResolvedValue({});
             (RestaurantModel.findById as any).mockResolvedValue({});
 
-            const result : boolean = await CheckInService.checkIn({
+            const result : boolean = await service.checkIn({
                 number: chance.phone({ country: 'us' }),
                 email: faker.internet.email(),
                 restaurantId: mongoObjectId()
@@ -28,6 +28,7 @@ describe("Checkin Service Test", () => {
 
     describe("findCheckinsByRestaurant", () => {
         test("A successful get check ins request", async () => {
+            const service = new CheckInService();
             const id = mongoObjectId();
             const ip = faker.internet.ip();
             const number = chance.phone({ country: 'us' });
@@ -49,7 +50,7 @@ describe("Checkin Service Test", () => {
                 }
             ]);
 
-            const report = await CheckInService.findCheckinsByRestaurant(id);
+            const report = await service.findCheckinsByRestaurant(id);
 
             expect(report).toEqual(`"__v","_id","email","ipAddress","number","restaurantId","timeCheckedIn"\n"0","${id}","${email}","${ip}","${number}","${id}","${timeCheckedIn}"`);
         })

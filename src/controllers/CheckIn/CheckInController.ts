@@ -1,14 +1,20 @@
 import { Request, Response } from "express";
 import ICheckInRequestBody from "./ICheckInRequestBody";
 import IGetCheckInByIdQuery from "./IGetCheckInByIdQuery";
-import * as CheckInService from "../../services/check-in";
+import CheckInService from "../../services/CheckInService";
 import requestIp from "request-ip";
 import { Response as ResponseHelper } from "../../lib/HTTP";
 
 export default class CheckInController {
+    checkInService : CheckInService;
+
+    constructor() {
+        this.checkInService = new CheckInService();
+    }
+
     async handleCheckin(req : Request, res: Response) {
         const checkIn = req.body as ICheckInRequestBody;
-        if (!await CheckInService.checkIn(checkIn, requestIp.getClientIp(req))) {
+        if (!await this.checkInService.checkIn(checkIn, requestIp.getClientIp(req))) {
             return ResponseHelper.sendError(res, {
                 error: "Can not check in to a restaurant that does not exist"
             });   
@@ -20,7 +26,7 @@ export default class CheckInController {
 
     async handleGetCheckins(req : Request, res: Response) {
         const getCheckInQuery = req.query as any as IGetCheckInByIdQuery;
-        const checkInReport = await CheckInService.findCheckinsByRestaurant(getCheckInQuery.restaurantId);
+        const checkInReport = await this.checkInService.findCheckinsByRestaurant(getCheckInQuery.restaurantId);
         res.send(checkInReport).status(200);
     }
 }
