@@ -5,4 +5,5 @@ export default interface IRouterConfiguration {
     configureRoutes() : void;
     get(path: string, middleware : RequestHandler[], handler : RequestHandler);
     post(path: string, middleware : RequestHandler[], handler : RequestHandler);
+    use(path: string, configuration : IRouterConfiguration);
 }

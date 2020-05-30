@@ -12,7 +12,7 @@ import webpackDevMiddleware from "webpack-dev-middleware";
 import webpackHotMiddleware from "webpack-hot-middleware";
 import { errorHandler, devErrorHandler } from "./middleware/error-handling";
 import { requestLogger } from "./lib/logging";
-import routes from "./routes";
+import APIRouterConfiguration from "./routes";
 
 const config = require('../webpack.config');
 
@@ -71,7 +71,7 @@ if (process.env.NODE_ENV === "production") {
 }
 
 app.use("/", express.static(path.join(__dirname, '..', 'client', 'build')));
-app.use("/", routes);
+app.use("/", new APIRouterConfiguration({}).setup());
 
 if (process.env.NODE_ENV !== "development") {
     app.use(errorHandler);

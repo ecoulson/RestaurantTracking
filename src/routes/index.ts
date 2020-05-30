@@ -1,12 +1,10 @@
-import { Router } from "express";
-import restaurantRoute from "./restaurant";
-import CheckInRouterConfiguration from "./check-in";
+import RestaurantRouteConfiguration from "./RestaurantRouteConfiguration";
+import CheckInRouteConfiguration from "./CheckInRouteConfiguration";
+import RouterConfiguration from "./RouterConfiguration";
 
-const CheckinConfiguration : CheckInRouterConfiguration = new CheckInRouterConfiguration();
-
-const router = Router();
-
-router.use("/restaurant", restaurantRoute);
-router.use("/check_in", CheckinConfiguration.setup());
-
-export default router;
+export default class APIRouteConfiguration extends RouterConfiguration<{}> {
+    configureRoutes() {
+        this.use("/restaurant", new RestaurantRouteConfiguration());
+        this.use("/check_in", new CheckInRouteConfiguration());
+    }
+}

@@ -1,13 +1,12 @@
 import { Response as ResponseHelper } from "../lib/HTTP";
-import { Router, Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction } from "express";
 import { hapiValidation, queryDuplicationMiddleware } from "../middleware/validation";
 import * as CheckInService from "../services/check-in";
-import { catchErrors } from "../middleware/error-handling";
-import { CheckingInUserSchema, GetCheckinSchema } from "./check-in.schema";
+import { CheckingInUserSchema, GetCheckinSchema } from "./CheckInRouteSchemas";
 import RouterConfiguration from "./RouterConfiguration";
 import CheckInController from "../controllers/CheckInController";
 
-export default class CheckInRouterConfiguration extends RouterConfiguration<CheckInController> {
+export default class CheckInRouteConfiguration extends RouterConfiguration<CheckInController> {
     constructor() {
         super(new CheckInController());
     }
@@ -35,23 +34,3 @@ export default class CheckInRouterConfiguration extends RouterConfiguration<Chec
         return next();
     }
 }
-
-// const router = Router();
-
-// router.post(
-//     "/", 
-//     ensureEmailOrNumberIsProvided,
-//     hapiValidation(CheckingInUserSchema, "body"),
-//     catchErrors(CheckInService.checkIn)
-// );
-
-// function 
-
-// router.get(
-//     "/", 
-//     queryDuplicationMiddleware("restaurantId"),  
-//     hapiValidation(GetCheckinSchema, "query"),
-//     catchErrors(CheckInService.findCheckinsByRestaurant)
-// );
-
-// export default router;
