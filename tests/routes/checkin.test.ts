@@ -140,19 +140,6 @@ describe("Check In Routes Suite", () => {
             expectErrorResponse(response, "Database error");
             expectStatusCode(response, 400);
         });
-
-        test("A successful get check ins request", async () => {
-            ((CheckIn as any).findByRestaurantId as any).mockResolvedValue([]);
-
-            const response = await getCheckinsAtRestaurantRequest({
-                restaurantId: generateObjectId()
-            });
-
-            expectSuccessResponse(response, {
-                checkIns: []
-            });
-            expectStatusCode(response, 200);
-        })
     });
 });
 

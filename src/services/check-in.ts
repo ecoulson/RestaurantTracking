@@ -2,6 +2,8 @@ import { Response } from "../lib/HTTP";
 import CheckIn from "../models/check-in";
 import Restaurant from "../models/restaurant";
 import requestIp from "request-ip";
+import { Response as ExpressRes, Request } from "express";
+import { Document } from "mongoose";
 
 async function checkIn(req, res) {
     const restaurant = await Restaurant.findById(req.body.restaurantId);
@@ -22,17 +24,40 @@ async function saveCheckInToDB(req) {
         email: req.body.email,
         restaurantId: req.body.restaurantId,
         ipAddress: requestIp.getClientIp(req)
-    })
+    });
     await checkIn.save();
 }
 
-async function findRestuarant(req, res) {
-    return Response.sendData(res, { 
-        checkIns: await (CheckIn as any).findByRestaurantId(req.query.restaurantId) 
+async function findCheckinsByRestaurant(req : Request, res : ExpressRes) {
+    const checkIns = await (CheckIn as any).findByRestaurantId(req.query.restaurantId);
+    res.status(200).send(convertCheckinsByRestaurntToCSV(checkIns));
+}
+
+function convertCheckinsByRestaurntToCSV(checkIns : Document[]) {
+    if (checkIns.length === 0) {
+        return "";
+    }
+    checkIns = checkIns.map((checkIn) => {
+        return (checkIn as any).serialize();
     })
+    let csv = [];
+    let row = [];
+    const keys = Object.keys(checkIns[0]).sort();
+    for (let key of keys) {
+        row.push(`"${key}"`);
+    }
+    csv.push(row.join(","));
+    for (let checkIn of checkIns) {
+        row = [];
+        for (let key of keys) {
+            row.push(`"${checkIn[key]}"`);
+        }
+        csv.push(row.join(","));
+    }
+    return csv.join("\n");
 }
 
 export {
     checkIn,
-    findRestuarant
+    findCheckinsByRestaurant
 }

@@ -28,6 +28,38 @@ describe("Checkin Service Test", () => {
 
             expect(response.status).toHaveBeenCalledWith(400);
         })
+    });
+
+    describe("findCheckinsByRestaurant", () => {
+        test("A successful get check ins request", async () => {
+            const id = mongoObjectId();
+            const ip = faker.internet.ip();
+            const number = chance.phone({ country: 'us' });
+            const email = faker.internet.email();
+            const timeCheckedIn = new Date().toUTCString();
+            ((CheckIn as any).findByRestaurantId as any).mockResolvedValue([
+                {
+                    __v: 0,
+                    _id: id,
+                    restaurantId: id,
+                    timeCheckedIn: timeCheckedIn,
+                    email: email,
+                    number: number,
+                    ipAddress: ip
+                }
+            ]);
+            const request = mockRequest({
+                query: {
+                    restaurantId: id
+                }
+            });
+            const response = mockResponse();
+
+            await CheckInService.findCheckinsByRestaurant(request, response);
+
+            expect(response.status).toBeCalledWith(200);
+            expect(response.send).toBeCalledWith(`"__v","_id","email","ipAddress","number","restaurantId","timeCheckedIn"\n"0","${id}","${email}","${ip}","${number}","${id}","${timeCheckedIn}"`);
+        })
     })
 });
 
