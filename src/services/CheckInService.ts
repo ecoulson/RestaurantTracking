@@ -1,6 +1,6 @@
 import CheckIn from "../models/check-in/CheckInModel";
 import RestaurantModel from "../models/restaurant/RestaurantModel";
-import ICheckInRequestBody from "../controllers/CheckIn/ICheckInRequestBody";
+import ICheckInRequestBody from "../controllers/CheckIn/ICheckIn";
 import ICheckIn from "../models/check-in/ICheckIn";
 
 export default class CheckInService {

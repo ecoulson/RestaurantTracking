@@ -1,4 +1,4 @@
-export default interface ICheckInRequestBody {
+export default interface ICheckIn {
     restaurantId: string;
     email?: string;
     number?: string;

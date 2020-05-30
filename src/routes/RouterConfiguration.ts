@@ -19,11 +19,15 @@ export default abstract class RouterConfiguration<Controller> implements IRouter
     public abstract configureRoutes(): void;
 
     public get(path: string, middleware: RequestHandler[], handler: RequestHandler) {
-        this.router.get(path, ...middleware, catchErrors(handler));
+        this.router.get(path, ...middleware, catchErrors(this.bindHandler(handler)));
+    }
+
+    private bindHandler(handler : RequestHandler) : RequestHandler {
+        return handler.bind(this.controller);
     }
 
     public post(path: string, middleware: RequestHandler[], handler: RequestHandler) {
-        this.router.post(path, ...middleware, catchErrors(handler));
+        this.router.post(path, ...middleware, catchErrors(this.bindHandler(handler)));
     }
 
     public use(path: string, configuration : IRouterConfiguration) {

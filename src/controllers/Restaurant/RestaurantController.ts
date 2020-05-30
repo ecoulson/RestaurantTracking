@@ -1,0 +1,44 @@
+import RestaurantService from "../../services/RestaurantService";
+import { Request, Response } from "express";
+import IRestaurantRegistration from "./IRestaurantRegistration";
+import { logger } from "../../lib/logging";
+import { Response as ResponseHelper } from "../../lib/HTTP"
+import { streamQRCode } from "../../lib/QR-code";
+
+export default class RestaurantController {
+    private restaurantService : RestaurantService;
+
+    constructor() {
+        this.restaurantService = new RestaurantService();
+    }
+
+    async handleRestaurantRegistration(req : Request, res : Response) {
+        const restaurantRegistration = req.body as IRestaurantRegistration;
+        const result = await this.restaurantService.registerRestaurant(restaurantRegistration);
+        if (result) {
+            logger.info(`Successfully registered ${restaurantRegistration.name}`);
+            return ResponseHelper.sendData(res, {
+                message: `Successfully registered ${restaurantRegistration.name}`,
+            });
+        } else {
+            logger.info(`Failed to register ${restaurantRegistration.name}`);
+            return ResponseHelper.sendError(res, {
+                message: `Failed to register ${restaurantRegistration.name}`,
+            });
+        }
+    }
+
+    async handleQRCodeGeneration(req : Request, res : Response) {
+        const restaurantId : string = req.params.restaurantId;
+        const restaurant = await this.restaurantService.generateQRCode(restaurantId)
+        return streamQRCode(res, restaurant);
+    }
+
+    async handleGetRestaurantByID(req : Request, res : Response) {
+        const restaurantId : string = req.params.restaurantId;
+        const restaurant = await this.restaurantService.getRestaurant(restaurantId);
+        return ResponseHelper.sendData(res, {
+            restaurant
+        });
+    }
+}

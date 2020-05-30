@@ -1,23 +1,19 @@
 import { createModelMock } from "../mocks/models";
 createModelMock("../../src/models/restaurant/RestaurantModel");
 import RestaurantModel from "../../src/models/restaurant/RestaurantModel";
-import * as RestaurantService from "../../src/services/restaurant";
-import { mockRequest, mockResponse } from "mock-req-res";
+import RestaurantService from "../../src/services/RestaurantService";
 
 describe("Restaurant Service Test", () => {
     describe("Generate QR Code", () => {
         test("Generate a QR Code for a restaurant that doesn't exist", async () => {
+            const service = new RestaurantService();
             (RestaurantModel.findById as jest.Mock).mockResolvedValue(null);
-            const req = mockRequest({
-                params: {
-                    restaurantId: null
-                }
-            });
-            const res = mockResponse();
             
-            await RestaurantService.generateQRCode(req, res);
-
-            expect(res.status).toHaveBeenCalledWith(400)
+            try {
+                await service.generateQRCode("")
+            } catch (error) {
+                expect(error).toEqual(new Error(`Failed to find a restaurant with id `))
+            }
         })
     });
 })
