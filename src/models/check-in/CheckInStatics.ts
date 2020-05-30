@@ -1,4 +1,4 @@
-import { ICheckInModel } from "./ICheckInModel";
+import ICheckInModel from "./ICheckInModel";
 import ICheckIn from "./ICheckIn";
 
 export default class CheckInStatics {
