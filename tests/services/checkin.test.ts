@@ -39,13 +39,17 @@ describe("Checkin Service Test", () => {
             const timeCheckedIn = new Date().toUTCString();
             ((CheckIn as any).findByRestaurantId as any).mockResolvedValue([
                 {
-                    __v: 0,
-                    _id: id,
-                    restaurantId: id,
-                    timeCheckedIn: timeCheckedIn,
-                    email: email,
-                    number: number,
-                    ipAddress: ip
+                    serialize: () => {
+                        return {
+                            __v: 0,
+                            _id: id,
+                            restaurantId: id,
+                            timeCheckedIn: timeCheckedIn,
+                            email: email,
+                            number: number,
+                            ipAddress: ip
+                        }
+                    }
                 }
             ]);
             const request = mockRequest({
