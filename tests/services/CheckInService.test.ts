@@ -50,7 +50,7 @@ describe("Checkin Service Test", () => {
                 }
             ]);
 
-            const report = await service.findCheckinsByRestaurant(id);
+            const report = await service.getRestaurantReport(id);
 
             expect(report).toEqual(`"__v","_id","email","ipAddress","number","restaurantId","timeCheckedIn"\n"0","${id}","${email}","${ip}","${number}","${id}","${timeCheckedIn}"`);
         })

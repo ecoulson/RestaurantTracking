@@ -10,13 +10,16 @@ export default class CheckInController {
 
     constructor() {
         this.checkInService = new CheckInService();
-        this.handleCheckin = this.handleCheckin.bind(this);
-        this.handleGetCheckins = this.handleGetCheckins.bind(this);
+        this.handleCheckIn = this.handleCheckIn.bind(this);
+        this.handleGetReport = this.handleGetReport.bind(this);
     }
 
-    public async handleCheckin(req : Request, res: Response) {
+    public async handleCheckIn(req : Request, res: Response) {
         const checkIn = req.body as ICheckIn;
-        if (!await this.checkInService.checkIn(checkIn, requestIp.getClientIp(req))) {
+        const successfullyCheckedIn = await this.checkInService.checkIn(
+            checkIn, requestIp.getClientIp(req)
+        );
+        if (!successfullyCheckedIn) {
             return ResponseHelper.sendError(res, {
                 error: "Can not check in to a restaurant that does not exist"
             });   
@@ -26,9 +29,16 @@ export default class CheckInController {
         });
     }
 
-    public async handleGetCheckins(req : Request, res: Response) {
+    public async handleGetReport(req : Request, res: Response) {
         const getCheckInQuery = req.query as any as IGetCheckInsByRestaurantQuery;
-        const checkInReport = await this.checkInService.findCheckinsByRestaurant(getCheckInQuery.restaurantId);
-        res.send(checkInReport).status(200);
+        if (!await this.checkInService.restaurantExists(getCheckInQuery.restaurantId)) {
+            return ResponseHelper.sendError(res, {
+                error: "Could not create checkin report for restaurant that does not exist"
+            });
+        }
+        const checkInReport = await this.checkInService.getRestaurantReport(
+            getCheckInQuery.restaurantId
+        );
+        res.status(200).send(checkInReport);
     }
 }

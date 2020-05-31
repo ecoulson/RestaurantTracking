@@ -5,7 +5,6 @@ import { CheckingInUserSchema, GetCheckinSchema } from "./CheckInRouteSchemas";
 import RouterConfiguration from "../RouterConfiguration";
 import CheckInController from "../../controllers/CheckIn/CheckInController";
 import { authenticate } from "../../middleware/authentication";
-import { logger } from "../../lib/logging";
 import { catchErrors } from "../../middleware/error-handling";
 
 export default class CheckInRouteConfiguration extends RouterConfiguration<CheckInController> {
@@ -18,7 +17,7 @@ export default class CheckInRouteConfiguration extends RouterConfiguration<Check
             "/",
             this.ensureEmailOrNumberIsProvided,
             hapiValidation(CheckingInUserSchema, "body"), 
-            catchErrors(this.controller.handleCheckin)
+            catchErrors(this.controller.handleCheckIn)
         );
 
         this.router.get(
@@ -26,7 +25,7 @@ export default class CheckInRouteConfiguration extends RouterConfiguration<Check
             authenticate,
             queryDuplicationMiddleware("restaurantId"),  
             hapiValidation(GetCheckinSchema, "query"), 
-            catchErrors(this.controller.handleGetCheckins)
+            catchErrors(this.controller.handleGetReport)
         )
     }
 

@@ -24,7 +24,11 @@ export default class CheckInService {
         await checkInDocument.save();
     }
 
-    async findCheckinsByRestaurant(restaurantId : string) : Promise<string> {
+    async restaurantExists(restaurantId : string) {
+        return true;
+    }
+
+    async getRestaurantReport(restaurantId : string) : Promise<string> {
         const checkIns = await CheckIn.findByRestaurantId(restaurantId);
         return this.convertCheckinsByRestaurntToCSV(checkIns);
     }
