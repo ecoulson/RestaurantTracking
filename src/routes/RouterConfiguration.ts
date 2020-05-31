@@ -1,4 +1,4 @@
-import { Router as ExpressRouter, RequestHandler } from "express";
+import { Router as ExpressRouter } from "express";
 import IRouterConfiguration from "./IRouterConfiguration";
 
 export default abstract class RouterConfiguration<Controller> implements IRouterConfiguration {

@@ -1,4 +1,3 @@
-import { Response as ResponseHelper } from "../../lib/HTTP";
 import { Request, Response, NextFunction } from "express";
 import { hapiValidation, queryDuplicationMiddleware } from "../../middleware/validation";
 import { CheckingInUserSchema, GetCheckinSchema } from "./CheckInRouteSchemas";
@@ -6,6 +5,7 @@ import RouterConfiguration from "../RouterConfiguration";
 import CheckInController from "../../controllers/CheckIn/CheckInController";
 import { authenticate } from "../../middleware/authentication";
 import { catchErrors } from "../../middleware/error-handling";
+import ErrorResponse from "../../lib/HTTP/ErrorResponse";
 
 export default class CheckInRouteConfiguration extends RouterConfiguration<CheckInController> {
     constructor() {
@@ -31,11 +31,11 @@ export default class CheckInRouteConfiguration extends RouterConfiguration<Check
 
     private ensureEmailOrNumberIsProvided(req : Request, res : Response, next : NextFunction) {
         if (!req.body.email && !req.body.number) {
-            return ResponseHelper.sendError(res, {
+            return new ErrorResponse(res).send({
                 error: [
                     "No email or number was provided"
                 ]
-            });
+            })
         }
         return next();
     }

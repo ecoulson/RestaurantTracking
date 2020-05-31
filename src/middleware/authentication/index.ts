@@ -1,20 +1,20 @@
-import { Response as ResponseHelper } from "../../lib/HTTP";
 import { logger } from "../../lib/logging";
 import { Request, NextFunction, Response } from "express";
 import { IncomingHttpHeaders } from "http";
+import ForbiddenResponse from "../../lib/HTTP/ForbiddenResponse";
 
 function authenticate(req : Request, res : Response, next : NextFunction) {
     logger.debug(`Checking for authorization headers`);
     if (!hasAuthorizationHeader(req.headers)) {
         logger.warn(`Failed to find authorization header for request to ${req.originalUrl}`);
-        return ResponseHelper.sendForbidden(res)
+        return new ForbiddenResponse(res).send();
     }
     logger.debug(`Parsing authentication token`);
     const token = getAuthToken(req.headers);
     logger.debug(`Parsed authentication token`);
     if (!isValidToken(token)) {
         logger.warn(`Invalid token sent from ${req.originalUrl}`);
-        return ResponseHelper.sendForbidden(res);
+        return new ForbiddenResponse(res).send();
     }
     logger.debug(`Authenticated request`);
     return next();

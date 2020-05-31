@@ -1,6 +1,5 @@
 import { Response, Request, NextFunction } from "express";
-
-const { Response } = require("../../lib/HTTP");
+import ErrorMessageResponse from "../../lib/HTTP/ErrorMessageResponse";
 const { logger } = require("../../lib/logging");
 
 function queryDuplicationMiddleware(param : string) {
@@ -24,9 +23,7 @@ function hasDuplication(param : string) {
 
 function sendDuplicateError(res : Response, param : string) {
     logger.debug(`Sending duplicate response for ${param}`);
-    Response.sendError(res, {
-        error: `Duplicate ${param} was provided`
-    });
+    new ErrorMessageResponse(res).send(`Duplicate ${param} was provided`);
 }
 
 export { 

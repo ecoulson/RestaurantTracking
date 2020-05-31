@@ -1,17 +1,20 @@
-import { Response as ResponseHelper } from "../../lib/HTTP";
 import { logger } from "../../lib/logging";
 import { Request, Response, NextFunction } from "express";
+import ErrorMessageResponse from "../../lib/HTTP/ErrorMessageResponse";
+import ErrorResponse from "../../lib/HTTP/ErrorResponse";
 
 function devErrorHandler(err : Error, req : Request, res : Response, next : NextFunction) {
     logger.error(err.message);
     err.stack = err.stack || ''
-    ResponseHelper.sendError(res, { 
+    new ErrorResponse(res).send({
         error: err.message,
-        stack: err.stack
-    })
+        stack: err.message
+    });
 }
 
-const errorHandler = (err : Error, req : Request, res : Response, next : NextFunction) => ResponseHelper.sendError(res, { error: err.message });
+const errorHandler = (err : Error, req : Request, res : Response, next : NextFunction) => {
+    return new ErrorMessageResponse(res).send(err.message);
+};
 
 function catchErrors(fn : any) {
     return function(req: Request, res : Response, next : NextFunction) {

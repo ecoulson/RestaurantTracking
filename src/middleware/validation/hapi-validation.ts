@@ -1,7 +1,7 @@
 import Joi from "@hapi/joi";
 import { Request, Response, NextFunction } from "express";
+import ErrorResponse from "../../lib/HTTP/ErrorResponse";
 
-const { Response } = require("../../lib/HTTP");
 const { logger } = require("../../lib/logging");
 
 function hapiValidation(schema : Joi.ObjectSchema , property : string) {
@@ -11,9 +11,9 @@ function hapiValidation(schema : Joi.ObjectSchema , property : string) {
         const validationResult = schema.validate(toValidate);
         if (validationResult.error) {
             logger.warn(`Failed to validate schema for request to ${req.originalUrl} in the ${property}`)
-            return Response.sendError(res, {
+            return new ErrorResponse(res).send({
                 error: getErrors(validationResult.error)
-            })
+            });
         }
         logger.debug(`Validated the request to ${req.originalUrl}`);
         return next();
