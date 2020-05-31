@@ -10,11 +10,9 @@ import session from "express-session";
 import webpack from "webpack";
 import webpackDevMiddleware from "webpack-dev-middleware";
 import webpackHotMiddleware from "webpack-hot-middleware";
-import { errorHandler, devErrorHandler } from "./middleware/error-handling";
-import { requestLogger, logger } from "./lib/logging";
+import { requestLogger } from "./lib/logging";
 import APIRouterConfiguration from "./routes";
 import ErrorHandlingMiddleware from "./middleware/error-handling/ErrorHandlingMiddleware";
-import ErrorCatchingMiddlware from "./middleware/error-handling/ErrorCatchingMiddleware";
 
 const config = require('../webpack.config');
 
