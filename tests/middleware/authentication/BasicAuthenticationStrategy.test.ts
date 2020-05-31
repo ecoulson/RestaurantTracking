@@ -1,5 +1,4 @@
 import { mockRequest, mockResponse } from "mock-req-res";
-import { match } from "sinon";
 import { Response } from "express";
 import BasicAuthenticationStrategy from "../../../src/middleware/authentication/BasicAuthenticationStrategy"
 
@@ -73,10 +72,10 @@ function expectForbiddenStatus(res : Response) {
 }
 
 function expectForbiddenBody(res : Response) {
-    expect(res.json).toHaveBeenCalledWith(match({
+    expect(res.json).toHaveBeenCalledWith({
         success: false,
         data: {
             error: "Access forbidden"
         }
-    }))
+    })
 }
