@@ -1,24 +1,26 @@
-import { authenticate } from "../../../src/middleware/authentication";
 import { mockRequest, mockResponse } from "mock-req-res";
 import { match } from "sinon";
 import { Response } from "express";
+import BasicAuthenticationStrategy from "../../../src/middleware/authentication/BasicAuthenticationStrategy"
 
 beforeAll(() => {
     process.env.SERVER_SECRET = "valid_token"
 });
 
-describe("Authentication Test Suite", () => {
+describe("BasicAuthenticationStrategy Test Suite", () => {
     describe("authenticate", () => {
         test("Should not authenticate request with no header", () => {
+            const strategy = new BasicAuthenticationStrategy();
             const req = mockRequest();
             const res = mockResponse();
         
-            authenticate(req, res, () => {});
+            strategy.authenticate(req, res, () => {});
 
             expectForbiddenResponse(res);
         });
 
         test("Should not authenticate request with no token", () => {
+            const strategy = new BasicAuthenticationStrategy();
             const req = mockRequest({
                 headers: {
                     "authorization": "Bearer"
@@ -26,12 +28,13 @@ describe("Authentication Test Suite", () => {
             });
             const res = mockResponse();
         
-            authenticate(req, res, () => {});
+            strategy.authenticate(req, res, () => {});
 
             expectForbiddenResponse(res);
         });
 
         test("Should not authenticate request with invalid token", () => {
+            const strategy = new BasicAuthenticationStrategy();
             const req = mockRequest({
                 headers: {
                     "authorization": "Bearer invalid_token"
@@ -39,12 +42,13 @@ describe("Authentication Test Suite", () => {
             });
             const res = mockResponse();
         
-            authenticate(req, res, () => {});
+            strategy.authenticate(req, res, () => {});
 
             expectForbiddenResponse(res);
         });
 
         test("Should authenticate request with valid token", (done) => {
+            const strategy = new BasicAuthenticationStrategy();
             const req = mockRequest({
                 headers: {
                     "authorization": "Bearer valid_token"
@@ -52,7 +56,7 @@ describe("Authentication Test Suite", () => {
             });
             const res = mockResponse();
         
-            authenticate(req, res, () => {
+            strategy.authenticate(req, res, () => {
                 done();
             });
         })

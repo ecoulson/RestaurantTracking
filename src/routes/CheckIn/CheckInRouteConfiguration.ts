@@ -3,9 +3,9 @@ import { hapiValidation, queryDuplicationMiddleware } from "../../middleware/val
 import { CheckingInUserSchema, GetCheckinSchema } from "./CheckInRouteSchemas";
 import RouterConfiguration from "../RouterConfiguration";
 import CheckInController from "../../controllers/CheckIn/CheckInController";
-import { authenticate } from "../../middleware/authentication";
 import { catchErrors } from "../../middleware/error-handling";
 import ErrorResponse from "../../lib/HTTP/ErrorResponse";
+import BasicAuthenticationStrategy from "../../middleware/authentication/BasicAuthenticationStrategy";
 
 export default class CheckInRouteConfiguration extends RouterConfiguration<CheckInController> {
     constructor() {
@@ -22,7 +22,7 @@ export default class CheckInRouteConfiguration extends RouterConfiguration<Check
 
         this.router.get(
             "/", 
-            authenticate,
+            new BasicAuthenticationStrategy().authenticate,
             queryDuplicationMiddleware("restaurantId"),  
             hapiValidation(GetCheckinSchema, "query"), 
             catchErrors(this.controller.handleGetReport)

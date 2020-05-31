@@ -1,5 +1,4 @@
 import { hapiValidation } from "../../middleware/validation";
-import { authenticate } from "../../middleware/authentication";
 import { 
     GenerateQRCodeSchema, 
     RegisterRestaurantSchema,
@@ -8,6 +7,7 @@ import {
 import RouterConfiguration from "../RouterConfiguration";
 import RestaurantController from "../../controllers/Restaurant/RestaurantController";
 import { catchErrors } from "../../middleware/error-handling";
+import BasicAuthenticationStrategy from "../../middleware/authentication/BasicAuthenticationStrategy";
 
 export default class RestaurantRouteConfiguration extends RouterConfiguration<RestaurantController> {
     constructor() {
@@ -17,13 +17,15 @@ export default class RestaurantRouteConfiguration extends RouterConfiguration<Re
     configureRoutes() {
         this.router.get(
             "/:restaurantId/generate",
-            [authenticate, hapiValidation(GenerateQRCodeSchema, "params")], 
+            new BasicAuthenticationStrategy().authenticate, 
+            hapiValidation(GenerateQRCodeSchema, "params"), 
             catchErrors(this.controller.handleQRCodeGeneration)
         );
             
         this.router.post(
             "/register",
-            authenticate, hapiValidation(RegisterRestaurantSchema, "body"),
+            new BasicAuthenticationStrategy().authenticate, 
+            hapiValidation(RegisterRestaurantSchema, "body"),
             catchErrors(this.controller.handleRestaurantRegistration)
         )
         
