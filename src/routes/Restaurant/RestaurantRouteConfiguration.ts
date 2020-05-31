@@ -17,7 +17,7 @@ export default class RestaurantRouteConfiguration extends RouterConfiguration<Re
     configureRoutes() {
         this.router.get(
             "/:restaurantId/generate",
-            authenticate, hapiValidation(GenerateQRCodeSchema, "params"), 
+            [authenticate, hapiValidation(GenerateQRCodeSchema, "params")], 
             catchErrors(this.controller.handleQRCodeGeneration)
         );
             
