@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from "express";
-import { hapiValidation } from "../../middleware/validation";
 import { CheckingInUserSchema, GetCheckinSchema } from "./CheckInRouteSchemas";
 import RouterConfiguration from "../RouterConfiguration";
 import CheckInController from "../../controllers/CheckIn/CheckInController";

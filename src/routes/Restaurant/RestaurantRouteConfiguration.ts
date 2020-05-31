@@ -1,4 +1,3 @@
-import { hapiValidation } from "../../middleware/validation";
 import { 
     GenerateQRCodeSchema, 
     RegisterRestaurantSchema,

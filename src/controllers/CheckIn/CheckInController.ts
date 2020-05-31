@@ -4,7 +4,6 @@ import IGetCheckInsByRestaurantQuery from "./IGetCheckInsByRestaurantQuery";
 import CheckInService from "../../services/CheckInService";
 import requestIp from "request-ip";
 import CSVResponse from "../../lib/HTTP/CSVResponse";
-import CSV from "../../lib/HTTP/CSV";
 import MessageResponse from "../../lib/HTTP/MessageResponse";
 
 export default class CheckInController {
