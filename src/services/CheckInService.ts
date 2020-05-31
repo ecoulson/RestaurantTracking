@@ -6,12 +6,23 @@ import CSVResponse from "../lib/HTTP/CSVResponse";
 
 export default class CheckInService {
     async checkIn(checkIn : ICheckInRequestBody, ipAddress : string) : Promise<boolean> {
-        const restaurant = await RestaurantModel.findById(checkIn.restaurantId);
-        if (!restaurant) {
+        if (!await this.restaurantExists(checkIn.restaurantId)) {
             return false;
         }
         await this.saveCheckInToDB(checkIn, ipAddress);
         return true;
+    }
+
+    async restaurantExists(restaurantId : string) {
+        try {
+            const restaurant = await RestaurantModel.findById(restaurantId);
+            if (!restaurant) {
+                return false;
+            }
+            return true;
+        } catch (error) { 
+            throw new Error(`Error when finding restaurant with ${restaurantId}`);
+        }
     }
 
     private async saveCheckInToDB(checkIn : ICheckInRequestBody, ipAddress: string) : Promise<void> {
@@ -21,22 +32,21 @@ export default class CheckInService {
             restaurantId: checkIn.restaurantId,
             ipAddress: ipAddress
         });
-        await checkInDocument.save();
+        try {
+            await checkInDocument.save();
+        } catch (error) {
+            throw new Error(`Error when saving checkin to restaurant with ${checkIn.restaurantId} from ${ipAddress}`)
+        }
     }
 
-    async restaurantExists(restaurantId : string) {
-        return true;
-    }
-
-    async getRestaurantReport(restaurantId : string) : Promise<string> {
+    async getRestaurantReport(restaurantId : string) : Promise<ICheckIn[]> {
         const checkIns = await CheckIn.findByRestaurantId(restaurantId);
-        return this.convertCheckinsByRestaurntToCSV(checkIns);
+        return this.serializeCheckins(checkIns);
     }
     
-    private convertCheckinsByRestaurntToCSV(checkIns : ICheckIn[]) {
-        checkIns = checkIns.map((checkIn) => {
+    private serializeCheckins(checkIns : ICheckIn[]) {
+        return checkIns.map((checkIn) => {
             return checkIn.serialize();
-        })
-        return new CSVResponse().build(checkIns)
+        });
     }
 }

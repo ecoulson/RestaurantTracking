@@ -4,6 +4,7 @@ import IGetCheckInsByRestaurantQuery from "./IGetCheckInsByRestaurantQuery";
 import CheckInService from "../../services/CheckInService";
 import requestIp from "request-ip";
 import { Response as ResponseHelper } from "../../lib/HTTP";
+import CSVResponse from "../../lib/HTTP/CSVResponse";
 
 export default class CheckInController {
     checkInService : CheckInService;
@@ -19,6 +20,7 @@ export default class CheckInController {
         const successfullyCheckedIn = await this.checkInService.checkIn(
             checkIn, requestIp.getClientIp(req)
         );
+        // move logic to service
         if (!successfullyCheckedIn) {
             return ResponseHelper.sendError(res, {
                 error: "Can not check in to a restaurant that does not exist"
@@ -31,6 +33,7 @@ export default class CheckInController {
 
     public async handleGetReport(req : Request, res: Response) {
         const getCheckInQuery = req.query as any as IGetCheckInsByRestaurantQuery;
+        // move logic to service
         if (!await this.checkInService.restaurantExists(getCheckInQuery.restaurantId)) {
             return ResponseHelper.sendError(res, {
                 error: "Could not create checkin report for restaurant that does not exist"
@@ -39,6 +42,6 @@ export default class CheckInController {
         const checkInReport = await this.checkInService.getRestaurantReport(
             getCheckInQuery.restaurantId
         );
-        res.status(200).send(checkInReport);
+        res.status(200).send(new CSVResponse().build(checkInReport));
     }
 }

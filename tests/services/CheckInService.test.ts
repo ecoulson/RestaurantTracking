@@ -6,60 +6,143 @@ import CheckInService from "../../src/services/CheckInService";
 import CheckInModel from "../../src/models/check-in/CheckInModel";
 const faker = require("faker");
 const Chance = require('chance');
+import { generateObjectId } from "../helpers/mongo";
 
 const chance = new Chance();
 
 describe("Checkin Service Test", () => {
     describe("checkIn", () => {
-        test("A successful check in", async () => {
+        test("A an error when saving for restaurant with an id", async () => {
             const service = new CheckInService();
-            CheckInModel.prototype.save.mockResolvedValue({});
-            (RestaurantModel.findById as any).mockResolvedValue({});
+            CheckInModel.prototype.save.mockRejectedValue(new Error());
+            (RestaurantModel.findById as jest.Mock).mockResolvedValue({});
+            const id = generateObjectId();
+            const ip = faker.internet.ip()
+            try {
+                await service.checkIn({
+                    number: chance.phone({ country: 'us' }),
+                    email: faker.internet.email(),
+                    restaurantId: id
+                }, ip);
+            } catch (error) {
+                expect(error).toEqual(
+                    new Error(`Error when saving checkin to restaurant with ${id} from ${ip}`
+                ));
+            }
+            expect.assertions(1);
+        });
+
+        test("A an error when finding restaurant during checkin", async () => {
+            const service = new CheckInService();
+            CheckInModel.prototype.save.mockResolvedValue(null);
+            (RestaurantModel.findById as jest.Mock).mockRejectedValue(new Error());
+            const id = generateObjectId();
+            try {
+                await service.checkIn({
+                    number: chance.phone({ country: 'us' }),
+                    email: faker.internet.email(),
+                    restaurantId: id
+                }, faker.internet.ip());
+            } catch (error) {
+                expect(error).toEqual(new Error(`Error when finding restaurant with ${id}`));
+            }
+            expect.assertions(1);
+        });
+
+        test("A checkin to a restaurant that does not exist", async () => {
+            const service = new CheckInService();
+            CheckInModel.prototype.save.mockResolvedValue(null);
+            (RestaurantModel.findById as jest.Mock).mockResolvedValue(null);
 
             const result : boolean = await service.checkIn({
                 number: chance.phone({ country: 'us' }),
                 email: faker.internet.email(),
-                restaurantId: mongoObjectId()
+                restaurantId: generateObjectId()
+            }, "1.1.1.1");
+
+            expect(result).toBeFalsy();
+        });
+
+        test("A successful check in", async () => {
+            const service = new CheckInService();
+            CheckInModel.prototype.save.mockResolvedValue({});
+            (RestaurantModel.findById as jest.Mock).mockResolvedValue({});
+
+            const result : boolean = await service.checkIn({
+                number: chance.phone({ country: 'us' }),
+                email: faker.internet.email(),
+                restaurantId: generateObjectId()
             }, "1.1.1.1");
 
             expect(result).toBeTruthy();
         })
     });
 
-    describe("findCheckinsByRestaurant", () => {
+    describe("getRestaurantReport", () => {
+        test("A successful get check ins request with no entries", async () => {
+            const service = new CheckInService();
+            const checkIn = getCheckin();
+            (CheckInModel.findByRestaurantId as jest.Mock).mockResolvedValue([]);
+
+            const report = await service.getRestaurantReport(checkIn.id);
+
+            expect(report).toEqual([]);
+        })
+        
         test("A successful get check ins request", async () => {
             const service = new CheckInService();
-            const id = mongoObjectId();
-            const ip = faker.internet.ip();
-            const number = chance.phone({ country: 'us' });
-            const email = faker.internet.email();
-            const timeCheckedIn = new Date().toUTCString();
+            const checkIn = getCheckin();
             (CheckInModel.findByRestaurantId as jest.Mock).mockResolvedValue([
-                {
-                    serialize: () => {
-                        return {
-                            __v: 0,
-                            _id: id,
-                            restaurantId: id,
-                            timeCheckedIn: timeCheckedIn,
-                            email: email,
-                            number: number,
-                            ipAddress: ip
-                        }
-                    }
-                }
+                getCheckinDocument(checkIn)
             ]);
 
-            const report = await service.getRestaurantReport(id);
+            const report = await service.getRestaurantReport(checkIn.id);
 
-            expect(report).toEqual(`"__v","_id","email","ipAddress","number","restaurantId","timeCheckedIn"\n"0","${id}","${email}","${ip}","${number}","${id}","${timeCheckedIn}"`);
+            expect(report).toEqual([
+                getCheckinDocument(checkIn).serialize()
+            ]);
+        })
+
+        test("A successful get check ins request multiple rows", async () => {
+            const service = new CheckInService();
+            const checkIn = getCheckin();
+            const record = [
+                getCheckinDocument(checkIn),
+                getCheckinDocument(checkIn),
+                getCheckinDocument(checkIn),
+                getCheckinDocument(checkIn)
+            ];
+            (CheckInModel.findByRestaurantId as jest.Mock).mockResolvedValue(record);
+
+            const report = await service.getRestaurantReport(checkIn.id);
+
+            expect(report).toEqual(record.map((entry : any) => entry.serialize()));
         })
     })
 });
 
-const mongoObjectId = function () {
-    var timestamp = (new Date().getTime() / 1000 | 0).toString(16);
-    return timestamp + 'xxxxxxxxxxxxxxxx'.replace(/[x]/g, function() {
-        return (Math.random() * 16 | 0).toString(16);
-    }).toLowerCase();
-};
+function getCheckin() {
+    return {
+        id : generateObjectId(),
+        ip : faker.internet.ip(),
+        number : chance.phone({ country: 'us' }),
+        email : faker.internet.email(),
+        timeCheckedIn : new Date().toUTCString(),
+    }
+}
+
+function getCheckinDocument(checkIn : any) {
+    return {
+        serialize: () => {
+            return {
+                __v: 0,
+                _id: checkIn.id,
+                restaurantId: checkIn.id,
+                timeCheckedIn: checkIn.timeCheckedIn,
+                email: checkIn.email,
+                number: checkIn.number,
+                ipAddress: checkIn.ip
+            }
+        }
+    }
+}

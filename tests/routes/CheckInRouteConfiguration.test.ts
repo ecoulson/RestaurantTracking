@@ -88,16 +88,20 @@ describe("Check In Routes Suite", () => {
         })
 
         test("Database error occurs", async () => {
-            CheckInModel.prototype.save.mockRejectedValue(new Error("Database error"));
+            CheckInModel.prototype.save.mockRejectedValue(new Error());
             (RestaurantModel.findById as jest.Mock).mockResolvedValue({});
-    
+            const id = generateObjectId();
+
             const response = await makeCheckInRequest({
                 number: chance.phone({ country: 'us' }),
                 email: faker.internet.email(),
-                restaurantId: generateObjectId()
+                restaurantId: id
             });
     
-            expectErrorResponse(response, "Database error");
+            expectErrorResponse(
+                response, 
+                `Error when saving checkin to restaurant with ${id} from ::ffff:127.0.0.1`
+            );
             expectStatusCode(response, 400);
         });
 
@@ -138,7 +142,9 @@ describe("Check In Routes Suite", () => {
         })
 
         test("Database error occurs", async () => {
-            (CheckInModel.findByRestaurantId as jest.Mock).mockRejectedValue(new Error("Database error"));
+            (CheckInModel.findByRestaurantId as jest.Mock).mockRejectedValue(
+                new Error("Database error")
+            );
     
             const response = await getCheckinsAtRestaurantRequest({
                 restaurantId: generateObjectId()
@@ -162,5 +168,7 @@ async function getCheckinsAtRestaurantRequest(query : any) {
 }
 
 async function getDuplicateCheckinsAtRestaurantRequest(query : any) {
-    return await makeGetRequest(`${CHECKIN_URL}?restaurantId=${query.restaurantId}&restaurantId=${query.restaurantId}`)
+    return await makeGetRequest(
+        `${CHECKIN_URL}?restaurantId=${query.restaurantId}&restaurantId=${query.restaurantId}`
+    );
 }
