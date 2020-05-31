@@ -10,9 +10,9 @@ import session from "express-session";
 import webpack from "webpack";
 import webpackDevMiddleware from "webpack-dev-middleware";
 import webpackHotMiddleware from "webpack-hot-middleware";
-import { errorHandler, devErrorHandler } from "./middleware/error-handling";
 import { requestLogger } from "./lib/logging";
-import routes from "./routes";
+import APIRouterConfiguration from "./routes";
+import ErrorHandlingMiddleware from "./middleware/error-handling/ErrorHandlingMiddleware";
 
 const config = require('../webpack.config');
 
@@ -71,12 +71,13 @@ if (process.env.NODE_ENV === "production") {
 }
 
 app.use("/", express.static(path.join(__dirname, '..', 'client', 'build')));
-app.use("/", routes);
+app.use("/", new APIRouterConfiguration({}).setup());
+
 
 if (process.env.NODE_ENV !== "development") {
-    app.use(errorHandler);
+    app.use(ErrorHandlingMiddleware.productionErrorHandler);
 } else {
-    app.use(devErrorHandler);
+    app.use(ErrorHandlingMiddleware.devErrorHandler);
 }
 
 export default app;

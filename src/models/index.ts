@@ -1,7 +1,7 @@
-const Restaurant = require("./restaurant");
-const CheckIn = require("./check-in");
+const RestaurantModel = require("./restaurant/RestaurantModel");
+const CheckInModel = require("./check-in/CheckInModel");
 
 export default {
-    Restaurant,
-    CheckIn
+    Restaurant: RestaurantModel,
+    CheckIn: CheckInModel
 }
