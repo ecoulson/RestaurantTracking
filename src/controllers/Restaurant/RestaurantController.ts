@@ -13,6 +13,7 @@ export default class RestaurantController {
         this.handleQRCodeGeneration = this.handleQRCodeGeneration.bind(this);
         this.handleGetRestaurantByID = this.handleGetRestaurantByID.bind(this);
         this.handleRestaurantRegistration = this.handleRestaurantRegistration.bind(this);
+        this.handleGetAllRestaurants = this.handleGetAllRestaurants.bind(this);
     }
 
     async handleRestaurantRegistration(req : Request, res : Response) {
@@ -33,5 +34,11 @@ export default class RestaurantController {
         return new JSONResponse(res).send({
             restaurant
         });
+    }
+
+    async handleGetAllRestaurants(req : Request, res : Response) {
+        return new JSONResponse(res).send({
+            restaurants: await this.restaurantService.getAllRestaurants()
+        })
     }
 }
