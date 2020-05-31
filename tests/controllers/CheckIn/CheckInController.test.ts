@@ -5,7 +5,7 @@ import { mockRequest, mockResponse } from "mock-req-res";
 import faker from "faker";
 import Chance from "chance";
 import { generateObjectId } from "../../helpers/mongo";
-import CSVResponse from "../../../src/lib/HTTP/CSVResponse";
+import CSV from "../../../src/lib/HTTP/CSV";
 
 const chance = new Chance();
 
@@ -85,7 +85,7 @@ describe("Check In Controller Suite", () => {
             await controller.handleGetReport(request, response);
 
             expect(response.status).toHaveBeenCalledWith(200);
-            expect(response.send).toHaveBeenCalledWith(new CSVResponse().build(record))
+            expect(response.send).toHaveBeenCalledWith(CSV.JSONtoCSV(record));
         });
     })
 })

@@ -5,6 +5,8 @@ import CheckInService from "../../services/CheckInService";
 import requestIp from "request-ip";
 import { Response as ResponseHelper } from "../../lib/HTTP";
 import CSVResponse from "../../lib/HTTP/CSVResponse";
+import CSV from "../../lib/HTTP/CSV";
+import MessageResponse from "../../lib/HTTP/MessageResponse";
 
 export default class CheckInController {
     checkInService : CheckInService;
@@ -18,9 +20,7 @@ export default class CheckInController {
     public async handleCheckIn(req : Request, res: Response) {
         const checkIn = req.body as ICheckIn;
         await this.checkInService.checkIn(checkIn, requestIp.getClientIp(req));
-        return ResponseHelper.sendData(res, {
-            message: "Successfully checked in"
-        });
+        return new MessageResponse(res).send("Successfully checked in");
     }
 
     public async handleGetReport(req : Request, res: Response) {
@@ -28,6 +28,6 @@ export default class CheckInController {
         const checkInReport = await this.checkInService.getRestaurantReport(
             getCheckInQuery.restaurantId
         );
-        res.status(200).send(new CSVResponse().build(checkInReport));
+        return new CSVResponse(res).send(CSV.JSONtoCSV(checkInReport));
     }
 }
