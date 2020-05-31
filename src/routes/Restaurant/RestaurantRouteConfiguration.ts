@@ -34,5 +34,10 @@ export default class RestaurantRouteConfiguration extends RouterConfiguration<Re
             new ValidationMiddleware(FindRestaurantByIdSchema).validateParams(),
             ErrorCatchingMiddlware.catchErrors(this.controller.handleGetRestaurantByID)
         );
+
+        this.router.get(
+            "/",
+            ErrorCatchingMiddlware.catchErrors(this.controller.handleGetAllRestaurants)
+        )
     }
 }

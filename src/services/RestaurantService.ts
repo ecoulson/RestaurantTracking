@@ -59,4 +59,12 @@ export default class RestaurantService {
             throw new Error(`No restaurant with the id ${restaurantId}`);
         }
     }
+
+    async getAllRestaurants() {
+        try {
+            return await RestaurantModel.find();
+        } catch (error) {
+            throw new Error("Failed to find all restaurants");
+        }
+    }
 }

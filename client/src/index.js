@@ -1,6 +1,7 @@
 import { AsYouType, parsePhoneNumberFromString } from 'libphonenumber-js'
 import IsEmail from 'isemail';
 
+const Screen0 = getScreen(0);
 const Screen1 = getScreen(1);
 const Screen2 = getScreen(2);
 const Screen3 = getScreen(3);
@@ -12,10 +13,12 @@ const SubmitButton = getById("submit");
 const RestaurantName = getById("restaurant-name");
 const ErrorMessage = getById("error-message");
 const Screens = document.getElementsByClassName("screen");
+const RestaurantSelect = getById("restaurant-select");
 
 PhoneNumberInput.addEventListener("keyup", (event) => {
     if (event.keyCode !== 8) {
         const number = parsePhoneNumberFromString(PhoneNumberInput.value, "US");
+        console.log(number);
         PhoneNumberInput.value = new AsYouType("US").input(number.nationalNumber);
     }
 })
@@ -31,12 +34,40 @@ window.addEventListener("resize", () => {
 })
 
 const QueryParameters = new URLSearchParams(window.location.search);
-const RestaurantId = QueryParameters.get("restaurantId");
+let restaurantId = QueryParameters.get("restaurantId");
+let restaurants = [];
 
-if (RestaurantId === null) {
-    showError("Failed to find restaurant");
-} else {
-    updateRestaurantName();
+RestaurantSelect.addEventListener("change", handleSelectChange);
+
+main();
+
+async function main() {
+    if (restaurantId === null) {
+        const restaurantsResponse = await getAllRestaurants();
+        const payload = await restaurantsResponse.json();
+        restaurants = payload.data.restaurants;
+        fadeIn(Screen0);
+        populateSelectMenu();
+    } else {
+        updateRestaurantName();
+    }
+}
+
+function populateSelectMenu() {
+    restaurants.forEach((restaurant) => {
+        if (!RestaurantSelect.value) {
+            restaurantId = restaurant._id
+            RestaurantSelect.value = restaurant._id;
+        }
+        const option = document.createElement("option");
+        option.value = restaurant._id;
+        option.innerHTML = restaurant.name;
+        RestaurantSelect.append(option);
+    })
+}
+
+function handleSelectChange() {
+    restaurantId = RestaurantSelect.value.toString();
 }
 
 async function updateRestaurantName() {
@@ -52,7 +83,17 @@ async function updateRestaurantName() {
 }
 
 function getRestaurant() {
-    return fetch(`/restaurant/${RestaurantId}`, {
+    return fetch(`/restaurant/${restaurantId}`, {
+        method: "GET",
+        headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        },
+    })
+}
+
+function getAllRestaurants() {
+    return fetch(`/restaurant/`, {
         method: "GET",
         headers: {
             "Accept": "application/json",
@@ -77,6 +118,7 @@ async function submit() {
         showError("Please enter a valid email");
     } else {
         hide(Screen1);
+        hide(Screen0);
         show(Screen2);
         const response = await sendFormDataToServer();
         const payload = await response.json();
@@ -108,7 +150,7 @@ function sendFormDataToServer() {
         body: JSON.stringify({
             email: getInputValue(EmailInput) == "" ? null : getInputValue(EmailInput),
             number: getInputValue(PhoneNumberInput) == "" ? null : getInputValue(PhoneNumberInput),
-            restaurantId: RestaurantId
+            restaurantId: restaurantId
         })
     })
 }

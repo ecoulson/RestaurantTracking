@@ -9,6 +9,7 @@ export default class CSVResponse implements IResponse<string> {
     }
 
     public send(csv : string) {
-        this.response.status(200).contentType("text/csv").send(csv);
+        this.response.set("Content-Type", "text/csv")
+        this.response.status(200).send(csv);
     }
 }

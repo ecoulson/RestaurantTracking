@@ -136,4 +136,27 @@ describe("Restaurant Service Test", () => {
             expect.assertions(1);
         })
     })
+
+    describe("getAllRestaurants", () => {
+        test("Gets all restaurants", async () => {
+            RestaurantModel.find = jest.fn().mockResolvedValue([]);
+            const service = new RestaurantService();
+
+            const restaurants = await service.getAllRestaurants();
+
+            expect(restaurants).toEqual([]);
+        });
+
+        test("Fails to get all restaurants", async () => {
+            RestaurantModel.find = jest.fn().mockRejectedValue(new Error());
+            const service = new RestaurantService();
+
+            try {
+                await service.getAllRestaurants();
+            } catch(error) {
+                expect(error).toEqual(new Error("Failed to find all restaurants"))
+            }
+            expect.assertions(1);
+        })
+    })
 })

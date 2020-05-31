@@ -121,4 +121,37 @@ describe("Restaurant Controller Suite", () => {
             })
         })
     });
+
+    describe("handleGetAllRestaurants", () => {
+        test("Fails to get all restaurants", async () => {
+            RestaurantService.prototype.getAllRestaurants = jest.fn().mockRejectedValue(new Error());
+            const request = mockRequest();
+            const response = mockResponse();
+            const controller = new RestaurantController();
+
+            try {
+                await controller.handleGetAllRestaurants(request, response);
+            } catch (error) {
+                expect(error).toEqual(new Error());
+            }
+            expect.assertions(1);
+        })
+
+        test("Gets all restaurants", async () => {
+            RestaurantService.prototype.getAllRestaurants = jest.fn().mockResolvedValue([]);
+            const request = mockRequest();
+            const response = mockResponse();
+            const controller = new RestaurantController();
+
+            await controller.handleGetAllRestaurants(request, response);
+
+            expect(response.status).toHaveBeenCalledWith(200);
+            expect(response.json).toHaveBeenCalledWith({
+                success: true,
+                data: {
+                    restaurants: []
+                }
+            })
+        });
+    })
 })
