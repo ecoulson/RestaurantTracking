@@ -1,7 +1,7 @@
 import CheckIn from "../models/check-in/CheckInModel";
 import RestaurantModel from "../models/restaurant/RestaurantModel";
 import ICheckInRequestBody from "../controllers/CheckIn/ICheckIn";
-import ICheckIn from "../models/check-in/ICheckIn";
+import CSV from "../lib/HTTP/CSV";
 
 export default class CheckInService {
     async checkIn(checkIn : ICheckInRequestBody, ipAddress : string) : Promise<boolean> {
@@ -38,17 +38,15 @@ export default class CheckInService {
         }
     }
 
-    async getRestaurantReport(restaurantId : string) : Promise<ICheckIn[]> {
+    async getRestaurantReport(restaurantId : string) : Promise<string> {
         if (!await this.restaurantExists(restaurantId)) {
             throw new Error(`Could not generate report for ${restaurantId} because it does not exist`);
         }
         const checkIns = await CheckIn.findByRestaurantId(restaurantId);
-        return this.serializeCheckins(checkIns);
-    }
-    
-    private serializeCheckins(checkIns : ICheckIn[]) {
-        return checkIns.map((checkIn) => {
-            return checkIn.serialize();
-        });
+        let serializedCheckIns = [];
+        for (let i = 0; i < checkIns.length; i++) {
+            serializedCheckIns.push(await checkIns[i].serialize());
+        }
+        return CSV.JSONtoCSV(serializedCheckIns);
     }
 }

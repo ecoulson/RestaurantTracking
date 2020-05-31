@@ -3,7 +3,6 @@ import ICheckIn from "./ICheckIn";
 import IGetCheckInsByRestaurantQuery from "./IGetCheckInsByRestaurantQuery";
 import CheckInService from "../../services/CheckInService";
 import requestIp from "request-ip";
-import { Response as ResponseHelper } from "../../lib/HTTP";
 import CSVResponse from "../../lib/HTTP/CSVResponse";
 import CSV from "../../lib/HTTP/CSV";
 import MessageResponse from "../../lib/HTTP/MessageResponse";
@@ -28,6 +27,6 @@ export default class CheckInController {
         const checkInReport = await this.checkInService.getRestaurantReport(
             getCheckInQuery.restaurantId
         );
-        return new CSVResponse(res).send(CSV.JSONtoCSV(checkInReport));
+        return new CSVResponse(res).send(checkInReport);
     }
 }

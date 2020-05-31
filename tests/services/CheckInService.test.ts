@@ -7,6 +7,7 @@ import CheckInModel from "../../src/models/check-in/CheckInModel";
 const faker = require("faker");
 const Chance = require('chance');
 import { generateObjectId } from "../helpers/mongo";
+import CSV from "../../src/lib/HTTP/CSV";
 
 const chance = new Chance();
 
@@ -91,7 +92,7 @@ describe("Checkin Service Test", () => {
 
             const report = await service.getRestaurantReport(checkIn.id);
 
-            expect(report).toEqual([]);
+            expect(report).toEqual("");
         })
         
         test("A successful get check ins request", async () => {
@@ -103,9 +104,9 @@ describe("Checkin Service Test", () => {
 
             const report = await service.getRestaurantReport(checkIn.id);
 
-            expect(report).toEqual([
+            expect(report).toEqual(CSV.JSONtoCSV([
                 getCheckinDocument(checkIn).serialize()
-            ]);
+            ]));
         })
 
         test("A successful get check ins request multiple rows", async () => {
@@ -121,7 +122,7 @@ describe("Checkin Service Test", () => {
 
             const report = await service.getRestaurantReport(checkIn.id);
 
-            expect(report).toEqual(record.map((entry : any) => entry.serialize()));
+            expect(report).toEqual(CSV.JSONtoCSV(record.map((entry : any) => entry.serialize())));
         })
     })
 });

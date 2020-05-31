@@ -13,9 +13,8 @@ import webpackHotMiddleware from "webpack-hot-middleware";
 import { errorHandler, devErrorHandler } from "./middleware/error-handling";
 import { requestLogger, logger } from "./lib/logging";
 import APIRouterConfiguration from "./routes";
-import RestaurantRouteConfiguration from "./routes/Restaurant/RestaurantRouteConfiguration";
-import CheckInRouteConfiguration from "./routes/CheckIn/CheckInRouteConfiguration";
-import RestaurantController from "./controllers/Restaurant/RestaurantController";
+import ErrorHandlingMiddleware from "./middleware/error-handling/ErrorHandlingMiddleware";
+import ErrorCatchingMiddlware from "./middleware/error-handling/ErrorCatchingMiddleware";
 
 const config = require('../webpack.config');
 
@@ -78,9 +77,9 @@ app.use("/", new APIRouterConfiguration({}).setup());
 
 
 if (process.env.NODE_ENV !== "development") {
-    app.use(errorHandler);
+    app.use(ErrorHandlingMiddleware.productionErrorHandler);
 } else {
-    app.use(devErrorHandler);
+    app.use(ErrorHandlingMiddleware.devErrorHandler);
 }
 
 export default app;

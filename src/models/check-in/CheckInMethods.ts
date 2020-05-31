@@ -3,7 +3,7 @@ import ICheckIn from "./ICheckIn";
 
 export default class CheckInMethods {
     static async serialize() {
-        const context : ICheckIn = CheckInMethods.getContext();
+        const context : ICheckIn = CheckInMethods.getContext.bind(this)();
         logger.debug(`Serializing checkin document with id ${context._id}`);
         return {
             __v: context.__v,

@@ -3,7 +3,7 @@ import IRestaurant from "./IRestaurant";
 
 export default class RestaurantMetods {
     static async serialize() {
-        const context : IRestaurant = RestaurantMetods.getContext();
+        const context : IRestaurant = RestaurantMetods.getContext.bind(this)();
         logger.debug(`Serializing checkin document with id ${context._id}`);
         return {
             __v: context.__v,
