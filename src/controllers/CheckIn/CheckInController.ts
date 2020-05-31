@@ -17,15 +17,7 @@ export default class CheckInController {
 
     public async handleCheckIn(req : Request, res: Response) {
         const checkIn = req.body as ICheckIn;
-        const successfullyCheckedIn = await this.checkInService.checkIn(
-            checkIn, requestIp.getClientIp(req)
-        );
-        // move logic to service
-        if (!successfullyCheckedIn) {
-            return ResponseHelper.sendError(res, {
-                error: "Can not check in to a restaurant that does not exist"
-            });   
-        }
+        await this.checkInService.checkIn(checkIn, requestIp.getClientIp(req));
         return ResponseHelper.sendData(res, {
             message: "Successfully checked in"
         });
@@ -33,12 +25,6 @@ export default class CheckInController {
 
     public async handleGetReport(req : Request, res: Response) {
         const getCheckInQuery = req.query as any as IGetCheckInsByRestaurantQuery;
-        // move logic to service
-        if (!await this.checkInService.restaurantExists(getCheckInQuery.restaurantId)) {
-            return ResponseHelper.sendError(res, {
-                error: "Could not create checkin report for restaurant that does not exist"
-            });
-        }
         const checkInReport = await this.checkInService.getRestaurantReport(
             getCheckInQuery.restaurantId
         );

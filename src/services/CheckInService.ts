@@ -2,18 +2,17 @@ import CheckIn from "../models/check-in/CheckInModel";
 import RestaurantModel from "../models/restaurant/RestaurantModel";
 import ICheckInRequestBody from "../controllers/CheckIn/ICheckIn";
 import ICheckIn from "../models/check-in/ICheckIn";
-import CSVResponse from "../lib/HTTP/CSVResponse";
 
 export default class CheckInService {
     async checkIn(checkIn : ICheckInRequestBody, ipAddress : string) : Promise<boolean> {
         if (!await this.restaurantExists(checkIn.restaurantId)) {
-            return false;
+            throw new Error("Can not check in to a restaurant that does not exist")
         }
         await this.saveCheckInToDB(checkIn, ipAddress);
         return true;
     }
 
-    async restaurantExists(restaurantId : string) {
+    private async restaurantExists(restaurantId : string) {
         try {
             const restaurant = await RestaurantModel.findById(restaurantId);
             if (!restaurant) {
@@ -40,6 +39,9 @@ export default class CheckInService {
     }
 
     async getRestaurantReport(restaurantId : string) : Promise<ICheckIn[]> {
+        if (!await this.restaurantExists(restaurantId)) {
+            throw new Error(`Could not generate report for ${restaurantId} because it does not exist`);
+        }
         const checkIns = await CheckIn.findByRestaurantId(restaurantId);
         return this.serializeCheckins(checkIns);
     }

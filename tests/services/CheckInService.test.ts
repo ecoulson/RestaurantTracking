@@ -54,13 +54,18 @@ describe("Checkin Service Test", () => {
             CheckInModel.prototype.save.mockResolvedValue(null);
             (RestaurantModel.findById as jest.Mock).mockResolvedValue(null);
 
-            const result : boolean = await service.checkIn({
-                number: chance.phone({ country: 'us' }),
-                email: faker.internet.email(),
-                restaurantId: generateObjectId()
-            }, "1.1.1.1");
-
-            expect(result).toBeFalsy();
+            try {
+                await service.checkIn({
+                    number: chance.phone({ country: 'us' }),
+                    email: faker.internet.email(),
+                    restaurantId: generateObjectId()
+                }, "1.1.1.1");
+            } catch(error) {
+                expect(error).toEqual(
+                    new Error("Can not check in to a restaurant that does not exist")
+                );
+            }
+            expect.assertions(1)
         });
 
         test("A successful check in", async () => {

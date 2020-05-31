@@ -12,20 +12,22 @@ const chance = new Chance();
 describe("Check In Controller Suite", () => {
     describe("handleCheckIn", () => {
         test("Failed to check in", async () => {
-            CheckInService.prototype.checkIn = jest.fn().mockResolvedValue(false);
+            CheckInService.prototype.checkIn = jest.fn().mockRejectedValue(new Error());
             const controller = new CheckInController();
-            const request = mockRequest();
+            const id = generateObjectId();
+            const request = mockRequest({
+                body: {
+                    restaurantId: id
+                }
+            });
             const response = mockResponse();
 
-            await controller.handleCheckIn(request, response);
-
-            expect(response.status).toHaveBeenCalledWith(400);
-            expect(response.json).toHaveBeenCalledWith({
-                success: false,
-                data: {
-                    error: "Can not check in to a restaurant that does not exist"
-                }
-            })
+            try {
+                await controller.handleCheckIn(request, response);
+            } catch (error) {
+                expect(error).toEqual(new Error())
+            }
+            expect.assertions(1);
         });
 
         test("Successful check in", async () => {
@@ -48,20 +50,17 @@ describe("Check In Controller Suite", () => {
 
     describe("handleGetReport", () => {
         test("Tries to get a report for a restaurant that does not exisit", async () => {
-            CheckInService.prototype.restaurantExists = jest.fn().mockResolvedValue(false);
+            CheckInService.prototype.getRestaurantReport = jest.fn().mockRejectedValue(new Error());
             const controller = new CheckInController();
             const request = mockRequest();
             const response = mockResponse();
 
-            await controller.handleGetReport(request, response);
-
-            expect(response.status).toHaveBeenCalledWith(400);
-            expect(response.json).toHaveBeenCalledWith({
-                success: false,
-                data: {
-                    error: "Could not create checkin report for restaurant that does not exist"
-                }
-            })
+            try {
+                await controller.handleGetReport(request, response);
+            } catch (error) {
+                expect(error).toEqual(new Error())
+            }
+            expect.assertions(1);
         })
         
         test("Gets a report", async () => {
@@ -73,7 +72,6 @@ describe("Check In Controller Suite", () => {
                 timeCheckedIn : new Date().toUTCString(),
             }
             const record = [entry]
-            CheckInService.prototype.restaurantExists = jest.fn().mockResolvedValue(true);
             CheckInService.prototype.getRestaurantReport = jest.fn().mockResolvedValue(
                 record
             );
