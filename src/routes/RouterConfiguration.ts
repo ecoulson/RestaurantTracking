@@ -1,7 +1,5 @@
 import { Router as ExpressRouter, RequestHandler } from "express";
 import IRouterConfiguration from "./IRouterConfiguration";
-import { catchErrors } from "../middleware/error-handling";
-import { logger } from "../lib/logging";
 
 export default abstract class RouterConfiguration<Controller> implements IRouterConfiguration {
     protected router : ExpressRouter;
