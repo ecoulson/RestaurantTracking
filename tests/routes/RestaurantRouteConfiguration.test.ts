@@ -1,5 +1,3 @@
-import { createModelMock } from "../mocks/models";
-createModelMock("../../src/models/restaurant/RestaurantModel");
 jest.mock("../../src/lib/URL-shortener");
 import RestaurantModel from "../../src/models/restaurant/RestaurantModel";
 import URLShortener from "../../src/lib/URL-shortener";
@@ -72,25 +70,26 @@ describe("Restaurant Routes Suite", () => {
                     link: url
                 }
             })
-            RestaurantModel.prototype.save.mockRejectedValue(new Error("Database error"));
+            RestaurantModel.prototype.save = jest.fn().mockRejectedValue(new Error("Database error"));
     
+            const name = faker.company.companyName();
             const response = await makeRegisterRequest({
                 number: chance.phone(),
-                name: faker.company.companyName()
+                name: name
             });
             
-            expectErrorResponse(response, "Database error");
+            expectErrorResponse(response, `Failed to save restaurant ${name} to database`);
             expectStatusCode(response, 400);
         });
 
         test("A successful registration", async () => {
             const url = faker.internet.url();
-            (URLShortener as any).mockResolvedValue({
+            (URLShortener as jest.Mock).mockResolvedValue({
                 data: {
                     link: url
                 }
             })
-            RestaurantModel.prototype.save.mockResolvedValue({});
+            RestaurantModel.prototype.save = jest.fn().mockResolvedValue({});
             
             const request = {
                 number: chance.phone(),
@@ -108,7 +107,7 @@ describe("Restaurant Routes Suite", () => {
 
     describe("QRCode Generation Route", () => {
         test("Database error occurs", async () => {
-            (RestaurantModel.findById as jest.Mock).mockRejectedValue(new Error("Database error"));
+            RestaurantModel.findById = jest.fn().mockRejectedValue(new Error("Database error"));
             const id = generateObjectId();
 
             const response = await makeQRCodeRequest({
@@ -124,7 +123,7 @@ describe("Restaurant Routes Suite", () => {
                 _id: generateObjectId(),
                 url: faker.internet.url()
             };
-            (RestaurantModel.findById as any).mockResolvedValue(restaurant);
+            RestaurantModel.findById = jest.fn().mockResolvedValue(restaurant);
             
             const response = await makeQRCodeRequest({
                 restaurantId: restaurant._id
@@ -137,20 +136,22 @@ describe("Restaurant Routes Suite", () => {
 
     describe("Get Restaurant", () => {
         test("Database error occurs", async () => {
-            (RestaurantModel.findById as jest.Mock).mockRejectedValue(new Error("Database error"));
+            RestaurantModel.findById = jest.fn().mockRejectedValue(new Error("Database error"));
+            const id = generateObjectId();
 
-            const response = await makeFindRestaurantRequest(generateObjectId());
+            const response = await makeFindRestaurantRequest(id);
 
-            expectErrorResponse(response, "Could not find restaurant");
+            expectErrorResponse(response, `Failed to find a restaurant with id ${id}`);
             expectStatusCode(response, 400);
         });
 
         test("Fails to find a restaurant", async () => {
-            (RestaurantModel.findById as jest.Mock).mockResolvedValue(null);
+            RestaurantModel.findById = jest.fn().mockResolvedValue(null);
+            const id = generateObjectId();
 
-            const response = await makeFindRestaurantRequest(generateObjectId());
+            const response = await makeFindRestaurantRequest(id);
 
-            expectErrorResponse(response, "Could not find restaurant");
+            expectErrorResponse(response, `No restaurant with the id ${id}`);
             expectStatusCode(response, 400);
         });
 
@@ -161,7 +162,7 @@ describe("Restaurant Routes Suite", () => {
                 number: chance.phone(),
                 url: faker.internet.url()
             };
-            (RestaurantModel.findById as jest.Mock).mockResolvedValue(restaurant);
+            RestaurantModel.findById = jest.fn().mockResolvedValue(restaurant);
 
             const response = await makeFindRestaurantRequest(restaurant._id);
 

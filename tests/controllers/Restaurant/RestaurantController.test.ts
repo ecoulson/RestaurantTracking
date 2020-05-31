@@ -1,4 +1,4 @@
-jest.mock("../../../src/lib/URL-Shortener");
+jest.mock("../../../src/lib/URL-shortener");
 jest.mock("../../../src/services/RestaurantService");
 jest.mock("qrcode");
 import RestaurantController from "../../../src/controllers/Restaurant/RestaurantController";

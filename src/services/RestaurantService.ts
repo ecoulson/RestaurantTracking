@@ -12,13 +12,17 @@ export default class RestaurantService {
     
     private async saveRestaurantToDB(restaurantRegistration : IRestaurantRegistration) {
         logger.debug(`Saving a restaurant by the name ${restaurantRegistration.name} to the database`);
-        const restaurant : any = new RestaurantModel({
+        const restaurant = new RestaurantModel({
             name: restaurantRegistration.name,
             number: restaurantRegistration.number,
             url: ""
         });
-        restaurant.url = (await URLShortner(restaurant._id)).data.link 
-        await restaurant.save();
+        restaurant.url = (await URLShortner(restaurant._id)).data.link;
+        try {
+            await restaurant.save();
+        } catch (error) {
+            throw new Error(`Failed to save restaurant ${restaurantRegistration.name} to database`);
+        }
         logger.debug(`Saved a restaurant with the name ${restaurantRegistration.name} to the database`)
     }
 
@@ -27,7 +31,7 @@ export default class RestaurantService {
         const restaurant = await this.findRestaurant(restaurantId);
         if (!restaurant) {
             logger.error(`Failed to generate a QR Code for restaurant with id ${restaurantId} because it does not exsist`);
-            throw new Error(`Failed to find a restaurant with id ${restaurantId}`)
+            throw new Error(`Failed to find a restaurant with id ${restaurantId}`);
         }
         return restaurant;
     }
@@ -40,7 +44,7 @@ export default class RestaurantService {
             return restaurant;
         } catch (error) {
             logger.debug(`Failed to find a restaurant with id ${restaurantId}`);
-            return null;
+            throw new Error(`Failed to find a restaurant with id ${restaurantId}`);
         }
     }
 
@@ -51,8 +55,8 @@ export default class RestaurantService {
             logger.info(`Found restaurant with the id ${restaurantId}`);
             return restaurant
         } else {
-            logger.info(`Failed to find a restaurant with the id ${restaurantId}`);
-            throw new Error("Could not find restaurant");
+            logger.info(`No restaurant with the id ${restaurantId}`);
+            throw new Error(`No restaurant with the id ${restaurantId}`);
         }
     }
 }
