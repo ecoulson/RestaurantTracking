@@ -10,10 +10,10 @@ export default class CSVResponse {
             row.push(`"${key}"`);
         }
         csv.push(row.join(","));
-        for (let checkIn of entries) {
+        for (let entry of entries) {
             row = [];
             for (let key of keys) {
-                row.push(`"${checkIn[key]}"`);
+                row.push(`"${(entry as any)[key]}"`);
             }
             csv.push(row.join(","));
         }

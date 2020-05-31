@@ -150,17 +150,17 @@ describe("Check In Routes Suite", () => {
     });
 });
 
-async function makeCheckInRequest(body) {
+async function makeCheckInRequest(body : any) {
     return await makePostRequest(CHECKIN_URL, body);
 }
 
-async function getCheckinsAtRestaurantRequest(query) {
+async function getCheckinsAtRestaurantRequest(query : any) {
     if (query && query.restaurantId) {
         return await makeGetRequest(`${CHECKIN_URL}?restaurantId=${query.restaurantId}`)
     }
     return await makeGetRequest(CHECKIN_URL)
 }
 
-async function getDuplicateCheckinsAtRestaurantRequest(query) {
+async function getDuplicateCheckinsAtRestaurantRequest(query : any) {
     return await makeGetRequest(`${CHECKIN_URL}?restaurantId=${query.restaurantId}&restaurantId=${query.restaurantId}`)
 }

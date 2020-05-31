@@ -23,7 +23,7 @@ describe("URL Shortener Suite", () => {
             const restaurantId = mongoObjectId();
             const url = `http://${process.env.HOST_NAME}.localhost:${process.env.PORT}?restaurantId=${restaurantId}`
             const id = mongoObjectId();
-            const bitlyResponse = {
+            const bitlyResponse : any = {
                 "created_at": faker.date.recent(),
                 "id": `bit.ly/${id}`,
                 "link": `https://bit.ly/${id}`,

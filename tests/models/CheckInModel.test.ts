@@ -41,7 +41,7 @@ describe('Check In Model Suite', () => {
     })
 });
 
-async function createEmailCheckIn(id) {
+async function createEmailCheckIn(id : string) {
     let doc = new CheckInModel({
         email: faker.internet.email(),
         restaurantId: id,
@@ -50,7 +50,7 @@ async function createEmailCheckIn(id) {
     return await doc.save();
 }
 
-async function createPhoneNumberCheckIn(id) {
+async function createPhoneNumberCheckIn(id : string) {
     let doc = new CheckInModel({
         number: faker.phone.phoneNumber(),
         restaurantId: id,

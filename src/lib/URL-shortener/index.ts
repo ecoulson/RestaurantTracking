@@ -3,7 +3,7 @@ const ngrok = require("../../../tools/ngrok");
 
 const BITLY_URL = "https://api-ssl.bitly.com/v4/shorten";
 
-async function generateBitlyLink(restaurantId) {
+async function generateBitlyLink(restaurantId : string) {
     try {
         return await axios.post(BITLY_URL, {
             long_url: await getLongUrl(restaurantId)
@@ -19,7 +19,7 @@ async function generateBitlyLink(restaurantId) {
     }
 }
 
-async function getLongUrl(restaurantId) {
+async function getLongUrl(restaurantId : string) {
     if (await ngrok.hasNgrokTunnel()) {
         return await `${await ngrok.getNgrokUrl()}?restaurantId=${restaurantId}`;
     } else if (process.env.NODE_ENV !== "production") {

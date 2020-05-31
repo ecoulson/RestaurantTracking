@@ -171,17 +171,17 @@ describe("Restaurant Routes Suite", () => {
     })
 });
 
-async function makeRegisterRequest(data) {
+async function makeRegisterRequest(data : any) {
     return await makePostRequest(REGISTER_URL, data)
 }
 
-async function makeQRCodeRequest(params) {
+async function makeQRCodeRequest(params : any) {
     if (params.restaurantId) {
         return await makeGetRequest(CODE_URL.replace(":id", params.restaurantId))
     }
     return await makeGetRequest(CODE_URL.replace(":id", "null"))
 }
 
-async function makeFindRestaurantRequest(id) {
+async function makeFindRestaurantRequest(id : string) {
     return await makeGetRequest(`/restaurant/${id}`);
 }

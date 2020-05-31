@@ -5,6 +5,8 @@ import { CheckingInUserSchema, GetCheckinSchema } from "./CheckInRouteSchemas";
 import RouterConfiguration from "../RouterConfiguration";
 import CheckInController from "../../controllers/CheckIn/CheckInController";
 import { authenticate } from "../../middleware/authentication";
+import { logger } from "../../lib/logging";
+import { catchErrors } from "../../middleware/error-handling";
 
 export default class CheckInRouteConfiguration extends RouterConfiguration<CheckInController> {
     constructor() {
@@ -12,16 +14,20 @@ export default class CheckInRouteConfiguration extends RouterConfiguration<Check
     }
 
     configureRoutes() {
-        this.post("/", [
+        this.router.post(
+            "/",
             this.ensureEmailOrNumberIsProvided,
-            hapiValidation(CheckingInUserSchema, "body")
-        ], this.controller.handleCheckin);
+            hapiValidation(CheckingInUserSchema, "body"), 
+            catchErrors(this.controller.handleCheckin)
+        );
 
-        this.get("/", [
+        this.router.get(
+            "/", 
             authenticate,
             queryDuplicationMiddleware("restaurantId"),  
-            hapiValidation(GetCheckinSchema, "query")
-        ], this.controller.handleGetCheckins)
+            hapiValidation(GetCheckinSchema, "query"), 
+            catchErrors(this.controller.handleGetCheckins)
+        )
     }
 
     private ensureEmailOrNumberIsProvided(req : Request, res : Response, next : NextFunction) {

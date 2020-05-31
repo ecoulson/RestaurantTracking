@@ -7,6 +7,7 @@ import {
 } from "./RestaurantRouteSchemas";
 import RouterConfiguration from "../RouterConfiguration";
 import RestaurantController from "../../controllers/Restaurant/RestaurantController";
+import { catchErrors } from "../../middleware/error-handling";
 
 export default class RestaurantRouteConfiguration extends RouterConfiguration<RestaurantController> {
     constructor() {
@@ -14,22 +15,22 @@ export default class RestaurantRouteConfiguration extends RouterConfiguration<Re
     }
 
     configureRoutes() {
-        this.get(
+        this.router.get(
             "/:restaurantId/generate",
-            [ authenticate, hapiValidation(GenerateQRCodeSchema, "params")], 
-            this.controller.handleQRCodeGeneration
+            authenticate, hapiValidation(GenerateQRCodeSchema, "params"), 
+            catchErrors(this.controller.handleQRCodeGeneration)
         );
-
-        this.post(
+            
+        this.router.post(
             "/register",
-            [authenticate, hapiValidation(RegisterRestaurantSchema, "body")],
-            this.controller.handleRestaurantRegistration
+            authenticate, hapiValidation(RegisterRestaurantSchema, "body"),
+            catchErrors(this.controller.handleRestaurantRegistration)
         )
-
-        this.get(
+        
+        this.router.get(
             "/:restaurantId",
-            [ hapiValidation(FindRestaurantByIdSchema, "params") ],
-            this.controller.handleGetRestaurantByID
-        )
+            hapiValidation(FindRestaurantByIdSchema, "params"),
+            catchErrors(this.controller.handleGetRestaurantByID)
+        );
     }
 }

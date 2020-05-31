@@ -10,9 +10,11 @@ export default class CheckInController {
 
     constructor() {
         this.checkInService = new CheckInService();
+        this.handleCheckin = this.handleCheckin.bind(this);
+        this.handleGetCheckins = this.handleGetCheckins.bind(this);
     }
 
-    async handleCheckin(req : Request, res: Response) {
+    public async handleCheckin(req : Request, res: Response) {
         const checkIn = req.body as ICheckIn;
         if (!await this.checkInService.checkIn(checkIn, requestIp.getClientIp(req))) {
             return ResponseHelper.sendError(res, {
@@ -24,7 +26,7 @@ export default class CheckInController {
         });
     }
 
-    async handleGetCheckins(req : Request, res: Response) {
+    public async handleGetCheckins(req : Request, res: Response) {
         const getCheckInQuery = req.query as any as IGetCheckInsByRestaurantQuery;
         const checkInReport = await this.checkInService.findCheckinsByRestaurant(getCheckInQuery.restaurantId);
         res.send(checkInReport).status(200);

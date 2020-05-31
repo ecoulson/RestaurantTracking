@@ -1,6 +1,7 @@
 import { authenticate } from "../../../src/middleware/authentication";
 import { mockRequest, mockResponse } from "mock-req-res";
 import { match } from "sinon";
+import { Response } from "express";
 
 beforeAll(() => {
     process.env.SERVER_SECRET = "valid_token"
@@ -58,16 +59,16 @@ describe("Authentication Test Suite", () => {
     })
 });
 
-function expectForbiddenResponse(res) {
+function expectForbiddenResponse(res : Response) {
     expectForbiddenStatus(res);
     expectForbiddenBody(res);
 }
 
-function expectForbiddenStatus(res) {
+function expectForbiddenStatus(res : Response) {
     expect(res.status).toHaveBeenCalledWith(403);
 }
 
-function expectForbiddenBody(res) {
+function expectForbiddenBody(res : Response) {
     expect(res.json).toHaveBeenCalledWith(match({
         success: false,
         data: {

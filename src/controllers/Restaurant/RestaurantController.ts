@@ -10,6 +10,9 @@ export default class RestaurantController {
 
     constructor() {
         this.restaurantService = new RestaurantService();
+        this.handleQRCodeGeneration = this.handleQRCodeGeneration.bind(this);
+        this.handleGetRestaurantByID = this.handleGetRestaurantByID.bind(this);
+        this.handleRestaurantRegistration = this.handleRestaurantRegistration.bind(this);
     }
 
     async handleRestaurantRegistration(req : Request, res : Response) {
