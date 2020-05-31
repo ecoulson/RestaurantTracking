@@ -1,8 +1,6 @@
 import { Response } from "express";
-import IRestaurantModel from "../../models/restaurant/IRestaurantModel";
 import IRestaurant from "../../models/restaurant/IRestaurant";
-
-const qrcode = require("qrcode");
+import qrcode from "qrcode";
 
 function streamQRCode(res : Response, restaurant : IRestaurant) {
     qrcode.toFileStream(res, getUrl(restaurant), {

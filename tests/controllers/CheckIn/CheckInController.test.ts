@@ -9,6 +9,10 @@ import CSVResponse from "../../../src/lib/HTTP/CSVResponse";
 
 const chance = new Chance();
 
+beforeEach(() => {
+    jest.resetAllMocks();
+})
+
 describe("Check In Controller Suite", () => {
     describe("handleCheckIn", () => {
         test("Failed to check in", async () => {
@@ -31,7 +35,6 @@ describe("Check In Controller Suite", () => {
         });
 
         test("Successful check in", async () => {
-            CheckInService.prototype.checkIn = jest.fn().mockResolvedValue(true);
             const controller = new CheckInController();
             const request = mockRequest();
             const response = mockResponse();

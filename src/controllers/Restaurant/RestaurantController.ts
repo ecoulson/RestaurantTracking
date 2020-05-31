@@ -1,7 +1,6 @@
 import RestaurantService from "../../services/RestaurantService";
 import { Request, Response } from "express";
 import IRestaurantRegistration from "./IRestaurantRegistration";
-import { logger } from "../../lib/logging";
 import { Response as ResponseHelper } from "../../lib/HTTP"
 import { streamQRCode } from "../../lib/QR-code";
 
@@ -17,18 +16,10 @@ export default class RestaurantController {
 
     async handleRestaurantRegistration(req : Request, res : Response) {
         const restaurantRegistration = req.body as IRestaurantRegistration;
-        const result = await this.restaurantService.registerRestaurant(restaurantRegistration);
-        if (result) {
-            logger.info(`Successfully registered ${restaurantRegistration.name}`);
-            return ResponseHelper.sendData(res, {
-                message: `Successfully registered ${restaurantRegistration.name}`,
-            });
-        } else {
-            logger.info(`Failed to register ${restaurantRegistration.name}`);
-            return ResponseHelper.sendError(res, {
-                message: `Failed to register ${restaurantRegistration.name}`,
-            });
-        }
+        await this.restaurantService.registerRestaurant(restaurantRegistration);
+        return ResponseHelper.sendData(res, {
+            message: `Successfully registered ${restaurantRegistration.name}`,
+        });
     }
 
     async handleQRCodeGeneration(req : Request, res : Response) {

@@ -1,15 +1,13 @@
 import RestaurantModel from "../models/restaurant/RestaurantModel";
-import { Response } from "../lib/HTTP";
 import URLShortner from "../lib/URL-shortener";
 import { logger } from "../lib/logging";
 import IRestaurantRegistration from "../controllers/Restaurant/IRestaurantRegistration";
 
 export default class RestaurantService {
-    async registerRestaurant(restaurantRegistration : IRestaurantRegistration) : Promise<boolean> {
+    async registerRestaurant(restaurantRegistration : IRestaurantRegistration) : Promise<void> {
         logger.info(`Registering ${restaurantRegistration.name} as a restaurant`);
         await this.saveRestaurantToDB(restaurantRegistration);
         logger.info(`Registered ${restaurantRegistration.name} as a restaurant`);
-        return true;
     }
     
     private async saveRestaurantToDB(restaurantRegistration : IRestaurantRegistration) {
