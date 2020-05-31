@@ -14,7 +14,7 @@ describe("BasicAuthenticationStrategy Test Suite", () => {
             const req = mockRequest();
             const res = mockResponse();
         
-            strategy.authenticate(req, res, () => {});
+            strategy.authenticate()(req, res, () => {});
 
             expectForbiddenResponse(res);
         });
@@ -28,7 +28,7 @@ describe("BasicAuthenticationStrategy Test Suite", () => {
             });
             const res = mockResponse();
         
-            strategy.authenticate(req, res, () => {});
+            strategy.authenticate()(req, res, () => {});
 
             expectForbiddenResponse(res);
         });
@@ -42,7 +42,7 @@ describe("BasicAuthenticationStrategy Test Suite", () => {
             });
             const res = mockResponse();
         
-            strategy.authenticate(req, res, () => {});
+            strategy.authenticate()(req, res, () => {});
 
             expectForbiddenResponse(res);
         });
@@ -56,7 +56,7 @@ describe("BasicAuthenticationStrategy Test Suite", () => {
             });
             const res = mockResponse();
         
-            strategy.authenticate(req, res, () => {
+            strategy.authenticate()(req, res, () => {
                 done();
             });
         })

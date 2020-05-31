@@ -1,11 +1,12 @@
 import { Request, Response, NextFunction } from "express";
-import { hapiValidation, queryDuplicationMiddleware } from "../../middleware/validation";
+import { hapiValidation } from "../../middleware/validation";
 import { CheckingInUserSchema, GetCheckinSchema } from "./CheckInRouteSchemas";
 import RouterConfiguration from "../RouterConfiguration";
 import CheckInController from "../../controllers/CheckIn/CheckInController";
 import ErrorResponse from "../../lib/HTTP/ErrorResponse";
 import BasicAuthenticationStrategy from "../../middleware/authentication/BasicAuthenticationStrategy";
 import ErrorCatchingMiddlware from "../../middleware/error-handling/ErrorCatchingMiddleware";
+import ValidationMiddleware from "../../middleware/validation/ValidationMiddleware";
 
 export default class CheckInRouteConfiguration extends RouterConfiguration<CheckInController> {
     constructor() {
@@ -16,15 +17,14 @@ export default class CheckInRouteConfiguration extends RouterConfiguration<Check
         this.router.post(
             "/",
             this.ensureEmailOrNumberIsProvided,
-            hapiValidation(CheckingInUserSchema, "body"), 
+            new ValidationMiddleware(CheckingInUserSchema).validateBody(),
             ErrorCatchingMiddlware.catchErrors(this.controller.handleCheckIn)
         );
 
         this.router.get(
             "/", 
-            new BasicAuthenticationStrategy().authenticate,
-            queryDuplicationMiddleware("restaurantId"),  
-            hapiValidation(GetCheckinSchema, "query"), 
+            new BasicAuthenticationStrategy().authenticate(),  
+            new ValidationMiddleware(GetCheckinSchema).validateQuery(),
             ErrorCatchingMiddlware.catchErrors(this.controller.handleGetReport)
         )
     }

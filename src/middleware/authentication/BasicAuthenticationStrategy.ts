@@ -6,24 +6,26 @@ import IAuthenticationStrategy from "./IAuthenticationStrategy";
 
 export default class BasicAuthenticationStrategy implements IAuthenticationStrategy {
     constructor() {
-        this.authenticate = this.authenticate.bind(this);
+        // this.authenticate = this.authenticate.bind(this);
     }
 
-    public authenticate(request : Request, response : Response, next : NextFunction) {
-        logger.debug(`Checking for authorization headers`);
-        if (!this.hasAuthorizationHeader(request.headers)) {
-            logger.warn(`Failed to find authorization header for request to ${request.originalUrl}`);
-            return new ForbiddenResponse(response).send();
+    public authenticate() {
+        return (request : Request, response : Response, next : NextFunction) => {
+            logger.debug(`Checking for authorization headers`);
+            if (!this.hasAuthorizationHeader(request.headers)) {
+                logger.warn(`Failed to find authorization header for request to ${request.originalUrl}`);
+                return new ForbiddenResponse(response).send();
+            }
+            logger.debug(`Parsing authentication token`);
+            const token = this.getAuthToken(request.headers);
+            logger.debug(`Parsed authentication token`);
+            if (!this.isValidToken(token)) {
+                logger.warn(`Invalid token sent from ${request.originalUrl}`);
+                return new ForbiddenResponse(response).send();
+            }
+            logger.debug(`Authenticated request`);
+            return next();
         }
-        logger.debug(`Parsing authentication token`);
-        const token = this.getAuthToken(request.headers);
-        logger.debug(`Parsed authentication token`);
-        if (!this.isValidToken(token)) {
-            logger.warn(`Invalid token sent from ${request.originalUrl}`);
-            return new ForbiddenResponse(response).send();
-        }
-        logger.debug(`Authenticated request`);
-        return next();
     }
 
     private hasAuthorizationHeader(headers : IncomingHttpHeaders) {

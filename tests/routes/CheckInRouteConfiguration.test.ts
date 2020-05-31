@@ -137,7 +137,9 @@ describe("Check In Routes Suite", () => {
                 restaurantId: generateObjectId()
             });
 
-            expectErrorResponse(response, "Duplicate restaurantId was provided");
+            expectErrorResponse(response, [
+                "\"restaurantId\" must be a string",
+            ]);
             expectStatusCode(response, 400);
         })
 
