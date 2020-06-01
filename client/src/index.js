@@ -84,7 +84,6 @@ function createDropdownElement(restaurant) {
 PhoneNumberInput.addEventListener("keyup", (event) => {
     if (event.keyCode !== 8) {
         const number = parsePhoneNumberFromString(PhoneNumberInput.value, "US");
-        console.log(number);
         PhoneNumberInput.value = new AsYouType("US").input(number.nationalNumber);
     }
 })
@@ -118,7 +117,6 @@ async function main() {
         PhoneNumberInput.addEventListener("keyup", (event) => {
             if (event.keyCode !== 8) {
                 const number = parsePhoneNumberFromString(PhoneNumberInput.value, "US");
-                console.log(number);
                 PhoneNumberInput.value = new AsYouType("US").input(number.nationalNumber);
             }
         })
