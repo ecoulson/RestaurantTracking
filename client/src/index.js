@@ -19,7 +19,6 @@ const DropdownMenu = getById("restaurant-dropdown");
 const TimeOfEntry = getById("time-input");
 
 document.addEventListener("click", (event) => {
-    console.log(event.target.classList);
     if (!event.target.classList.contains("restaurant-dropdown-menu-item") && !event.target.classList.contains("form-inputs")) {
         clearDropdown();
     }
@@ -83,7 +82,6 @@ function createDropdownElement(restaurant) {
 }
 
 PhoneNumberInput.addEventListener("keyup", (event) => {
-    console.log("here");
     if (event.keyCode !== 8) {
         const number = parsePhoneNumberFromString(PhoneNumberInput.value, "US");
         console.log(number);
@@ -112,12 +110,21 @@ async function main() {
         EmailInput = getById("email-input-general");
         PhoneNumberInput = getById("phone-input-general");
         SubmitButton = getById("submit-general");
+        listenForClick(SubmitButton, submit);
         const restaurantsResponse = await getAllRestaurants();
         const payload = await restaurantsResponse.json();
         restaurants = payload.data.restaurants;
         fadeIn(Screen0);
         populateSelectMenu();
+        PhoneNumberInput.addEventListener("keyup", (event) => {
+            if (event.keyCode !== 8) {
+                const number = parsePhoneNumberFromString(PhoneNumberInput.value, "US");
+                console.log(number);
+                PhoneNumberInput.value = new AsYouType("US").input(number.nationalNumber);
+            }
+        })
     } else {
+        listenForClick(SubmitButton, submit);
         updateRestaurantName();
     }
 }
@@ -139,7 +146,6 @@ async function updateRestaurantName() {
     try {
         const response = await getRestaurant();
         const payload = await response.json();
-        console.log(RestaurantName.textContent)
         RestaurantName.textContent = payload.data.restaurant.name;
         document.title = `Adapt: ${payload.data.restaurant.name}`;
         fadeIn(Screen1);
@@ -166,9 +172,7 @@ function getAllRestaurants() {
             "Content-Type": "application/json"
         },
     })
-}
-
-listenForClick(SubmitButton, submit);                      
+}                      
 
 function listenForClick(element, onClickHandler) {
     element.addEventListener("click", onClickHandler);
