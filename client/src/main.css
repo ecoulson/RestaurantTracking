@@ -37,9 +37,25 @@ label {
 
 .company-name {
     margin: 0px;
+    font-family: 'Ubuntu', sans-serif;
     font-size: 20px;
-    font-weight: lighter;
+    text-align: left;
+    font-weight: 400;
     letter-spacing: 1.25;
+    padding: 0;
+    line-height: 20px;
+}
+
+.company-container {
+    display: flex; 
+    width: 400px; 
+    margin: 0 auto; 
+    justify-content: center;
+}
+
+.company-name-container {
+    margin-top: 20px; 
+    margin-left: 5px
 }
 
 .restaurant-name {
@@ -73,6 +89,7 @@ fieldset {
 }
 
 .form-inputs {
+    height: 50px;
     outline: none;
     border-radius: 0px;
     padding: 10px;
@@ -88,8 +105,41 @@ fieldset {
     border: 2px solid #565864;
 }
 
-.disabled {
+#time-input {
+    font-size: 20px;
+    font-family: 'myriad-pro', 'sans-serif', Helvetica;
+}
+
+#restaurant-search {
+    max-width: 300px;
+    margin: 25px auto 0;
+}
+
+#restaurant-dropdown {
+    width: 300px;
     background-color: #F7F7F5;
+    left: 50%;
+    margin-left: -150px;
+    max-height: 200px;
+    position: absolute;
+    overflow-y: scroll;
+    box-shadow: 0px 0px 5px;
+    border-radius: 5px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    z-index: 2;
+}
+
+.restaurant-dropdown-menu-item {
+    display: block;
+    box-sizing: border-box;
+    padding: 10px;
+    margin: 0;
+}
+
+.restaurant-dropdown-menu-item:hover {
+    background-color: rgb(223, 223, 220);
+    cursor: pointer;
 }
 
 .or {

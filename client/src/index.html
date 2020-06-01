@@ -6,6 +6,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="icon" type="image/svg+xml" href="images/logo.svg">
+        <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="main.css">
         <title>Adapt</title>
     </head>
@@ -14,24 +15,34 @@
             <div id="error-message" class="error-message">Some Rando Error</div>
             <section class="screen" id="screen-0">
                 <header>
-                    <img class="logo" src="images/transparentlogo.svg" alt="delta">
-                    <p class="company-name" >Adapt Solutions</p>
+                    <div class="company-container">
+                        <img class="logo" src="images/transparentlogo.svg" alt="delta">
+                        <div class="company-name-container">
+                            <p class="company-name">Adapt<br>Solutions</p>
+                        </div>
+                    </div>
                 </header>
                 <main>
                     <h1 id="restaurant-name" class="restaurant-name">General Check In</h1>
                     <form class="check-in-form">
                         <h2 class="form-instructions">Please select the restaurant you visited</h2>
-                        <select id="restaurant-select"></select>
-                        <h2 class="form-instructions">Please approximate time of entry, input one of <br>the following:</h2>
+                        <input class="form-inputs" id="restaurant-search" autocomplete="off" type="text" placeholder="Search for a restaurant..."/>
+                        <div id="restaurant-dropdown"></div>
                         <fieldset class="fieldset">
+                            <h2 class="form-instructions">Please approximate time of entry:</h2>
+                            <label class="form-fields" for="entry-time">Time Of Entry</label>
+                            <br>
+                            <input min="2020-05-31" placeholder="Time of entry..." class="form-inputs" type="date" id="time-input">
+                            <br>
+                            <h2 class="form-instructions">Please input one of the following:</h2>
                             <label class="form-fields" for="phone-input">Phone Number</label>
                             <br>
-                            <input class="form-inputs" type="tel" id="phone-input">
+                            <input placeholder="Phone number..." class="form-inputs" type="tel" id="phone-input">
                             <br>
                             <p class="or">OR</p>
                             <label class="form-fields" for="email-input">Email</label>
                             <br>
-                            <input class="form-inputs" type="email" id="email-input">
+                            <input placeholder="Email..." class="form-inputs" type="email" id="email-input">
                         </fieldset>
                         <br>
                         <button class="submit" id="submit" type="button">SUBMIT</button>
@@ -40,8 +51,12 @@
             </section>
             <section class="screen" id="screen-1">
                 <header>
-                    <img class="logo" src="images/transparentlogo.svg" alt="delta">
-                    <p class="company-name" >Adapt Solutions</p>
+                    <div class="company-container">
+                        <img class="logo" src="images/transparentlogo.svg" alt="delta">
+                        <div class="company-name-container">
+                            <p class="company-name">Adapt<br>Solutions</p>
+                        </div>
+                    </div>
                 </header>
                 <main>
                     <h1 id="restaurant-name" class="restaurant-name">Name</h1>
@@ -68,8 +83,12 @@
             </section>
             <section class="screen" id="screen-2">
                 <header>                
-                    <img class="logo" src="images/transparentlogo.svg" alt="delta">
-                    <p class="company-name" >Adapt Solutions</p>
+                    <div class="company-container">
+                        <img class="logo" src="images/transparentlogo.svg" alt="delta">
+                        <div class="company-name-container">
+                            <p class="company-name">Adapt<br>Solutions</p>
+                        </div>
+                    </div>
                 </header>
 
                 <section>

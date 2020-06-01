@@ -13,7 +13,73 @@ const SubmitButton = getById("submit");
 const RestaurantName = getById("restaurant-name");
 const ErrorMessage = getById("error-message");
 const Screens = document.getElementsByClassName("screen");
-const RestaurantSelect = getById("restaurant-select");
+const RestaurantSearch = getById("restaurant-search");
+const DropdownMenu = getById("restaurant-dropdown");
+
+document.addEventListener("click", (event) => {
+    console.log(event.target.classList);
+    if (!event.target.classList.contains("restaurant-dropdown-menu-item") &&
+    !event.target.classList.contains("form-inputs")) {
+        clearDropdown();
+    }
+});
+
+RestaurantSearch.addEventListener("focusin", (event) => {
+    const filteredRestaurants = filterRestaurants(event.target.value).slice(0, 5);
+    clearDropdown();
+    renderDropdown(filteredRestaurants);
+})
+
+RestaurantSearch.addEventListener("keydown", (event) => {
+    if (event.metaKey || event.ctrlKey) {
+        return;
+    }
+    let name = event.target.value;
+    if (event.keyCode === 8) {
+        name = name.substring(0, name.length - 1)
+    } else {
+        name += event.key;
+    }
+    const filteredRestaurants = filterRestaurants(name).slice(0, 5);
+    clearDropdown();
+    renderDropdown(filteredRestaurants);
+});
+
+function filterRestaurants(name) {
+    return restaurants.filter((restaurant) => {
+        return restaurant.name.toLowerCase().startsWith(name.toLowerCase());
+    }).sort((a, b) => {
+        if (a.name < b.name) return -1;
+        if (a.name > b.name) return 1;
+        return 0;
+    });
+}
+
+function clearDropdown() {
+    DropdownMenu.innerHTML = "";
+}
+
+function renderDropdown(restaurants) {
+    restaurants.forEach((restaurant) => {
+        DropdownMenu.append(createDropdownElement(restaurant));
+    });
+}
+
+function createDropdownElement(restaurant) {
+    const element = document.createElement("p");
+    element.classList.add("restaurant-dropdown-menu-item")
+    element.setAttribute("restaurant-id", restaurant._id)
+    element.addEventListener("click", (event) => {
+        const id = event.target.getAttribute("restaurant-id") 
+        if (id) {
+            RestaurantSearch.value = event.target.innerText;
+            restaurantId = id;
+            clearDropdown();
+        }
+    })
+    element.innerText = restaurant.name;
+    return element;
+}
 
 PhoneNumberInput.addEventListener("keyup", (event) => {
     if (event.keyCode !== 8) {
@@ -37,7 +103,7 @@ const QueryParameters = new URLSearchParams(window.location.search);
 let restaurantId = QueryParameters.get("restaurantId");
 let restaurants = [];
 
-RestaurantSelect.addEventListener("change", handleSelectChange);
+
 
 main();
 
@@ -64,10 +130,6 @@ function populateSelectMenu() {
         option.innerHTML = restaurant.name;
         RestaurantSelect.append(option);
     })
-}
-
-function handleSelectChange() {
-    restaurantId = RestaurantSelect.value.toString();
 }
 
 async function updateRestaurantName() {
