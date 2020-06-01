@@ -1,5 +1,6 @@
 import { AsYouType, parsePhoneNumberFromString } from 'libphonenumber-js'
 import IsEmail from 'isemail';
+import moment from "moment";
 
 const Screen0 = getScreen(0);
 const Screen1 = getScreen(1);
@@ -7,18 +8,82 @@ const Screen2 = getScreen(2);
 const Screen3 = getScreen(3);
 const Screen4 = getScreen(4);
 
-const EmailInput = getById("email-input");
-const PhoneNumberInput = getById("phone-input");
-const SubmitButton = getById("submit");
+let EmailInput = getById("email-input");
+let PhoneNumberInput = getById("phone-input");
+let SubmitButton = getById("submit");
 const RestaurantName = getById("restaurant-name");
 const ErrorMessage = getById("error-message");
 const Screens = document.getElementsByClassName("screen");
-const RestaurantSelect = getById("restaurant-select");
+const RestaurantSearch = getById("restaurant-search");
+const DropdownMenu = getById("restaurant-dropdown");
+const TimeOfEntry = getById("time-input");
+
+document.addEventListener("click", (event) => {
+    if (!event.target.classList.contains("restaurant-dropdown-menu-item") && !event.target.classList.contains("form-inputs")) {
+        clearDropdown();
+    }
+});
+
+RestaurantSearch.addEventListener("focusin", (event) => {
+    const filteredRestaurants = filterRestaurants(event.target.value).slice(0, 5);
+    clearDropdown();
+    renderDropdown(filteredRestaurants);
+})
+
+RestaurantSearch.addEventListener("keydown", (event) => {
+    if (event.metaKey || event.ctrlKey) {
+        return;
+    }
+    let name = event.target.value;
+    if (event.keyCode === 8) {
+        name = name.substring(0, name.length - 1)
+    } else {
+        name += event.key;
+    }
+    const filteredRestaurants = filterRestaurants(name).slice(0, 5);
+    clearDropdown();
+    renderDropdown(filteredRestaurants);
+});
+
+function filterRestaurants(name) {
+    return restaurants.filter((restaurant) => {
+        return restaurant.name.toLowerCase().startsWith(name.toLowerCase());
+    }).sort((a, b) => {
+        if (a.name < b.name) return -1;
+        if (a.name > b.name) return 1;
+        return 0;
+    });
+}
+
+function clearDropdown() {
+    DropdownMenu.innerHTML = "";
+}
+
+function renderDropdown(restaurants) {
+    restaurants.forEach((restaurant) => {
+        DropdownMenu.append(createDropdownElement(restaurant));
+    });
+}
+
+function createDropdownElement(restaurant) {
+    const element = document.createElement("p");
+    element.classList.add("restaurant-dropdown-menu-item")
+    element.setAttribute("restaurant-id", restaurant._id)
+    element.addEventListener("click", (event) => {
+        const id = event.target.getAttribute("restaurant-id") 
+        if (id) {
+            RestaurantSearch.value = event.target.innerText;
+            restaurantId = id;
+            clearDropdown();
+        }
+    })
+    element.innerText = restaurant.name;
+    return element;
+}
 
 PhoneNumberInput.addEventListener("keyup", (event) => {
     if (event.keyCode !== 8) {
         const number = parsePhoneNumberFromString(PhoneNumberInput.value, "US");
-        console.log(number);
         PhoneNumberInput.value = new AsYouType("US").input(number.nationalNumber);
     }
 })
@@ -37,37 +102,28 @@ const QueryParameters = new URLSearchParams(window.location.search);
 let restaurantId = QueryParameters.get("restaurantId");
 let restaurants = [];
 
-RestaurantSelect.addEventListener("change", handleSelectChange);
-
 main();
 
 async function main() {
     if (restaurantId === null) {
+        EmailInput = getById("email-input-general");
+        PhoneNumberInput = getById("phone-input-general");
+        SubmitButton = getById("submit-general");
+        listenForClick(SubmitButton, submit);
         const restaurantsResponse = await getAllRestaurants();
         const payload = await restaurantsResponse.json();
         restaurants = payload.data.restaurants;
         fadeIn(Screen0);
-        populateSelectMenu();
+        PhoneNumberInput.addEventListener("keyup", (event) => {
+            if (event.keyCode !== 8) {
+                const number = parsePhoneNumberFromString(PhoneNumberInput.value, "US");
+                PhoneNumberInput.value = new AsYouType("US").input(number.nationalNumber);
+            }
+        })
     } else {
+        listenForClick(SubmitButton, submit);
         updateRestaurantName();
     }
-}
-
-function populateSelectMenu() {
-    restaurants.forEach((restaurant) => {
-        if (!RestaurantSelect.value) {
-            restaurantId = restaurant._id
-            RestaurantSelect.value = restaurant._id;
-        }
-        const option = document.createElement("option");
-        option.value = restaurant._id;
-        option.innerHTML = restaurant.name;
-        RestaurantSelect.append(option);
-    })
-}
-
-function handleSelectChange() {
-    restaurantId = RestaurantSelect.value.toString();
 }
 
 async function updateRestaurantName() {
@@ -75,7 +131,7 @@ async function updateRestaurantName() {
         const response = await getRestaurant();
         const payload = await response.json();
         RestaurantName.textContent = payload.data.restaurant.name;
-        document.title = `Adapt: ${payload.data.restaurant.name}`
+        document.title = `Adapt: ${payload.data.restaurant.name}`;
         fadeIn(Screen1);
     } catch(error) {
         showError("Failed to find restaurant");
@@ -100,9 +156,7 @@ function getAllRestaurants() {
             "Content-Type": "application/json"
         },
     })
-}
-
-listenForClick(SubmitButton, submit);                      
+}                      
 
 function listenForClick(element, onClickHandler) {
     element.addEventListener("click", onClickHandler);
@@ -110,13 +164,23 @@ function listenForClick(element, onClickHandler) {
 
 async function submit() {
     const number = parsePhoneNumberFromString(PhoneNumberInput.value, "US");
-    if (getInputValue(EmailInput) == "" && getInputValue(PhoneNumberInput) == "") {
+    if (!restaurantId) {
+        showError("Please select where you ate");
+    } else if (getInputValue(EmailInput) == "" && getInputValue(PhoneNumberInput) == "") {
         showError("Please enter a phone number or email.");
     } else if (PhoneNumberInput.value !== "" && !number.isValid()) {
         showError("Please enter a valid phone number");
     } else if (EmailInput.value !== "" && !IsEmail.validate(EmailInput.value)) {
         showError("Please enter a valid email");
     } else {
+        if (TimeOfEntry.value !== "") {
+            const time = moment(TimeOfEntry.value, "MM/DD/YYYY hh:mm A", true);
+            time.toDate()
+            if (!time.isValid()) {
+                showError("Invalid entry date");
+                return;
+            }
+        }
         hide(Screen1);
         hide(Screen0);
         show(Screen2);
@@ -150,6 +214,7 @@ function sendFormDataToServer() {
         body: JSON.stringify({
             email: getInputValue(EmailInput) == "" ? null : getInputValue(EmailInput),
             number: getInputValue(PhoneNumberInput) == "" ? null : getInputValue(PhoneNumberInput),
+            timeCheckedIn: getInputValue(TimeOfEntry) == "" ? null : moment(TimeOfEntry.value, "MM/DD/YYYY hh:mm A", true).toDate(),
             restaurantId: restaurantId
         })
     })
