@@ -2,6 +2,7 @@
   "name": "server",
   "version": "1.0.0",
   "scripts": {
+    "postinstall": "npm run build",
     "security-test": "snyk test ",
     "build": "tsc && webpack -p",
     "build:watch": "onchange 'src/**/*.ts' -- npm run build",
@@ -10,7 +11,7 @@
     "test:watch": "NODE_ENV=test jest ./tests --coverage --watchAll",
     "view:coverage": "serve coverage/lcov-report",
     "dev": "nodemon",
-    "start": "npm run build && node ./dist/server.js",
+    "start": "node ./dist/server.js",
     "snyk-protect": "snyk protect"
   },
   "author": "",
