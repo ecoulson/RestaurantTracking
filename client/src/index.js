@@ -115,7 +115,6 @@ async function main() {
         const payload = await restaurantsResponse.json();
         restaurants = payload.data.restaurants;
         fadeIn(Screen0);
-        populateSelectMenu();
         PhoneNumberInput.addEventListener("keyup", (event) => {
             if (event.keyCode !== 8) {
                 const number = parsePhoneNumberFromString(PhoneNumberInput.value, "US");
@@ -127,19 +126,6 @@ async function main() {
         listenForClick(SubmitButton, submit);
         updateRestaurantName();
     }
-}
-
-function populateSelectMenu() {
-    restaurants.forEach((restaurant) => {
-        if (!RestaurantSelect.value) {
-            restaurantId = restaurant._id
-            RestaurantSelect.value = restaurant._id;
-        }
-        const option = document.createElement("option");
-        option.value = restaurant._id;
-        option.innerHTML = restaurant.name;
-        RestaurantSelect.append(option);
-    })
 }
 
 async function updateRestaurantName() {
