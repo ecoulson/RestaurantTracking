@@ -7,6 +7,7 @@ const phoneUtil = PhoneNumberUtil.getInstance();
 const CheckingInUserSchema = Joi.object({
     restaurantId: Joi.string().hex().required(),
     email: Joi.string().email().allow(null),
+    timeCheckedIn: Joi.date().optional().allow(null),
     number: Joi.string().custom((value, helpers) => {
         logger.debug(`Validating ${value} as a US phone number`);
         const number = phoneUtil.parseAndKeepRawInput(value, "US");

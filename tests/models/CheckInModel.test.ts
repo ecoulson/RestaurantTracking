@@ -23,6 +23,15 @@ describe('Check In Model Suite', () => {
     
             expect(foundCheckIn.serialize()).toEqual(expectedCheckIn.serialize());
         });
+
+        test("Successfully Create Check In With Time Checked In", async () => {
+            const expectedCheckIn : any = await createPhoneNumberCheckIn("1");
+            expectedCheckIn.timeCheckedIn = faker.date.recent();
+    
+            let foundCheckIn : any = await CheckInModel.findById(expectedCheckIn._id).exec();
+    
+            expect(foundCheckIn.serialize()).toEqual(expectedCheckIn.serialize());
+        });
     });
 
     describe("Find By Restaurant Id", () => {

@@ -1,5 +1,6 @@
 import { AsYouType, parsePhoneNumberFromString } from 'libphonenumber-js'
 import IsEmail from 'isemail';
+import moment from "moment";
 
 const Screen0 = getScreen(0);
 const Screen1 = getScreen(1);
@@ -7,19 +8,19 @@ const Screen2 = getScreen(2);
 const Screen3 = getScreen(3);
 const Screen4 = getScreen(4);
 
-const EmailInput = getById("email-input");
-const PhoneNumberInput = getById("phone-input");
-const SubmitButton = getById("submit");
+let EmailInput = getById("email-input");
+let PhoneNumberInput = getById("phone-input");
+let SubmitButton = getById("submit");
 const RestaurantName = getById("restaurant-name");
 const ErrorMessage = getById("error-message");
 const Screens = document.getElementsByClassName("screen");
 const RestaurantSearch = getById("restaurant-search");
 const DropdownMenu = getById("restaurant-dropdown");
+const TimeOfEntry = getById("time-input");
 
 document.addEventListener("click", (event) => {
     console.log(event.target.classList);
-    if (!event.target.classList.contains("restaurant-dropdown-menu-item") &&
-    !event.target.classList.contains("form-inputs")) {
+    if (!event.target.classList.contains("restaurant-dropdown-menu-item") && !event.target.classList.contains("form-inputs")) {
         clearDropdown();
     }
 });
@@ -82,6 +83,7 @@ function createDropdownElement(restaurant) {
 }
 
 PhoneNumberInput.addEventListener("keyup", (event) => {
+    console.log("here");
     if (event.keyCode !== 8) {
         const number = parsePhoneNumberFromString(PhoneNumberInput.value, "US");
         console.log(number);
@@ -103,12 +105,13 @@ const QueryParameters = new URLSearchParams(window.location.search);
 let restaurantId = QueryParameters.get("restaurantId");
 let restaurants = [];
 
-
-
 main();
 
 async function main() {
     if (restaurantId === null) {
+        EmailInput = getById("email-input-general");
+        PhoneNumberInput = getById("phone-input-general");
+        SubmitButton = getById("submit-general");
         const restaurantsResponse = await getAllRestaurants();
         const payload = await restaurantsResponse.json();
         restaurants = payload.data.restaurants;
@@ -136,8 +139,9 @@ async function updateRestaurantName() {
     try {
         const response = await getRestaurant();
         const payload = await response.json();
+        console.log(RestaurantName.textContent)
         RestaurantName.textContent = payload.data.restaurant.name;
-        document.title = `Adapt: ${payload.data.restaurant.name}`
+        document.title = `Adapt: ${payload.data.restaurant.name}`;
         fadeIn(Screen1);
     } catch(error) {
         showError("Failed to find restaurant");
@@ -172,13 +176,23 @@ function listenForClick(element, onClickHandler) {
 
 async function submit() {
     const number = parsePhoneNumberFromString(PhoneNumberInput.value, "US");
-    if (getInputValue(EmailInput) == "" && getInputValue(PhoneNumberInput) == "") {
+    if (!restaurantId) {
+        showError("Please select where you ate");
+    } else if (getInputValue(EmailInput) == "" && getInputValue(PhoneNumberInput) == "") {
         showError("Please enter a phone number or email.");
     } else if (PhoneNumberInput.value !== "" && !number.isValid()) {
         showError("Please enter a valid phone number");
     } else if (EmailInput.value !== "" && !IsEmail.validate(EmailInput.value)) {
         showError("Please enter a valid email");
     } else {
+        if (TimeOfEntry.value !== "") {
+            const time = moment(TimeOfEntry.value, "MM/DD/YYYY hh:mm A", true);
+            time.toDate()
+            if (!time.isValid()) {
+                showError("Invalid entry date");
+                return;
+            }
+        }
         hide(Screen1);
         hide(Screen0);
         show(Screen2);
@@ -212,6 +226,7 @@ function sendFormDataToServer() {
         body: JSON.stringify({
             email: getInputValue(EmailInput) == "" ? null : getInputValue(EmailInput),
             number: getInputValue(PhoneNumberInput) == "" ? null : getInputValue(PhoneNumberInput),
+            timeCheckedIn: getInputValue(TimeOfEntry) == "" ? null : moment(TimeOfEntry.value, "MM/DD/YYYY hh:mm A", true).toDate(),
             restaurantId: restaurantId
         })
     })
