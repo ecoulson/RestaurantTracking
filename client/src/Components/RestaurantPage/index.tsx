@@ -50,6 +50,7 @@ export default class RestaurantPage extends React.Component<IPageProps, IRestaur
                         errorMessage: `Failed to find restaurant with id ${restaurantId}`
                     });
                 } else {
+                    document.title = "Check In: " + response.data.data.restaurant.name;
                     this.props.setRestaurantName!(response.data.data.restaurant.name);
                     this.setState({
                         restaurantName: response.data.data.restaurant.name
