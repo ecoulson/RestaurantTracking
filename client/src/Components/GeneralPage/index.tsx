@@ -128,10 +128,14 @@ export default class GeneralPage extends React.Component<IPageProps, IGeneralPag
             if (this.state.phone.valid) {
                 checkIn.number = this.state.phone.value;
             }
-            const res = await Axios.post("/check_in/", checkIn);
-            if (res.data.success) {
-                this.props.setPage!(ApplicationState.Success)
-            } else {
+            try {
+                const res = await Axios.post("/check_in/", checkIn);
+                if (res.data.success) {
+                    this.props.setPage!(ApplicationState.Success)
+                } else {
+                    this.props.setPage!(ApplicationState.Failure)
+                }
+            } catch (error) {
                 this.props.setPage!(ApplicationState.Failure)
             }
         }

@@ -2,20 +2,23 @@ import React from "react";
 import "./StatusIcon.css";
 import IStatusIconProps from "./IStatusIconProps";
 import Status from "../Status";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default class StatusIcon extends React.Component<IStatusIconProps> {
     render() {
         return (
-            <i className={`${this.getIcon()} status-icon`} />
+            <FontAwesomeIcon className="status-icon" size="10x" icon={this.getIcon()} />
         )
     }
 
     private getIcon() {
         switch (this.props.status) {
             case Status.SUCCESS:
-                return "far fa-10x fa-check-circle"
+                return "check-circle";
             case Status.FAILURE:
-                return "far fa-10x fa-times-circle"
+                return "times-circle";
+            default:
+                throw new Error("Unexpected page state")
         }
     }
 }

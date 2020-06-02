@@ -1,9 +1,10 @@
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default class FormSubmitting extends React.Component {
     render() {
         return (
-            <i className="fas fa-redo fa-5x submitting-icon"></i>
+            <FontAwesomeIcon className="submitting-icon" size="5x" icon="redo" />
         )
     }
 }

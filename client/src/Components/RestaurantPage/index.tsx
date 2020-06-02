@@ -44,7 +44,6 @@ export default class RestaurantPage extends React.Component<IPageProps, IRestaur
         } else {
             try {
                 const response = await Axios.get(`/restaurant/${restaurantId}/`);
-                console.log(response);
                 this.props.setRestaurantName!(response.data.data.restaurant.name);
                 this.setState({
                     restaurantName: response.data.data.restaurant.name

@@ -6,6 +6,7 @@ import Icon from "../Icon";
 import Input from "./Input";
 import IFormInputState from "./IFormInputState";
 import FormValue from "./FormValue";
+import ValidationIcon from "./ValidationIcon";
 
 export default class FormInput extends React.Component<IFormInputProps, IFormInputState> {
     constructor(props : IFormInputProps) {
@@ -31,7 +32,9 @@ export default class FormInput extends React.Component<IFormInputProps, IFormInp
                         placeholder={this.props.placeHolder}
                         type={this.props.type} 
                         onChange={this.onChange} />
-                    {this.renderValidIcon()}
+                    <ValidationIcon 
+                        isValid={this.props.isValid} 
+                        value={this.props.value} />
                 </div>
             </div>
         )
@@ -58,14 +61,5 @@ export default class FormInput extends React.Component<IFormInputProps, IFormInp
 
     private getActiveClass() {
         return this.state.focused ? "active" : ""
-    }
-
-    private renderValidIcon() {
-        if (this.props.value === "") {
-            return null;
-        }
-        return this.props.isValid ?
-            (<i className="fas fa-check valid-field"></i>) :
-            (<i className="fas fa-times invalid-field"></i>);
     }
 }
