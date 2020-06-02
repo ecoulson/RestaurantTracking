@@ -1,4 +1,4 @@
-enum ApplicationState {
+enum Page {
     RestaurantCheckIn,
     GeneralCheckIn,
     CheckingIn,
@@ -6,4 +6,4 @@ enum ApplicationState {
     Failure
 }
 
-export default ApplicationState;
+export default Page;

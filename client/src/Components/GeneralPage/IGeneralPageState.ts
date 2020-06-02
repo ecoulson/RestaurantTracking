@@ -1,13 +1,11 @@
-import IEmail from "../EmailInput/IEmail";
-import IPhoneNumber from "../PhoneInput/IPhoneNumber";
-import ITimeInput from "../TimeInput/ITimeInput";
-import IRestaurantInput from "../DropdownInput/IRestaurantInput";
+import IFormValue from "../FormInput/IFormValue";
+import IRestaurant from "../../lib/IRestaurant";
 
 export default interface IGeneralPageState {
     isComplete: boolean;
-    email: IEmail;
-    phone: IPhoneNumber;
-    time: ITimeInput;
-    restaurant: IRestaurantInput
+    email: IFormValue<string>;
+    phone: IFormValue<string>;
+    time: IFormValue<string>;
+    restaurant: IFormValue<IRestaurant>
     focusedDropdown: boolean;
 }

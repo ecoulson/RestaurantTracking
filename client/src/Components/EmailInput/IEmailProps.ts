@@ -1,5 +1,5 @@
-import IEmail from "./IEmail";
+import IFormValue from "../FormInput/IFormValue";
 
 export default interface IEmailProps {
-    onChange: (email : IEmail) => void;
+    onChange: (email : IFormValue<string>) => void;
 }

@@ -4,6 +4,7 @@ import FormInput from "../FormInput";
 import IPhoneInputProps from "./IPhoneInputProps";
 import { AsYouType, parseNumber } from "libphonenumber-js"
 import IPhoneInputState from "./IPhoneInputState";
+import IFormValue from "../FormInput/IFormValue";
 
 export default class PhoneInput extends React.Component<IPhoneInputProps, IPhoneInputState> {
 
@@ -29,15 +30,17 @@ export default class PhoneInput extends React.Component<IPhoneInputProps, IPhone
         )
     }
 
-    private handleChange(event : ChangeEvent) {
-        let rawPhoneNumber = (event.target as HTMLInputElement).value;
+    private handleChange(phoneNumber : IFormValue<string>, event?: ChangeEvent) {
+        if (!event) {
+            return;
+        }
         if (this.isDeletingAreaCode(event)) {
-            rawPhoneNumber = this.deleteAreaCode(rawPhoneNumber);
+            phoneNumber.value = this.deleteAreaCode(phoneNumber.value);
         };
-        const formattedNumber = new AsYouType("US").input(rawPhoneNumber);
+        const formattedNumber = new AsYouType("US").input(phoneNumber.value);
         this.updateState(formattedNumber, () => {
             this.props.onChange({
-                number: this.state.number,
+                value: this.state.number,
                 valid: this.state.isValid
             });
         });

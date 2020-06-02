@@ -1,5 +1,5 @@
-import ITimeInput from "./ITimeInput";
+import IFormValue from "../FormInput/IFormValue";
 
 export default interface ITimeInputProps {
-    onChange: (date: ITimeInput) => void;
+    onChange: (date: IFormValue<string>) => void;
 }

@@ -1,9 +1,9 @@
-import IEmail from "../EmailInput/IEmail";
-import IPhoneNumber from "../PhoneInput/IPhoneNumber";
+import IFormValue from "../FormInput/IFormValue";
 
 export default interface IRestaurantPageState {
-    email: IEmail;
-    phoneNumber : IPhoneNumber;
+    email: IFormValue<string>;
+    phoneNumber : IFormValue<string>;
     isComplete: boolean;
     errorMessage: string;
+    restaurantName: string;
 }

@@ -6,23 +6,23 @@ import Submit from '../Submit';
 import React from "react";
 import PhoneInput from '../PhoneInput';
 import EmailInput from '../EmailInput';
-import IPhoneNumber from '../PhoneInput/IPhoneNumber';
-import IEmail from '../EmailInput/IEmail';
 import IRestaurantPageState from './IRestaurantPageState';
-import Toast from '../Toast';
 import IRestaurantPageProps from './IRestaurantPageProps';
 import ICheckInBody from '../../lib/ICheckInBody';
 import ApplicationState from '../../Page';
 import Axios from "axios";
+import FormValue from '../FormInput/FormValue';
+import IFormValue from '../FormInput/IFormValue';
 
 export default class RestaurantPage extends React.Component<IRestaurantPageProps, IRestaurantPageState> {
     constructor(props: IRestaurantPageProps) {
         super(props);
         this.state = {
-            email: { email: "", valid: false },
-            phoneNumber: { number: "", valid: false },
+            email: new FormValue("", false),
+            phoneNumber: new FormValue("", false),
             isComplete: false,
-            errorMessage: ""
+            errorMessage: "",
+            restaurantName: ""
         }
 
         this.handleEmailChange = this.handleEmailChange.bind(this);
@@ -30,12 +30,37 @@ export default class RestaurantPage extends React.Component<IRestaurantPageProps
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    componentWillMount() {
+        this.getRestaurantName();
+    }
+
+    async getRestaurantName() {
+        const restaurantId = new URLSearchParams(window.location.search).get("restaurantId");
+        if (!restaurantId) {
+            this.setState({
+                restaurantName: "ERROR"
+            });
+        } else {
+            try {
+                const response = await Axios.get(`/restaurant/${restaurantId}/`);
+                console.log(response);
+                this.props.setRestaurantName(response.data.data.restaurant.name);
+                this.setState({
+                    restaurantName: response.data.data.restaurant.name
+                })
+            } catch (error) {
+                this.setState({
+                    restaurantName: "ERROR"
+                })
+            }
+        }
+    }
+
     render() {
         return (
             <>
-                <Toast message={this.state.errorMessage} />
                 <Logo />
-                <RestaurantName />
+                <RestaurantName>{this.state.restaurantName}</RestaurantName>
                 <Instructions>Please enter one of the following:</Instructions>
                 <Form>
                     <EmailInput onChange={this.handleEmailChange} />
@@ -47,17 +72,33 @@ export default class RestaurantPage extends React.Component<IRestaurantPageProps
         )
     }
 
-    private handleEmailChange(email : IEmail) {
+    private handleEmailChange(email : IFormValue<string>) {
         this.setState({
             email,
-            isComplete: email.valid || this.state.phoneNumber.valid
+        }, () => {
+            this.setState({
+                isComplete: this.isComplete()
+            })
         })
     }
 
-    private handlePhoneChange(phoneNumber : IPhoneNumber) {
+    private isComplete() {
+        if (this.state.email.value === "") {
+            return this.state.phoneNumber.valid
+        }
+        if (this.state.phoneNumber.value === "") {
+            return this.state.email.valid;
+        }
+        return this.state.email.valid && this.state.phoneNumber.valid
+    }
+
+    private handlePhoneChange(phoneNumber : IFormValue<string>) {
         this.setState({
             phoneNumber,
-            isComplete: phoneNumber.valid || this.state.email.valid
+        }, () => {
+            this.setState({
+                isComplete: this.isComplete()
+            })
         })
     }
 
@@ -66,25 +107,14 @@ export default class RestaurantPage extends React.Component<IRestaurantPageProps
             restaurantId: this.props.restaurantId,
         }
         if (this.state.email.valid) {
-            checkInBody.email = this.state.email.email;
-        } else if (this.state.email.email !== "") {
-            this.setState({
-                errorMessage: "Please enter a valid email"
-            });
-            this.clearToast();
-            return;
+            checkInBody.email = this.state.email.value;
         }
-
         if (this.state.phoneNumber.valid) {
-            checkInBody.number = this.state.phoneNumber.number;
-        } else if (this.state.phoneNumber.number !== "") {
-            this.setState({
-                errorMessage: "Please enter a valid phone number"
-            });
-            this.clearToast();
-            return;
+            checkInBody.number = this.state.phoneNumber.value;
         }
-        this.submitCheckin(checkInBody)
+        if (this.state.isComplete) {
+            this.submitCheckin(checkInBody)
+        }
     }
 
     private async submitCheckin(checkInBody : ICheckInBody) {
@@ -98,13 +128,5 @@ export default class RestaurantPage extends React.Component<IRestaurantPageProps
         } catch (error) {
             this.props.setPage(ApplicationState.Failure)
         }
-    }
-
-    private clearToast() {
-        setTimeout(() => {
-            this.setState({
-                errorMessage: ""
-            });
-        }, 5000)
     }
 }

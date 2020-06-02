@@ -1,5 +1,5 @@
-import IPhoneNumber from "./IPhoneNumber";
+import IFormValue from "../FormInput/IFormValue";
 
 export default interface IPhoneInputProps {
-    onChange: (phoneNumber : IPhoneNumber) => void;
+    onChange: (phoneNumber : IFormValue<string>) => void;
 }

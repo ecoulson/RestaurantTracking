@@ -5,22 +5,26 @@ import Page from './Page';
 import GeneralPage from './Components/GeneralPage';
 import StatusPage from './Components/StatusPage';
 import Status from './Components/StatusPage/Status';
+import IAppState from './IAppState';
 
-export default class App extends React.Component<{}, { page : Page}> {
+export default class App extends React.Component<{}, IAppState> {
 	constructor(props : any) {
 		super(props);
 		const restaurantId = new URLSearchParams(window.location.search).get("restaurantId");
 		if (restaurantId) {
 			this.state = {
-				page: Page.RestaurantCheckIn
+				page: Page.RestaurantCheckIn,
+				restaurantName: ""
 			}
 		} else {
 			this.state = {
-				page: Page.GeneralCheckIn
+				page: Page.GeneralCheckIn,
+				restaurantName: ""
 			}
 		}
 
 		this.setApplicationState = this.setApplicationState.bind(this);
+		this.setRestaurantName = this.setRestaurantName.bind(this);
 	}
 
 	render() {
@@ -37,24 +41,34 @@ export default class App extends React.Component<{}, { page : Page}> {
 		switch(this.state.page) {
 			case Page.RestaurantCheckIn:
 				return (<RestaurantPage 
+							setRestaurantName={this.setRestaurantName}
 							setPage={this.setApplicationState}
 							restaurantId={this.getRestaurantId()}
 							/>);
 			case Page.GeneralCheckIn:
-				return (<GeneralPage setPage={this.setApplicationState}/>);
+				return (<GeneralPage 
+							setPage={this.setApplicationState}
+							setRestaurantName={this.setRestaurantName}
+							/>);
 			case Page.Success:
 				return (
 					<StatusPage 
 						status={Status.SUCCESS} 
-						restaurant="Bob's Burgers" />
+						restaurant={this.state.restaurantName} />
 				);
 			case Page.Failure:
 				return (
 					<StatusPage 
 						status={Status.FAILURE} 
-						restaurant="Bob's Burgers" />
+						restaurant={this.state.restaurantName} />
 				);
 		}
+	}
+
+	private setRestaurantName(restaurantName : string) {
+		this.setState({
+			restaurantName
+		})
 	}
 
 	private setApplicationState(state : Page) {

@@ -1,9 +1,10 @@
-import React, { ChangeEvent } from "react";
+import React from "react";
 import FormInput from "../FormInput";
 import IconType from "../Icon/IconTypes";
 import IEmailProps from "./IEmailProps";
 import IEmailState from "./IEmailState";
 import EmailValidator from "email-validator";
+import IFormValue from "../FormInput/IFormValue";
 
 export default class EmailInput extends React.Component<IEmailProps, IEmailState> {
     constructor(props : IEmailProps) {
@@ -28,14 +29,13 @@ export default class EmailInput extends React.Component<IEmailProps, IEmailState
         )
     }
 
-    private handleEmailChange(event: ChangeEvent) {
-        let rawEmail = (event.target as HTMLInputElement).value;
+    private handleEmailChange(event: IFormValue<string>) {
         this.setState({
-            emailAddress: rawEmail,
-            valid: EmailValidator.validate(rawEmail)
+            emailAddress: event.value,
+            valid: EmailValidator.validate(event.value)
         }, () => {
             this.props.onChange({
-                email: this.state.emailAddress,
+                value: this.state.emailAddress,
                 valid: this.state.valid
             });
         })

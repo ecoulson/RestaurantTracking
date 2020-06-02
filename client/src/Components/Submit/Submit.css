@@ -35,13 +35,14 @@
     animation-name: show;
     animation-duration: 0.25s;
     animation-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
-    animation-fill-mode: forwards;
+    animation-fill-mode: both;
 }
 
 .hide {
     animation-name: hide;
     animation-duration: 0.25s;
     animation-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+    animation-fill-mode: both;
 }
 
 @keyframes show {

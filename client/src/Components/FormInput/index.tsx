@@ -1,10 +1,11 @@
-import React from "react";
+import React, { ChangeEvent } from "react";
 import Label from "./Label";
 import IFormInputProps from "./IFormInputProps";
 import "./FormInput.css";
 import Icon from "../Icon";
 import Input from "./Input";
 import IFormInputState from "./IFormInputState";
+import FormValue from "./FormValue";
 
 export default class FormInput extends React.Component<IFormInputProps, IFormInputState> {
     constructor(props : IFormInputProps) {
@@ -14,6 +15,7 @@ export default class FormInput extends React.Component<IFormInputProps, IFormInp
         }
         this.onFocus = this.onFocus.bind(this);
         this.onBlur = this.onBlur.bind(this);
+        this.onChange = this.onChange.bind(this);
     }
 
     render() {
@@ -28,11 +30,18 @@ export default class FormInput extends React.Component<IFormInputProps, IFormInp
                         onBlur={this.onBlur}
                         placeholder={this.props.placeHolder}
                         type={this.props.type} 
-                        onChange={this.props.onChange} />
+                        onChange={this.onChange} />
                     {this.renderValidIcon()}
                 </div>
             </div>
         )
+    }
+
+    onChange(event : ChangeEvent) {
+        this.props.onChange(new FormValue<string>(
+            (event.target as HTMLInputElement).value,
+            this.props.isValid
+        ),  event)
     }
 
     onFocus() {

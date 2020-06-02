@@ -1,5 +1,6 @@
 import IconType from "../Icon/IconTypes";
-import { ChangeEvent, FocusEvent } from "react";
+import { ChangeEvent } from "react";
+import IFormValue from "./IFormValue";
 
 export default interface IFormInputProps {
     value: string;
@@ -8,5 +9,5 @@ export default interface IFormInputProps {
     icon: IconType;
     placeHolder: string;
     type: string;
-    onChange: (event : ChangeEvent) => void;
+    onChange: (value : IFormValue<string>, event? : ChangeEvent) => void;
 }

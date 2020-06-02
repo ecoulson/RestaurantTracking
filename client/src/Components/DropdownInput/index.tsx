@@ -1,4 +1,4 @@
-import React, { ChangeEvent, MouseEvent, FocusEvent } from "react";
+import React from "react";
 import FormInput from "../FormInput";
 import IconType from "../Icon/IconTypes";
 import Menu from "./Menu";
@@ -6,6 +6,7 @@ import IDropdownState from "./IDropdownState";
 import Axios from "axios";
 import IRestaurant from "../../lib/IRestaurant";
 import IDropdownProps from "./IDropdownProps";
+import IFormValue from "../FormInput/IFormValue";
 
 export default class RestaurantDropdown extends React.Component<IDropdownProps, IDropdownState> {
     constructor(props: IDropdownProps) {
@@ -80,15 +81,14 @@ export default class RestaurantDropdown extends React.Component<IDropdownProps, 
         )
     }
 
-    private onChange(event : ChangeEvent) {
-        let searchedRestaurant = (event.target as HTMLInputElement).value;
+    private onChange(restaurantName : IFormValue<string>) {
         const filteredRestaurants = this.state.restaurants.filter((restaurant) => {
-            return restaurant.name.toLowerCase().startsWith(searchedRestaurant.toLowerCase())
+            return restaurant.name.toLowerCase().startsWith(restaurantName.value.toLowerCase())
         })
         this.setState({
-            value: searchedRestaurant,
+            value: restaurantName.value,
             filteredRestaurants,
-            valid: this.validateInput(searchedRestaurant.toLowerCase())
+            valid: this.validateInput(restaurantName.value.toLowerCase())
         }, () => {
             this.props.onChange({
                 value: this.state.filteredRestaurants[0],

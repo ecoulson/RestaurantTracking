@@ -1,9 +1,10 @@
-import React, { ChangeEvent } from "react";
+import React from "react";
 import FormInput from "../FormInput";
 import IconType from "../Icon/IconTypes";
 import ITimeInputProps from "./ITimeInputProps";
 import ITimeInputState from "./ITimeInputState";
 import moment from "moment";
+import IFormValue from "../FormInput/IFormValue";
 
 export default class TimeInput extends React.Component<ITimeInputProps, ITimeInputState> {
     constructor(props: ITimeInputProps) {
@@ -29,16 +30,20 @@ export default class TimeInput extends React.Component<ITimeInputProps, ITimeInp
         )
     }
 
-    private handleTimeChange(event : ChangeEvent) {
-        let rawDate = (event.target as HTMLInputElement).value;
+    private handleTimeChange(date : IFormValue<string>) {
         this.setState({
-            date: rawDate,
-            valid: moment(rawDate, "M/D/Y h:mm A", true).isValid() && rawDate.toLowerCase().endsWith("m")
+            date: date.value,
+            valid: this.validateDate(date.value) 
         }, () => {
             this.props.onChange({
                 valid: this.state.valid,
-                time: this.state.date
+                value: this.state.date
             })
         })
+    }
+
+    private validateDate(date: string) {
+        return moment(date, "M/D/Y h:mm A", true).isValid() && 
+                date.toLowerCase().endsWith("m")
     }
 }
