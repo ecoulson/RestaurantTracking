@@ -13,6 +13,7 @@ import ApplicationState from '../../Page';
 import Axios from "axios";
 import FormValue from '../FormInput/FormValue';
 import IFormValue from '../FormInput/IFormValue';
+import Toast from '../Toast';
 
 export default class RestaurantPage extends React.Component<IPageProps, IRestaurantPageState> {
     constructor(props: IPageProps) {
@@ -39,19 +40,25 @@ export default class RestaurantPage extends React.Component<IPageProps, IRestaur
         const restaurantId = new URLSearchParams(window.location.search).get("restaurantId");
         if (!restaurantId) {
             this.setState({
-                restaurantName: "ERROR"
+                errorMessage: `No restaurant id in url ${restaurantId}`
             });
         } else {
             try {
                 const response = await Axios.get(`/restaurant/${restaurantId}/`);
-                this.props.setRestaurantName!(response.data.data.restaurant.name);
-                this.setState({
-                    restaurantName: response.data.data.restaurant.name
-                })
+                if (!response.data.success) {
+                    this.setState({
+                        errorMessage: `Failed to find restaurant with id ${restaurantId}`
+                    });
+                } else {
+                    this.props.setRestaurantName!(response.data.data.restaurant.name);
+                    this.setState({
+                        restaurantName: response.data.data.restaurant.name
+                    })
+                }
             } catch (error) {
                 this.setState({
-                    restaurantName: "ERROR"
-                })
+                    errorMessage: `Failed to find restaurant with id ${restaurantId}`
+                });
             }
         }
     }
@@ -59,6 +66,7 @@ export default class RestaurantPage extends React.Component<IPageProps, IRestaur
     render() {
         return (
             <>
+                <Toast message={this.state.errorMessage} />
                 <Logo />
                 <RestaurantName>{this.state.restaurantName}</RestaurantName>
                 <Instructions>Please enter one of the following:</Instructions>

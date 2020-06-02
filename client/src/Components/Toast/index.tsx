@@ -1,12 +1,13 @@
 import React from "react";
 import IToastProps from "./IToastProps";
 import "./Toast.css";
+import IToastState from "./IToastState";
 
-export default class Toast extends React.Component<IToastProps> {
+export default class Toast extends React.Component<IToastProps, IToastState> {
     constructor(props : IToastProps) {
         super(props);
         this.state = {
-            hasBeenCalled: false
+            hasDisplayed: false
         }
     }
 
@@ -19,7 +20,16 @@ export default class Toast extends React.Component<IToastProps> {
     }
 
     private getVisibleClass() {
-        return this.props.message !== "" ?
+        if (!this.state.hasDisplayed && this.props.message === "") {
+            return "";
+        } else {
+            if (!this.state.hasDisplayed) {
+                this.setState({
+                    hasDisplayed: true
+                })
+            }
+            return this.props.message !== "" ?
                 "show-toast" : "hide-toast"
+        }
     }
 }

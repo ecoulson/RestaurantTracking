@@ -7,6 +7,7 @@ import Axios from "axios";
 import IRestaurant from "../../lib/IRestaurant";
 import IDropdownProps from "./IDropdownProps";
 import IFormValue from "../FormInput/IFormValue";
+import Toast from "../Toast";
 
 export default class RestaurantDropdown extends React.Component<IDropdownProps, IDropdownState> {
     constructor(props: IDropdownProps) {
@@ -16,7 +17,8 @@ export default class RestaurantDropdown extends React.Component<IDropdownProps, 
             filteredRestaurants: [],
             value: "",
             valid: false,
-            focused: false
+            focused: false,
+            errorMessage: ""
         };
 
         this.onChange = this.onChange.bind(this);
@@ -50,12 +52,24 @@ export default class RestaurantDropdown extends React.Component<IDropdownProps, 
     }
 
     async componentWillMount() {
-        const res = await Axios.get("/restaurant");
-        const sortedRestaurants = this.sortRestaurants(res.data.data.restaurants);
-        this.setState({
-            restaurants: sortedRestaurants,
-            filteredRestaurants: sortedRestaurants
-        });
+        try {
+            const res = await Axios.get("/restaurant");
+            if (res.data.success) {
+                const sortedRestaurants = this.sortRestaurants(res.data.data.restaurants);
+                this.setState({
+                    restaurants: sortedRestaurants,
+                    filteredRestaurants: sortedRestaurants
+                });
+            } else {
+                this.setState({
+                    errorMessage: "Failed to get restaurants"
+                })
+            }
+        } catch (error) {
+            this.setState({
+                errorMessage: "Failed to get restaurants"
+            })
+        }
     }
 
     private sortRestaurants(restaurants : IRestaurant[]) {
@@ -73,7 +87,9 @@ export default class RestaurantDropdown extends React.Component<IDropdownProps, 
     render() {
         return (
             <div className="dropdown">
+                <Toast message={this.state.errorMessage} />
                 <FormInput
+                    disabled={this.state.restaurants.length == 0}
                     isValid={this.state.valid}
                     value={this.state.value}
                     onChange={this.onChange}
@@ -83,10 +99,18 @@ export default class RestaurantDropdown extends React.Component<IDropdownProps, 
                     placeHolder="Pick where you ate" />
                 <Menu 
                     handleMenuClick={this.handleMenuItemClick}
-                    visible={this.state.focused && !this.state.valid} 
+                    visible={this.isVisible()} 
                     restaurants={this.state.filteredRestaurants} />
             </div>
         )
+    }
+
+    private isDisabled() {
+        return this.state.restaurants.length === 0;
+    }
+
+    private isVisible() {
+        return this.state.focused && !this.state.valid && !this.isDisabled();
     }
 
     private onChange(restaurantName : IFormValue<string>) {

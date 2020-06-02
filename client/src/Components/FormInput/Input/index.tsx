@@ -7,6 +7,7 @@ export default class Input extends React.Component<IInputProps> {
         return (
             <input
                 value={this.props.value}
+                disabled={this.props.disabled}
                 className="form-raw-input" 
                 placeholder={this.props.placeholder}
                 onChange={this.props.onChange}

@@ -16,9 +16,10 @@
 .toast-message {
     margin: 0;
     color: white;
-    font-size: 20px;
+    font-size: 16px;
     letter-spacing: 0.9px;
     line-height: 26px;
+    text-align: center;
 }
 
 .show-toast {

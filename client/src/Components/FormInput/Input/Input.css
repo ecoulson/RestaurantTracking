@@ -13,7 +13,13 @@
     padding: 0px;
     top: -4px;
     color: white;
-    background-color: #1B2D42 !important;
+    background-color: #1B2D42;
+}
+
+.form-raw-input:disabled {
+    cursor: not-allowed;
+    background-color: rgb(14, 23, 34);
+    text-decoration: line-through;
 }
 
 .form-raw-input:-webkit-autofill,

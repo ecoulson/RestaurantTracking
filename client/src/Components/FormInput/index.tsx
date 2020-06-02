@@ -21,11 +21,12 @@ export default class FormInput extends React.Component<IFormInputProps, IFormInp
 
     render() {
         return (
-            <div className={`form-input ${this.getActiveClass()}`}>
+            <div style={this.getBackgroundColor()} className={`form-input ${this.getActiveClass()}`}>
                 <Label>{this.props.label}</Label>
                 <div className="input-line">
                     <Icon icon={this.props.icon}/>
                     <Input
+                        disabled={this.props.disabled}
                         value={this.props.value}
                         onFocus={this.onFocus}
                         onBlur={this.onBlur}
@@ -38,6 +39,15 @@ export default class FormInput extends React.Component<IFormInputProps, IFormInp
                 </div>
             </div>
         )
+    }
+
+    getBackgroundColor() {
+        return this.props.disabled ? {
+            textDecoration: "line-through",
+            backgroundColor: "rgb(14, 23, 34)"
+        } : {
+            backgroundColor: "#1B2D42"
+        }
     }
 
     onChange(event : ChangeEvent) {
