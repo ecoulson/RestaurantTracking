@@ -1,5 +1,5 @@
 import IconType from "../Icon/IconTypes";
-import { ChangeEvent } from "react";
+import { ChangeEvent, FocusEvent } from "react";
 
 export default interface IFormInputProps {
     value: string;

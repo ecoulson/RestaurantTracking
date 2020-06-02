@@ -1,9 +1,16 @@
-import React from "react";
+import React, { MouseEvent } from "react";
+import IMenuItemProps from "./IMenuItemProps"
 
-export default class MenuItem extends React.Component {
+export default class MenuItem extends React.Component<IMenuItemProps> {
     render() {
         return (
-            <p className="menu-item">{this.props.children}</p>
+            <p onClick={this.handleClick()} className="menu-item">{this.props.children}</p>
         )
+    }
+
+    handleClick() {
+        return (event : MouseEvent) => {
+            this.props.onClick(this.props.restaurant);
+        }
     }
 }
