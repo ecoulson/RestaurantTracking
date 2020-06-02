@@ -1,6 +1,6 @@
 enum ApplicationState {
-    Restaurant,
-    General,
+    RestaurantCheckIn,
+    GeneralCheckIn,
     CheckingIn,
     Success,
     Failure

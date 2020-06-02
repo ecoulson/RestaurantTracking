@@ -1,6 +1,6 @@
-import ApplicationState from "../../ApplicationState";
+import ApplicationState from "../../Page";
 
 export default interface IRestaurantPageProps {
     restaurantId: string;
-    setApplicationState: (status: ApplicationState) => void;
+    setPage: (status: ApplicationState) => void;
 }

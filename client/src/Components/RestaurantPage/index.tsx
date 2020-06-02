@@ -12,7 +12,7 @@ import IRestaurantPageState from './IRestaurantPageState';
 import Toast from '../Toast';
 import IRestaurantPageProps from './IRestaurantPageProps';
 import ICheckInBody from '../../lib/ICheckInBody';
-import ApplicationState from '../../ApplicationState';
+import ApplicationState from '../../Page';
 import Axios from "axios";
 
 export default class RestaurantPage extends React.Component<IRestaurantPageProps, IRestaurantPageState> {
@@ -91,12 +91,12 @@ export default class RestaurantPage extends React.Component<IRestaurantPageProps
         try {
             const res = await Axios.post("/check_in/", checkInBody);
             if (res.data.success) {
-                this.props.setApplicationState(ApplicationState.Success)
+                this.props.setPage(ApplicationState.Success)
             } else {
-                this.props.setApplicationState(ApplicationState.Failure)
+                this.props.setPage(ApplicationState.Failure)
             }
         } catch (error) {
-            this.props.setApplicationState(ApplicationState.Failure)
+            this.props.setPage(ApplicationState.Failure)
         }
     }
 

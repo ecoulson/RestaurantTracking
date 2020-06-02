@@ -15,10 +15,29 @@ export default class RestaurantDropdown extends React.Component<IDropdownProps, 
             filteredRestaurants: [],
             value: "",
             valid: false,
+            focused: false
         };
 
         this.onChange = this.onChange.bind(this);
         this.handleMenuItemClick = this.handleMenuItemClick.bind(this);
+    }
+
+    componentDidMount() {
+        document.addEventListener("click", (event : any) => {
+            this.setState({
+                focused: this.containedInDropdown(event.target)
+            })
+        })
+    }
+
+    private containedInDropdown(element : HTMLElement | null) : boolean {
+        if (!element) {
+            return false;
+        }else if (element.classList.contains("dropdown")) {
+            return true;
+        } else {
+            return this.containedInDropdown(element.parentElement);
+        }
     }
 
     async componentWillMount() {
@@ -55,7 +74,7 @@ export default class RestaurantDropdown extends React.Component<IDropdownProps, 
                     placeHolder="Pick where you ate" />
                 <Menu 
                     handleMenuClick={this.handleMenuItemClick}
-                    visible={this.props.focused && !this.state.valid} 
+                    visible={this.state.focused && !this.state.valid} 
                     restaurants={this.state.filteredRestaurants} />
             </div>
         )

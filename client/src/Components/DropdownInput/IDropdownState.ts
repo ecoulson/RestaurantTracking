@@ -5,4 +5,5 @@ export default interface IDropdownState {
     filteredRestaurants: IRestaurant[];
     value: string;
     valid: boolean;
+    focused: boolean;
 }
