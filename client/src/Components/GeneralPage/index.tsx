@@ -19,6 +19,7 @@ import ApplicationState from "../../Page";
 import IFormValue from "../FormInput/IFormValue";
 import FormValue from "../FormInput/FormValue";
 import IRestaurant from "../../lib/IRestaurant";
+import DateInput from "../DateInput";
 
 
 export default class GeneralPage extends React.Component<IPageProps, IGeneralPageState> {
@@ -29,6 +30,7 @@ export default class GeneralPage extends React.Component<IPageProps, IGeneralPag
             phone: new FormValue<string>("", false),
             email: new FormValue<string>("", false),
             time: new FormValue<string>("", false),
+            date: new FormValue<string>("", false),
             restaurant: new FormValue<IRestaurant>(new Restaurant(), false),
             focusedDropdown: false,
             isSubmitting: false
@@ -37,6 +39,7 @@ export default class GeneralPage extends React.Component<IPageProps, IGeneralPag
         this.handleEmail = this.handleEmail.bind(this);
         this.handlePhone = this.handlePhone.bind(this);
         this.handleTime = this.handleTime.bind(this);
+        this.handleDate = this.handleDate.bind(this);
         this.handleRestaurant = this.handleRestaurant.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -48,6 +51,7 @@ export default class GeneralPage extends React.Component<IPageProps, IGeneralPag
                 <Form isSubmitting={this.state.isSubmitting}>
                     <GeneralTitle />
                     <RestaurantDropdown onChange={this.handleRestaurant} />
+                    <DateInput onChange={this.handleDate} />
                     <TimeInput onChange={this.handleTime} />
                     <Instructions>Please enter one of the following:</Instructions>
                     <EmailInput onChange={this.handleEmail} />
@@ -61,6 +65,7 @@ export default class GeneralPage extends React.Component<IPageProps, IGeneralPag
 
     private handleRestaurant(restaurant : IRestaurantInput) {
         if (restaurant.valid) {
+            document.title = "Check In: " + restaurant.value.name;
             this.props.setRestaurantName!(restaurant.value.name)
         } 
         this.setState({
@@ -74,13 +79,26 @@ export default class GeneralPage extends React.Component<IPageProps, IGeneralPag
 
     private isComplete() {
         if (this.state.email.valid && this.state.phone.value === "") {
-            return this.state.time.valid && this.state.restaurant.valid;
+            return this.state.time.valid && this.state.restaurant.valid &&
+                    this.state.date.valid;
         }
         if (this.state.phone.valid && this.state.email.value === "") {
-            return this.state.time.valid && this.state.restaurant.valid;
+            return this.state.time.valid && this.state.restaurant.valid &&
+                    this.state.date.valid;
         }
         return this.state.email.valid && this.state.phone.valid &&
-                this.state.time.valid && this.state.restaurant.valid;
+                this.state.time.valid && this.state.restaurant.valid &&
+                this.state.date.valid;
+    }
+
+    private handleDate(date : IFormValue<string>) {
+        this.setState({
+            date,
+        }, () => {
+            this.setState({
+                isComplete: this.isComplete()
+            })
+        })
     }
 
     private handleTime(time : IFormValue<string>) {
@@ -120,7 +138,10 @@ export default class GeneralPage extends React.Component<IPageProps, IGeneralPag
             })
             const checkIn : ICheckInBody = {
                 restaurantId: this.state.restaurant.value._id,
-                timeCheckedIn: moment(this.state.time.value, "M/D/Y h:mm A").toDate(),
+                timeCheckedIn: moment(
+                    this.state.date.value.trim() + " " + this.state.time.value.trim(), 
+                    "YYYY-MM-DD h:mm A"
+                ).toDate(),
             }
             if (this.state.email.valid) {
                 checkIn.email = this.state.email.value;

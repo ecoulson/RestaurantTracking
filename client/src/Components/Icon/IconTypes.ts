@@ -4,6 +4,7 @@ enum IconType {
     Dropdown,
     Menu,
     Clock,
+    Calendar
 }
 
 export default IconType;

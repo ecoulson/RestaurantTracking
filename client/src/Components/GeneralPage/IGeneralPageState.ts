@@ -6,6 +6,7 @@ export default interface IGeneralPageState {
     email: IFormValue<string>;
     phone: IFormValue<string>;
     time: IFormValue<string>;
+    date: IFormValue<string>;
     restaurant: IFormValue<IRestaurant>
     focusedDropdown: boolean;
     isSubmitting: boolean;

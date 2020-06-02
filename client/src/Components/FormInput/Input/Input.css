@@ -14,6 +14,7 @@
     top: -4px;
     color: white;
     background-color: #1B2D42;
+    font-family: 'myriad-pro', 'sans-serif', Helvetica;
 }
 
 .form-raw-input:disabled {

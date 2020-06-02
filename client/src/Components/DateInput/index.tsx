@@ -1,13 +1,13 @@
 import React from "react";
 import FormInput from "../FormInput";
 import IconType from "../Icon/IconTypes";
-import ITimeInputProps from "./ITimeInputProps";
-import ITimeInputState from "./ITimeInputState";
+import IDateInputProps from "./IDateInputProps";
+import IDateInputState from "./IDateInputState";
 import moment from "moment";
 import IFormValue from "../FormInput/IFormValue";
 
-export default class TimeInput extends React.Component<ITimeInputProps, ITimeInputState> {
-    constructor(props: ITimeInputProps) {
+export default class DateInput extends React.Component<IDateInputProps, IDateInputState> {
+    constructor(props: IDateInputProps) {
         super(props);
         this.state = {
             date: "",
@@ -23,10 +23,10 @@ export default class TimeInput extends React.Component<ITimeInputProps, ITimeInp
                 value={this.state.date}
                 isValid={this.state.valid}
                 onChange={this.handleTimeChange}
-                icon={IconType.Clock} 
-                label="Time of Entry" 
-                placeHolder="hh:mm AM/PM" 
-                type="text" />
+                icon={IconType.Calendar} 
+                label="Date of Entry" 
+                placeHolder="MM/DD/YYYY" 
+                type="date" />
         )
     }
 
@@ -43,7 +43,7 @@ export default class TimeInput extends React.Component<ITimeInputProps, ITimeInp
     }
 
     private validateDate(date: string) {
-        return moment(date, "h:mm A", true).isValid() && 
-                date.toLowerCase().endsWith("m")
+        console.log(date);
+        return moment(date, "YYYY-MM-DD", true).isValid()
     }
 }
