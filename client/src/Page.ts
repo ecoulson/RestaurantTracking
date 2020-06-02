@@ -1,7 +1,6 @@
 enum Page {
     RestaurantCheckIn,
     GeneralCheckIn,
-    CheckingIn,
     Success,
     Failure
 }

@@ -6,4 +6,5 @@ export default interface IRestaurantPageState {
     isComplete: boolean;
     errorMessage: string;
     restaurantName: string;
+    isSubmitting: boolean;
 }

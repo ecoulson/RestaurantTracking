@@ -8,4 +8,5 @@ export default interface IGeneralPageState {
     time: IFormValue<string>;
     restaurant: IFormValue<IRestaurant>
     focusedDropdown: boolean;
+    isSubmitting: boolean;
 }

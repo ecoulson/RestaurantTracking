@@ -21,14 +21,22 @@ export default class RestaurantDropdown extends React.Component<IDropdownProps, 
 
         this.onChange = this.onChange.bind(this);
         this.handleMenuItemClick = this.handleMenuItemClick.bind(this);
+        this.documentClickListener = this.documentClickListener.bind(this);
     }
 
     componentDidMount() {
-        document.addEventListener("click", (event : any) => {
-            this.setState({
-                focused: this.containedInDropdown(event.target)
-            })
+        document.addEventListener("click", this.documentClickListener)
+    }
+
+    documentClickListener(event : any) {
+        this.setState({
+            focused: this.containedInDropdown(event.target)
         })
+    }
+
+
+    componentWillUnmount() {
+        document.removeEventListener("click", this.documentClickListener)
     }
 
     private containedInDropdown(element : HTMLElement | null) : boolean {

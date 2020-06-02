@@ -14,15 +14,15 @@ import Axios from "axios";
 import ICheckInBody from "../../lib/ICheckInBody";
 import moment from "moment";
 import Restaurant from "../../lib/Restaurant";
-import IGeneralPageProps from "./IGeneralPageProps";
+import IPageProps from "../../IPageProps";
 import ApplicationState from "../../Page";
 import IFormValue from "../FormInput/IFormValue";
 import FormValue from "../FormInput/FormValue";
 import IRestaurant from "../../lib/IRestaurant";
 
 
-export default class GeneralPage extends React.Component<IGeneralPageProps, IGeneralPageState> {
-    constructor(props : IGeneralPageProps) {
+export default class GeneralPage extends React.Component<IPageProps, IGeneralPageState> {
+    constructor(props : IPageProps) {
         super(props);
         this.state = {
             isComplete: false,
@@ -30,7 +30,8 @@ export default class GeneralPage extends React.Component<IGeneralPageProps, IGen
             email: new FormValue<string>("", false),
             time: new FormValue<string>("", false),
             restaurant: new FormValue<IRestaurant>(new Restaurant(), false),
-            focusedDropdown: false
+            focusedDropdown: false,
+            isSubmitting: false
         }
 
         this.handleEmail = this.handleEmail.bind(this);
@@ -44,7 +45,7 @@ export default class GeneralPage extends React.Component<IGeneralPageProps, IGen
         return (
             <>
                 <Logo />
-                <Form>
+                <Form isSubmitting={this.state.isSubmitting}>
                     <GeneralTitle />
                     <RestaurantDropdown onChange={this.handleRestaurant} />
                     <TimeInput onChange={this.handleTime} />
@@ -60,7 +61,7 @@ export default class GeneralPage extends React.Component<IGeneralPageProps, IGen
 
     private handleRestaurant(restaurant : IRestaurantInput) {
         if (restaurant.valid) {
-            this.props.setRestaurantName(restaurant.value.name)
+            this.props.setRestaurantName!(restaurant.value.name)
         } 
         this.setState({
             restaurant
@@ -114,6 +115,9 @@ export default class GeneralPage extends React.Component<IGeneralPageProps, IGen
 
     private async handleSubmit(event : MouseEvent) {
         if (this.state.isComplete) {
+            this.setState({
+                isSubmitting: true
+            })
             const checkIn : ICheckInBody = {
                 restaurantId: this.state.restaurant.value._id,
                 timeCheckedIn: moment(this.state.time.value, "M/D/Y h:mm A").toDate(),
@@ -126,9 +130,9 @@ export default class GeneralPage extends React.Component<IGeneralPageProps, IGen
             }
             const res = await Axios.post("/check_in/", checkIn);
             if (res.data.success) {
-                this.props.setPage(ApplicationState.Success)
+                this.props.setPage!(ApplicationState.Success)
             } else {
-                this.props.setPage(ApplicationState.Failure)
+                this.props.setPage!(ApplicationState.Failure)
             }
         }
     }

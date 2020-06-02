@@ -1,1 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="83" height="103.813" viewBox="0 0 83 103.813"><defs><style>.a,.c,.d,.e{fill:#fff;}.b{fill:none;stroke-width:2px;}.b,.c,.d,.e{stroke:#fff;stroke-miterlimit:10;}.c,.d{font-size:19px;}.c,.d,.e{font-family:SweetSansPro-Regular, Sweet Sans Pro;}.c{letter-spacing:0.05em;}.d{letter-spacing:0.07em;}.e{font-size:11px;}</style></defs><path class="a" d="M41.5,5.157,78.2,65.175H4.807L41.5,5.157M41.5,0,0,67.864H83Z"/><path class="a" d="M53.815,26.967,82.83,74.412H24.807L53.815,26.967m0-5.157L20,77.1H87.63Z" transform="translate(-12.315 -13.429)"/><path class="a" d="M53.815,26.967,82.83,74.412H24.807L53.815,26.967m0-5.157L20,77.1H87.63Z" transform="translate(-12.315 -13.429)"/><path class="a" d="M86.449,85.087l8.65,14.16H77.807l8.642-14.16m0-5.157L73,101.937H99.9Z" transform="translate(-44.949 -49.216)"/><path class="a" d="M98.148,105.5l1.333,2.183H96.815l1.333-2.183m0-5.157L92,110.369h12.3Z" transform="translate(-56.648 -61.783)"/><line class="b" y1="15.098" x2="8.692" transform="translate(41.838 17.718)"/><line class="b" x2="19.213" transform="translate(11.528 51.38)"/><line class="b" x1="9.779" y1="15.912" transform="translate(52.278 50.992)"/><g transform="translate(9.754 63.801)"><text class="c" transform="translate(0 21)"><tspan x="0" y="0">A</tspan></text><text class="d" transform="translate(16.45 21)"><tspan x="0" y="0">dapt</tspan></text><text class="e" transform="translate(4.423 36.013)"><tspan x="0" y="0">Solutions</tspan></text></g></svg>
+<svg width="85" height="85" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+  <style>.a,.c,.d,.e{fill:#fff;}.b{fill:none;stroke-width:2px;}.b,.c,.d,.e{stroke:#fff;stroke-miterlimit:10;}.c,.d{font-size:19px;}.c,.d,.e{font-family:SweetSansPro-Regular, Sweet Sans Pro;}.c{letter-spacing:0.05em;}.d{letter-spacing:0.07em;}.e{font-size:11px;}</style>
+ </defs>
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="87" width="87" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <path id="svg_1" d="m42.5,6.157l36.7,60.018l-73.393,0l36.693,-60.018m0,-5.157l-41.5,67.864l83,0l-41.5,-67.864z" class="a"/>
+  <path id="svg_2" d="m42.5,14.538l29.015,47.445l-58.023,0l29.008,-47.445m0,-5.157l-33.815,55.29l67.63,0l-33.815,-55.29z" class="a"/>
+  <path id="svg_3" d="m42.5,14.538l29.015,47.445l-58.023,0l29.008,-47.445m0,-5.157l-33.815,55.29l67.63,0l-33.815,-55.29z" class="a"/>
+  <path id="svg_4" d="m42.5,36.871l8.65,14.16l-17.292,0l8.642,-14.16m0,-5.157l-13.449,22.007l26.9,0l-13.451,-22.007z" class="a"/>
+  <path id="svg_5" d="m42.5,44.717l1.333,2.183l-2.666,0l1.333,-2.183m0,-5.157l-6.148,10.026l12.3,0l-6.152,-10.026z" class="a"/>
+  <line id="svg_6" x1="42.838001" y2="18.718" x2="51.530001" y1="33.816" class="b"/>
+  <line id="svg_7" x1="12.528" y1="52.380001" y2="52.380001" x2="31.741" class="b"/>
+  <line id="svg_8" x2="53.278" y2="51.992001" y1="67.904001" x1="63.057" class="b"/>
+ </g>
+</svg>
