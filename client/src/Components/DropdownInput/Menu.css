@@ -64,6 +64,24 @@
     }
 }
 
+@-moz-keyframes show-menu {
+    0% {
+        max-height: 0;
+    }
+    100% {
+        max-height: 150px;
+    }
+}
+
+@-o-keyframes show-menu {
+    0% {
+        max-height: 0;
+    }
+    100% {
+        max-height: 150px;
+    }
+}
+
 @keyframes hide-menu {
     0% {
         max-height: 150px;
@@ -75,6 +93,26 @@
 }
 
 @-webkit-keyframes hide-menu {
+    0% {
+        max-height: 150px;
+    }
+    100% {
+        visibility: hidden;
+        max-height: 0;
+    }
+}
+
+@-moz-keyframes hide-menu {
+    0% {
+        max-height: 150px;
+    }
+    100% {
+        visibility: hidden;
+        max-height: 0;
+    }
+}
+
+@-o-keyframes hide-menu {
     0% {
         max-height: 150px;
     }

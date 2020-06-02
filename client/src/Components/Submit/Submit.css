@@ -63,6 +63,24 @@
     }
 }
 
+@-moz-keyframes show {
+    0% {
+        transform: scale(0.0);
+    }
+    100% {
+        transform: scale(1.0);
+    }
+}
+
+@-o-keyframes show {
+    0% {
+        transform: scale(0.0);
+    }
+    100% {
+        transform: scale(1.0);
+    }
+}
+
 @keyframes hide {
     0% {
         transform: scale(1.0);
@@ -73,6 +91,24 @@
 }
 
 @-webkit-keyframes hide {
+    0% {
+        transform: scale(1.0);
+    }
+    100% {
+        transform: scale(0.0);
+    }
+}
+
+@-moz-keyframes hide {
+    0% {
+        transform: scale(1.0);
+    }
+    100% {
+        transform: scale(0.0);
+    }
+}
+
+@-o-keyframes hide {
     0% {
         transform: scale(1.0);
     }
