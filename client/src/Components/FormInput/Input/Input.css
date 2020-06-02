@@ -1,0 +1,22 @@
+.form-raw-input {
+    width: 230px;
+    font-size: 14px;
+    line-height: 26px;
+    font-weight: 200;
+    letter-spacing: 0px;
+    background-color: transparent;
+    height: 24px;
+    box-sizing: border-box;
+    position: absolute;
+    border:none;
+    margin-left: 8px;
+    outline: none;
+    padding: 0px;
+    top: -4px;
+    color: white;
+}
+
+.form-raw-input::placeholder {
+    color: #e8e8e8;
+    font-weight: 200;
+}

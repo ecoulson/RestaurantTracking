@@ -1,10 +1,10 @@
 import React from 'react';
 import './App.css';
-import RestaurantPage from './RestaurantPage';
+import RestaurantPage from './Components/RestaurantPage';
 import ApplicationState from './ApplicationState';
-import GeneralPage from './GeneralPage';
-import StatusPage from './StatusPage';
-import Status from './StatusPage/Status';
+import GeneralPage from './Components/GeneralPage';
+import StatusPage from './Components/StatusPage';
+import Status from './Components/StatusPage/Status';
 
 export default class App extends React.Component<{}, { page : ApplicationState}> {
 	constructor(props : any) {
@@ -19,6 +19,8 @@ export default class App extends React.Component<{}, { page : ApplicationState}>
 				page: ApplicationState.General
 			}
 		}
+
+		this.setApplicationState = this.setApplicationState.bind(this);
 	}
 
 	render() {
@@ -31,13 +33,16 @@ export default class App extends React.Component<{}, { page : ApplicationState}>
 		);
 	}
 
-	getPage() {
+	private getPage() {
 		switch(this.state.page) {
 			case ApplicationState.Restaurant:
-				return (<RestaurantPage />);
+				return (<RestaurantPage 
+							setApplicationState={this.setApplicationState}
+							restaurantId={this.getRestaurantId()}
+							/>);
 			case ApplicationState.General:
 				return (<GeneralPage />);
-			case ApplicationState.Succes:
+			case ApplicationState.Success:
 				return (
 					<StatusPage 
 						status={Status.SUCCESS} 
@@ -50,5 +55,15 @@ export default class App extends React.Component<{}, { page : ApplicationState}>
 						restaurant="Bob's Burgers" />
 				);
 		}
+	}
+
+	private setApplicationState(state : ApplicationState) {
+		this.setState({
+			page: state
+		})
+	}
+
+	private getRestaurantId() {
+		return new URLSearchParams(window.location.search).get("restaurantId") as string;
 	}
 }
