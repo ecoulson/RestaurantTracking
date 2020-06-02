@@ -1,0 +1,20 @@
+<svg width="85" height="85" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+  <style>.a,.c,.d,.e{fill:#fff;}.b{fill:none;stroke-width:2px;}.b,.c,.d,.e{stroke:#fff;stroke-miterlimit:10;}.c,.d{font-size:19px;}.c,.d,.e{font-family:SweetSansPro-Regular, Sweet Sans Pro;}.c{letter-spacing:0.05em;}.d{letter-spacing:0.07em;}.e{font-size:11px;}</style>
+ </defs>
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="87" width="87" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <path id="svg_1" d="m42.5,6.157l36.7,60.018l-73.393,0l36.693,-60.018m0,-5.157l-41.5,67.864l83,0l-41.5,-67.864z" class="a"/>
+  <path id="svg_2" d="m42.5,14.538l29.015,47.445l-58.023,0l29.008,-47.445m0,-5.157l-33.815,55.29l67.63,0l-33.815,-55.29z" class="a"/>
+  <path id="svg_3" d="m42.5,14.538l29.015,47.445l-58.023,0l29.008,-47.445m0,-5.157l-33.815,55.29l67.63,0l-33.815,-55.29z" class="a"/>
+  <path id="svg_4" d="m42.5,36.871l8.65,14.16l-17.292,0l8.642,-14.16m0,-5.157l-13.449,22.007l26.9,0l-13.451,-22.007z" class="a"/>
+  <path id="svg_5" d="m42.5,44.717l1.333,2.183l-2.666,0l1.333,-2.183m0,-5.157l-6.148,10.026l12.3,0l-6.152,-10.026z" class="a"/>
+  <line id="svg_6" x1="42.838001" y2="18.718" x2="51.530001" y1="33.816" class="b"/>
+  <line id="svg_7" x1="12.528" y1="52.380001" y2="52.380001" x2="31.741" class="b"/>
+  <line id="svg_8" x2="53.278" y2="51.992001" y1="67.904001" x1="63.057" class="b"/>
+ </g>
+</svg>

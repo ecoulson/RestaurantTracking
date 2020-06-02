@@ -1,0 +1,118 @@
+.submit {
+    margin-top: 15px;
+    width: 100%;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 40px;
+    letter-spacing: 3.61px;
+    height: 45px;
+    box-sizing: border-box;
+    box-shadow: 0px 3px 10px #000000;
+    border-radius: 5px;
+    border: none;
+    color: #3B3A39;
+    margin-bottom: 15px;
+    background-color: #45DFC2;
+    border: 0;
+    outline: none;
+    transform: scale(0);
+    transition: all 0.25s ease-in-out;
+}
+
+.submit:hover {
+    box-shadow: none;
+    cursor: pointer;
+    color: white;
+}
+
+.submit:focus {
+    box-shadow: none;
+    cursor: pointer;
+    color: white;
+}
+
+.show {
+    animation-name: show;
+    animation-duration: 0.25s;
+    animation-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+    animation-fill-mode: both;
+}
+
+.hide {
+    animation-name: hide;
+    animation-duration: 0.25s;
+    animation-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+    animation-fill-mode: both;
+}
+
+@keyframes show {
+    0% {
+        transform: scale(0.0);
+    }
+    100% {
+        transform: scale(1.0);
+    }
+}
+
+@-webkit-keyframes show {
+    0% {
+        transform: scale(0.0);
+    }
+    100% {
+        transform: scale(1.0);
+    }
+}
+
+@-moz-keyframes show {
+    0% {
+        transform: scale(0.0);
+    }
+    100% {
+        transform: scale(1.0);
+    }
+}
+
+@-o-keyframes show {
+    0% {
+        transform: scale(0.0);
+    }
+    100% {
+        transform: scale(1.0);
+    }
+}
+
+@keyframes hide {
+    0% {
+        transform: scale(1.0);
+    }
+    100% {
+        transform: scale(0.0);
+    }
+}
+
+@-webkit-keyframes hide {
+    0% {
+        transform: scale(1.0);
+    }
+    100% {
+        transform: scale(0.0);
+    }
+}
+
+@-moz-keyframes hide {
+    0% {
+        transform: scale(1.0);
+    }
+    100% {
+        transform: scale(0.0);
+    }
+}
+
+@-o-keyframes hide {
+    0% {
+        transform: scale(1.0);
+    }
+    100% {
+        transform: scale(0.0);
+    }
+}

@@ -1,0 +1,10 @@
+.restaurant-name {
+    color: white;
+    text-align: center;
+    font-size: 34px;
+    line-height: 35px;
+    font-weight: 400;
+    width: 285px;
+    margin: 35px auto 35px;
+    letter-spacing: 1.7px;
+}

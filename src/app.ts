@@ -7,37 +7,15 @@ import cors from "cors";
 import RateLimit from "express-rate-limit";
 import MongoStore from "rate-limit-mongo";
 import session from "express-session";
-import webpack from "webpack";
-import webpackDevMiddleware from "webpack-dev-middleware";
-import webpackHotMiddleware from "webpack-hot-middleware";
 import { requestLogger } from "./lib/logging";
 import APIRouterConfiguration from "./routes";
 import ErrorHandlingMiddleware from "./middleware/error-handling/ErrorHandlingMiddleware";
-
-const config = require('../webpack.config');
 
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser());
 app.use(cors());
-
-if (process.env.NODE_ENV === "development") {
-    config.entry.unshift('webpack-hot-middleware/client?reload=true&timeout=1000');
-
-    //Add HMR plugin
-    config.plugins.push(new webpack.HotModuleReplacementPlugin());
-
-    const compiler = webpack(config);
-
-    //Enable "webpack-dev-middleware"
-    app.use(webpackDevMiddleware(compiler, {
-        publicPath: config.output.publicPath
-    }));
-
-    //Enable "webpack-hot-middleware"
-    app.use(webpackHotMiddleware(compiler));
-}
 
 if (process.env.NODE_ENV !== "test") {
     app.use(session({  
@@ -72,7 +50,6 @@ if (process.env.NODE_ENV === "production") {
 
 app.use("/", express.static(path.join(__dirname, '..', 'client', 'build')));
 app.use("/", new APIRouterConfiguration({}).setup());
-
 
 if (process.env.NODE_ENV !== "development") {
     app.use(ErrorHandlingMiddleware.productionErrorHandler);
