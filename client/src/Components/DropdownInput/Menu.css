@@ -12,7 +12,6 @@
     border-radius: 5px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
-    max-height: 150px;
     overflow-y: scroll;
     top: 53px;
     padding: 0 0 5px 0;
@@ -49,30 +48,25 @@
 
 @keyframes show-menu {
     0% {
-        visibility: hidden;
         max-height: 0;
     }
     100% {
-        visibility: visible;
-        max-height: auto;
+        max-height: 150px;
     }
 }
 
 @-webkit-keyframes show-menu {
     0% {
-        visibility: hidden;
         max-height: 0;
     }
     100% {
-        visibility: visible;
-        max-height: auto;
+        max-height: 150px;
     }
 }
 
 @keyframes hide-menu {
     0% {
-        visibility: visible;
-        max-height: auto;
+        max-height: 150px;
     }
     100% {
         visibility: hidden;
@@ -82,11 +76,14 @@
 
 @-webkit-keyframes hide-menu {
     0% {
-        visibility: visible;
-        max-height: auto;
+        max-height: 150px;
     }
     100% {
         visibility: hidden;
         max-height: 0;
     }
+}
+
+.none {
+    visibility: hidden;
 }
