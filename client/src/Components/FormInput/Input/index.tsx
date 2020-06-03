@@ -1,8 +1,14 @@
-import React from "react";
+import React, { ChangeEvent } from "react";
 import "./Input.css";
 import IInputProps from "./IInputProps";
 
 export default class Input extends React.Component<IInputProps> {
+    constructor(props : IInputProps) {
+        super(props);
+
+        this.handleChange = this.handleChange.bind(this);
+    }
+
     render() {
         return (
             <input
@@ -10,10 +16,14 @@ export default class Input extends React.Component<IInputProps> {
                 disabled={this.props.disabled}
                 className="form-raw-input" 
                 placeholder={this.props.placeholder}
-                onChange={this.props.onChange}
+                onChange={this.handleChange}
                 onBlur={this.props.onBlur ? this.props.onBlur : () => null}
                 onFocus={this.props.onFocus ? this.props.onFocus : () => null}
                 type={this.props.type} />
         )
+    }
+
+    private handleChange(event: ChangeEvent) {
+        this.props.onChange((event.target as HTMLInputElement).value, event)
     }
 }

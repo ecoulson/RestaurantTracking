@@ -89,7 +89,7 @@ export default class RestaurantDropdown extends React.Component<IDropdownProps, 
             <div className="dropdown">
                 <Toast message={this.state.errorMessage} />
                 <FormInput
-                    disabled={this.state.restaurants.length == 0}
+                    disabled={this.state.restaurants.length === 0}
                     isValid={this.state.valid}
                     value={this.state.value}
                     onChange={this.onChange}
