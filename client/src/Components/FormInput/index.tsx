@@ -7,6 +7,8 @@ import Input from "./Input";
 import IFormInputState from "./IFormInputState";
 import FormValue from "./FormValue";
 import ValidationIcon from "./ValidationIcon";
+import CustomDateInput from "./CustomDateInput";
+import CustomTimeInput from "./CustomTimeInput";
 
 export default class FormInput extends React.Component<IFormInputProps, IFormInputState> {
     constructor(props : IFormInputProps) {
@@ -25,20 +27,44 @@ export default class FormInput extends React.Component<IFormInputProps, IFormInp
                 <Label>{this.props.label}</Label>
                 <div className="input-line">
                     <Icon icon={this.props.icon}/>
-                    <Input
-                        disabled={this.props.disabled}
-                        value={this.props.value}
-                        onFocus={this.onFocus}
-                        onBlur={this.onBlur}
-                        placeholder={this.props.placeHolder}
-                        type={this.props.type} 
-                        onChange={this.onChange} />
+                    {this.getInput()}
                     <ValidationIcon 
                         isValid={this.props.isValid} 
                         value={this.props.value} />
                 </div>
             </div>
         )
+    }
+
+    getInput() {
+        if (this.props.type === "time") {
+            return <CustomTimeInput
+                disabled={this.props.disabled}
+                value={this.props.value}
+                onFocus={this.onFocus}
+                onBlur={this.onBlur}
+                placeholder={this.props.placeHolder}
+                type={this.props.type} 
+                onChange={this.onChange} />
+        } else if (this.props.type === "date") {
+            return <CustomDateInput
+                disabled={this.props.disabled}
+                value={this.props.value}
+                onFocus={this.onFocus}
+                onBlur={this.onBlur}
+                placeholder={this.props.placeHolder}
+                type={this.props.type} 
+                onChange={this.onChange} />
+        } else {
+            return <Input
+                disabled={this.props.disabled}
+                value={this.props.value}
+                onFocus={this.onFocus}
+                onBlur={this.onBlur}
+                placeholder={this.props.placeHolder}
+                type={this.props.type} 
+                onChange={this.onChange} />
+        }
     }
 
     getBackgroundColor() {
@@ -50,9 +76,9 @@ export default class FormInput extends React.Component<IFormInputProps, IFormInp
         }
     }
 
-    onChange(event : ChangeEvent) {
+    onChange(value : string, event? : ChangeEvent) {
         this.props.onChange(new FormValue<string>(
-            (event.target as HTMLInputElement).value,
+            value,
             this.props.isValid
         ),  event)
     }

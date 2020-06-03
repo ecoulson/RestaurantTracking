@@ -25,8 +25,8 @@ export default class TimeInput extends React.Component<ITimeInputProps, ITimeInp
                 onChange={this.handleTimeChange}
                 icon={IconType.Clock} 
                 label="Time of Entry" 
-                placeHolder="hh:mm AM/PM" 
-                type="text" />
+                placeHolder="Click here to enter time" 
+                type="time" />
         )
     }
 

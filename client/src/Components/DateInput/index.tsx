@@ -25,7 +25,7 @@ export default class DateInput extends React.Component<IDateInputProps, IDateInp
                 onChange={this.handleTimeChange}
                 icon={IconType.Calendar} 
                 label="Date of Entry" 
-                placeHolder="MM/DD/YYYY" 
+                placeHolder="Click here to enter date" 
                 type="date" />
         )
     }
@@ -43,7 +43,6 @@ export default class DateInput extends React.Component<IDateInputProps, IDateInp
     }
 
     private validateDate(date: string) {
-        console.log(date);
-        return moment(date, "YYYY-MM-DD", true).isValid()
+        return moment(date, "Y-M-D", true).isValid()
     }
 }

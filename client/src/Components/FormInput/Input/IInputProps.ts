@@ -5,7 +5,7 @@ export default interface IInputProps {
     value: string;
     type: string;
     disabled?: boolean;
-    onChange: (event: ChangeEvent) => void;
+    onChange: (value: string, event : ChangeEvent) => void;
     onFocus?: (event: FocusEvent) => void;
     onBlur?: (event: FocusEvent) => void;
 }
