@@ -9,9 +9,10 @@
     "outDir": "dist",
     "baseUrl": ".",
     "noUnusedLocals": true,
-    "typeRoots": [ "./src/types", "./node_modules/@types"],
+    "typeRoots": [ "./src/typings", "./node_modules/@types"],
   },
   "exclude": [
-    "./tests"
+    "./tests",
+    "./client"
   ]
 }

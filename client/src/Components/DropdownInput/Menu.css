@@ -1,0 +1,127 @@
+.dropdown {
+    position: relative;
+}
+
+.menu {
+    width: 100%;
+    height: auto;
+    background-color: #F7F7F5;
+    position: absolute;
+    z-index: 2;
+    box-shadow: 0px 3px 5px 5px rgba(0, 0, 0, 0.4);
+    border-radius: 5px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    overflow-y: scroll;
+    top: 53px;
+    padding: 0 0 5px 0;
+    animation-name: hide-menu;
+    animation-duration: 0.5s;
+    animation-timing-function: ease-in;
+    animation-fill-mode: forwards;
+}
+
+.show-menu {
+    animation-name: show-menu;
+    animation-duration: 0.5s;
+    animation-timing-function: ease-in;
+    animation-fill-mode: forwards;
+}
+
+.hide-menu {
+    animation-name: hide-menu;
+    animation-duration: 0.5s;
+    animation-timing-function: ease-in;
+    animation-fill-mode: forwards;
+}
+
+.menu-item {
+    margin: 0;
+    padding: 10px 15px;
+    transition: all 0.25s linear;
+}
+
+.menu-item:hover {
+    background-color: rgb(221, 221, 219);
+    cursor: pointer;
+}
+
+@keyframes show-menu {
+    0% {
+        max-height: 0;
+    }
+    100% {
+        max-height: 150px;
+    }
+}
+
+@-webkit-keyframes show-menu {
+    0% {
+        max-height: 0;
+    }
+    100% {
+        max-height: 150px;
+    }
+}
+
+@-moz-keyframes show-menu {
+    0% {
+        max-height: 0;
+    }
+    100% {
+        max-height: 150px;
+    }
+}
+
+@-o-keyframes show-menu {
+    0% {
+        max-height: 0;
+    }
+    100% {
+        max-height: 150px;
+    }
+}
+
+@keyframes hide-menu {
+    0% {
+        max-height: 150px;
+    }
+    100% {
+        visibility: hidden;
+        max-height: 0;
+    }
+}
+
+@-webkit-keyframes hide-menu {
+    0% {
+        max-height: 150px;
+    }
+    100% {
+        visibility: hidden;
+        max-height: 0;
+    }
+}
+
+@-moz-keyframes hide-menu {
+    0% {
+        max-height: 150px;
+    }
+    100% {
+        visibility: hidden;
+        max-height: 0;
+    }
+}
+
+@-o-keyframes hide-menu {
+    0% {
+        max-height: 150px;
+    }
+    100% {
+        visibility: hidden;
+        max-height: 0;
+    }
+}
+
+.none {
+    visibility: hidden;
+}

@@ -1,0 +1,147 @@
+.form-input {
+    margin-top: 25px;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #707070;
+    transition: all 0.25s;
+    padding: 5px;
+}
+
+.active {
+    border-bottom: 1px solid white;
+}
+
+.input-line {
+    margin: 5px 0;
+    height: 20px;
+    position: relative;
+}
+
+.or {
+    display: block;
+    width: 36px;
+    border: 1px solid #707070;
+    text-align: center;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 26px;
+    color: white;
+    padding: 5px 0;
+    margin: 0 auto;
+}
+
+.invalid-field {
+    color: red;
+    position: absolute;
+    top: 0px;
+    right: 5px; 
+    animation-name: pop;
+    animation-duration: 0.25s;
+    animation-timing-function: cubic-bezier(0.785, 0.135, 0.15, 0.86);
+    animation-fill-mode: none;
+}
+
+.valid-field {
+    color: rgb(3, 216, 3);
+    position: absolute;
+    top: 0px;
+    right: 5px; 
+    animation-name: pop2;
+    animation-duration: 0.25s;
+    animation-fill-mode: none;
+}
+
+@keyframes pop {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.02);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@-webkit-keyframes pop {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.02);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@-moz-keyframes pop {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.02);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@-o-keyframes pop {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.02);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes pop2 {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@-webkit-keyframes pop2 {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@-moz-keyframes pop2 {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@-o-keyframes pop2 {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}

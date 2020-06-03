@@ -4,8 +4,8 @@ createModelMock("../../src/models/restaurant/RestaurantModel");
 import RestaurantModel from "../../src/models/restaurant/RestaurantModel";
 import CheckInService from "../../src/services/CheckInService";
 import CheckInModel from "../../src/models/check-in/CheckInModel";
-const faker = require("faker");
-const Chance = require('chance');
+import faker from "faker";
+import Chance from "chance";
 import { generateObjectId } from "../helpers/mongo";
 import CSV from "../../src/lib/HTTP/CSV";
 
@@ -69,18 +69,37 @@ describe("Checkin Service Test", () => {
             expect.assertions(1)
         });
 
-        test("A successful check in", async () => {
+        test("A checkin with a provided timeCheckedIn", async () => {
             const service = new CheckInService();
-            CheckInModel.prototype.save.mockResolvedValue({});
-            (RestaurantModel.findById as jest.Mock).mockResolvedValue({});
-
-            const result : boolean = await service.checkIn({
+            const checkIn = {
                 number: chance.phone({ country: 'us' }),
                 email: faker.internet.email(),
-                restaurantId: generateObjectId()
-            }, "1.1.1.1");
+                restaurantId: generateObjectId(),
+                ipAddress: faker.internet.ip(),
+                timeCheckedIn: faker.date.recent()
+            }
+            CheckInModel.prototype.save.mockResolvedValue(checkIn);
+            (RestaurantModel.findById as jest.Mock).mockResolvedValue({});
 
-            expect(result).toBeTruthy();
+            const checkInDocument = await service.checkIn(checkIn, checkIn.ipAddress);
+
+            expect(checkInDocument).toEqual(checkIn);
+        })
+
+        test("A successful check in", async () => {
+            const service = new CheckInService();
+            const checkIn = {
+                number: chance.phone({ country: 'us' }),
+                email: faker.internet.email(),
+                restaurantId: generateObjectId(),
+                ipAddress: faker.internet.ip()
+            }
+            CheckInModel.prototype.save.mockResolvedValue(checkIn);
+            (RestaurantModel.findById as jest.Mock).mockResolvedValue({});
+
+            const checkInDocument = await service.checkIn(checkIn, checkIn.ipAddress);
+
+            expect(checkInDocument).toEqual(checkIn);
         })
     });
 

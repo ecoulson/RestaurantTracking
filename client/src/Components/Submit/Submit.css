@@ -1,0 +1,120 @@
+.submit {
+    margin-top: 15px;
+    width: 100%;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 40px;
+    letter-spacing: 3.61px;
+    height: 45px;
+    box-sizing: border-box;
+    box-shadow: none;
+    border-radius: 5px;
+    border: none;
+    color: #3B3A39;
+    background-color: gray;
+    margin-bottom: 15px;
+    border: 0;
+    outline: none;
+    transition: all 0.5s ease-in-out;
+}
+
+.show:hover {
+    box-shadow: none;
+    cursor: pointer;
+    color: white;
+}
+
+.show:focus {
+    box-shadow: none;
+    cursor: pointer;
+    color: white;
+}
+
+.show {
+    box-shadow: 0px 3px 10px #000000;
+    background-color: #45DFC2;
+    animation-name: show;
+    animation-duration: 1s;
+    animation-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+    animation-fill-mode: both;
+}
+
+.hide {
+    background-color: gray;
+    animation-name: hide;
+    animation-duration: 1s;
+    animation-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+    animation-fill-mode: both;
+}
+
+@keyframes show {
+    0% {
+        background-color: gray;
+    }
+    100% {
+        background-color: #45DFC2;
+    }
+}
+
+@-webkit-keyframes show {
+    0% {
+        background-color: gray;
+    }
+    100% {
+        background-color: #45DFC2;
+    }
+}
+
+@-moz-keyframes show {
+    0% {
+        background-color: gray;
+    }
+    100% {
+        background-color: #45DFC2;
+    }
+}
+
+@-o-keyframes show {
+    0% {
+        background-color: gray;
+    }
+    100% {
+        background-color: #45DFC2;
+    }
+}
+
+@keyframes hide {
+    0% {
+        background-color: #45DFC2;
+    }
+    100% {
+        background-color: gray;
+    }
+}
+
+@-webkit-keyframes hide {
+    0% {
+        background-color: #45DFC2;
+    }
+    100% {
+        background-color: gray;
+    }
+}
+
+@-moz-keyframes hide {
+    0% {
+        background-color: #45DFC2;
+    }
+    100% {
+        background-color: gray;
+    }
+}
+
+@-o-keyframes hide {
+    0% {
+        background-color: #45DFC2;
+    }
+    100% {
+        background-color: gray;
+    }
+}

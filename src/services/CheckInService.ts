@@ -2,14 +2,14 @@ import CheckIn from "../models/check-in/CheckInModel";
 import RestaurantModel from "../models/restaurant/RestaurantModel";
 import ICheckInRequestBody from "../controllers/CheckIn/ICheckIn";
 import CSV from "../lib/HTTP/CSV";
+import ICheckIn from "../controllers/CheckIn/ICheckIn";
 
 export default class CheckInService {
-    async checkIn(checkIn : ICheckInRequestBody, ipAddress : string) : Promise<boolean> {
+    async checkIn(checkIn : ICheckInRequestBody, ipAddress : string) : Promise<ICheckIn> {
         if (!await this.restaurantExists(checkIn.restaurantId)) {
             throw new Error("Can not check in to a restaurant that does not exist")
         }
-        await this.saveCheckInToDB(checkIn, ipAddress);
-        return true;
+        return await this.saveCheckInToDB(checkIn, ipAddress);
     }
 
     private async restaurantExists(restaurantId : string) {
@@ -24,15 +24,16 @@ export default class CheckInService {
         }
     }
 
-    private async saveCheckInToDB(checkIn : ICheckInRequestBody, ipAddress: string) : Promise<void> {
+    private async saveCheckInToDB(checkIn : ICheckInRequestBody, ipAddress: string) : Promise<ICheckIn> {
         const checkInDocument = new CheckIn({
             number: checkIn.number,
             email: checkIn.email,
             restaurantId: checkIn.restaurantId,
+            timeCheckedIn: checkIn.timeCheckedIn ? checkIn.timeCheckedIn : undefined,
             ipAddress: ipAddress
         });
         try {
-            await checkInDocument.save();
+            return await checkInDocument.save();
         } catch (error) {
             throw new Error(`Error when saving checkin to restaurant with ${checkIn.restaurantId} from ${ipAddress}`)
         }

@@ -1,0 +1,55 @@
+.form-raw-input {
+    width: 230px;
+    font-size: 14px;
+    line-height: 26px;
+    font-weight: 200;
+    letter-spacing: 0px;
+    height: 24px;
+    box-sizing: border-box;
+    position: absolute;
+    border:none;
+    margin-left: 8px;
+    outline: none;
+    padding: 0px;
+    top: -4px;
+    color: white;
+    background-color: #1B2D42;
+    font-family: 'myriad-pro', 'sans-serif', Helvetica;
+}
+
+.custom-date {
+    top: -20px;
+}
+
+.form-raw-input:disabled {
+    cursor: not-allowed;
+    background-color: rgb(14, 23, 34);
+    text-decoration: line-through;
+}
+
+.form-raw-input:-webkit-autofill,
+.form-raw-input:-webkit-autofill:hover,
+.form-raw-input:-webkit-autofill:focus,
+.form-raw-input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+    color: white !important;
+}
+
+.form-raw-input::placeholder {
+    color: #e8e8e8;
+    font-weight: 200;
+}
+
+.form-raw-input:-webkit-autofil {
+    color: white !important;
+    background-color: #1B2D42;
+}
+
+.form-raw-input:-internal-autofill-selected {
+    color: white !important;
+    background-color: #1B2D42 !important;
+}
+
+.form-raw-input:-webkit-autofill {
+    -webkit-text-fill-color: white !important;
+}
