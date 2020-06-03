@@ -10,6 +10,9 @@ import session from "express-session";
 import { requestLogger } from "./lib/logging";
 import APIRouterConfiguration from "./routes";
 import ErrorHandlingMiddleware from "./middleware/error-handling/ErrorHandlingMiddleware";
+import mongoose from "mongoose";
+
+mongoose.set('useCreateIndex', true);
 
 const app = express();
 app.use(bodyParser.json());

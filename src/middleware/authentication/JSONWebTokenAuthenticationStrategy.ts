@@ -45,7 +45,7 @@ export default class JSONWebTokenAuthenticationStrategy implements IAuthenticati
 
     private verifyToken(token : string) : Promise<any> {
         return new Promise((resolve : (value : any) => void, reject : (error : Error) => void) => {
-            JSONWebToken.verify(token, process.env.ACCESS_TOKEN_SECRET, (error : Error, user) => {
+            JSONWebToken.verify(token, process.env.ACCESS_TOKEN_SECRET, (error : Error, user : any) => {
                 if (error) {
                     return reject(error);
                 }
