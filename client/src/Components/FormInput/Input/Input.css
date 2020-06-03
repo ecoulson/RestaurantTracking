@@ -17,6 +17,10 @@
     font-family: 'myriad-pro', 'sans-serif', Helvetica;
 }
 
+.custom-date {
+    top: -20px;
+}
+
 .form-raw-input:disabled {
     cursor: not-allowed;
     background-color: rgb(14, 23, 34);

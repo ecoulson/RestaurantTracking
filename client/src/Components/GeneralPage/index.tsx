@@ -21,7 +21,6 @@ import FormValue from "../FormInput/FormValue";
 import IRestaurant from "../../lib/IRestaurant";
 import DateInput from "../DateInput";
 
-
 export default class GeneralPage extends React.Component<IPageProps, IGeneralPageState> {
     constructor(props : IPageProps) {
         super(props);
@@ -50,6 +49,7 @@ export default class GeneralPage extends React.Component<IPageProps, IGeneralPag
                 <Logo />
                 <Form isSubmitting={this.state.isSubmitting}>
                     <GeneralTitle />
+                    <Instructions>Please provide the following:</Instructions>
                     <RestaurantDropdown onChange={this.handleRestaurant} />
                     <DateInput onChange={this.handleDate} />
                     <TimeInput onChange={this.handleTime} />

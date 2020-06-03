@@ -32,6 +32,7 @@
 .invalid-field {
     color: red;
     position: absolute;
+    top: 0px;
     right: 5px; 
     animation-name: pop;
     animation-duration: 0.25s;
@@ -42,6 +43,7 @@
 .valid-field {
     color: rgb(3, 216, 3);
     position: absolute;
+    top: 0px;
     right: 5px; 
     animation-name: pop2;
     animation-duration: 0.25s;
