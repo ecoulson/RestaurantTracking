@@ -1,19 +1,19 @@
-jest.mock("../../src/lib/URL-shortener");
-import RestaurantModel from "../../src/models/restaurant/RestaurantModel";
-import URLShortener from "../../src/lib/URL-shortener";
+jest.mock("../../../src/lib/URL-shortener");
+import RestaurantModel from "../../../src/models/restaurant/RestaurantModel";
+import URLShortener from "../../../src/lib/URL-shortener";
 import { 
     expectErrorResponse, 
     expectStatusCode, 
     expectSuccessResponse,
     expectHeader
-} from "../helpers/expect";
+} from "../../helpers/expect";
 import {
     makeGetRequest,
     makePostRequest
-} from "../helpers/request";
+} from "../../helpers/request";
 import faker from "faker";
 import Chance from "chance";
-import { generateObjectId } from "../helpers/mongo";
+import { generateObjectId } from "../../helpers/mongo";
 
 const chance = new Chance();
 

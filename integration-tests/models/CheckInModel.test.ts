@@ -1,5 +1,5 @@
-import * as TestDatabase from "../helpers/database";
-import CheckInModel from "../../src/models/check-in/CheckInModel";
+import * as TestDatabase from "../../helpers/database";
+import CheckInModel from "../../../src/models/check-in/CheckInModel";
 import faker from 'faker';
 
 beforeAll(async () => await TestDatabase.connect());

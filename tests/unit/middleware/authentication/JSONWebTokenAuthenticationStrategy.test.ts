@@ -1,4 +1,4 @@
-import JSONWebTokenAuthenticationStrategy from "../../../src/middleware/authentication/JSONWebTokenAuthenticationStrategy";
+import JSONWebTokenAuthenticationStrategy from "../../../../src/middleware/authentication/JSONWebTokenAuthenticationStrategy";
 import { mockRequest, mockResponse } from "mock-req-res";
 import { Response } from "express";
 

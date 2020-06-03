@@ -1,7 +1,7 @@
 jest.mock("axios");
 import axios from "axios";
 import faker from "faker";
-import URLShortner from "../../../src/lib/URL-shortener";
+import URLShortner from "../../../../src/lib/URL-shortener";
 
 const BITLY_URL = "https://api-ssl.bitly.com/v4/shorten";
 const OLD_ENV = process.env;

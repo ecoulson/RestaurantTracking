@@ -1,20 +1,20 @@
-import { createModelMock } from "../mocks/models";
+import { createModelMock } from "../../mocks/models";
 createModelMock("../../src/models/check-in/CheckInModel");
 createModelMock("../../src/models/restaurant/RestaurantModel");
-import RestaurantModel from "../../src/models/restaurant/RestaurantModel";
+import RestaurantModel from "../../../src/models/restaurant/RestaurantModel";
 import faker from "faker";
 import { 
     expectErrorResponse, 
     expectStatusCode, 
     expectSuccessResponse
-} from "../helpers/expect";
+} from "../../helpers/expect";
 import {
     makeGetRequest,
     makePostRequest
-} from "../helpers/request";
+} from "../../helpers/request";
 import Chance from 'chance';
-import { generateObjectId } from "../helpers/mongo";
-import CheckInModel from "../../src/models/check-in/CheckInModel";
+import { generateObjectId } from "../../helpers/mongo";
+import CheckInModel from "../../../src/models/check-in/CheckInModel";
 
 const chance = new Chance();
 

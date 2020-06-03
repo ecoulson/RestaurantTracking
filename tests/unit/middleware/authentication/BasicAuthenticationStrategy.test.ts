@@ -1,6 +1,6 @@
 import { mockRequest, mockResponse } from "mock-req-res";
 import { Response } from "express";
-import BasicAuthenticationStrategy from "../../../src/middleware/authentication/BasicAuthenticationStrategy"
+import BasicAuthenticationStrategy from "../../../../src/middleware/authentication/BasicAuthenticationStrategy"
 
 beforeAll(() => {
     process.env.SERVER_SECRET = "valid_token"

@@ -1,10 +1,10 @@
-jest.mock("../../../src/services/CheckInService");
-import CheckInService from "../../../src/services/CheckInService";
-import CheckInController from "../../../src/controllers/CheckIn/CheckInController";
+jest.mock("../../../../src/services/CheckInService");
+import CheckInService from "../../../../src/services/CheckInService";
+import CheckInController from "../../../../src/controllers/CheckIn/CheckInController";
 import { mockRequest, mockResponse } from "mock-req-res";
 import faker from "faker";
 import Chance from "chance";
-import { generateObjectId } from "../../helpers/mongo";
+import { generateObjectId } from "../../../helpers/mongo";
 
 const chance = new Chance();
 

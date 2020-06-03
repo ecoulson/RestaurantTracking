@@ -1,6 +1,6 @@
 import faker from 'faker';
-import * as TestDatabase from "../helpers/database";
-import RestaurantModel from "../../src/models/restaurant/RestaurantModel";
+import * as TestDatabase from "../../helpers/database";
+import RestaurantModel from "../../../src/models/restaurant/RestaurantModel";
 
 beforeAll(async () => await TestDatabase.connect());
 afterEach(async () => await TestDatabase.clearDatabase());
