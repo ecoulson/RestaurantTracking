@@ -6,6 +6,12 @@ import bcrypt from "bcrypt";
 export default class UserService implements IUserService {
     async register(registration : IRegistrationBody) {
         const user = new UserModel(await this.getUserDocument(registration));
+        if (await this.isUsernameTaken(user.username)) {
+            throw new Error(`Username ${user.username} already exists`);
+        }
+        if (await this.isEmailTaken(user.email)) {
+            throw new Error(`Email ${user.email} is associated with another account`)
+        }
         try {
             await user.save();
             return user;
@@ -25,6 +31,22 @@ export default class UserService implements IUserService {
             };
         } catch (error) {
             throw new Error(`Failed to hash password for registering user ${registration.username}`)
+        }
+    }
+
+    private async isUsernameTaken(username : string) {
+        try {
+            return await UserModel.findByUsername(username) !== null;
+        } catch (error) {
+            throw new Error(`Failed to check if username ${username} already exists`)
+        }
+    }
+
+    private async isEmailTaken(email : string) {
+        try {
+            return await UserModel.findByEmail(email) !== null;
+        } catch (error) {
+            throw new Error(`Failed to check if email ${email} already exists`)
         }
     }
 

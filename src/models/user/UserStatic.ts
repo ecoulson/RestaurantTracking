@@ -6,4 +6,9 @@ export default class UserStatic {
         const context : IUserModel = ModelStatics.getContext<IUserModel>(this);
         return await context.findOne({ username });
     }
+    
+    public static async findByEmail(email : string) {
+        const context : IUserModel = ModelStatics.getContext<IUserModel>(this);
+        return await context.findOne({ email });
+    }
 }

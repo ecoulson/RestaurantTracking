@@ -1,7 +1,7 @@
 import IResponse from "./IResponse";
 import { Response } from "express";
 
-export default class ForbiddenResponse implements IResponse<string> {
+export default class UnauthorizedResponse implements IResponse<string> {
     private response : Response;
 
     constructor(response : Response) {
@@ -9,10 +9,10 @@ export default class ForbiddenResponse implements IResponse<string> {
     } 
 
     send(message? : string) {
-        this.response.status(403).json({
+        this.response.status(401).json({
             success: false,
             data: {
-                error: message ? message : "Access forbidden"
+                error: message ? message : "Unauthorized request"
             }
         })
     }

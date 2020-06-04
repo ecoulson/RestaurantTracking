@@ -1,11 +1,13 @@
 import IAuthenticationStrategy from "./IAuthenticationStrategy";
 import { Request, Response, NextFunction } from "express";
 import { logger } from "../../lib/logging";
-import ForbiddenResponse from "../../lib/HTTP/ForbiddenResponse";
+// import ForbiddenResponse from "../../lib/HTTP/ForbiddenResponse";
 import JSONWebToken from "jsonwebtoken";
 import { IncomingHttpHeaders } from "http";
 import IUserToken from "./IUserToken";
 import UserModel from "../../models/user/UserModel";
+import UnauthorizedResponse from "../../lib/HTTP/UnauthorizedResponse";
+import ForbiddenResponse from "../../lib/HTTP/ForbiddenResponse";
 
 export default class JSONWebTokenAuthenticationStrategy implements IAuthenticationStrategy {
     authenticate() {
@@ -13,7 +15,7 @@ export default class JSONWebTokenAuthenticationStrategy implements IAuthenticati
             logger.debug(`Checking for authorization headers`);
             if (!this.hasAuthorizationHeader(request.headers)) {
                 logger.warn(`Failed to find authorization header for request to ${request.originalUrl}`);
-                return new ForbiddenResponse(response).send();
+                return new UnauthorizedResponse(response).send();
             }
             logger.debug(`Parsing authentication token`);
             const token = this.getAuthToken(request.headers);
@@ -21,12 +23,16 @@ export default class JSONWebTokenAuthenticationStrategy implements IAuthenticati
             
             try {
                 const userToken = await this.verifyToken(token);
-                request.user = await this.findUser(userToken._id)
+                const user = await this.findUser(userToken._id);
+                if (!user.verified) {
+                    return new ForbiddenResponse(response).send(`Email has not been verified for ${user.email}`)
+                }
+                request.user = user;
                 logger.debug(`Authenticated request`);
                 return next();
             } catch (error) {
                 logger.warn(error.message);
-                return new ForbiddenResponse(response).send();
+                return new UnauthorizedResponse(response).send();
             }
         }
     }

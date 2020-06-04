@@ -20,7 +20,7 @@ describe("JSON Web token Authentication Strategy", () => {
 
             await strategy.authenticate()(request, response, () => {});
 
-            expectForbiddenResponse(response);
+            expectUnauthorizedResponse(response, "Unauthorized request");
         });
 
         test("Should not authenticate request with no token", async () => {
@@ -34,7 +34,7 @@ describe("JSON Web token Authentication Strategy", () => {
         
             await strategy.authenticate()(req, res, () => {});
 
-            expectForbiddenResponse(res);
+            expectUnauthorizedResponse(res, "Unauthorized request");
         });
 
         test("Should not authenticate request with invalid token", async () => {
@@ -48,11 +48,28 @@ describe("JSON Web token Authentication Strategy", () => {
         
             await strategy.authenticate()(req, res, () => {});
 
-            expectForbiddenResponse(res);
+            expectUnauthorizedResponse(res, "Unauthorized request");
         });
+
+        test("Should fail to authenticate request with valid token because user is not verified", async () => {
+            const user = getUser(faker.internet.password())
+            UserModel.findById = jest.fn().mockResolvedValue(user);
+            const strategy = new JSONWebTokenAuthenticationStrategy();
+            const req = mockRequest({
+                headers: {
+                    "authorization": `Bearer ${token}`
+                }
+            });
+            const res = mockResponse();
+        
+            await strategy.authenticate()(req, res, () => {});
+
+            expectForbiddenResponse(res, `Email has not been verified for ${user.email}`);
+        })
 
         test("Should authenticate request with valid token", async () => {
             const user = getUser(faker.internet.password())
+            user.verified = true;
             UserModel.findById = jest.fn().mockResolvedValue(user);
             const strategy = new JSONWebTokenAuthenticationStrategy();
             const req = mockRequest({
@@ -69,20 +86,20 @@ describe("JSON Web token Authentication Strategy", () => {
     });
 })
 
-function expectForbiddenResponse(res : Response) {
-    expectForbiddenStatus(res);
-    expectForbiddenBody(res);
+function expectUnauthorizedResponse(res : Response, message : string) {
+    expectUnauthorizedStatus(res);
+    expectUnauthorizedBody(res, message);
 }
 
-function expectForbiddenStatus(res : Response) {
-    expect(res.status).toHaveBeenCalledWith(403);
+function expectUnauthorizedStatus(res : Response) {
+    expect(res.status).toHaveBeenCalledWith(401);
 }
 
-function expectForbiddenBody(res : Response) {
+function expectUnauthorizedBody(res : Response, message: string) {
     expect(res.json).toHaveBeenCalledWith({
         success: false,
         data: {
-            error: "Access forbidden"
+            error: message
         }
     })
 }
@@ -96,3 +113,21 @@ function getUser(password: string) {
         password: bcrypt.hashSync(password, 1)
     })
 };
+
+function expectForbiddenResponse(res : Response, message: string) {
+    expectForbiddenStatus(res);
+    expectForbiddenBody(res, message);
+}
+
+function expectForbiddenStatus(res : Response) {
+    expect(res.status).toHaveBeenCalledWith(403);
+}
+
+function expectForbiddenBody(res : Response, message: string) {
+    expect(res.json).toHaveBeenCalledWith({
+        success: false,
+        data: {
+            error: message
+        }
+    })
+}

@@ -42,5 +42,22 @@ describe("User Model Suite", () => {
             const foundUser = await UserModel.findByUsername(username);
             expect(foundUser.serialize()).toEqual(userDocument.serialize());
         })
+    });
+
+    describe("Finds a model by email", () => {
+        test("Finds a user by email", async () => {
+            const username = faker.internet.userName();
+            const newUser = new UserModel({
+                username,
+                password: faker.internet.password(),
+                email: faker.internet.email(),
+                firstName: faker.name.findName(),
+                lastName: faker.name.lastName()
+            });
+            const userDocument = await newUser.save();
+
+            const foundUser = await UserModel.findByEmail(newUser.email);
+            expect(foundUser.serialize()).toEqual(userDocument.serialize());
+        })
     })
 })

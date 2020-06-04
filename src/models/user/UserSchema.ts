@@ -15,7 +15,9 @@ const UserSchema = new Schema({
     },
     email: {
         type: String,
-        required: true
+        required: true,
+        index: true,
+        unique: true
     },
     firstName: {
         type: String,
@@ -34,5 +36,6 @@ const UserSchema = new Schema({
 UserSchema.methods.serialize = UserMethods.serialize;
 
 UserSchema.statics.findByUsername = UserStatic.findByUsername;
+UserSchema.statics.findByEmail = UserStatic.findByEmail;
 
 export default UserSchema;
