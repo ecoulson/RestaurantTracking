@@ -4,15 +4,17 @@ import AuthenticationService from "../../../src/services/AuthenticationService";
 import UserModel from "../../../src/models/user/UserModel";
 import jsonwebtoken from "jsonwebtoken";
 
+const compare = bcrypt.compare;
+
 beforeAll(() => {
     process.env.ACCESS_TOKEN_SECRET = "valid"
 });
 
 beforeEach(() => {
+    bcrypt.compare = compare;
     jest.resetAllMocks();
 });
 
-const compare = bcrypt.compare;
 
 describe("Authentication Service", () => {
     describe("login", () => {
@@ -80,7 +82,6 @@ describe("Authentication Service", () => {
         });
 
         test("Should login user", async () => {
-            bcrypt.compare = compare;
             const username = faker.internet.userName();
             const password = faker.internet.password();
             const user = getUser(password);
