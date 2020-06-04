@@ -2,9 +2,14 @@ import bcrypt from "bcrypt";
 import faker from "faker";
 import AuthenticationService from "../../../src/services/AuthenticationService";
 import UserModel from "../../../src/models/user/UserModel";
+import jsonwebtoken from "jsonwebtoken";
+
+beforeAll(() => {
+    process.env.ACCESS_TOKEN_SECRET = "valid"
+});
 
 beforeEach(() => {
-    jest.restoreAllMocks();
+    jest.resetAllMocks();
 });
 
 const compare = bcrypt.compare;
@@ -22,6 +27,7 @@ describe("Authentication Service", () => {
             } catch(error) {
                 expect(error).toEqual(new Error(`No user with username ${username}`));
             }
+            expect.assertions(1);
         })
 
         test("Should fail to login because an error occured while finding the user", async () => {
@@ -35,6 +41,7 @@ describe("Authentication Service", () => {
             } catch(error) {
                 expect(error).toEqual(new Error(`Error occured while finding ${username}`));
             }
+            expect.assertions(1);
         });
 
         test("Should fail to login because an error occured while comparing the password", async () => {
@@ -52,10 +59,10 @@ describe("Authentication Service", () => {
                     new Error(`Error occured while comparing password for user with id ${user._id}`)
                 );
             }
+            expect.assertions(1);
         });
 
         test("Should fail to login because the passwords do not match", async () => {
-            bcrypt.compare = compare;
             const username = faker.internet.userName();
             const password = faker.internet.password();
             const user = getUser(password);
@@ -69,6 +76,7 @@ describe("Authentication Service", () => {
                     new Error(`Loggin for ${user._id} failed because passwords did not match`)
                 );
             }
+            expect.assertions(1);
         });
 
         test("Should login user", async () => {
@@ -82,6 +90,36 @@ describe("Authentication Service", () => {
             const foundUser = await service.login(username, password);
 
             expect(foundUser.serialize()).toEqual(user.serialize());
+        })
+    });
+
+    describe("generateAccessToken", () => {
+        test("should throw an error when generating token", () => {
+            const user = getUser(faker.internet.password());
+            const service = new AuthenticationService();
+            jsonwebtoken.sign = jest.fn().mockImplementation(() => {
+                throw new Error();
+            })
+            
+            try {
+                service.generateAccessToken(user);
+            } catch (error) {
+                expect(error).toEqual(
+                    new Error(`Failed to generate access token for user id ${user._id}`)
+                );
+            }
+            expect.assertions(1);
+        })
+
+        test("should generate an access token", () => {
+            const user = getUser(faker.internet.password());
+            const service = new AuthenticationService();
+            
+            const accessToken = service.generateAccessToken(user);
+
+            expect(accessToken).toEqual(jsonwebtoken.sign({
+                _id: user._id
+            }, process.env.ACCESS_TOKEN_SECRET));
         })
     })
 })

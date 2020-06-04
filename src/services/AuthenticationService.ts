@@ -2,6 +2,7 @@ import IAuthenticationService from "./IAuthenticationService";
 import UserModel from "../models/user/UserModel";
 import IUser from "../models/user/IUser";
 import bcrypt from "bcrypt";
+import jsonwebtoken from "jsonwebtoken";
 
 export default class AuthenticationService implements IAuthenticationService {
     async login(username: string, password: string) {
@@ -30,6 +31,16 @@ export default class AuthenticationService implements IAuthenticationService {
             throw new Error(
                 `Error occured while comparing password for user with id ${user._id}`
             )
+        }
+    }
+
+    public generateAccessToken(user : IUser) {
+        try {
+            return jsonwebtoken.sign({
+                _id: user._id
+            }, process.env.ACCESS_TOKEN_SECRET);
+        } catch (error) {
+            throw new Error(`Failed to generate access token for user id ${user._id}`)
         }
     }
 }
