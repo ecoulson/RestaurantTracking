@@ -9,7 +9,8 @@ export default class UserMethods {
             username: context.username,
             password: context.password,
             firstName: context.firstName,
-            lastName: context.lastName
+            lastName: context.lastName,
+            schemaVersion: context.schemaVersion
         }
     }
 }
