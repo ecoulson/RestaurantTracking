@@ -1,6 +1,5 @@
 import IUserService from "./IUserService";
-import IRegistrationBody from "../routes/User/IRegistrationBody";
-import IUser from "../models/user/IUser";
+import IRegistrationBody from "../controllers/User/IRegistrationBody";
 import UserModel from "../models/user/UserModel";
 import bcrypt from "bcrypt";
 
@@ -29,7 +28,7 @@ export default class UserService implements IUserService {
         }
     }
 
-    async sendVerificationEmail(user : IUser) {
+    async sendVerificationEmail(email : string) {
         
     }
 

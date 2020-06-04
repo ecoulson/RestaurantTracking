@@ -4,6 +4,8 @@ import { logger } from "../../lib/logging";
 import ForbiddenResponse from "../../lib/HTTP/ForbiddenResponse";
 import JSONWebToken from "jsonwebtoken";
 import { IncomingHttpHeaders } from "http";
+import IUserToken from "./IUserToken";
+import UserModel from "../../models/user/UserModel";
 
 export default class JSONWebTokenAuthenticationStrategy implements IAuthenticationStrategy {
     authenticate() {
@@ -18,11 +20,12 @@ export default class JSONWebTokenAuthenticationStrategy implements IAuthenticati
             logger.debug(`Parsed authentication token`);
             
             try {
-                request.user = await this.verifyToken(token);
+                const userToken = await this.verifyToken(token);
+                request.user = await this.findUser(userToken._id)
                 logger.debug(`Authenticated request`);
                 return next();
             } catch (error) {
-                logger.warn(`Invalid token sent from ${request.originalUrl}`);
+                logger.warn(error.message);
                 return new ForbiddenResponse(response).send();
             }
         }
@@ -43,14 +46,19 @@ export default class JSONWebTokenAuthenticationStrategy implements IAuthenticati
         return headers["Authorization"];
     }
 
-    private verifyToken(token : string) : Promise<any> {
-        return new Promise((resolve : (value : any) => void, reject : (error : Error) => void) => {
+    private verifyToken(token : string) : Promise<IUserToken> {
+        return new Promise((resolve : (value : IUserToken) => void, reject : (error : Error) => void) => {
             JSONWebToken.verify(token, process.env.ACCESS_TOKEN_SECRET, (error : Error, user : any) => {
                 if (error) {
                     return reject(error);
                 }
+                logger.info(user);
                 return resolve(user);
             })
         });
+    }
+
+    private async findUser(id: string) {
+        return await UserModel.findById(id);
     }
 }

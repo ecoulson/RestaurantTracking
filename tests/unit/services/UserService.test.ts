@@ -1,5 +1,5 @@
 import UserService from "../../../src/services/UserService"
-import IRegistrationBody from "../../../src/routes/User/IRegistrationBody";
+import IRegistrationBody from "../../../src/controllers/User/IRegistrationBody";
 import faker from "faker";
 import bcrypt from "bcrypt";
 import UserModel from "../../../src/models/user/UserModel";
