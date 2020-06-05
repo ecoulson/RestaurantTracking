@@ -2,15 +2,15 @@ import IUserService from "./IUserService";
 import IRegistrationBody from "../../controllers/User/IRegistrationBody";
 import UserModel from "../../models/user/UserModel";
 import bcrypt from "bcrypt";
-import ITokenSerivce from "../Token/ITokenService";
 import EmailVerificationTokenService from "../Token/EmailVerificationTokenService";
-import IUser from "../../models/user/IUser";
+import IEmailVerificationTokenService from "../Token/IEmailVerificationTokenService";
+import VerificationEmail from "../../lib/Email/VerificationEmail";
 
 export default class UserService implements IUserService {
-    private emailVerificationService : ITokenSerivce;
+    private emailVerificationTokenService : IEmailVerificationTokenService;
 
     constructor() {
-        this.emailVerificationService = new EmailVerificationTokenService();
+        this.emailVerificationTokenService = new EmailVerificationTokenService();
     }
 
     async register(registration : IRegistrationBody) {
@@ -60,7 +60,22 @@ export default class UserService implements IUserService {
     }
 
     async sendVerificationEmail(email : string) {
-        this.emailVerificationService.generate({} as IUser);
+        const user = await this.findUserWithEmail(email);
+        await this.emailVerificationTokenService.deleteExisitingVerificationToken(user);
+        const token = await this.emailVerificationTokenService.generate(user);
+        try {
+            return await new VerificationEmail().send(token, user);
+        } catch(error) {
+            throw new Error(`Failed to send email for ${email}`);
+        }
+    }
+
+    private async findUserWithEmail(email: string) {
+        try {
+            return await UserModel.findByEmail(email);
+        } catch(error) {
+            throw new Error(`Failed to find user with email ${email}`);
+        }
     }
 
     async sendForgotPasswordEmail(email : string) {

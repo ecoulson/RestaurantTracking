@@ -83,9 +83,9 @@ describe("Email Verification Token Service", () => {
             const service = new EmailVerificationTokenService();
             const mockUser = getUser(faker.internet.password());
 
-            const user = await service.deleteExisitingVerificationToken(mockUser);
+            const verificationToken = await service.deleteExisitingVerificationToken(mockUser);
 
-            expect(user).toEqual(null);
+            expect(verificationToken).toEqual(null);
         });
 
         test("No token with email verification scope", async () => {
@@ -95,9 +95,9 @@ describe("Email Verification Token Service", () => {
             const service = new EmailVerificationTokenService();
             const mockUser = getUser(faker.internet.password());
 
-            const user = await service.deleteExisitingVerificationToken(mockUser);
+            const verificationToken = await service.deleteExisitingVerificationToken(mockUser);
 
-            expect(user).toEqual(null);
+            expect(verificationToken).toEqual(null);
         })
 
         test("No tokens with email verification scope", async () => {
@@ -107,9 +107,9 @@ describe("Email Verification Token Service", () => {
             const service = new EmailVerificationTokenService();
             const mockUser = getUser(faker.internet.password());
 
-            const user = await service.deleteExisitingVerificationToken(mockUser);
+            const verificationToken = await service.deleteExisitingVerificationToken(mockUser);
 
-            expect(user).toEqual(null);
+            expect(verificationToken).toEqual(null);
         })
 
         test("Token with email verification scope", async () => {
@@ -117,13 +117,31 @@ describe("Email Verification Token Service", () => {
             const token2 = getToken();
             token.scope = [Scope.ForgotPassowrd];
             TokenModel.findByUserId = jest.fn().mockResolvedValue([token, token2]);
+            TokenModel.prototype.remove = jest.fn();
             const service = new EmailVerificationTokenService();
             const mockUser = getUser(faker.internet.password());
 
-            const user = await service.deleteExisitingVerificationToken(mockUser);
+            const verificationToken = await service.deleteExisitingVerificationToken(mockUser);
 
-            expect(user).toEqual(token2);
-        })
+            expect(verificationToken).toEqual(token2);
+        });
+        
+        test("An error occured while deleting the token from the database", async () => {
+            const token = getToken();
+            TokenModel.findByUserId = jest.fn().mockResolvedValue([token]);
+            TokenModel.prototype.remove = jest.fn().mockRejectedValue(new Error())
+            const service = new EmailVerificationTokenService();
+            const mockUser = getUser(faker.internet.password());
+
+            try {
+                await service.deleteExisitingVerificationToken(mockUser);
+            } catch (error) {
+                expect(error).toEqual(
+                    new Error(`Failed to remove token with id ${token._id}`)
+                );
+            }
+            expect.assertions(1);
+        });
     })
 })
 

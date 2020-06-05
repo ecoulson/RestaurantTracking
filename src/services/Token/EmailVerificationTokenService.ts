@@ -41,15 +41,16 @@ export default class EmailVerificationTokenService implements IEmailVerification
     }
 
     async deleteExisitingVerificationToken(user : IUser) {
-        try {
-            const tokens = await this.getUsersTokens(user);
-            if (this.userHasTokens(tokens)) {
-                return null;
-            }
-            return this.getVerificationToken(tokens);
-        } catch (error) {
-            throw new Error(`Failed to find tokens associatied with user ${user._id}`);
+        const tokens = await this.getUsersTokens(user);
+        if (this.userHasTokens(tokens)) {
+            return null;
         }
+        const verificationToken = this.getVerificationToken(tokens);
+        if (!verificationToken) {
+            return null;
+        }
+        await this.removeVerificationToken(verificationToken);
+        return verificationToken;
     }
 
     private async getUsersTokens(user : IUser) {
@@ -73,5 +74,13 @@ export default class EmailVerificationTokenService implements IEmailVerification
             }
         }
         return null;
+    }
+
+    private async removeVerificationToken(token : IToken) {
+        try {
+            await token.remove()
+        } catch (error) {
+            throw new Error(`Failed to remove token with id ${token._id}`);
+        }
     }
 }

@@ -18,6 +18,7 @@ export default class UserController implements IUserController {
             const registration = req.body as IRegistrationBody;
             logger.debug(registration);
             const user = await this.service.register(registration);
+            await this.service.sendVerificationEmail(user.email);
             logger.debug(user);
             return new JSONResponse(res).send(user);
         }
