@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import faker from "faker";
-import AuthenticationService from "../../../src/services/AuthenticationService";
-import UserModel from "../../../src/models/user/UserModel";
+import AuthenticationService from "../../../../src/services/Authentication/AuthenticationService";
+import UserModel from "../../../../src/models/user/UserModel";
 import jsonwebtoken from "jsonwebtoken";
 
 const compare = bcrypt.compare;

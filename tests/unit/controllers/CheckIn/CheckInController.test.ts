@@ -1,5 +1,5 @@
-jest.mock("../../../../src/services/CheckInService");
-import CheckInService from "../../../../src/services/CheckInService";
+jest.mock("../../../../src/services/CheckIn/CheckInService");
+import CheckInService from "../../../../src/services/CheckIn/CheckInService";
 import CheckInController from "../../../../src/controllers/CheckIn/CheckInController";
 import { mockRequest, mockResponse } from "mock-req-res";
 import faker from "faker";

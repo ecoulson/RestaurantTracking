@@ -1,8 +1,8 @@
-import CheckIn from "../models/check-in/CheckInModel";
-import RestaurantModel from "../models/restaurant/RestaurantModel";
-import ICheckInRequestBody from "../controllers/CheckIn/ICheckIn";
-import CSV from "../lib/HTTP/CSV";
-import ICheckIn from "../controllers/CheckIn/ICheckIn";
+import CheckIn from "../../models/check-in/CheckInModel";
+import RestaurantModel from "../../models/restaurant/RestaurantModel";
+import ICheckInRequestBody from "../../controllers/CheckIn/ICheckIn";
+import CSV from "../../lib/HTTP/CSV";
+import ICheckIn from "../../controllers/CheckIn/ICheckIn";
 
 export default class CheckInService {
     async checkIn(checkIn : ICheckInRequestBody, ipAddress : string) : Promise<ICheckIn> {

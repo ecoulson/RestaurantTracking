@@ -1,4 +1,4 @@
-import RestaurantService from "../../services/RestaurantService";
+import RestaurantService from "../../services/Restaurant/RestaurantService";
 import { Request, Response } from "express";
 import IRestaurantRegistration from "./IRestaurantRegistration";
 import { streamQRCode } from "../../lib/QR-code";

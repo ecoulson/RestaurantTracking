@@ -1,9 +1,18 @@
 import IUserService from "./IUserService";
-import IRegistrationBody from "../controllers/User/IRegistrationBody";
-import UserModel from "../models/user/UserModel";
+import IRegistrationBody from "../../controllers/User/IRegistrationBody";
+import UserModel from "../../models/user/UserModel";
 import bcrypt from "bcrypt";
+import ITokenSerivce from "../Token/ITokenService";
+import EmailVerificationTokenService from "../Token/EmailVerificationTokenService";
+import IUser from "../../models/user/IUser";
 
 export default class UserService implements IUserService {
+    private emailVerificationService : ITokenSerivce;
+
+    constructor() {
+        this.emailVerificationService = new EmailVerificationTokenService();
+    }
+
     async register(registration : IRegistrationBody) {
         const user = new UserModel(await this.getUserDocument(registration));
         if (await this.isUsernameTaken(user.username)) {
@@ -51,7 +60,7 @@ export default class UserService implements IUserService {
     }
 
     async sendVerificationEmail(email : string) {
-        
+        this.emailVerificationService.generate({} as IUser);
     }
 
     async sendForgotPasswordEmail(email : string) {

@@ -1,8 +1,8 @@
 jest.mock("../../../../src/lib/URL-shortener");
-jest.mock("../../../../src/services/RestaurantService");
+jest.mock("../../../../src/services/Restaurant/RestaurantService");
 jest.mock("qrcode");
 import RestaurantController from "../../../../src/controllers/Restaurant/RestaurantController";
-import RestaurantService from "../../../../src/services/RestaurantService";
+import RestaurantService from "../../../../src/services/Restaurant/RestaurantService";
 import { mockResponse, mockRequest } from "mock-req-res";
 import faker from "faker";
 import { generateObjectId } from "../../../helpers/mongo";

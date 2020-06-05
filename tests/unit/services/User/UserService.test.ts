@@ -1,8 +1,8 @@
-import UserService from "../../../src/services/UserService"
-import IRegistrationBody from "../../../src/controllers/User/IRegistrationBody";
+import UserService from "../../../../src/services/User/UserService"
+import IRegistrationBody from "../../../../src/controllers/User/IRegistrationBody";
 import faker from "faker";
 import bcrypt from "bcrypt";
-import UserModel from "../../../src/models/user/UserModel";
+import UserModel from "../../../../src/models/user/UserModel";
 
 const hash = bcrypt.hash;
 

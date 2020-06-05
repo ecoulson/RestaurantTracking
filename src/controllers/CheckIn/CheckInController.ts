@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import ICheckIn from "./ICheckIn";
 import IGetCheckInsByRestaurantQuery from "./IGetCheckInsByRestaurantQuery";
-import CheckInService from "../../services/CheckInService";
+import CheckInService from "../../services/CheckIn/CheckInService";
 import requestIp from "request-ip";
 import CSVResponse from "../../lib/HTTP/CSVResponse";
 import MessageResponse from "../../lib/HTTP/MessageResponse";

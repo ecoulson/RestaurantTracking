@@ -8,6 +8,7 @@ import RestaurantController from "../../controllers/Restaurant/RestaurantControl
 import BasicAuthenticationStrategy from "../../middleware/authentication/BasicAuthenticationStrategy";
 import ErrorCatchingMiddlware from "../../middleware/error-handling/ErrorCatchingMiddleware";
 import ValidationMiddleware from "../../middleware/validation/ValidationMiddleware";
+import JSONWebTokenAuthenticationStrategy from "../../middleware/authentication/JSONWebTokenAuthenticationStrategy";
 
 export default class RestaurantRouteConfiguration extends RouterConfiguration<RestaurantController> {
     constructor() {
@@ -37,6 +38,7 @@ export default class RestaurantRouteConfiguration extends RouterConfiguration<Re
 
         this.router.get(
             "/",
+            new JSONWebTokenAuthenticationStrategy().authenticate(),
             ErrorCatchingMiddlware.catchErrors(this.controller.handleGetAllRestaurants)
         )
     }

@@ -1,13 +1,13 @@
-import { createModelMock } from "../../mocks/models";
+import { createModelMock } from "../../../mocks/models";
 createModelMock("../../../src/models/check-in/CheckInModel");
 createModelMock("../../../src/models/restaurant/RestaurantModel");
-import RestaurantModel from "../../../src/models/restaurant/RestaurantModel";
-import CheckInService from "../../../src/services/CheckInService";
-import CheckInModel from "../../../src/models/check-in/CheckInModel";
+import RestaurantModel from "../../../../src/models/restaurant/RestaurantModel";
+import CheckInService from "../../../../src/services/CheckIn/CheckInService";
+import CheckInModel from "../../../../src/models/check-in/CheckInModel";
 import faker from "faker";
 import Chance from "chance";
-import { generateObjectId } from "../../helpers/mongo";
-import CSV from "../../../src/lib/HTTP/CSV";
+import { generateObjectId } from "../../../helpers/mongo";
+import CSV from "../../../../src/lib/HTTP/CSV";
 
 const chance = new Chance();
 

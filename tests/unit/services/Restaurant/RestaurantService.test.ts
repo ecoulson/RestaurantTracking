@@ -1,10 +1,10 @@
-jest.mock("../../../src/lib/URL-shortener");
-import RestaurantModel from "../../../src/models/restaurant/RestaurantModel";
-import RestaurantService from "../../../src/services/RestaurantService";
-import { generateObjectId } from "../../helpers/mongo";
+jest.mock("../../../../src/lib/URL-shortener");
+import RestaurantModel from "../../../../src/models/restaurant/RestaurantModel";
+import RestaurantService from "../../../../src/services/Restaurant/RestaurantService";
+import { generateObjectId } from "../../../helpers/mongo";
 import faker from "faker";
 import Chance from "chance";
-import URLShortener from "../../../src/lib/URL-shortener";
+import URLShortener from "../../../../src/lib/URL-shortener";
 
 const chance = new Chance();
 

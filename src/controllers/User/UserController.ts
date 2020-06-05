@@ -1,5 +1,5 @@
-import IUserService from "../../services/IUserService";
-import UserService from "../../services/UserService";
+import IUserService from "../../services/User/IUserService";
+import UserService from "../../services/User/UserService";
 import IUserController from "./IUserController";
 import { Request, Response, RequestHandler } from "express";
 import IRegistrationBody from "./IRegistrationBody";

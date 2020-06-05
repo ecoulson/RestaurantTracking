@@ -1,6 +1,6 @@
 import AuthenticationController from "../../../../src/controllers/Authentication/AuthenticationController"
 import { mockRequest, mockResponse } from "mock-req-res";
-import AuthenticationService from "../../../../src/services/AuthenticationService";
+import AuthenticationService from "../../../../src/services/Authentication/AuthenticationService";
 import faker from "faker";
 import UserModel from "../../../../src/models/user/UserModel";
 import bcrypt from "bcrypt";
