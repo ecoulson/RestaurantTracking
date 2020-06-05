@@ -9,26 +9,27 @@ afterAll(async () => await TestDatabase.closeDatabase());
 describe('Check In Model Suite', () => {
     describe("Create Check In", () => {
         test("Successfully Create Check In By Email", async () => {
-            const expectedCheckIn : any = await createEmailCheckIn("1");
+            const expectedCheckIn = await createEmailCheckIn("1");
     
-            let foundCheckIn : any = await CheckInModel.findById(expectedCheckIn._id).exec();
+            let foundCheckIn = await CheckInModel.findById(expectedCheckIn._id).exec();
     
             expect(foundCheckIn.serialize()).toEqual(expectedCheckIn.serialize());
         });
 
         test("Successfully Create Check In By Phone Number", async () => {
-            const expectedCheckIn : any = await createPhoneNumberCheckIn("1");
+            const expectedCheckIn = await createPhoneNumberCheckIn("1");
     
-            let foundCheckIn : any = await CheckInModel.findById(expectedCheckIn._id).exec();
+            let foundCheckIn = await CheckInModel.findById(expectedCheckIn._id).exec();
     
             expect(foundCheckIn.serialize()).toEqual(expectedCheckIn.serialize());
         });
 
         test("Successfully Create Check In With Time Checked In", async () => {
-            const expectedCheckIn : any = await createPhoneNumberCheckIn("1");
+            const expectedCheckIn = await createPhoneNumberCheckIn("1");
             expectedCheckIn.timeCheckedIn = faker.date.recent();
+            await expectedCheckIn.save();
     
-            let foundCheckIn : any = await CheckInModel.findById(expectedCheckIn._id).exec();
+            let foundCheckIn = await CheckInModel.findById(expectedCheckIn._id).exec();
     
             expect(foundCheckIn.serialize()).toEqual(expectedCheckIn.serialize());
         });
@@ -36,8 +37,8 @@ describe('Check In Model Suite', () => {
 
     describe("Find By Restaurant Id", () => {
         test("Finds All By Restaurant Id", async () => {
-            const checkInA : any = await createPhoneNumberCheckIn("1");
-            const checkInB : any = await createEmailCheckIn("1");
+            const checkInA = await createPhoneNumberCheckIn("1");
+            const checkInB = await createEmailCheckIn("1");
             await createEmailCheckIn("2");
 
             let checkInEvents = await CheckInModel.findByRestaurantId("1");

@@ -7,13 +7,16 @@ import cors from "cors";
 import RateLimit from "express-rate-limit";
 import MongoStore from "rate-limit-mongo";
 import session from "express-session";
-import { requestLogger } from "./lib/logging";
+import { requestLogger, logger } from "./lib/logging";
 import APIRouterConfiguration from "./routes";
 import ErrorHandlingMiddleware from "./middleware/error-handling/ErrorHandlingMiddleware";
 import mongoose from "mongoose";
+import TokenManager from "./services/Token/TokenManger";
 
 mongoose.set('useCreateIndex', true);
 
+const OneHour = 60 * 60 * 1000;
+const tokenManager = new TokenManager();
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -58,6 +61,18 @@ if (process.env.NODE_ENV !== "development") {
     app.use(ErrorHandlingMiddleware.productionErrorHandler);
 } else {
     app.use(ErrorHandlingMiddleware.devErrorHandler);
+}
+
+clearTokens();
+setInterval(clearTokens, OneHour);
+
+async function clearTokens() {
+    try {
+        await tokenManager.run();
+        logger.info("Cleared expired tokens");
+    } catch (error) {
+        logger.error("Failed to clear expired tokens");
+    }
 }
 
 export default app;

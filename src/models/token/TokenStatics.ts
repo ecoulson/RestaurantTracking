@@ -7,4 +7,13 @@ export default class TokenStatics {
         const context = ModelStatics.getContext<ITokenModel>(this);
         return await context.find({ userId })
     }
+
+    static async findExpiredTokens() : Promise<IToken[]> {
+        const context = ModelStatics.getContext<ITokenModel>(this);
+        return await context.find({
+            expiresAt: {
+                $lt: new Date()
+            }
+        });
+    }
 }

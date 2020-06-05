@@ -3,7 +3,7 @@ import IRestaurant from "./IRestaurant";
 import ModelMethods from "../ModelMethods";
 
 export default class RestaurantMethods {
-    static async serialize() {
+    static serialize() {
         const context : IRestaurant = ModelMethods.getContext<IRestaurant>(this);
         logger.debug(`Serializing checkin document with id ${context._id}`);
         return {

@@ -41,5 +41,6 @@ const TokenSchema = new Schema({
 TokenSchema.methods.serialize = TokenMethods.serialize;
 
 TokenSchema.statics.findByUserId = TokenStatics.findByUserId;
+TokenSchema.statics.findExpiredTokens = TokenStatics.findExpiredTokens;
 
 export default TokenSchema;

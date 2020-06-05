@@ -10,6 +10,11 @@ import { generateObjectId } from "../../../helpers/mongo";
 import Scope from "../../../../src/services/Token/Scope";
 import sgMail from "@sendgrid/mail";
 
+beforeAll(() => {
+    process.env.HOST_NAME = "localhost"
+    process.env.PORT = "8080"
+});
+
 const hash = bcrypt.hash;
 
 beforeEach(() => {
@@ -253,7 +258,7 @@ describe("User Service Suite", () => {
                     from: 'evan.m.coulson@gmail.com',
                     subject: 'Verification',
                     text: 'Verification email',
-                    html: `<a href=http://undefined/auth/verify?email=${user.email}&token=${token.value}>Verify Account</a>` 
+                    html: `<a href=http://localhost:8080/authentication/verify?email=${user.email}&token=${token.value}>Verify Account</a>` 
                 }
             })
         })

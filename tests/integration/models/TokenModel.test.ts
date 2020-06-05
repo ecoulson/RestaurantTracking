@@ -12,7 +12,7 @@ afterEach(async () => await TestDatabase.clearDatabase());
 afterAll(async () => await TestDatabase.closeDatabase());
 
 describe("Token Model Suite", () => {
-    describe("Saving Token", () => {
+    describe("save", () => {
         test("Saves a token to the database", async () => {
             const date = new Date();
             const token = new TokenModel({
@@ -32,7 +32,7 @@ describe("Token Model Suite", () => {
         })
     })
 
-    describe("Finding token by user id", () => {
+    describe("findByUserId", () => {
         test("Find token by userId", async () => {
             const date = new Date();
             const objectId = generateObjectId();
@@ -50,6 +50,27 @@ describe("Token Model Suite", () => {
             const foundTokens = await TokenModel.findByUserId(objectId);
 
             expect(token.serialize()).toEqual(foundTokens[0].serialize());
+        })
+    });
+
+    describe("findExpiredTokens", () => {
+        test("Finds expired tokens", async () => {
+            const date = new Date("2019-01-01");
+            const objectId = generateObjectId();
+            const token = new TokenModel({
+                userId: objectId,
+                value: crypto.randomBytes(16).toString("hex"),
+                createdAt: date,
+                expiresAt: date,
+                schemaVersion: 0,
+                updatedAt: date,
+                scope: [Scope.VerifyEmail]
+            });
+            await token.save();
+
+            const foundTokens = await TokenModel.findExpiredTokens();
+
+            expect(foundTokens[0].serialize()).toEqual(token.serialize());
         })
     })
 })
