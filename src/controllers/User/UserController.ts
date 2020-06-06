@@ -4,7 +4,7 @@ import IUserController from "./IUserController";
 import { Request, Response, RequestHandler } from "express";
 import IRegistrationBody from "./IRegistrationBody";
 import JSONResponse from "../../lib/HTTP/JSONResponse";
-import { logger } from "../../lib/logging";
+import IVerificationQuery from "./IVerificationQuery";
 
 export default class UserController implements IUserController {
     private service : IUserService;
@@ -16,11 +16,17 @@ export default class UserController implements IUserController {
     handleRegistration() : RequestHandler {
         return async (req : Request, res : Response) => {
             const registration = req.body as IRegistrationBody;
-            logger.debug(registration);
             const user = await this.service.register(registration);
             await this.service.sendVerificationEmail(user.email);
-            logger.debug(user);
             return new JSONResponse(res).send(user);
+        }
+    }
+
+    handleVerification() : RequestHandler {
+        return async (req : Request, res : Response) => {
+            const verification = req.query as unknown as IVerificationQuery;
+            await this.service.verify(verification.token, verification.email);
+            return new JSONResponse(res).send({});
         }
     }
 

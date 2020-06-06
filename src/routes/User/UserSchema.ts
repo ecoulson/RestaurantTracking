@@ -6,8 +6,14 @@ const RegistrationBodySchema = Joi.object({
     email: Joi.string().email(),
     firstName: Joi.string(),
     lastName: Joi.string()
+});
+
+const VerificationQuerySchema = Joi.object({
+    email: Joi.string().email(),
+    token: Joi.string().hex()
 })
 
 export {
-    RegistrationBodySchema
+    RegistrationBodySchema,
+    VerificationQuerySchema
 };

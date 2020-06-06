@@ -10,6 +10,9 @@ export default class AuthenticationService implements IAuthenticationService {
         if (!user) {
             throw new Error(`No user with username ${username}`);
         }
+        if (!user.verified) {
+            throw new Error(`User ${user._id} is not verified`);
+        }
         if (!await this.isCorrectPassword(user, password)) {
             throw new Error(`Loggin for ${user._id} failed because passwords did not match`);
         }

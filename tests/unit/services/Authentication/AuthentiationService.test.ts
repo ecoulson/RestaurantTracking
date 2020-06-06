@@ -46,6 +46,24 @@ describe("Authentication Service", () => {
             expect.assertions(1);
         });
 
+        test("Should fail to login because the passwords do not match", async () => {
+            const username = faker.internet.userName();
+            const password = faker.internet.password();
+            const user = getUser(password);
+            user.verified = false;
+            UserModel.findByUsername = jest.fn().mockResolvedValue(user)
+            const service = new AuthenticationService();
+
+            try {
+                await service.login(username, "");
+            } catch(error) {
+                expect(error).toEqual(
+                    new Error(`User ${user._id} is not verified`)
+                );
+            }
+            expect.assertions(1);
+        });
+
         test("Should fail to login because an error occured while comparing the password", async () => {
             bcrypt.compare = jest.fn().mockRejectedValue(new Error());
             const username = faker.internet.userName();
@@ -127,6 +145,7 @@ describe("Authentication Service", () => {
 
 function getUser(password: string) {
     return new UserModel({
+        verified: true,
         firstName: faker.name.firstName(),
         lastName: faker.name.lastName(),
         email: faker.internet.email(),

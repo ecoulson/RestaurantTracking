@@ -254,14 +254,153 @@ describe("User Service Suite", () => {
                 user,
                 token,
                 message: { 
-                    to: 'evan.m.coulson@gmail.com',
-                    from: 'evan.m.coulson@gmail.com',
+                    to: user.email,
+                    from: 'support@adaptsolutions.tech',
                     subject: 'Verification',
                     text: 'Verification email',
-                    html: `<a href=http://localhost:8080/authentication/verify?email=${user.email}&token=${token.value}>Verify Account</a>` 
+                    html: `<a href=http://localhost:8080/user/verify?email=${user.email}&token=${token.value}>Verify Account</a>` 
                 }
             })
         })
+    });
+
+    describe("verify", () => {
+        test("Error occured while finding user by email", async () => {
+            UserModel.findByEmail = jest.fn().mockRejectedValue(new Error());
+            const user = getUser(faker.internet.password());
+            const token = getToken();
+            const service = new UserService();
+
+            try {
+                await service.verify(token.value, user.email);
+            } catch (error) {
+                expect(error).toEqual(new Error(`Failed to find user with email ${user.email}`))
+            }
+            expect.assertions(1);
+        });
+
+        test("No user with email", async () => {
+            UserModel.findByEmail = jest.fn().mockResolvedValue(null);
+            const user = getUser(faker.internet.password());
+            const token = getToken();
+            const service = new UserService();
+
+            try {
+                await service.verify(token.value, user.email);
+            } catch (error) {
+                expect(error).toEqual(new Error(`No user with email ${user.email}`))
+            }
+            expect.assertions(1);
+        });
+
+        test("User is already verified", async () => {
+            const user = getUser(faker.internet.password());
+            user.verified = true;
+            UserModel.findByEmail = jest.fn().mockResolvedValue(user);
+            const token = getToken();
+            const service = new UserService();
+
+            try {
+                await service.verify(token.value, user.email);
+            } catch (error) {
+                expect(error).toEqual(new Error(`User with email ${user.email} is already verified`))
+            }
+            expect.assertions(1);
+        });
+
+        test("Error occured while finding email verification token", async () => {
+            const user = getUser(faker.internet.password());
+            const token = getToken();
+            const service = new UserService();
+            UserModel.findByEmail = jest.fn().mockResolvedValue(user);
+            TokenModel.findByUserId = jest.fn().mockRejectedValue(new Error());
+
+            try {
+                await service.verify(token.value, user.email);
+            } catch (error) {
+                expect(error).toEqual(new Error(`Failed to find tokens associated with user ${user._id}`));
+            }
+            expect.assertions(1);
+        });
+
+        test("No verification tokens associated with the user", async () => {
+            const user = getUser(faker.internet.password());
+            const token = getToken();
+            token.scope = [Scope.ForgotPassword];
+            const service = new UserService();
+            UserModel.findByEmail = jest.fn().mockResolvedValue(user);
+            TokenModel.findByUserId = jest.fn().mockResolvedValue([token]);
+
+            try {
+                await service.verify(token.value, user.email);
+            } catch (error) {
+                expect(error).toEqual(new Error(`User ${user._id} has no active email verification tokens`));
+            }
+            expect.assertions(1);
+        });
+
+        test("Token does not match the database value", async () => {
+            const user = getUser(faker.internet.password());
+            const token = getToken();
+            const service = new UserService();
+            UserModel.findByEmail = jest.fn().mockResolvedValue(user);
+            TokenModel.findByUserId = jest.fn().mockResolvedValue([token]);
+
+            try {
+                await service.verify("fake token", user.email);
+            } catch (error) {
+                expect(error).toEqual(new Error("Incorrect verification token provided"));
+            }
+            expect.assertions(1);
+        });
+
+        test("Fails to verify user in database", async () => {
+            const user = getUser(faker.internet.password());
+            const token = getToken();
+            const service = new UserService();
+            UserModel.findByEmail = jest.fn().mockResolvedValue(user);
+            TokenModel.findByUserId = jest.fn().mockResolvedValue([token]);
+            UserModel.prototype.save = jest.fn().mockRejectedValue(new Error());
+
+            try {
+                await service.verify(token.value, user.email);
+            } catch (error) {
+                expect(error).toEqual(new Error(`Failed to update verification status of user ${user._id}`));
+            }
+            expect.assertions(1);
+        });
+
+        test("Fails to delete email verification token", async () => {
+            const user = getUser(faker.internet.password());
+            const token = getToken();
+            const service = new UserService();
+            UserModel.findByEmail = jest.fn().mockResolvedValue(user);
+            TokenModel.findByUserId = jest.fn().mockResolvedValue([token]);
+            UserModel.prototype.save = jest.fn();
+            TokenModel.prototype.remove = jest.fn().mockRejectedValue(new Error())
+
+            try {
+                await service.verify(token.value, user.email);
+            } catch (error) {
+                expect(error).toEqual(new Error(`Failed to delete verification token for user ${user._id}`));
+            }
+            expect.assertions(1);
+        });
+
+        test("Verifies user", async () => {
+            const user = getUser(faker.internet.password());
+            const token = getToken();
+            const service = new UserService();
+            UserModel.findByEmail = jest.fn().mockResolvedValue(user);
+            TokenModel.findByUserId = jest.fn().mockResolvedValue([token]);
+            UserModel.prototype.save = jest.fn();
+            TokenModel.prototype.remove = jest.fn()
+
+            const verifiedUser = await service.verify(token.value, user.email);
+
+            user.verified = true;
+            expect(verifiedUser.serialize()).toEqual(user.serialize());
+        });
     })
 })
 

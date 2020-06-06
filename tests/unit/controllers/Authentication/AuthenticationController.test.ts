@@ -40,6 +40,7 @@ describe("Authentication Controller", () => {
         test("Should login user and generate an access token", async () => {
             const password = faker.internet.password();
             const user = getUser(password);
+            user.verified = true;
             const controller = new AuthenticationController();
             const request = mockRequest(getLoginRequest());
             const response = mockResponse();

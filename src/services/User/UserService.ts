@@ -5,6 +5,10 @@ import bcrypt from "bcrypt";
 import EmailVerificationTokenService from "../Token/EmailVerificationTokenService";
 import IEmailVerificationTokenService from "../Token/IEmailVerificationTokenService";
 import VerificationEmail from "../../lib/Email/VerificationEmail";
+import TokenModel from "../../models/token/TokenModel";
+import IUser from "../../models/user/IUser";
+import IToken from "../../models/token/IToken";
+import Scope from "../Token/Scope";
 
 export default class UserService implements IUserService {
     private emailVerificationTokenService : IEmailVerificationTokenService;
@@ -57,6 +61,60 @@ export default class UserService implements IUserService {
         } catch (error) {
             throw new Error(`Failed to check if email ${email} already exists`)
         }
+    }
+
+    async verify(token: string, email : string) {
+        const user = await this.findUserWithEmail(email);
+        if (!user) {
+            throw new Error(`No user with email ${email}`);
+        }
+        if (user.verified) {
+            throw new Error(`User with email ${email} is already verified`);
+        }
+        const tokens = await this.findUserTokens(user);
+        const verificationTokens = this.findTokensWithScope(tokens, Scope.VerifyEmail);
+        if (this.isEmpty(verificationTokens)) {
+            throw new Error(`User ${user._id} has no active email verification tokens`)
+        }
+        const verificationToken = verificationTokens[0];
+        if (verificationToken.value !== token) {
+            throw new Error("Incorrect verification token provided")
+        }
+        const verifiedUser = await this.verifyUser(user);
+        try {
+            await verificationToken.remove();
+        } catch (error) {
+            throw new Error(`Failed to delete verification token for user ${user._id}`)
+        }
+        return verifiedUser;
+    }
+
+    private async findUserTokens(user : IUser) {
+        try {
+            return await TokenModel.findByUserId(user._id);
+        } catch (error) {
+            throw new Error(`Failed to find tokens associated with user ${user._id}`)
+        }
+    }
+
+    private findTokensWithScope(tokens : IToken[], scopeType : Scope) {
+        return tokens.filter((token : IToken) => {
+            return token.scope.includes(scopeType);
+        })
+    }
+
+    private isEmpty(array : any[]) {
+        return array.length === 0;
+    }
+
+    private async verifyUser(user : IUser) {
+        user.verified = true;
+        try {
+            await user.save();
+        } catch (error) {
+            throw new Error(`Failed to update verification status of user ${user._id}`);
+        }
+        return user;
     }
 
     async sendVerificationEmail(email : string) {

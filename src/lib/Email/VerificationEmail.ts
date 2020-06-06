@@ -7,8 +7,8 @@ export default class VerificationEmail {
     async send(token : IToken, user : IUser) : Promise<IVerificationEmailData> {
         sgMail.setApiKey(process.env.SENDGRID_API_KEY);
         const msg = {
-            to: 'evan.m.coulson@gmail.com',
-            from: 'evan.m.coulson@gmail.com',
+            to: user.email,
+            from: 'support@adaptsolutions.tech',
             subject: 'Verification',
             text: 'Verification email',
             html: `<a href=${this.getLink(token.value, user.email)}>Verify Account</a>`,
@@ -26,6 +26,6 @@ export default class VerificationEmail {
     }
 
     private getLink(token : string, email : string) {
-        return `http://${process.env.HOST_NAME}:${process.env.PORT}/authentication/verify?email=${email}&token=${token}`;
+        return `http://${process.env.HOST_NAME}:${process.env.PORT}/user/verify?email=${email}&token=${token}`;
     }
 }

@@ -1,7 +1,6 @@
 import IAuthenticationStrategy from "./IAuthenticationStrategy";
 import { Request, Response, NextFunction } from "express";
 import { logger } from "../../lib/logging";
-// import ForbiddenResponse from "../../lib/HTTP/ForbiddenResponse";
 import JSONWebToken from "jsonwebtoken";
 import { IncomingHttpHeaders } from "http";
 import IUserToken from "./IUserToken";
