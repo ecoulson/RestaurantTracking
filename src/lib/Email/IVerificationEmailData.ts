@@ -1,14 +1,8 @@
 import IToken from "../../models/token/IToken";
 import IUser from "../../models/user/IUser";
+import IEmailData from "./IEmailData";
 
-export default interface IVerificationEmailData {
+export default interface IVerificationEmailData extends IEmailData {
     token: IToken;
     user : IUser;
-    message : {
-        to: string,
-        from: string,
-        subject: string,
-        text: string,
-        html: string
-    }
 }

@@ -15,9 +15,9 @@ export default class AuthenticationController {
         return async (request : Request, response : Response) => {
             const body : ILoginBody = request.body as ILoginBody;
             const user = await this.authenticationService.login(body.username, body.password);
-            return new JSONResponse(response).send({
-                token: await this.authenticationService.generateAccessToken(user)
-            })
+            const token = await this.authenticationService.generateAccessToken(user);
+            response.setHeader("Set-Cookie", `userToken=${token}`)
+            return new JSONResponse(response).send({ token });
         }
     }
 }

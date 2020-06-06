@@ -1,23 +1,31 @@
-import IUserService from "../../services/User/IUserService";
-import UserService from "../../services/User/UserService";
-import IUserController from "./IUserController";
 import { Request, Response, RequestHandler } from "express";
-import IRegistrationBody from "./IRegistrationBody";
 import JSONResponse from "../../lib/HTTP/JSONResponse";
+import IUserController from "./IUserController";
+import IRegistrationBody from "./IRegistrationBody";
 import IVerificationQuery from "./IVerificationQuery";
+import IUserRegistrationService from "../../services/User/IUserRegistrationService";
+import UserRegistrationService from "../../services/User/UserRegistrationService";
+import IVerificationEmailService from "../../services/User/IVerificationEmailService";
+import VerificationEmailService from "../../services/User/VerificationEmailService";
+import IUserVerificationService from "../../services/User/IUserVerificationService";
+import UserVerificationService from "../../services/User/UserVerificationService";
 
 export default class UserController implements IUserController {
-    private service : IUserService;
+    private userRegistrationService : IUserRegistrationService;
+    private verificationEmailService : IVerificationEmailService;
+    private userVerificationService : IUserVerificationService;
 
     constructor() {
-        this.service = new UserService();
+        this.userRegistrationService = new UserRegistrationService();
+        this.verificationEmailService = new VerificationEmailService();
+        this.userVerificationService = new UserVerificationService();
     }
     
     handleRegistration() : RequestHandler {
         return async (req : Request, res : Response) => {
             const registration = req.body as IRegistrationBody;
-            const user = await this.service.register(registration);
-            await this.service.sendVerificationEmail(user.email);
+            const user = await this.userRegistrationService.register(registration);
+            await this.verificationEmailService.sendVerificationEmail(user.email);
             return new JSONResponse(res).send(user);
         }
     }
@@ -25,7 +33,7 @@ export default class UserController implements IUserController {
     handleVerification() : RequestHandler {
         return async (req : Request, res : Response) => {
             const verification = req.query as unknown as IVerificationQuery;
-            await this.service.verify(verification.token, verification.email);
+            await this.userVerificationService.verify(verification.token, verification.email);
             return new JSONResponse(res).send({});
         }
     }
