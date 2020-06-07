@@ -15,6 +15,12 @@ export default class VerificationEmailService implements IVerificationEmailServi
 
     async sendVerificationEmail(email : string) {
         const user = await this.findUserWithEmail(email);
+        if (!user) {
+            throw new Error(`No user with email ${email}`)
+        }
+        if (user.verified) {
+            throw new Error(`User with email ${email} is already verified`)
+        }
         await this.emailVerificationTokenService.deleteExisitingVerificationToken(user);
         const token = await this.emailVerificationTokenService.generate(user);
         return await this.sendEmail(new VerificationEmail(user, token)) as IVerificationEmailData;
@@ -35,6 +41,4 @@ export default class VerificationEmailService implements IVerificationEmailServi
             throw new Error(`Failed to send email to ${email.getAddress()}`);
         }
     }
-
-    
 }

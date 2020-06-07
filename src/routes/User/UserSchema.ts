@@ -13,7 +13,12 @@ const VerificationQuerySchema = Joi.object({
     token: Joi.string().hex()
 })
 
+const ResendVerificationEmailBodySchema = Joi.object({
+    email: Joi.string().email()
+});
+
 export {
     RegistrationBodySchema,
-    VerificationQuerySchema
+    VerificationQuerySchema,
+    ResendVerificationEmailBodySchema
 };

@@ -9,16 +9,20 @@ import IVerificationEmailService from "../../services/User/IVerificationEmailSer
 import VerificationEmailService from "../../services/User/VerificationEmailService";
 import IUserVerificationService from "../../services/User/IUserVerificationService";
 import UserVerificationService from "../../services/User/UserVerificationService";
+import ISpamVerificationService from "../../services/User/ISpamVerificationService";
+import SpamVerificationService from "../../services/User/SpamVerificationService";
 
 export default class UserController implements IUserController {
     private userRegistrationService : IUserRegistrationService;
     private verificationEmailService : IVerificationEmailService;
     private userVerificationService : IUserVerificationService;
+    private spamVerificationService : ISpamVerificationService;
 
     constructor() {
         this.userRegistrationService = new UserRegistrationService();
         this.verificationEmailService = new VerificationEmailService();
         this.userVerificationService = new UserVerificationService();
+        this.spamVerificationService = new SpamVerificationService();
     }
     
     handleRegistration() : RequestHandler {
@@ -32,21 +36,35 @@ export default class UserController implements IUserController {
 
     handleVerification() : RequestHandler {
         return async (req : Request, res : Response) => {
-            const verification = req.query as unknown as IVerificationQuery;
-            await this.userVerificationService.verify(verification.token, verification.email);
+            const verificationQuery = req.query as unknown as IVerificationQuery;
+            await this.userVerificationService.verify(verificationQuery.token, verificationQuery.email);
             return new JSONResponse(res).send({});
         }
     }
 
-    async handleResendVerificationEmail() {
+    handleResendVerificationEmail() {
         return async (req : Request, res : Response) => {
-            
-            // await this.verificationEmailService.sendVerificationEmail()
+            if (req.user.verified) {
+                throw new Error(`User ${req.user.username} is already verified`);
+            }
+            const mailData = await this.verificationEmailService.sendVerificationEmail(req.user.email);
+            return new JSONResponse(res).send(mailData);
+        }
+    }
+
+    handleSpamVerification() {
+        return async (req : Request, res : Response) => {
+            const spamVerificationQuery = req.query as unknown as IVerificationQuery;
+            const mailData = await this.spamVerificationService.cancelAccount(
+                spamVerificationQuery.email,
+                spamVerificationQuery.token
+            );
+            return new JSONResponse(res).send(mailData);
         }
     }
     
-    async handleForgotPassword() {
-        return (req : Request, res : Response) => {
+    handleForgotPassword() {
+        return async (req : Request, res : Response) => {
             
         }
     }

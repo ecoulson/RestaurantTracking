@@ -45,6 +45,21 @@ describe("JSON Web token Authentication Strategy", () => {
                 }
             });
             const res = mockResponse();
+            UserModel.findById = jest.fn().mockResolvedValue(null);
+        
+            await strategy.authenticate()(req, res, () => {});
+
+            expectUnauthorizedResponse(res, "Unauthorized request");
+        });
+
+        test("Should not authenticate request with non existant user", async () => {
+            const strategy = new JSONWebTokenAuthenticationStrategy();
+            const req = mockRequest({
+                headers: {
+                    "authorization": `Bearer ${token}`
+                }
+            });
+            const res = mockResponse();
         
             await strategy.authenticate()(req, res, () => {});
 
@@ -54,7 +69,6 @@ describe("JSON Web token Authentication Strategy", () => {
         test("Should authenticate request with valid token", async () => {
             const user = getUser(faker.internet.password())
             user.verified = true;
-            UserModel.findById = jest.fn().mockResolvedValue(user);
             const strategy = new JSONWebTokenAuthenticationStrategy();
             const req = mockRequest({
                 headers: {
@@ -62,6 +76,7 @@ describe("JSON Web token Authentication Strategy", () => {
                 }
             });
             const res = mockResponse();
+            UserModel.findById = jest.fn().mockResolvedValue(user);
         
             await strategy.authenticate()(req, res, () => {});
 

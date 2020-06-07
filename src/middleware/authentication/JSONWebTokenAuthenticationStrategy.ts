@@ -22,6 +22,9 @@ export default class JSONWebTokenAuthenticationStrategy implements IAuthenticati
             try {
                 const userToken = await this.verifyToken(token);
                 const user = await this.findUser(userToken._id);
+                if (!user) {
+                    throw new Error("Token encodes unknown user id");
+                }
                 request.user = user;
                 logger.debug(`Authenticated request`);
                 return next();
