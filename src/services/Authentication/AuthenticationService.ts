@@ -7,15 +7,9 @@ import jsonwebtoken from "jsonwebtoken";
 export default class AuthenticationService implements IAuthenticationService {
     async login(username: string, password: string) {
         const user = await this.getUser(username);
-        if (!user) {
-            throw new Error(`No user with username ${username}`);
-        }
-        if (!user.verified) {
-            throw new Error(`User ${user._id} is not verified`);
-        }
-        if (!await this.isCorrectPassword(user, password)) {
-            throw new Error(`Loggin for ${user._id} failed because passwords did not match`);
-        }
+        this.ensureUserExists(user, username);
+        this.ensureUserIsVerified(user);
+        await this.checkPassword(user, password);
         return user;
     }
 
@@ -24,6 +18,24 @@ export default class AuthenticationService implements IAuthenticationService {
             return await UserModel.findByUsername(username);
         } catch(error) {
             throw new Error(`Error occured while finding ${username}`);
+        }
+    }
+
+    private ensureUserExists(user : IUser, username: string) {
+        if (!user) {
+            throw new Error(`No user with username ${username}`);
+        }
+    }
+
+    private ensureUserIsVerified(user : IUser) {
+        if (!user.verified) {
+            throw new Error(`User ${user._id} is not verified`);
+        }
+    }
+
+    private async checkPassword(user : IUser, password : string) {
+        if (!await this.isCorrectPassword(user, password)) {
+            throw new Error(`Loggin for ${user._id} failed because passwords did not match`);
         }
     }
 

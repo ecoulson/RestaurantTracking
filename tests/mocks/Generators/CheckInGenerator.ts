@@ -1,5 +1,5 @@
 import IGenerator from "./IGenerator";
-import ICheckIn from "../../../src/controllers/CheckIn/ICheckIn";
+import ICheckInBody from "../../../src/controllers/CheckIn/ICheckInBody";
 import CheckInModel from "../../../src/models/check-in/CheckInModel";
 import faker from 'faker';
 import Chance from "chance";
@@ -7,7 +7,7 @@ import { generateObjectId } from "../../helpers/mongo";
 
 const chance = new Chance();
 
-export default class CheckInGenerator implements IGenerator<ICheckIn> {
+export default class CheckInGenerator implements IGenerator<ICheckInBody> {
     generate() {
         return new CheckInModel({
             number: chance.phone({ country: 'us' }),

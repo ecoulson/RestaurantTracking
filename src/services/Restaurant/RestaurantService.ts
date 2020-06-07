@@ -2,28 +2,29 @@ import RestaurantModel from "../../models/restaurant/RestaurantModel";
 import URLShortner from "../../lib/URL-shortener";
 import { logger } from "../../lib/logging";
 import IRestaurantRegistration from "../../controllers/Restaurant/IRestaurantRegistration";
+import IRestaurant from "../../models/restaurant/IRestaurant";
 
 export default class RestaurantService {
     async registerRestaurant(restaurantRegistration : IRestaurantRegistration) : Promise<void> {
         logger.info(`Registering ${restaurantRegistration.name} as a restaurant`);
-        await this.saveRestaurantToDB(restaurantRegistration);
-        logger.info(`Registered ${restaurantRegistration.name} as a restaurant`);
-    }
-    
-    private async saveRestaurantToDB(restaurantRegistration : IRestaurantRegistration) {
-        logger.debug(`Saving a restaurant by the name ${restaurantRegistration.name} to the database`);
         const restaurant = new RestaurantModel({
             name: restaurantRegistration.name,
             number: restaurantRegistration.number,
             url: ""
         });
         restaurant.url = (await URLShortner(restaurant._id)).data.link;
+        await this.saveRestaurantToDB(restaurant);
+        logger.info(`Registered ${restaurantRegistration.name} as a restaurant`);
+    }
+    
+    private async saveRestaurantToDB(restaurant : IRestaurant) {
+        logger.debug(`Saving a restaurant by the name ${restaurant.name} to the database`);
         try {
             await restaurant.save();
         } catch (error) {
-            throw new Error(`Failed to save restaurant ${restaurantRegistration.name} to database`);
+            throw new Error(`Failed to save restaurant ${restaurant.name} to database`);
         }
-        logger.debug(`Saved a restaurant with the name ${restaurantRegistration.name} to the database`)
+        logger.debug(`Saved a restaurant with the name ${restaurant.name} to the database`)
     }
 
     async generateQRCode(restaurantId : string) {
