@@ -35,4 +35,6 @@ export default class VerificationEmailService implements IVerificationEmailServi
             throw new Error(`Failed to send email to ${email.getAddress()}`);
         }
     }
+
+    
 }

@@ -12,6 +12,7 @@ import APIRouterConfiguration from "./routes";
 import ErrorHandlingMiddleware from "./middleware/error-handling/ErrorHandlingMiddleware";
 import mongoose from "mongoose";
 import TokenManager from "./services/Token/TokenManger";
+import mongoSanitize from "express-mongo-sanitize"
 
 mongoose.set('useCreateIndex', true);
 
@@ -22,6 +23,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser());
 app.use(cors());
+app.use(mongoSanitize())
 
 if (process.env.NODE_ENV !== "test") {
     app.use(session({  

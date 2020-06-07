@@ -8,7 +8,6 @@ export default class AuthenticationService implements IAuthenticationService {
     async login(username: string, password: string) {
         const user = await this.getUser(username);
         this.ensureUserExists(user, username);
-        this.ensureUserIsVerified(user);
         await this.checkPassword(user, password);
         return user;
     }
@@ -24,12 +23,6 @@ export default class AuthenticationService implements IAuthenticationService {
     private ensureUserExists(user : IUser, username: string) {
         if (!user) {
             throw new Error(`No user with username ${username}`);
-        }
-    }
-
-    private ensureUserIsVerified(user : IUser) {
-        if (!user.verified) {
-            throw new Error(`User ${user._id} is not verified`);
         }
     }
 

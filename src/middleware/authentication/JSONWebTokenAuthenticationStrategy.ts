@@ -6,7 +6,6 @@ import { IncomingHttpHeaders } from "http";
 import IUserToken from "./IUserToken";
 import UserModel from "../../models/user/UserModel";
 import UnauthorizedResponse from "../../lib/HTTP/UnauthorizedResponse";
-import ForbiddenResponse from "../../lib/HTTP/ForbiddenResponse";
 
 export default class JSONWebTokenAuthenticationStrategy implements IAuthenticationStrategy {
     authenticate() {
@@ -23,9 +22,6 @@ export default class JSONWebTokenAuthenticationStrategy implements IAuthenticati
             try {
                 const userToken = await this.verifyToken(token);
                 const user = await this.findUser(userToken._id);
-                if (!user.verified) {
-                    return new ForbiddenResponse(response).send(`Email has not been verified for ${user.email}`)
-                }
                 request.user = user;
                 logger.debug(`Authenticated request`);
                 return next();

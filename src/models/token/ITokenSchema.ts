@@ -6,7 +6,7 @@ export default interface ITokenSchema extends IDocument {
     userId: string;
     refreshToken?: string;
     createdAt: Date;
-    expiresAt: Date;
+    expiresAt?: Date;
     updatedAt: Date;
     scope: Scope[];
 }

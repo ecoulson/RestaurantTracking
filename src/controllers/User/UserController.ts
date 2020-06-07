@@ -39,8 +39,9 @@ export default class UserController implements IUserController {
     }
 
     async handleResendVerificationEmail() {
-        return (req : Request, res : Response) => {
+        return async (req : Request, res : Response) => {
             
+            // await this.verificationEmailService.sendVerificationEmail()
         }
     }
     

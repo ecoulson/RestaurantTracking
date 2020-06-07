@@ -51,22 +51,6 @@ describe("JSON Web token Authentication Strategy", () => {
             expectUnauthorizedResponse(res, "Unauthorized request");
         });
 
-        test("Should fail to authenticate request with valid token because user is not verified", async () => {
-            const user = getUser(faker.internet.password())
-            UserModel.findById = jest.fn().mockResolvedValue(user);
-            const strategy = new JSONWebTokenAuthenticationStrategy();
-            const req = mockRequest({
-                headers: {
-                    "authorization": `Bearer ${token}`
-                }
-            });
-            const res = mockResponse();
-        
-            await strategy.authenticate()(req, res, () => {});
-
-            expectForbiddenResponse(res, `Email has not been verified for ${user.email}`);
-        })
-
         test("Should authenticate request with valid token", async () => {
             const user = getUser(faker.internet.password())
             user.verified = true;
@@ -111,23 +95,5 @@ function getUser(password: string) {
         email: faker.internet.email(),
         username: faker.internet.userName(),
         password: bcrypt.hashSync(password, 1)
-    })
-};
-
-function expectForbiddenResponse(res : Response, message: string) {
-    expectForbiddenStatus(res);
-    expectForbiddenBody(res, message);
-}
-
-function expectForbiddenStatus(res : Response) {
-    expect(res.status).toHaveBeenCalledWith(403);
-}
-
-function expectForbiddenBody(res : Response, message: string) {
-    expect(res.json).toHaveBeenCalledWith({
-        success: false,
-        data: {
-            error: message
-        }
     })
 }

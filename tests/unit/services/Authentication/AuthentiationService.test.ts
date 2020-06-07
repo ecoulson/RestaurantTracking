@@ -54,7 +54,7 @@ describe("Authentication Service", () => {
                 await service.login(user.username, "");
             } catch(error) {
                 expect(error).toEqual(
-                    new Error(`User ${user._id} is not verified`)
+                    new Error(`Loggin for ${user._id} failed because passwords did not match`)
                 );
             }
             expect.assertions(1);
@@ -137,14 +137,3 @@ describe("Authentication Service", () => {
         })
     })
 })
-
-// function getUser(password: string) {
-//     return new UserModel({
-//         verified: true,
-//         firstName: faker.name.firstName(),
-//         lastName: faker.name.lastName(),
-//         email: faker.internet.email(),
-//         username: faker.internet.userName(),
-//         password: bcrypt.hashSync(password, 1)
-//     })
-// }
