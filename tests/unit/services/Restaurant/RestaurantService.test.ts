@@ -1,36 +1,33 @@
 jest.mock("../../../../src/lib/URL-shortener");
 import RestaurantModel from "../../../../src/models/restaurant/RestaurantModel";
 import RestaurantService from "../../../../src/services/Restaurant/RestaurantService";
-import { generateObjectId } from "../../../helpers/mongo";
-import faker from "faker";
-import Chance from "chance";
 import URLShortener from "../../../../src/lib/URL-shortener";
+import RestaurantGenerator from "../../../mocks/Generators/RestaurantGenerator";
+import RestaurantRegistrationGenerator from "../../../mocks/Generators/RestaurantRegistrationGenerator";
 
-const chance = new Chance();
+const restaurantGenerator = new RestaurantGenerator();
+const restaurantRegistrationGenerator = new RestaurantRegistrationGenerator();
 
 describe("Restaurant Service Test", () => {
     describe("generateQRCode", () => {
         test("Error when finding a restaurant", async () => {
             const service = new RestaurantService();
+            const restaurant = restaurantGenerator.generate()
             RestaurantModel.findById = jest.fn().mockRejectedValue(new Error());
-            const id = generateObjectId();
             
             try {
-                await service.generateQRCode(id)
+                await service.generateQRCode(restaurant._id)
             } catch (error) {
-                expect(error).toEqual(new Error(`Failed to find a restaurant with id ${id}`))
+                expect(error).toEqual(new Error(`Failed to find a restaurant with id ${restaurant._id}`))
             }
         });
 
         test("Gets the restaurant to generate the QR Code for", async () => {
             const service = new RestaurantService();
-            const restaurant = {
-                name: faker.company.companyName(),
-                number: chance.phone({ country: "us" })
-            }
+            const restaurant = restaurantGenerator.generate()
             RestaurantModel.findById = jest.fn().mockResolvedValue(restaurant);
 
-            const restaurantDocument = await service.generateQRCode(generateObjectId());
+            const restaurantDocument = await service.generateQRCode(restaurant._id);
 
             expect(restaurantDocument.name).toEqual(restaurant.name);
             expect(restaurantDocument.number).toEqual(restaurant.number);
@@ -38,13 +35,13 @@ describe("Restaurant Service Test", () => {
 
         test("Generate a QR Code for a restaurant that doesn't exist", async () => {
             const service = new RestaurantService();
-            const id = generateObjectId();
+            const restaurant = restaurantGenerator.generate();
             RestaurantModel.findById = jest.fn().mockResolvedValue(null);
             
             try {
-                await service.generateQRCode(id)
+                await service.generateQRCode(restaurant._id)
             } catch (error) {
-                expect(error).toEqual(new Error(`Failed to find a restaurant with id ${id}`))
+                expect(error).toEqual(new Error(`Failed to find a restaurant with id ${restaurant._id}`))
             }
         });
     });
@@ -58,10 +55,7 @@ describe("Restaurant Service Test", () => {
             })
             RestaurantModel.prototype.save = jest.fn();
             const service = new RestaurantService();
-            const restaurantRegistration = {
-                name: faker.company.companyName(),
-                number: chance.phone({ country: "us" })
-            };
+            const restaurantRegistration = restaurantRegistrationGenerator.generate()
             
             await service.registerRestaurant(restaurantRegistration);
 
@@ -71,10 +65,7 @@ describe("Restaurant Service Test", () => {
         test("Fails to save to restaurant to database", async () => {
             RestaurantModel.prototype.save = jest.fn().mockRejectedValue(new Error());
             const service = new RestaurantService();
-            const restaurantRegistration = {
-                name: faker.company.companyName(),
-                number: chance.phone({ country: "us" })
-            };
+            const restaurantRegistration = restaurantRegistrationGenerator.generate()
             
             try {
                 await service.registerRestaurant(restaurantRegistration);
@@ -87,13 +78,9 @@ describe("Restaurant Service Test", () => {
 
     describe("getRestaurant", () => {
         test("Successfully finds restaurant", async () => {
-            const restaurant = {
-                _id: generateObjectId(),
-                name: faker.company.companyName(),
-                number: chance.phone({ country: "us" })
-            }
-            RestaurantModel.findById = jest.fn().mockResolvedValue(restaurant);
+            const restaurant = restaurantGenerator.generate();
             const service = new RestaurantService();
+            RestaurantModel.findById = jest.fn().mockResolvedValue(restaurant);
             
             const foundRestaurant = await service.getRestaurant(restaurant._id);
 
@@ -103,13 +90,9 @@ describe("Restaurant Service Test", () => {
         });
 
         test("Does not find a restaurant with id", async () => {
-            const restaurant = {
-                _id: generateObjectId(),
-                name: faker.company.companyName(),
-                number: chance.phone({ country: "us" })
-            }
-            RestaurantModel.findById = jest.fn().mockResolvedValue(null);
+            const restaurant = restaurantGenerator.generate();
             const service = new RestaurantService();
+            RestaurantModel.findById = jest.fn().mockResolvedValue(null);
             
             try {
                 await service.getRestaurant(restaurant._id);
@@ -120,11 +103,7 @@ describe("Restaurant Service Test", () => {
         });
 
         test("Does not find a restaurant with id", async () => {
-            const restaurant = {
-                _id: generateObjectId(),
-                name: faker.company.companyName(),
-                number: chance.phone({ country: "us" })
-            }
+            const restaurant = restaurantGenerator.generate()
             RestaurantModel.findById = jest.fn().mockRejectedValue(new Error());
             const service = new RestaurantService();
             
@@ -139,8 +118,8 @@ describe("Restaurant Service Test", () => {
 
     describe("getAllRestaurants", () => {
         test("Gets all restaurants", async () => {
-            RestaurantModel.find = jest.fn().mockResolvedValue([]);
             const service = new RestaurantService();
+            RestaurantModel.find = jest.fn().mockResolvedValue([]);
 
             const restaurants = await service.getAllRestaurants();
 

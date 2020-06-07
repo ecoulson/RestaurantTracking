@@ -1,8 +1,8 @@
 import bcrypt from "bcrypt";
-import faker from "faker";
 import UserRegistrationService from "../../../../src/services/User/UserRegistrationService";
 import IRegistrationBody from "../../../../src/controllers/User/IRegistrationBody";
 import UserModel from "../../../../src/models/user/UserModel";
+import RegistrationBodyGenerator from "../../../mocks/Generators/RegistrationBodyGenerator";
 
 const hash = bcrypt.hash;
 
@@ -10,18 +10,14 @@ beforeEach(() => {
     bcrypt.hash = hash;
 });
 
+const registrationGenerator = new RegistrationBodyGenerator();
+
 describe("User Registration Service Suite", () => {
     describe("register", () => {
         test("An error occurs while saving a user to the database", async () => {
-            bcrypt.hash = jest.fn().mockRejectedValue(new Error());
             const service = new UserRegistrationService();
-            const registration : IRegistrationBody = {
-                firstName: faker.name.firstName(),
-                lastName: faker.name.lastName(),
-                email: faker.internet.email(),
-                password: faker.internet.password(),
-                username: faker.internet.userName() 
-            }
+            const registration : IRegistrationBody = registrationGenerator.generate();
+            bcrypt.hash = jest.fn().mockRejectedValue(new Error());
 
             try {
                 await service.register(registration);
@@ -34,17 +30,11 @@ describe("User Registration Service Suite", () => {
         })
 
         test("An error occurs while saving a user to the database", async () => {
+            const service = new UserRegistrationService();
+            const registration : IRegistrationBody = registrationGenerator.generate();
             UserModel.findByUsername = jest.fn().mockResolvedValue(null);
             UserModel.findByEmail = jest.fn().mockResolvedValue(null);
             UserModel.prototype.save = jest.fn().mockRejectedValue(new Error());
-            const service = new UserRegistrationService();
-            const registration : IRegistrationBody = {
-                firstName: faker.name.firstName(),
-                lastName: faker.name.lastName(),
-                email: faker.internet.email(),
-                password: faker.internet.password(),
-                username: faker.internet.userName() 
-            }
 
             try {
                 await service.register(registration);
@@ -58,13 +48,7 @@ describe("User Registration Service Suite", () => {
 
         test("Username has been taken", async () => {
             const service = new UserRegistrationService();
-            const registration : IRegistrationBody = {
-                firstName: faker.name.firstName(),
-                lastName: faker.name.lastName(),
-                email: faker.internet.email(),
-                password: faker.internet.password(),
-                username: faker.internet.userName() 
-            }
+            const registration : IRegistrationBody = registrationGenerator.generate();
             UserModel.findByUsername = jest.fn().mockResolvedValue(registration);
 
             try {
@@ -76,15 +60,9 @@ describe("User Registration Service Suite", () => {
         })
 
         test("An error occurs while checking for unique username", async () => {
-            UserModel.findByUsername = jest.fn().mockRejectedValue(new Error());
             const service = new UserRegistrationService();
-            const registration : IRegistrationBody = {
-                firstName: faker.name.firstName(),
-                lastName: faker.name.lastName(),
-                email: faker.internet.email(),
-                password: faker.internet.password(),
-                username: faker.internet.userName() 
-            }
+            const registration : IRegistrationBody = registrationGenerator.generate();
+            UserModel.findByUsername = jest.fn().mockRejectedValue(new Error());
 
             try {
                 await service.register(registration);
@@ -98,13 +76,7 @@ describe("User Registration Service Suite", () => {
 
         test("Account already associated with an email", async () => {
             const service = new UserRegistrationService();
-            const registration : IRegistrationBody = {
-                firstName: faker.name.firstName(),
-                lastName: faker.name.lastName(),
-                email: faker.internet.email(),
-                password: faker.internet.password(),
-                username: faker.internet.userName() 
-            }
+            const registration : IRegistrationBody = registrationGenerator.generate();
             UserModel.findByUsername = jest.fn().mockResolvedValue(null);
             UserModel.findByEmail = jest.fn().mockResolvedValue(registration);
 
@@ -119,16 +91,10 @@ describe("User Registration Service Suite", () => {
         })
 
         test("An error occurs while checking for unique email", async () => {
+            const service = new UserRegistrationService();
+            const registration : IRegistrationBody = registrationGenerator.generate();
             UserModel.findByUsername = jest.fn().mockResolvedValue(null);
             UserModel.findByEmail = jest.fn().mockRejectedValue(new Error());
-            const service = new UserRegistrationService();
-            const registration : IRegistrationBody = {
-                firstName: faker.name.firstName(),
-                lastName: faker.name.lastName(),
-                email: faker.internet.email(),
-                password: faker.internet.password(),
-                username: faker.internet.userName() 
-            }
 
             try {
                 await service.register(registration);
@@ -141,17 +107,11 @@ describe("User Registration Service Suite", () => {
         })
 
         test("Registers a user to the database", async () => {
+            const service = new UserRegistrationService();
+            const registration : IRegistrationBody = registrationGenerator.generate();
             UserModel.prototype.save = jest.fn();
             UserModel.findByUsername = jest.fn().mockResolvedValue(null);
             UserModel.findByEmail = jest.fn().mockResolvedValue(null);
-            const service = new UserRegistrationService();
-            const registration : IRegistrationBody = {
-                firstName: faker.name.firstName(),
-                lastName: faker.name.lastName(),
-                email: faker.internet.email(),
-                password: faker.internet.password(),
-                username: faker.internet.userName() 
-            }
 
             const user = await service.register(registration);
 

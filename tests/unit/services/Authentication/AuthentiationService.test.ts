@@ -1,10 +1,11 @@
 import bcrypt from "bcrypt";
-import faker from "faker";
 import AuthenticationService from "../../../../src/services/Authentication/AuthenticationService";
 import UserModel from "../../../../src/models/user/UserModel";
 import jsonwebtoken from "jsonwebtoken";
+import UserGenerator from "../../../mocks/Generators/UserGenerator";
 
 const compare = bcrypt.compare;
+const userGenerator = new UserGenerator();
 
 beforeAll(() => {
     process.env.ACCESS_TOKEN_SECRET = "valid"
@@ -19,43 +20,38 @@ beforeEach(() => {
 describe("Authentication Service", () => {
     describe("login", () => {
         test("Should fail to login because user does not exist", async () => {
-            UserModel.findByUsername = jest.fn().mockResolvedValue(null)
             const service = new AuthenticationService();
-            const username = faker.internet.userName();
-            const password = faker.internet.password();
+            const user = userGenerator.generate();
+            UserModel.findByUsername = jest.fn().mockResolvedValue(null)
 
             try {
-                await service.login(username, password);
+                await service.login(user.username, user.password);
             } catch(error) {
-                expect(error).toEqual(new Error(`No user with username ${username}`));
+                expect(error).toEqual(new Error(`No user with username ${user.username}`));
             }
             expect.assertions(1);
         })
 
         test("Should fail to login because an error occured while finding the user", async () => {
-            const username = faker.internet.userName();
-            const password = faker.internet.password();
-            UserModel.findByUsername = jest.fn().mockRejectedValue(new Error())
+            const user = userGenerator.generate();
             const service = new AuthenticationService();
+            UserModel.findByUsername = jest.fn().mockRejectedValue(new Error())
 
             try {
-                await service.login(username, password);
+                await service.login(user.username, user.password);
             } catch(error) {
-                expect(error).toEqual(new Error(`Error occured while finding ${username}`));
+                expect(error).toEqual(new Error(`Error occured while finding ${user.username}`));
             }
             expect.assertions(1);
         });
 
         test("Should fail to login because the passwords do not match", async () => {
-            const username = faker.internet.userName();
-            const password = faker.internet.password();
-            const user = getUser(password);
-            user.verified = false;
-            UserModel.findByUsername = jest.fn().mockResolvedValue(user)
+            const user = userGenerator.generate();
             const service = new AuthenticationService();
+            UserModel.findByUsername = jest.fn().mockResolvedValue(user)
 
             try {
-                await service.login(username, "");
+                await service.login(user.username, "");
             } catch(error) {
                 expect(error).toEqual(
                     new Error(`User ${user._id} is not verified`)
@@ -65,15 +61,14 @@ describe("Authentication Service", () => {
         });
 
         test("Should fail to login because an error occured while comparing the password", async () => {
-            bcrypt.compare = jest.fn().mockRejectedValue(new Error());
-            const username = faker.internet.userName();
-            const password = faker.internet.password();
-            const user = getUser(password);
-            UserModel.findByUsername = jest.fn().mockResolvedValue(user)
+            userGenerator.setVerified();
+            const user = userGenerator.generate();
             const service = new AuthenticationService();
+            bcrypt.compare = jest.fn().mockRejectedValue(new Error());
+            UserModel.findByUsername = jest.fn().mockResolvedValue(user)
 
             try {
-                await service.login(username, password);
+                await service.login(user.username, user.password);
             } catch(error) {
                 expect(error).toEqual(
                     new Error(`Error occured while comparing password for user with id ${user._id}`)
@@ -83,14 +78,13 @@ describe("Authentication Service", () => {
         });
 
         test("Should fail to login because the passwords do not match", async () => {
-            const username = faker.internet.userName();
-            const password = faker.internet.password();
-            const user = getUser(password);
-            UserModel.findByUsername = jest.fn().mockResolvedValue(user)
+            userGenerator.setVerified();
+            const user = userGenerator.generate();
             const service = new AuthenticationService();
+            UserModel.findByUsername = jest.fn().mockResolvedValue(user)
 
             try {
-                await service.login(username, "");
+                await service.login(user.username, "");
             } catch(error) {
                 expect(error).toEqual(
                     new Error(`Loggin for ${user._id} failed because passwords did not match`)
@@ -100,13 +94,14 @@ describe("Authentication Service", () => {
         });
 
         test("Should login user", async () => {
-            const username = faker.internet.userName();
-            const password = faker.internet.password();
-            const user = getUser(password);
-            UserModel.findByUsername = jest.fn().mockResolvedValue(user)
+            userGenerator.setVerified();
+            const user = userGenerator.generate();
             const service = new AuthenticationService();
+            const password = user.password;
+            user.password = bcrypt.hashSync(user.password, 10)
+            UserModel.findByUsername = jest.fn().mockResolvedValue(user);
 
-            const foundUser = await service.login(username, password);
+            const foundUser = await service.login(user.username, password);
 
             expect(foundUser.serialize()).toEqual(user.serialize());
         })
@@ -114,7 +109,7 @@ describe("Authentication Service", () => {
 
     describe("generateAccessToken", () => {
         test("should throw an error when generating token", () => {
-            const user = getUser(faker.internet.password());
+            const user = userGenerator.generate();
             const service = new AuthenticationService();
             jsonwebtoken.sign = jest.fn().mockImplementation(() => {
                 throw new Error();
@@ -131,7 +126,7 @@ describe("Authentication Service", () => {
         })
 
         test("should generate an access token", () => {
-            const user = getUser(faker.internet.password());
+            const user = userGenerator.generate();
             const service = new AuthenticationService();
             
             const accessToken = service.generateAccessToken(user);
@@ -143,13 +138,13 @@ describe("Authentication Service", () => {
     })
 })
 
-function getUser(password: string) {
-    return new UserModel({
-        verified: true,
-        firstName: faker.name.firstName(),
-        lastName: faker.name.lastName(),
-        email: faker.internet.email(),
-        username: faker.internet.userName(),
-        password: bcrypt.hashSync(password, 1)
-    })
-}
+// function getUser(password: string) {
+//     return new UserModel({
+//         verified: true,
+//         firstName: faker.name.firstName(),
+//         lastName: faker.name.lastName(),
+//         email: faker.internet.email(),
+//         username: faker.internet.userName(),
+//         password: bcrypt.hashSync(password, 1)
+//     })
+// }

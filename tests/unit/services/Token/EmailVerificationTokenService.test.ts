@@ -1,25 +1,30 @@
 jest.mock("crypto");
-import EmailVerificationTokenService from "../../../../src/services/Token/EmailVerificationTokenService"
-import faker from "faker";
+import EmailVerificationTokenService from "../../../../src/services/Token/EmailVerificationTokenService";
 import Chance from "chance";
-import UserModel from "../../../../src/models/user/UserModel";
 import crypto from "crypto"
 import TokenModel from "../../../../src/models/token/TokenModel";
 import Scope from "../../../../src/services/Token/Scope";
-import { generateObjectId } from "../../../helpers/mongo";
+import TokenGenerator from "../../../mocks/Generators/TokenGenerator";
+import UserGenerator from "../../../mocks/Generators/UserGenerator";
 
 const chance = new Chance();
 
-beforeEach(() => jest.resetAllMocks());
+const tokenGenerator = new TokenGenerator();
+const userGenerator = new UserGenerator();
+
+beforeEach(() => {
+    jest.resetAllMocks()
+    tokenGenerator.setScope([Scope.VerifyEmail]);
+});
 
 describe("Email Verification Token Service", () => {
     describe("generate", () => {
         test("Fails to save token to database", async () => {
             const tokenValue = chance.hash({ length: 38});
+            const user = userGenerator.generate();
+            const service = new EmailVerificationTokenService();
             (crypto.randomBytes as jest.Mock).mockImplementation(() => { return { toString: () => tokenValue } });
             TokenModel.prototype.save = jest.fn().mockRejectedValue(new Error());
-            const user = getUser(faker.internet.password());
-            const service = new EmailVerificationTokenService();
 
             try {
                 await service.generate(user);
@@ -32,9 +37,9 @@ describe("Email Verification Token Service", () => {
         })
 
         test("Fails to generate a token", async () => {
-            (crypto.randomBytes as jest.Mock).mockImplementation(() => { throw new Error(); });
-            const user = getUser(faker.internet.password());
+            const user = userGenerator.generate();
             const service = new EmailVerificationTokenService();
+            (crypto.randomBytes as jest.Mock).mockImplementation(() => { throw new Error(); });
 
             try {
                 await service.generate(user);
@@ -47,13 +52,14 @@ describe("Email Verification Token Service", () => {
         })
 
         test("Successfully generates a token", async () => {
-            const date = new Date();
-            const tokenValue = chance.hash({ length: 38});
-            const user = getUser(faker.internet.password());
-            const testToken = getToken(tokenValue, date, user._id);
-            (crypto.randomBytes as jest.Mock).mockImplementation(() => { return { toString: () => tokenValue } });
-            TokenModel.prototype.save = jest.fn();
+            const user = userGenerator.generate();
+            tokenGenerator.setValue(chance.hash({ length: 38 }));
+            tokenGenerator.setUserId(user._id);
+            tokenGenerator.setDateCreated(new Date());
+            const testToken = tokenGenerator.generate();
             const service = new EmailVerificationTokenService();
+            (crypto.randomBytes as jest.Mock).mockImplementation(() => { return { toString: () => testToken.value } });
+            TokenModel.prototype.save = jest.fn();
 
             const token = await service.generate(user);
 
@@ -66,9 +72,9 @@ describe("Email Verification Token Service", () => {
 
     describe("Delete existing verification token", () => {
         test("Fails to get tokens by userId", async () => {
-            TokenModel.findByUserId = jest.fn().mockRejectedValue(new Error());
             const service = new EmailVerificationTokenService();
-            const user = getUser(faker.internet.password());
+            const user = userGenerator.generate();
+            TokenModel.findByUserId = jest.fn().mockRejectedValue(new Error());
 
             try {
                 await service.deleteExisitingVerificationToken(user);
@@ -81,92 +87,68 @@ describe("Email Verification Token Service", () => {
         test("No tokens associaited with user", async () => {
             TokenModel.findByUserId = jest.fn().mockResolvedValue([]);
             const service = new EmailVerificationTokenService();
-            const mockUser = getUser(faker.internet.password());
+            const user = userGenerator.generate();
 
-            const verificationToken = await service.deleteExisitingVerificationToken(mockUser);
+            const verificationToken = await service.deleteExisitingVerificationToken(user);
 
             expect(verificationToken).toEqual(null);
         });
 
         test("No token with email verification scope", async () => {
-            const token = getToken();
-            token.scope = [];
-            TokenModel.findByUserId = jest.fn().mockResolvedValue([token]);
+            tokenGenerator.setScope([Scope.ForgotPassword]);
+            const token = tokenGenerator.generate();
             const service = new EmailVerificationTokenService();
-            const mockUser = getUser(faker.internet.password());
+            const user = userGenerator.generate();
+            TokenModel.findByUserId = jest.fn().mockResolvedValue([token]);
 
-            const verificationToken = await service.deleteExisitingVerificationToken(mockUser);
+            const verificationToken = await service.deleteExisitingVerificationToken(user);
 
             expect(verificationToken).toEqual(null);
         })
 
         test("No tokens with email verification scope", async () => {
-            const token = getToken();
-            token.scope = [];
-            TokenModel.findByUserId = jest.fn().mockResolvedValue([token, token]);
+            tokenGenerator.setScope([Scope.ForgotPassword]);
+            const token = tokenGenerator.generate();
             const service = new EmailVerificationTokenService();
-            const mockUser = getUser(faker.internet.password());
+            const user = userGenerator.generate();
+            TokenModel.findByUserId = jest.fn().mockResolvedValue([token, token]);
 
-            const verificationToken = await service.deleteExisitingVerificationToken(mockUser);
+            const verificationToken = await service.deleteExisitingVerificationToken(user);
 
             expect(verificationToken).toEqual(null);
         })
 
-        test("Token with email verification scope", async () => {
-            const token = getToken();
-            const token2 = getToken();
-            token.scope = [Scope.ForgotPassword];
-            TokenModel.findByUserId = jest.fn().mockResolvedValue([token, token2]);
-            TokenModel.prototype.remove = jest.fn();
-            const service = new EmailVerificationTokenService();
-            const mockUser = getUser(faker.internet.password());
-
-            const verificationToken = await service.deleteExisitingVerificationToken(mockUser);
-
-            expect(verificationToken).toEqual(token2);
-        });
         
         test("An error occured while deleting the token from the database", async () => {
-            const token = getToken();
+            const token = tokenGenerator.generate();
+            const service = new EmailVerificationTokenService();
+            const user = userGenerator.generate();
             TokenModel.findByUserId = jest.fn().mockResolvedValue([token]);
             TokenModel.prototype.remove = jest.fn().mockRejectedValue(new Error())
-            const service = new EmailVerificationTokenService();
-            const mockUser = getUser(faker.internet.password());
-
+            
             try {
-                await service.deleteExisitingVerificationToken(mockUser);
+                await service.deleteExisitingVerificationToken(user);
             } catch (error) {
                 expect(error).toEqual(
                     new Error(`Failed to remove token with id ${token._id}`)
-                );
-            }
-            expect.assertions(1);
+                    );
+                }
+                expect.assertions(1);
+            });
+        })
+
+        test("Token with email verification scope", async () => {
+            tokenGenerator.setScope([Scope.ForgotPassword]);
+            const forgotPasswordToken = tokenGenerator.generate();
+            tokenGenerator.setScope([Scope.VerifyEmail]);
+            const expectedVerificationToken = tokenGenerator.generate();
+            const service = new EmailVerificationTokenService();
+            const user = userGenerator.generate();
+            TokenModel.findByUserId = jest.fn().mockResolvedValue([forgotPasswordToken, expectedVerificationToken]);
+            TokenModel.prototype.remove = jest.fn();
+            
+            const verificationToken = await service.deleteExisitingVerificationToken(user);
+
+            expect(verificationToken).toEqual(expectedVerificationToken);
         });
-    })
 })
-
-function getUser(password: string) {
-    return new UserModel({
-        firstName: faker.name.firstName(),
-        lastName: faker.name.lastName(),
-        email: faker.internet.email(),
-        username: faker.internet.userName(),
-        password: password
-    })
-};
-
-function getToken(value?: string, date? : Date, userId? : string) {
-    const token = new TokenModel({
-        value,
-        createdAt: date ? date : new Date(),
-        expiresAt: new Date(),
-        userId: userId ? userId : generateObjectId(),
-        updatedAt: date ? date : new Date(),
-        scope: [Scope.VerifyEmail]
-    })
-    const expirationDate = new Date(token.createdAt.valueOf());
-    expirationDate.setDate(token.createdAt.getDate() + 1);
-
-    token.expiresAt = expirationDate
-    return token
-}
