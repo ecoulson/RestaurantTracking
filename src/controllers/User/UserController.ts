@@ -2,7 +2,7 @@ import { Request, Response, RequestHandler } from "express";
 import JSONResponse from "../../lib/HTTP/JSONResponse";
 import IUserController from "./IUserController";
 import IRegistrationBody from "./IRegistrationBody";
-import IVerificationQuery from "./IVerificationQuery";
+import ITokenCallbackQuery from "./ITokenCallback";
 import IUserRegistrationService from "../../services/User/IUserRegistrationService";
 import UserRegistrationService from "../../services/User/UserRegistrationService";
 import IVerificationEmailService from "../../services/User/IVerificationEmailService";
@@ -11,18 +11,26 @@ import IUserVerificationService from "../../services/User/IUserVerificationServi
 import UserVerificationService from "../../services/User/UserVerificationService";
 import ISpamVerificationService from "../../services/User/ISpamVerificationService";
 import SpamVerificationService from "../../services/User/SpamVerificationService";
+import IPasswordRecoveryService from "../../services/User/IPasswordRecoveryService";
+import PasswordRecoveryService from "../../services/User/PasswordRecoveryService";
+import IPasswordRecoveryConfirmationService from "../../services/User/IPasswordRecoveryConfirmationService";
+import PasswordRecoveryConfirmationService from "../../services/User/PasswordRecoveryConfirmationService";
 
 export default class UserController implements IUserController {
     private userRegistrationService : IUserRegistrationService;
     private verificationEmailService : IVerificationEmailService;
     private userVerificationService : IUserVerificationService;
     private spamVerificationService : ISpamVerificationService;
+    private passwordRecoveryService : IPasswordRecoveryService;
+    private passwordRecoveryConfirmationService : IPasswordRecoveryConfirmationService;
 
     constructor() {
         this.userRegistrationService = new UserRegistrationService();
         this.verificationEmailService = new VerificationEmailService();
         this.userVerificationService = new UserVerificationService();
         this.spamVerificationService = new SpamVerificationService();
+        this.passwordRecoveryService = new PasswordRecoveryService();
+        this.passwordRecoveryConfirmationService = new PasswordRecoveryConfirmationService();
     }
     
     handleRegistration() : RequestHandler {
@@ -36,7 +44,7 @@ export default class UserController implements IUserController {
 
     handleVerification() : RequestHandler {
         return async (req : Request, res : Response) => {
-            const verificationQuery = req.query as unknown as IVerificationQuery;
+            const verificationQuery = req.query as unknown as ITokenCallbackQuery;
             await this.userVerificationService.verify(verificationQuery.token, verificationQuery.email);
             return new JSONResponse(res).send({});
         }
@@ -54,19 +62,32 @@ export default class UserController implements IUserController {
 
     handleSpamVerification() {
         return async (req : Request, res : Response) => {
-            const spamVerificationQuery = req.query as unknown as IVerificationQuery;
+            const tokenCallbackQuery = req.query as unknown as ITokenCallbackQuery;
             const mailData = await this.spamVerificationService.cancelAccount(
-                spamVerificationQuery.email,
-                spamVerificationQuery.token
+                tokenCallbackQuery.email,
+                tokenCallbackQuery.token
             );
             return new JSONResponse(res).send(mailData);
         }
     }
     
-    handleForgotPassword() {
+    handlePasswordRecovery() {
         return async (req : Request, res : Response) => {
-            
+            const mailData = await this.passwordRecoveryService.sendForgotPasswordEmail(
+                req.body.email
+            );
+            return new JSONResponse(res).send(mailData);
         }
     }
 
+    handlePasswordResetConfirmation() {
+        return async (req : Request, res : Response) => {
+            const tokenCallbackQuery = req.query as unknown as ITokenCallbackQuery;
+            const confirmed = await this.passwordRecoveryConfirmationService.confirm(
+                tokenCallbackQuery.email,
+                tokenCallbackQuery.token
+            );
+            return new JSONResponse(res).send(confirmed);
+        }
+    }
 }

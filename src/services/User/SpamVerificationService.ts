@@ -12,9 +12,9 @@ export default class SpamVerificationService implements ISpamVerificationService
         this.ensureUserExists(user, email);
         this.ensureUserIsUnverified(user);
         const tokens = await this.getTokens(user);
-        const verificationTokens = this.getVerificationsTokens(tokens);
+        const verificationTokens = this.getVerificationTokens(tokens);
         if (this.isEmpty(verificationTokens)) {
-            throw new Error(`User with ${user.email} has no verification token`)
+            throw new Error(`User with ${user.email} has no verification tokens`)
         }
         const verificationToken = verificationTokens[0];
         if (verificationToken.value !== token) {
@@ -22,7 +22,8 @@ export default class SpamVerificationService implements ISpamVerificationService
         }
         await this.removeVerificationToken(verificationToken, user);
         await this.removeUser(user);
-        return await this.sendEmail(user);
+        const spamEmail = new SpamConfirmationEmail(user.email);
+        return await spamEmail.send();
     }
 
     private async getUser(email: string) {
@@ -53,7 +54,7 @@ export default class SpamVerificationService implements ISpamVerificationService
         }
     }
 
-    private getVerificationsTokens(tokens : IToken[]) {
+    private getVerificationTokens(tokens : IToken[]) {
         return tokens.filter((token) => {
             return token.scope.includes(Scope.VerifyEmail);
         });
@@ -76,15 +77,6 @@ export default class SpamVerificationService implements ISpamVerificationService
             await user.remove();
         } catch (error) {
             throw new Error(`Failed to remove user with ${user.email} from database`)
-        }
-    }
-
-    private async sendEmail(user : IUser) {
-        try {
-            const spamEmail = new SpamConfirmationEmail(user.email);
-            return await spamEmail.send();
-        } catch (error) {
-            throw new Error(`Failed to send spam verification email to ${user.email}`)
         }
     }
 }

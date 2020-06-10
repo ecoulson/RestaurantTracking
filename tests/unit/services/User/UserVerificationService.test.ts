@@ -74,7 +74,7 @@ describe("User Verification Service Suite", () => {
 
         test("No verification tokens associated with the user", async () => {
             const user = userGenerator.generate();
-            tokenGenerator.setScope([Scope.ForgotPassword]);
+            tokenGenerator.setScope([Scope.ResetPassword]);
             const token = tokenGenerator.generate();
             const service = new UserVerificationService();
             UserModel.findByEmail = jest.fn().mockResolvedValue(user);

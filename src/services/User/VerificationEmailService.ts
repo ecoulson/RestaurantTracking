@@ -1,16 +1,17 @@
 import IVerificationEmailService from "./IVerificationEmailService";
-import IEmailVerificationTokenService from "../Token/IEmailVerificationTokenService";
-import EmailVerificationTokenService from "../Token/EmailVerificationTokenService";
+import TokenService from "../Token/TokenService";
 import VerificationEmail from "../../lib/Email/VerificationEmail";
 import IVerificationEmailData from "../../lib/Email/IVerificationEmailData";
 import UserModel from "../../models/user/UserModel";
 import IEmail from "../../lib/Email/IEmail";
+import Scope from "../Token/Scope";
+import ITokenSerivce from "../Token/ITokenService";
 
 export default class VerificationEmailService implements IVerificationEmailService {
-    private emailVerificationTokenService : IEmailVerificationTokenService;
+    private accessTokenService : ITokenSerivce;
 
     constructor() {
-        this.emailVerificationTokenService = new EmailVerificationTokenService();
+        this.accessTokenService = new TokenService([Scope.VerifyEmail], 24);
     }
 
     async sendVerificationEmail(email : string) {
@@ -21,8 +22,8 @@ export default class VerificationEmailService implements IVerificationEmailServi
         if (user.verified) {
             throw new Error(`User with email ${email} is already verified`)
         }
-        await this.emailVerificationTokenService.deleteExisitingVerificationToken(user);
-        const token = await this.emailVerificationTokenService.generate(user);
+        await this.accessTokenService.deleteExisitingToken(user);
+        const token = await this.accessTokenService.generate(user);
         return await this.sendEmail(new VerificationEmail(user, token)) as IVerificationEmailData;
     }
 

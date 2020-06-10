@@ -59,7 +59,7 @@ describe("Spam Verification Service", () => {
         test("Error finding verification token", async () => {
             const service = new SpamVerificationService();
             const user = userGenerator.generate();
-            tokenGenerator.setScope([Scope.ForgotPassword]);
+            tokenGenerator.setScope([Scope.ResetPassword]);
             const token = tokenGenerator.generate();
             UserModel.findByEmail = jest.fn().mockResolvedValue(user);
             TokenModel.findByUserId = jest.fn().mockRejectedValue(new Error());
@@ -75,7 +75,7 @@ describe("Spam Verification Service", () => {
         test("User has no verification token", async () => {
             const service = new SpamVerificationService();
             const user = userGenerator.generate();
-            tokenGenerator.setScope([Scope.ForgotPassword]);
+            tokenGenerator.setScope([Scope.ResetPassword]);
             const token = tokenGenerator.generate();
             UserModel.findByEmail = jest.fn().mockResolvedValue(user);
             TokenModel.findByUserId = jest.fn().mockResolvedValue([token]);
@@ -83,7 +83,7 @@ describe("Spam Verification Service", () => {
             try {
                 await service.cancelAccount(user.email, token.value);
             } catch(error) {
-                expect(error).toEqual(new Error(`User with ${user.email} has no verification token`))
+                expect(error).toEqual(new Error(`User with ${user.email} has no verification tokens`))
             }
             expect.assertions(1);
         });
@@ -133,25 +133,6 @@ describe("Spam Verification Service", () => {
                 await service.cancelAccount(user.email, token.value);
             } catch(error) {
                 expect(error).toEqual(new Error(`Failed to remove user with ${user.email} from database`))
-            }
-            expect.assertions(1);
-        });
-
-        test("Fails to send spam comfirmation email", async () => {
-            const service = new SpamVerificationService();
-            const user = userGenerator.generate();
-            tokenGenerator.setScope([Scope.VerifyEmail]);
-            const token = tokenGenerator.generate();
-            UserModel.findByEmail = jest.fn().mockResolvedValue(user);
-            TokenModel.findByUserId = jest.fn().mockResolvedValue([token]);
-            TokenModel.prototype.remove = jest.fn();
-            UserModel.prototype.remove = jest.fn();
-            SpamConfirmationEmail.prototype.send = jest.fn().mockRejectedValue(new Error());
-
-            try {
-                await service.cancelAccount(user.email, token.value);
-            } catch(error) {
-                expect(error).toEqual(new Error(`Failed to send spam verification email to ${user.email}`))
             }
             expect.assertions(1);
         });

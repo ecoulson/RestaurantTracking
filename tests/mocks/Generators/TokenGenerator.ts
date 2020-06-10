@@ -38,9 +38,6 @@ export default class TokenGenerator implements IGenerator<IToken> {
 
     setDateCreated(date : Date) {
         this.dateCreated = date;
-        const expirationDate = new Date(date.valueOf());
-        expirationDate.setDate(date.getDate() + 1);
-        this.expiresAt = expirationDate;
     }
 
     setExpiresAt(date : Date) {

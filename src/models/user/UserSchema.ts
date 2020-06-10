@@ -30,6 +30,18 @@ const UserSchema = new Schema({
     verified: {
         type: Boolean,
         default: false
+    },
+    passwordResetDate: {
+        type: Date,
+        default: new Date()
+    },
+    dateCreated: {
+        type: Date,
+        default: new Date()
+    },
+    updatedAt: {
+        type: Date,
+        default: new Date()
     }
 });
 

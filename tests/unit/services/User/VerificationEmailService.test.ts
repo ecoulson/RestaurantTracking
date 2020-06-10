@@ -1,7 +1,7 @@
 jest.mock( "@sendgrid/mail");
 import UserModel from "../../../../src/models/user/UserModel";
 import VerificationEmailService from "../../../../src/services/User/VerificationEmailService";
-import EmailVerificationTokenService from "../../../../src/services/Token/EmailVerificationTokenService";
+import TokenService from "../../../../src/services/Token/TokenService";
 import SendGridMail from "@sendgrid/mail";
 import UserGenerator from "../../../mocks/Generators/UserGenerator";
 import TokenGenerator from "../../../mocks/Generators/TokenGenerator";
@@ -67,9 +67,9 @@ describe("Verification Email Service Suite", () => {
         test("Throws error when deleting other email verification tokens for a user", async () => {
             const service = new VerificationEmailService();
             const user = userGenerator.generate();
-            EmailVerificationTokenService
+            TokenService
                 .prototype
-                .deleteExisitingVerificationToken = jest.fn().mockRejectedValue(
+                .deleteExisitingToken = jest.fn().mockRejectedValue(
                     new Error(`Failed to delete existing verification token ${user.email}`)
                 );
             UserModel.findByEmail = jest.fn().mockResolvedValue(user);
@@ -89,10 +89,10 @@ describe("Verification Email Service Suite", () => {
             const service = new VerificationEmailService();
             const user = userGenerator.generate();
             const token = tokenGenerator.generate();
-            EmailVerificationTokenService
+            TokenService
                 .prototype
-                .deleteExisitingVerificationToken = jest.fn();
-            EmailVerificationTokenService
+                .deleteExisitingToken = jest.fn();
+            TokenService
                 .prototype
                 .generate = jest.fn().mockResolvedValue(token);
             UserModel.findByEmail = jest.fn().mockResolvedValue(user);
@@ -114,10 +114,10 @@ describe("Verification Email Service Suite", () => {
             const service = new VerificationEmailService();
             const user = userGenerator.generate();
             const token = tokenGenerator.generate();
-            EmailVerificationTokenService
+            TokenService
                 .prototype
-                .deleteExisitingVerificationToken = jest.fn();
-            EmailVerificationTokenService
+                .deleteExisitingToken = jest.fn();
+            TokenService
                 .prototype
                 .generate = jest.fn().mockResolvedValue(token);
             UserModel.findByEmail = jest.fn().mockResolvedValue(user);

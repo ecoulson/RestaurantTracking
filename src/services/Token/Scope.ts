@@ -1,6 +1,6 @@
 enum Scope {
     VerifyEmail = "Token:VerifyEmail",
-    ForgotPassword = "Token:ForgotPassword"
+    ResetPassword = "Token:RestPassword"
 };
 
 export default Scope;

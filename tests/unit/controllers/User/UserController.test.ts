@@ -1,5 +1,5 @@
 jest.mock("@sendgrid/mail");
-jest.mock("../../../../src/services/Token/EmailVerificationTokenService");
+jest.mock("../../../../src/services/Token/TokenService");
 import UserController from "../../../../src/controllers/User/UserController"
 import { mockRequest, mockResponse } from "mock-req-res";
 import UserGenerator from "../../../mocks/Generators/UserGenerator";

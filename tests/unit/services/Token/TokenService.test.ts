@@ -1,5 +1,5 @@
 jest.mock("crypto");
-import EmailVerificationTokenService from "../../../../src/services/Token/EmailVerificationTokenService";
+import TokenService from "../../../../src/services/Token/TokenService";
 import Chance from "chance";
 import crypto from "crypto"
 import TokenModel from "../../../../src/models/token/TokenModel";
@@ -12,6 +12,9 @@ const chance = new Chance();
 const tokenGenerator = new TokenGenerator();
 const userGenerator = new UserGenerator();
 
+const scope = [Scope.VerifyEmail];
+const hours = 24;
+
 beforeEach(() => {
     jest.resetAllMocks()
     tokenGenerator.setScope([Scope.VerifyEmail]);
@@ -22,7 +25,7 @@ describe("Email Verification Token Service", () => {
         test("Fails to save token to database", async () => {
             const tokenValue = chance.hash({ length: 38});
             const user = userGenerator.generate();
-            const service = new EmailVerificationTokenService();
+            const service = new TokenService(scope, hours);
             (crypto.randomBytes as jest.Mock).mockImplementation(() => { return { toString: () => tokenValue } });
             TokenModel.prototype.save = jest.fn().mockRejectedValue(new Error());
 
@@ -38,7 +41,7 @@ describe("Email Verification Token Service", () => {
 
         test("Fails to generate a token", async () => {
             const user = userGenerator.generate();
-            const service = new EmailVerificationTokenService();
+            const service = new TokenService(scope, hours);
             (crypto.randomBytes as jest.Mock).mockImplementation(() => { throw new Error(); });
 
             try {
@@ -53,11 +56,15 @@ describe("Email Verification Token Service", () => {
 
         test("Successfully generates a token", async () => {
             const user = userGenerator.generate();
+            const date = new Date();
             tokenGenerator.setValue(chance.hash({ length: 38 }));
             tokenGenerator.setUserId(user._id);
-            tokenGenerator.setDateCreated(new Date());
+            tokenGenerator.setDateCreated(date);
+            const expirationDate = new Date(date.valueOf());
+            expirationDate.setDate(date.getDate() + 1)
+            tokenGenerator.setExpiresAt(expirationDate);
             const testToken = tokenGenerator.generate();
-            const service = new EmailVerificationTokenService();
+            const service = new TokenService(scope, hours);
             (crypto.randomBytes as jest.Mock).mockImplementation(() => { return { toString: () => testToken.value } });
             TokenModel.prototype.save = jest.fn();
 
@@ -72,12 +79,12 @@ describe("Email Verification Token Service", () => {
 
     describe("Delete existing verification token", () => {
         test("Fails to get tokens by userId", async () => {
-            const service = new EmailVerificationTokenService();
+            const service = new TokenService(scope, hours);
             const user = userGenerator.generate();
             TokenModel.findByUserId = jest.fn().mockRejectedValue(new Error());
 
             try {
-                await service.deleteExisitingVerificationToken(user);
+                await service.deleteExisitingToken(user);
             } catch (error) {
                 expect(error).toEqual(new Error(`Failed to find tokens associatied with user ${user._id}`))
             }
@@ -86,34 +93,34 @@ describe("Email Verification Token Service", () => {
 
         test("No tokens associaited with user", async () => {
             TokenModel.findByUserId = jest.fn().mockResolvedValue([]);
-            const service = new EmailVerificationTokenService();
+            const service = new TokenService(scope, hours);
             const user = userGenerator.generate();
 
-            const verificationToken = await service.deleteExisitingVerificationToken(user);
+            const verificationToken = await service.deleteExisitingToken(user);
 
             expect(verificationToken).toEqual(null);
         });
 
         test("No token with email verification scope", async () => {
-            tokenGenerator.setScope([Scope.ForgotPassword]);
+            tokenGenerator.setScope([Scope.ResetPassword]);
             const token = tokenGenerator.generate();
-            const service = new EmailVerificationTokenService();
+            const service = new TokenService(scope, hours);
             const user = userGenerator.generate();
             TokenModel.findByUserId = jest.fn().mockResolvedValue([token]);
 
-            const verificationToken = await service.deleteExisitingVerificationToken(user);
+            const verificationToken = await service.deleteExisitingToken(user);
 
             expect(verificationToken).toEqual(null);
         })
 
         test("No tokens with email verification scope", async () => {
-            tokenGenerator.setScope([Scope.ForgotPassword]);
+            tokenGenerator.setScope([Scope.ResetPassword]);
             const token = tokenGenerator.generate();
-            const service = new EmailVerificationTokenService();
+            const service = new TokenService(scope, hours);
             const user = userGenerator.generate();
             TokenModel.findByUserId = jest.fn().mockResolvedValue([token, token]);
 
-            const verificationToken = await service.deleteExisitingVerificationToken(user);
+            const verificationToken = await service.deleteExisitingToken(user);
 
             expect(verificationToken).toEqual(null);
         })
@@ -121,13 +128,13 @@ describe("Email Verification Token Service", () => {
         
         test("An error occured while deleting the token from the database", async () => {
             const token = tokenGenerator.generate();
-            const service = new EmailVerificationTokenService();
+            const service = new TokenService(scope, hours);
             const user = userGenerator.generate();
             TokenModel.findByUserId = jest.fn().mockResolvedValue([token]);
             TokenModel.prototype.remove = jest.fn().mockRejectedValue(new Error())
             
             try {
-                await service.deleteExisitingVerificationToken(user);
+                await service.deleteExisitingToken(user);
             } catch (error) {
                 expect(error).toEqual(
                     new Error(`Failed to remove token with id ${token._id}`)
@@ -138,16 +145,16 @@ describe("Email Verification Token Service", () => {
         })
 
         test("Token with email verification scope", async () => {
-            tokenGenerator.setScope([Scope.ForgotPassword]);
+            tokenGenerator.setScope([Scope.ResetPassword]);
             const forgotPasswordToken = tokenGenerator.generate();
             tokenGenerator.setScope([Scope.VerifyEmail]);
             const expectedVerificationToken = tokenGenerator.generate();
-            const service = new EmailVerificationTokenService();
+            const service = new TokenService(scope, hours);
             const user = userGenerator.generate();
             TokenModel.findByUserId = jest.fn().mockResolvedValue([forgotPasswordToken, expectedVerificationToken]);
             TokenModel.prototype.remove = jest.fn();
             
-            const verificationToken = await service.deleteExisitingVerificationToken(user);
+            const verificationToken = await service.deleteExisitingToken(user);
 
             expect(verificationToken).toEqual(expectedVerificationToken);
         });

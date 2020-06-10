@@ -8,17 +8,17 @@ const RegistrationBodySchema = Joi.object({
     lastName: Joi.string()
 });
 
-const VerificationQuerySchema = Joi.object({
+const TokenCallbackSchema = Joi.object({
     email: Joi.string().email(),
     token: Joi.string().hex()
 })
 
-const ResendVerificationEmailBodySchema = Joi.object({
+const TokenBodySchema = Joi.object({
     email: Joi.string().email()
 });
 
 export {
     RegistrationBodySchema,
-    VerificationQuerySchema,
-    ResendVerificationEmailBodySchema
+    TokenCallbackSchema,
+    TokenBodySchema
 };

@@ -3,25 +3,38 @@ import crypto from "crypto"
 import TokenModel from "../../models/token/TokenModel";
 import IToken from "../../models/token/IToken";
 import Scope from "./Scope";
-import IEmailVerificationTokenService from "./IEmailVerificationTokenService";
+import ITokenSerivce from "./ITokenService";
 
 const NumberOfBytes = 38
 
-export default class EmailVerificationTokenService implements IEmailVerificationTokenService {
+export default class TokenService implements ITokenSerivce {
+    private scopes : Scope[];
+    private tokenLifeTime : number;
+
+    constructor(scopes : Scope[], hours : number) {
+        this.scopes = scopes;
+        this.tokenLifeTime = hours * 60 * 60 * 1000;
+    }
+
     async generate(user : IUser) {
         const createdAt = new Date();
-        const expirationDate = new Date(createdAt.valueOf());
-        expirationDate.setDate(createdAt.getDate() + 1);
+        const expirationDate = this.getExpirationDate(createdAt)
         const token = new TokenModel({
             userId: user._id,
             value: this.getRandomBytes(user._id),
-            scope: [Scope.VerifyEmail],
+            scope: this.scopes,
             createdAt: createdAt,
             updatedAt: createdAt,
             expiresAt: expirationDate
         });
         await this.saveToken(token);
         return token;
+    }
+
+    private getExpirationDate(date : Date) {
+        const expirationDate = new Date(date.valueOf());
+        expirationDate.setTime(date.getTime() + this.tokenLifeTime);
+        return expirationDate;
     }
 
     private getRandomBytes(userId : string) {
@@ -40,7 +53,7 @@ export default class EmailVerificationTokenService implements IEmailVerification
         }
     }
 
-    async deleteExisitingVerificationToken(user : IUser) {
+    async deleteExisitingToken(user : IUser) {
         const tokens = await this.getUsersTokens(user);
         if (this.userHasTokens(tokens)) {
             return null;
@@ -67,13 +80,20 @@ export default class EmailVerificationTokenService implements IEmailVerification
 
     private getVerificationToken(tokens : IToken[]) {
         for (let token of tokens) {
-            for (let scope of token.scope) {
-                if (scope === Scope.VerifyEmail) {
-                    return token;
-                }
+            if (this.areSameScope(token.scope)) {
+                return token;
             }
         }
         return null;
+    }
+
+    private areSameScope(tokenScope : Scope[]) {
+        if (tokenScope.length !== this.scopes.length) {
+            return false;
+        }
+        for (let scope of tokenScope) {
+            return this.scopes.includes(scope)
+        }
     }
 
     private async removeVerificationToken(token : IToken) {
