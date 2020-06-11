@@ -18,8 +18,8 @@ export default class PasswordRecoveryService implements IPasswordRecoveryService
             throw new Error(`No user with email ${email}`)
         }
         await this.tokenService.deleteExisitingToken(user);
-        await this.tokenService.generate(user);
-        const recoveryMessage = new PasswordRecoveryEmail(email);
+        const token = await this.tokenService.generate(user);
+        const recoveryMessage = new PasswordRecoveryEmail(user, token);
         return await recoveryMessage.send();
     }
 

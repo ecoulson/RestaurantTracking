@@ -17,14 +17,14 @@ export default class VerificationEmailMessage implements IEmailMessage {
             from: 'support@adaptsolutions.tech',
             subject: 'Verify Your Adapt Account',
             dynamicTemplateData: {
-                verificationLink: this.getVerifiyUrl(),
+                verificationLink: this.getVerifyUrl(),
                 spamLink: this.getSpamUrl()
             },
             templateId: "d-987392a0267440c7a4d329a84d5d39ff"
         }
     }
 
-    private getVerifiyUrl() {
+    private getVerifyUrl() {
         if (process.env.NODE_ENV === "production") {
             return `http://${process.env.HOST_NAME}/user/verify?email=${this.user.email}&token=${this.token.value}`;
         } else {

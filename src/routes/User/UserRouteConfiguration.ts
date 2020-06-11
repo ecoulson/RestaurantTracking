@@ -53,5 +53,11 @@ export default class UserRouteConfiguration extends RouterConfiguration<UserCont
             new ValidationMiddleware(PasswordResetSchema).validateBody(),
             ErrorCatchingMiddlware.catchErrors(this.controller.handlePasswordReset())
         )
+
+        this.router.get(
+            "/cancel_recover",
+            new ValidationMiddleware(TokenCallbackSchema).validateQuery(),
+            ErrorCatchingMiddlware.catchErrors(this.controller.handlePasswordResetCancelation())
+        )
     }
 }

@@ -7,4 +7,5 @@ export default interface IUserController {
     handleSpamVerification() : RequestHandler;
     handleVerification() : RequestHandler;
     handlePasswordResetConfirmation() : RequestHandler;
+    handlePasswordResetCancelation() : RequestHandler;
 }

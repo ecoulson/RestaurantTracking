@@ -18,6 +18,8 @@ import PasswordRecoveryConfirmationService from "../../services/User/PasswordRec
 import IPasswordResetBody from "./IPasswordResetBody";
 import IPasswordResetService from "../../services/User/IPasswordResetService";
 import PasswordResetService from "../../services/User/PasswordResetService";
+import ICancelPasswordRecoveryService from "../../services/User/ICancelPasswordRecoveryService";
+import CancelPasswordRecoveryService from "../../services/User/CancelPasswordRecoveryService";
 
 export default class UserController implements IUserController {
     private userRegistrationService : IUserRegistrationService;
@@ -27,6 +29,7 @@ export default class UserController implements IUserController {
     private passwordRecoveryService : IPasswordRecoveryService;
     private passwordRecoveryConfirmationService : IPasswordRecoveryConfirmationService;
     private passwordResetService : IPasswordResetService;
+    private cancelPasswordResetService : ICancelPasswordRecoveryService;
 
     constructor() {
         this.userRegistrationService = new UserRegistrationService();
@@ -36,6 +39,7 @@ export default class UserController implements IUserController {
         this.passwordRecoveryService = new PasswordRecoveryService();
         this.passwordRecoveryConfirmationService = new PasswordRecoveryConfirmationService();
         this.passwordResetService = new PasswordResetService();
+        this.cancelPasswordResetService = new CancelPasswordRecoveryService();
     }
     
     handleRegistration() : RequestHandler {
@@ -105,6 +109,17 @@ export default class UserController implements IUserController {
                 resetBody.token
             );
             return new JSONResponse(res).send(user);
+        }
+    }
+
+    handlePasswordResetCancelation() {
+        return async (req : Request, res : Response) => {
+            const tokenCallbackQuery = req.query as unknown as ITokenCallbackQuery;
+            const canceled = await this.cancelPasswordResetService.cancel(
+                tokenCallbackQuery.email, 
+                tokenCallbackQuery.token
+            );
+            return new JSONResponse(res).send(canceled);
         }
     }
 }
