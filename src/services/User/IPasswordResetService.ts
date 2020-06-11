@@ -1,3 +1,5 @@
+import IUser from "../../models/user/IUser";
+
 export default interface IPasswordResetService {
-    reset(userId: string, newPassword : string) : Promise<void>
+    reset(email: string, newPassword : string, token : string) : Promise<IUser>
 }

@@ -15,6 +15,9 @@ import IPasswordRecoveryService from "../../services/User/IPasswordRecoveryServi
 import PasswordRecoveryService from "../../services/User/PasswordRecoveryService";
 import IPasswordRecoveryConfirmationService from "../../services/User/IPasswordRecoveryConfirmationService";
 import PasswordRecoveryConfirmationService from "../../services/User/PasswordRecoveryConfirmationService";
+import IPasswordResetBody from "./IPasswordResetBody";
+import IPasswordResetService from "../../services/User/IPasswordResetService";
+import PasswordResetService from "../../services/User/PasswordResetService";
 
 export default class UserController implements IUserController {
     private userRegistrationService : IUserRegistrationService;
@@ -23,6 +26,7 @@ export default class UserController implements IUserController {
     private spamVerificationService : ISpamVerificationService;
     private passwordRecoveryService : IPasswordRecoveryService;
     private passwordRecoveryConfirmationService : IPasswordRecoveryConfirmationService;
+    private passwordResetService : IPasswordResetService;
 
     constructor() {
         this.userRegistrationService = new UserRegistrationService();
@@ -31,6 +35,7 @@ export default class UserController implements IUserController {
         this.spamVerificationService = new SpamVerificationService();
         this.passwordRecoveryService = new PasswordRecoveryService();
         this.passwordRecoveryConfirmationService = new PasswordRecoveryConfirmationService();
+        this.passwordResetService = new PasswordResetService();
     }
     
     handleRegistration() : RequestHandler {
@@ -88,6 +93,18 @@ export default class UserController implements IUserController {
                 tokenCallbackQuery.token
             );
             return new JSONResponse(res).send(confirmed);
+        }
+    }
+
+    handlePasswordReset() {
+        return async (req : Request, res : Response) => {
+            const resetBody = req.body as IPasswordResetBody;
+            const user = await this.passwordResetService.reset(
+                resetBody.email,
+                resetBody.password,
+                resetBody.token
+            );
+            return new JSONResponse(res).send(user);
         }
     }
 }

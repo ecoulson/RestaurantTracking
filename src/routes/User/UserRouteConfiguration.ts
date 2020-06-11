@@ -1,7 +1,7 @@
 import RouterConfiguration from "../RouterConfiguration";
 import UserController from "../../controllers/User/UserController";
 import ValidationMiddleware from "../../middleware/validation/ValidationMiddleware";
-import { RegistrationBodySchema, TokenBodySchema, TokenCallbackSchema } from "./UserSchema";
+import { RegistrationBodySchema, TokenBodySchema, TokenCallbackSchema, PasswordResetSchema } from "./UserSchema";
 import ErrorCatchingMiddlware from "../../middleware/error-handling/ErrorCatchingMiddleware";
 import JSONWebTokenAuthenticationStrategy from "../../middleware/authentication/JSONWebTokenAuthenticationStrategy";
 
@@ -46,6 +46,12 @@ export default class UserRouteConfiguration extends RouterConfiguration<UserCont
             "/confirm",
             new ValidationMiddleware(TokenCallbackSchema).validateQuery(),
             ErrorCatchingMiddlware.catchErrors(this.controller.handlePasswordResetConfirmation())
+        )
+
+        this.router.post(
+            "/reset",
+            new ValidationMiddleware(PasswordResetSchema).validateBody(),
+            ErrorCatchingMiddlware.catchErrors(this.controller.handlePasswordReset())
         )
     }
 }

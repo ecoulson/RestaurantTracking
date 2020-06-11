@@ -17,8 +17,15 @@ const TokenBodySchema = Joi.object({
     email: Joi.string().email()
 });
 
+const PasswordResetSchema = Joi.object({
+    email: Joi.string().email(),
+    token: Joi.string().hex(),
+    password: Joi.string()
+})
+
 export {
     RegistrationBodySchema,
     TokenCallbackSchema,
-    TokenBodySchema
+    TokenBodySchema,
+    PasswordResetSchema
 };

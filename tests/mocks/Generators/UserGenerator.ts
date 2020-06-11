@@ -6,6 +6,7 @@ import IUser from "../../../src/models/user/IUser"
 export default class UserGenerator implements IGenerator<IUser> {
     private verified : boolean;
     private password : string | null;
+    private passwordResetDate : Date | null;
 
     generate() {
         const user = new UserModel({
@@ -14,7 +15,8 @@ export default class UserGenerator implements IGenerator<IUser> {
             email: faker.internet.email(),
             username: faker.internet.userName(),
             password: this.password ? this.password : faker.internet.password(),
-            verified: this.verified ? this.verified : false
+            verified: this.verified ? this.verified : false,
+            passwordResetDate: this.passwordResetDate ? this.passwordResetDate : new Date()
         });
         this.reset();
         return user;
@@ -22,6 +24,8 @@ export default class UserGenerator implements IGenerator<IUser> {
 
     private reset() {
         this.verified = false;
+        this.password = null;
+        this.passwordResetDate = null;
     }
 
     setVerified() {
@@ -30,5 +34,9 @@ export default class UserGenerator implements IGenerator<IUser> {
 
     setPassword(password : string) {
         this.password = password;
+    }
+
+    setPasswordResetDate(date : Date) {
+        this.passwordResetDate = date;
     }
 }
