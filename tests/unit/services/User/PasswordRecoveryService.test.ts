@@ -7,8 +7,10 @@ import TokenService from "../../../../src/services/Token/TokenService";
 import EmailData from "../../../../src/lib/Email/EmailData";
 import PasswordRecoveryEmailMessage from "../../../../src/lib/Email/PasswordRecoveryEmailMessage";
 import PasswordRecoveryEmail from "../../../../src/lib/Email/PasswordRecoveryEmail";
+import TokenGenerator from "../../../mocks/Generators/TokenGenerator";
 
 const userGenerator = new UserGenerator();
+const tokenGenerator = new TokenGenerator();
 
 beforeEach(() => {
     jest.resetAllMocks();
@@ -77,9 +79,10 @@ describe("Password Recovery Service", () => {
 
         test("Sends forgot password email", async () => {
             const user = userGenerator.generate();
+            const token = tokenGenerator.generate();
             const service = new PasswordRecoveryService();
             const expectedEmailData = new EmailData(
-                new PasswordRecoveryEmailMessage(user.email).getMessage()
+                new PasswordRecoveryEmailMessage(user, token).getMessage()
             )
             PasswordRecoveryEmail.prototype.send = jest.fn().mockResolvedValue(expectedEmailData)   
             UserModel.findByEmail = jest.fn().mockResolvedValue(user);
