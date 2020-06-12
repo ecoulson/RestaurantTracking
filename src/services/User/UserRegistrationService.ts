@@ -3,12 +3,29 @@ import IRegistrationBody from "../../controllers/User/IRegistrationBody";
 import UserModel from "../../models/user/UserModel";
 import bcrypt from "bcrypt";
 import IUser from "../../models/user/IUser";
+import IPermissionSetService from "../Permission/IPermissionSetService";
+import PermissionSetService from "../Permission/PermissionSetService";
+import IPermissionBuilder from "../Permission/IPermissionBuilder";
+import PermissionBuilder from "../Permission/PermissionBuilder";
 
 export default class UserRegistrationService implements IUserRegistrationService {
+    private permissionSetService : IPermissionSetService;
+    private permissionBuilder : IPermissionBuilder;
+
+    constructor() {
+        this.permissionSetService = new PermissionSetService();
+        this.permissionBuilder = new PermissionBuilder();
+    }
+
     async register(registration : IRegistrationBody) {
         const user = new UserModel(await this.getUserDocument(registration));
         await this.checkIfUsernameIsTaken(user);
         await this.checkIfEmailIsTaken(user);
+        const permissionSet = await this.permissionSetService.create(`User:${user._id}`);
+        await user.addPermissionSet(permissionSet);
+        const permission = this.permissionBuilder.build();
+        await permission.save();
+        permissionSet.addPermission(this.permissionBuilder.build())
         return await this.saveUser(user);
     }
 
