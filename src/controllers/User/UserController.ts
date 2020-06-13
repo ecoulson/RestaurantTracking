@@ -20,6 +20,7 @@ import IPasswordResetService from "../../services/User/IPasswordResetService";
 import PasswordResetService from "../../services/User/PasswordResetService";
 import ICancelPasswordRecoveryService from "../../services/User/ICancelPasswordRecoveryService";
 import CancelPasswordRecoveryService from "../../services/User/CancelPasswordRecoveryService";
+import TestUserService from "../../services/User/TestUserService";
 
 export default class UserController implements IUserController {
     private userRegistrationService : IUserRegistrationService;
@@ -30,6 +31,7 @@ export default class UserController implements IUserController {
     private passwordRecoveryConfirmationService : IPasswordRecoveryConfirmationService;
     private passwordResetService : IPasswordResetService;
     private cancelPasswordResetService : ICancelPasswordRecoveryService;
+    private testUserService : TestUserService;
 
     constructor() {
         this.userRegistrationService = new UserRegistrationService();
@@ -40,6 +42,7 @@ export default class UserController implements IUserController {
         this.passwordRecoveryConfirmationService = new PasswordRecoveryConfirmationService();
         this.passwordResetService = new PasswordResetService();
         this.cancelPasswordResetService = new CancelPasswordRecoveryService();
+        this.testUserService = new TestUserService();
     }
     
     handleRegistration() : RequestHandler {
@@ -120,6 +123,14 @@ export default class UserController implements IUserController {
                 tokenCallbackQuery.token
             );
             return new JSONResponse(res).send(canceled);
+        }
+    }
+
+    handleAuthorizationTest() {
+        return async (req : Request, res : Response) => {
+            return new JSONResponse(res).send(
+                await this.testUserService.getUser(req.params.id)
+            )
         }
     }
 }

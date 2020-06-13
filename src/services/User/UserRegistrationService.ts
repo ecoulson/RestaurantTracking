@@ -23,9 +23,9 @@ export default class UserRegistrationService implements IUserRegistrationService
         await this.checkIfEmailIsTaken(user);
         const permissionSet = await this.permissionSetService.create(`User:${user._id}`);
         await user.addPermissionSet(permissionSet);
-        const permission = this.permissionBuilder.build();
+        const permission = this.permissionBuilder.setResourceId(user._id).build();
         await permission.save();
-        permissionSet.addPermission(this.permissionBuilder.build())
+        permissionSet.addPermission(permission);
         return await this.saveUser(user);
     }
 

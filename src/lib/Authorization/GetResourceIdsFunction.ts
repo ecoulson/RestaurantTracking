@@ -1,5 +1,6 @@
 import { Request } from "express";
+import IResourceRequest from "./IResourceRequest";
 
-type GetResourceIdsFunction = (req : Request) => string[]; 
+type GetResourcesFunction = (req : Request) => IResourceRequest[]; 
 
-export default GetResourceIdsFunction;
+export default GetResourcesFunction;
