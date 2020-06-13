@@ -20,7 +20,8 @@ import IPasswordResetService from "../../services/User/IPasswordResetService";
 import PasswordResetService from "../../services/User/PasswordResetService";
 import ICancelPasswordRecoveryService from "../../services/User/ICancelPasswordRecoveryService";
 import CancelPasswordRecoveryService from "../../services/User/CancelPasswordRecoveryService";
-import TestUserService from "../../services/User/TestUserService";
+import IUserPermissionSetupService from "../../services/User/IUserPermissionSetupService";
+import UserPermissionSetupService from "../../services/User/UserPermissionSetupService";
 
 export default class UserController implements IUserController {
     private userRegistrationService : IUserRegistrationService;
@@ -31,7 +32,7 @@ export default class UserController implements IUserController {
     private passwordRecoveryConfirmationService : IPasswordRecoveryConfirmationService;
     private passwordResetService : IPasswordResetService;
     private cancelPasswordResetService : ICancelPasswordRecoveryService;
-    private testUserService : TestUserService;
+    private userPermissionSetupService : IUserPermissionSetupService
 
     constructor() {
         this.userRegistrationService = new UserRegistrationService();
@@ -42,13 +43,14 @@ export default class UserController implements IUserController {
         this.passwordRecoveryConfirmationService = new PasswordRecoveryConfirmationService();
         this.passwordResetService = new PasswordResetService();
         this.cancelPasswordResetService = new CancelPasswordRecoveryService();
-        this.testUserService = new TestUserService();
+        this.userPermissionSetupService = new UserPermissionSetupService();
     }
     
     handleRegistration() : RequestHandler {
         return async (req : Request, res : Response) => {
             const registration = req.body as IRegistrationBody;
             const user = await this.userRegistrationService.register(registration);
+            await this.userPermissionSetupService.setup(user);
             await this.verificationEmailService.sendVerificationEmail(user.email);
             return new JSONResponse(res).send(user);
         }
@@ -123,14 +125,6 @@ export default class UserController implements IUserController {
                 tokenCallbackQuery.token
             );
             return new JSONResponse(res).send(canceled);
-        }
-    }
-
-    handleAuthorizationTest() {
-        return async (req : Request, res : Response) => {
-            return new JSONResponse(res).send(
-                await this.testUserService.getUser(req.params.id)
-            )
         }
     }
 }

@@ -1,6 +1,7 @@
 enum ResourceType {
     Restaurant = "Restaurant",
-    User = "User"
+    User = "User",
+    Unknown = "Unknown"
 }
 
 export default ResourceType;

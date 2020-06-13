@@ -8,59 +8,65 @@ import IPermissionSet from "../../models/PermissionSet/IPermissionSet";
 import PermissionModel from "../../models/Permission/PermissionModel";
 import ForbiddenResponse from "../../lib/HTTP/ForbiddenResponse";
 import IResourceRequest from "../../lib/Authorization/IResourceRequest";
+import IPermission from "../../models/Permission/IPermission";
 
 export default class AuthorizationMiddleware implements IAuthorizationMiddleware {
     authorize(operation : OperationType, getResources : GetResourceIdsFunction) {
         return async (request : Request, response : Response, next : NextFunction) => {
-            const permissionSets = await this.getPermissionSets(request.user);
             const resourceRequests = getResources(request);
+            const userPermissionSets = await this.getPermissionSets(request.user);
+            const userPermissionIds = this.getAllPermissions(userPermissionSets);
             for (const resourceRequest of resourceRequests) {
-                for (const permissionSet of permissionSets) {
-                    const isAuthorized = await this.checkPermissionSet(
-                        permissionSet, 
-                        request.user,
-                        resourceRequest
-                    )
-                    if (isAuthorized) {
-                        return next();
-                    }
+                const isAuthorized = await this.checkPermissions(userPermissionIds, operation, resourceRequest)
+                if (!isAuthorized) {
+                    return new ForbiddenResponse(response).send();
                 }
             }
-            return new ForbiddenResponse(response).send();
+            return next();
         }
     }
 
     private getPermissionSets(user : IUser) {
-        return Promise.all(user.permissionSets.map((permissionSetId : string) => {
-            return PermissionSetModel.findById(permissionSetId);
-        }));
+        return PermissionSetModel.find({ _id : { $in : user.permissionSets } })
     }
 
-    private async checkPermissionSet(
-        permissionSet : IPermissionSet, 
-        user : IUser, 
+    private getAllPermissions(permissionSets : IPermissionSet[]) {
+        return permissionSets.reduce((permissions : string[], set : IPermissionSet) => {
+            return permissions.concat(set.permissions)
+        }, []);
+    }
+
+    private async checkPermissions(
+        permissionIds : string[], 
+        operation : OperationType, 
         resourceRequest : IResourceRequest
     ) {
-        const permissions = await this.getPermissions(permissionSet);
+        const permissions = await this.getPermissions(permissionIds);
         for (const permission of permissions) {
-            if (!permission.restricted) {
-                if (permission.operations.includes(OperationType.Any)) {
-                    return true;
-                }
-            } else {
-                if (permission.resourceId === resourceRequest.id) {
-                    if (permission.operations.includes(OperationType.Any)) {
-                        return true;
-                    }
-                }
+            if (this.hasUnrestrictedAccess(permission, operation)) {
+                return true;
+            } 
+            if (this.hasRestrictedAccess(permission, operation, resourceRequest)) {
+                return true;
             }
         }
         return false;
     }
 
-    private getPermissions(permissionSet : IPermissionSet) {
-        return Promise.all(permissionSet.permissions.map((permissionId : string) => {
-            return PermissionModel.findById(permissionId);
-        }))
+    private getPermissions(permissionIds : string[]) {
+        return PermissionModel.find({ _id : { $in: permissionIds }})
+    }
+
+    private hasUnrestrictedAccess(permission : IPermission, operation : OperationType) {
+        return !permission.restricted && 
+                (permission.operations.includes(OperationType.Any) || 
+                permission.operations.includes(operation))
+    }
+
+    private hasRestrictedAccess(permission : IPermission, operation : OperationType, resourceRequest : IResourceRequest) {
+        return permission.restricted && 
+                permission.resourceId === resourceRequest.id && 
+                (permission.operations.includes(OperationType.Any) || 
+                permission.operations.includes(operation))
     }
 }

@@ -4,10 +4,6 @@ import ValidationMiddleware from "../../middleware/validation/ValidationMiddlewa
 import { RegistrationBodySchema, TokenBodySchema, TokenCallbackSchema, PasswordResetSchema } from "./UserSchema";
 import ErrorCatchingMiddlware from "../../middleware/error-handling/ErrorCatchingMiddleware";
 import JSONWebTokenAuthenticationStrategy from "../../middleware/authentication/JSONWebTokenAuthenticationStrategy";
-import AuthorizationMiddleware from "../../middleware/Authorization/AuthorizationMiddleware";
-import OperationType from "../../lib/Authorization/OperationType";
-import { Request } from "express";
-import ResourceType from "../../lib/Authorization/ResourceType";
 
 export default class UserRouteConfiguration extends RouterConfiguration<UserController> {
     constructor() {
@@ -62,21 +58,6 @@ export default class UserRouteConfiguration extends RouterConfiguration<UserCont
             "/cancel_recover",
             new ValidationMiddleware(TokenCallbackSchema).validateQuery(),
             ErrorCatchingMiddlware.catchErrors(this.controller.handlePasswordResetCancelation())
-        )
-
-        this.router.get(
-            "/test/:id",
-            new JSONWebTokenAuthenticationStrategy().authenticate(),
-            new AuthorizationMiddleware().authorize(
-                OperationType.Read,
-                (request : Request) => {
-                    return [{
-                        id: request.params.id,
-                        type: ResourceType.User
-                    }]
-                }
-            ),
-            ErrorCatchingMiddlware.catchErrors(this.controller.handleAuthorizationTest())
         )
     }
 }
