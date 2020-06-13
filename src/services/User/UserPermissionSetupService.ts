@@ -21,7 +21,7 @@ export default class UserPermissionSetupService implements IUserPermissionSetupS
         await user.addPermissionSet(userPermissionSet);
         const userPermission = await this.createSelfAccessPermission(user);
         await userPermissionSet.addPermission(userPermission);
-        return await user.save();
+        return await this.saveUser(user);
     }
 
     private async createSelfAccessPermission(user : IUser) {
@@ -33,5 +33,13 @@ export default class UserPermissionSetupService implements IUserPermissionSetupS
                                 .build();
         await userPermission.save();
         return userPermission;
+    }
+
+    private async saveUser(user : IUser) {
+        try {
+            return await user.save();
+        } catch (error) {
+            throw new Error(`Failed to save user ${user.id}`)
+        }
     }
 }

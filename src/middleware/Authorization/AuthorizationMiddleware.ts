@@ -1,6 +1,6 @@
 import IAuthorizationMiddleware from "./IAuthorizationMiddleWare";
 import { Request, Response, NextFunction } from "express";
-import GetResourceIdsFunction from "../../lib/Authorization/GetResourceIdsFunction";
+import GetResourceRequestsFunction from "../../lib/Authorization/GetResourceRequestsFunction";
 import OperationType from "../../lib/Authorization/OperationType";
 import IUser from "../../models/user/IUser";
 import PermissionSetModel from "../../models/PermissionSet/PermissionSetModel";
@@ -11,9 +11,9 @@ import IResourceRequest from "../../lib/Authorization/IResourceRequest";
 import IPermission from "../../models/Permission/IPermission";
 
 export default class AuthorizationMiddleware implements IAuthorizationMiddleware {
-    authorize(operation : OperationType, getResources : GetResourceIdsFunction) {
+    authorize(operation : OperationType, getResourceRequests : GetResourceRequestsFunction) {
         return async (request : Request, response : Response, next : NextFunction) => {
-            const resourceRequests = getResources(request);
+            const resourceRequests = getResourceRequests(request);
             const userPermissionSets = await this.getPermissionSets(request.user);
             const userPermissionIds = this.getAllPermissions(userPermissionSets);
             for (const resourceRequest of resourceRequests) {
@@ -26,8 +26,12 @@ export default class AuthorizationMiddleware implements IAuthorizationMiddleware
         }
     }
 
-    private getPermissionSets(user : IUser) {
-        return PermissionSetModel.find({ _id : { $in : user.permissionSets } })
+    private async getPermissionSets(user : IUser) {
+        try {
+            return await PermissionSetModel.find({ _id : { $in : user.permissionSets } })
+        } catch (error) {
+            throw new Error(`Failed to find permission sets for user ${user.id}`);
+        }
     }
 
     private getAllPermissions(permissionSets : IPermissionSet[]) {
@@ -43,7 +47,7 @@ export default class AuthorizationMiddleware implements IAuthorizationMiddleware
     ) {
         const permissions = await this.getPermissions(permissionIds);
         for (const permission of permissions) {
-            if (this.hasUnrestrictedAccess(permission, operation)) {
+            if (this.hasUnrestrictedAccess(permission, operation, resourceRequest)) {
                 return true;
             } 
             if (this.hasRestrictedAccess(permission, operation, resourceRequest)) {
@@ -53,12 +57,17 @@ export default class AuthorizationMiddleware implements IAuthorizationMiddleware
         return false;
     }
 
-    private getPermissions(permissionIds : string[]) {
-        return PermissionModel.find({ _id : { $in: permissionIds }})
+    private async getPermissions(permissionIds : string[]) {
+        try {
+            return await PermissionModel.find({ _id : { $in: permissionIds }})
+        } catch(error) {
+            throw new Error(`Failed to get all of users permissions`);
+        }
     }
 
-    private hasUnrestrictedAccess(permission : IPermission, operation : OperationType) {
+    private hasUnrestrictedAccess(permission : IPermission, operation : OperationType, resourceRequest : IResourceRequest) {
         return !permission.restricted && 
+                permission.resourceType === resourceRequest.type &&
                 (permission.operations.includes(OperationType.Any) || 
                 permission.operations.includes(operation))
     }
@@ -66,6 +75,7 @@ export default class AuthorizationMiddleware implements IAuthorizationMiddleware
     private hasRestrictedAccess(permission : IPermission, operation : OperationType, resourceRequest : IResourceRequest) {
         return permission.restricted && 
                 permission.resourceId === resourceRequest.id && 
+                permission.resourceType === resourceRequest.type &&
                 (permission.operations.includes(OperationType.Any) || 
                 permission.operations.includes(operation))
     }

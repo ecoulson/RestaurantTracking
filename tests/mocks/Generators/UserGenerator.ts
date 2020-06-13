@@ -16,7 +16,8 @@ export default class UserGenerator implements IGenerator<IUser> {
             username: faker.internet.userName(),
             password: this.password ? this.password : faker.internet.password(),
             verified: this.verified ? this.verified : false,
-            passwordResetDate: this.passwordResetDate ? this.passwordResetDate : new Date()
+            passwordResetDate: this.passwordResetDate ? this.passwordResetDate : new Date(),
+            permissionSets: []
         });
         this.reset();
         return user;
