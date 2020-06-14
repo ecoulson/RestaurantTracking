@@ -1,6 +1,14 @@
-.company-name {
+.company-name-dark {
     width: 100px;
     height: 100px;
+}
+
+.company-name-light {
+    width: 110px;
+    height: 90px;
+}
+
+.company-name {
     display: block;
     margin: 0 auto;
     padding: 15px 0px 0px;

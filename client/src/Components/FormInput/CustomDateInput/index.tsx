@@ -17,7 +17,7 @@ export default class CustomDateInput extends React.Component<IInputProps, ICusto
 	render() {
 		return (
 			<DatePicker
-				className="form-raw-input custom-date"
+				className={`form-raw-input ${this.getThemeClass()} custom-date`}
 				disabled={this.props.disabled}
 				onFocus={this.props.onFocus}
 				onBlur={this.props.onBlur}
@@ -31,7 +31,13 @@ export default class CustomDateInput extends React.Component<IInputProps, ICusto
 		);
 	}
 
-	handleChange(date : Date | null, event : ChangeEvent) {
+	private getThemeClass() {
+		return this.props.dark ?
+			"form-raw-input-dark" :
+			"form-raw-input-light"
+	}
+
+	private handleChange(date : Date | null, event : ChangeEvent) {
 		this.setState({
 			value: date
 		});

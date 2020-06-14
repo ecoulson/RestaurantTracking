@@ -4,5 +4,17 @@
     text-align: center;
     margin: 0;
     font-size: 16px;
+}
+
+.logo-title-light {
+    color: #3B3A39;
+}
+
+.logo-title-dark {
     margin-top: -15px;
+    color: white;
+}
+
+.logo-title-top {
+    font-size: 28px;
 }

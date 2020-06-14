@@ -1,0 +1,12 @@
+.user-signup-container {
+    margin-top: 75px;
+    text-align: center;
+    width: 100%;
+}
+
+.user-signup-container-text {
+    color: #3B3A39;
+    font-size: 16px;
+    line-height: 28px;
+    margin: 0;
+}

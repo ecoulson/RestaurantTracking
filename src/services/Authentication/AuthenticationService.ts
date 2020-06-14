@@ -42,13 +42,23 @@ export default class AuthenticationService implements IAuthenticationService {
         }
     }
 
-    public generateAccessToken(user : IUser) {
+    public generateAccessToken(user : IUser, rememberMe: boolean) {
         try {
             return jsonwebtoken.sign({
-                _id: user._id
-            }, process.env.ACCESS_TOKEN_SECRET);
+                _id: user._id,
+            }, process.env.ACCESS_TOKEN_SECRET, this.getOptions(rememberMe));
         } catch (error) {
             throw new Error(`Failed to generate access token for user id ${user._id}`)
+        }
+    }
+
+    private getOptions(rememberMe : boolean) : jsonwebtoken.SignOptions {
+        if (!rememberMe) {
+            return {
+                expiresIn: '1d',
+            }
+        } else {
+            return {};
         }
     }
 }

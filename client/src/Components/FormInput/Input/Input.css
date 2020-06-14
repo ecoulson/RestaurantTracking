@@ -1,5 +1,6 @@
 .form-raw-input {
-    width: 230px;
+    width: 90%;
+    min-width: 250px;
     font-size: 14px;
     line-height: 26px;
     font-weight: 200;
@@ -12,44 +13,85 @@
     outline: none;
     padding: 0px;
     top: -4px;
+    font-family: 'myriad-pro', 'sans-serif', Helvetica;
+}
+
+.form-raw-input-dark {
     color: white;
     background-color: #1B2D42;
-    font-family: 'myriad-pro', 'sans-serif', Helvetica;
+}
+
+.form-raw-input-light {
+    color: #3B3A39;
+    background-color: #E8E8E8;
 }
 
 .custom-date {
     top: -20px;
 }
 
-.form-raw-input:disabled {
+.form-raw-input-dark:disabled {
     cursor: not-allowed;
     background-color: rgb(14, 23, 34);
     text-decoration: line-through;
 }
 
-.form-raw-input:-webkit-autofill,
-.form-raw-input:-webkit-autofill:hover,
-.form-raw-input:-webkit-autofill:focus,
-.form-raw-input:-webkit-autofill:active {
+.form-raw-input-dark:-webkit-autofill,
+.form-raw-input-dark:-webkit-autofill:hover,
+.form-raw-input-dark:-webkit-autofill:focus,
+.form-raw-input-dark:-webkit-autofill:active {
     transition: background-color 5000s ease-in-out 0s;
     color: white !important;
 }
 
-.form-raw-input::placeholder {
+.form-raw-input-dark::placeholder {
     color: #e8e8e8;
     font-weight: 200;
 }
 
-.form-raw-input:-webkit-autofil {
+.form-raw-input-dark:-webkit-autofil {
     color: white !important;
     background-color: #1B2D42;
 }
 
-.form-raw-input:-internal-autofill-selected {
+.form-raw-input-dark:-internal-autofill-selected {
     color: white !important;
     background-color: #1B2D42 !important;
 }
 
-.form-raw-input:-webkit-autofill {
+.form-raw-input-dark:-webkit-autofill {
     -webkit-text-fill-color: white !important;
+}
+
+.form-raw-input-light:disabled {
+    cursor: not-allowed;
+    background-color: #c9c9c9;
+    text-decoration: line-through;
+}
+
+.form-raw-input-light:-webkit-autofill,
+.form-raw-input-light:-webkit-autofill:hover,
+.form-raw-input-light:-webkit-autofill:focus,
+.form-raw-input-light:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+    color: #AAAAAA !important;
+}
+
+.form-raw-input-light::placeholder {
+    color: #AAAAAA;
+    font-weight: 200;
+}
+
+.form-raw-input-light:-webkit-autofil {
+    color: #AAAAAA !important;
+    background-color: #E8E8E8;
+}
+
+.form-raw-input-light:-internal-autofill-selected {
+    color: #AAAAAA !important;
+    background-color: #E8E8E8 !important;
+}
+
+.form-raw-input-light:-webkit-autofill {
+    -webkit-text-fill-color: #AAAAAA !important;
 }

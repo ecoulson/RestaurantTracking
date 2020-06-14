@@ -15,7 +15,10 @@ export default class AuthenticationRouteConfiguration extends RouterConfiguratio
             new ValidationMiddleware(LoginBodySchema).validateBody(),
             ErrorCatchingMiddlware.catchErrors(this.controller.handleLogin())
         );
+
+        this.router.get(
+            "/is_session_active",
+            ErrorCatchingMiddlware.catchErrors(this.controller.isSessionActive())
+        )
     }
-
-
 }

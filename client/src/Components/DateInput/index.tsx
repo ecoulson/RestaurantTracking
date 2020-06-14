@@ -22,6 +22,7 @@ export default class DateInput extends React.Component<IDateInputProps, IDateInp
             <FormInput
                 value={this.state.date}
                 isValid={this.state.valid}
+                dark={this.props.dark}
                 onChange={this.handleTimeChange}
                 icon={IconType.Calendar} 
                 label="Date of Entry" 

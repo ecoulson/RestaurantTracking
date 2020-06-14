@@ -1,0 +1,11 @@
+.login-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    min-width: 100%;
+    min-height: 100%;
+    background: transparent linear-gradient(324deg, #0e1824 0%, #3AB6A5 100%) 0% 0% no-repeat padding-box;
+    font-family: 'myriad-pro', Helvetica, sans-serif;
+}

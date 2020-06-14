@@ -1,10 +1,10 @@
 .submit {
-    margin-top: 15px;
+    font-family: 'myriad-pro';
     width: 100%;
-    font-size: 20px;
-    font-weight: 400;
+    font-size: 28px;
+    font-weight: 600;
     line-height: 40px;
-    letter-spacing: 3.61px;
+    letter-spacing: 0px;
     height: 45px;
     box-sizing: border-box;
     box-shadow: none;
@@ -12,10 +12,20 @@
     border: none;
     color: #3B3A39;
     background-color: gray;
-    margin-bottom: 15px;
     border: 0;
     outline: none;
     transition: all 0.5s ease-in-out;
+    max-width: 300px;
+    margin: 15px auto;
+    display: block;
+}
+
+.show-dark {
+    box-shadow: 0px 3px 10px #000000;
+}
+
+.show-light {
+    box-shadow: 0px 3px 6px #00000029;
 }
 
 .show:hover {
@@ -31,7 +41,6 @@
 }
 
 .show {
-    box-shadow: 0px 3px 10px #000000;
     background-color: #45DFC2;
     animation-name: show;
     animation-duration: 1s;

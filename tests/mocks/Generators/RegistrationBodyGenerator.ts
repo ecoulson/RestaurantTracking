@@ -1,4 +1,4 @@
-import IRegistrationBody from "../../../src/controllers/User/IRegistrationBody";
+import IRegistrationBody from "../../../src/controllers/User/Registration/IRegistrationBody";
 import faker from "faker";
 import IGenerator from "./IGenerator";
 

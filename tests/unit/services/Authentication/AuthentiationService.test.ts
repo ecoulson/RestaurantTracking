@@ -93,6 +93,19 @@ describe("Authentication Service", () => {
             expect.assertions(1);
         });
 
+        test("Should redirect unverified user", async () => {
+            userGenerator.setVerified();
+            const user = userGenerator.generate();
+            const service = new AuthenticationService();
+            const password = user.password;
+            user.password = bcrypt.hashSync(user.password, 10)
+            UserModel.findByUsername = jest.fn().mockResolvedValue(user);
+
+            const foundUser = await service.login(user.username, password);
+
+            expect(foundUser.serialize()).toEqual(user.serialize());
+        })
+
         test("Should login user", async () => {
             userGenerator.setVerified();
             const user = userGenerator.generate();

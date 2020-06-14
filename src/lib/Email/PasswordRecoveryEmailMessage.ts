@@ -26,17 +26,17 @@ export default class PasswordRecoveryEmailMessage implements IEmailMessage {
 
     private getResetPassword() {
         if (process.env.NODE_ENV === "production") {
-            return `http://${process.env.HOST_NAME}/user/confirm?email=${this.user.email}&token=${this.token.value}`;
+            return `http://${process.env.HOST_NAME}/user/password_recovery/confirm?email=${this.user.email}&token=${this.token.value}`;
         } else {
-            return `http://${process.env.HOST_NAME}:${process.env.PORT}/user/confirm?email=${this.user.email}&token=${this.token.value}`;
+            return `http://${process.env.HOST_NAME}:${process.env.PORT}/user/password_recovery/confirm?email=${this.user.email}&token=${this.token.value}`;
         }
     }
 
     private getAlertUrl() {
         if (process.env.NODE_ENV === "production") {
-            return `http://${process.env.HOST_NAME}/user/cancel_recover?email=${this.user.email}&token=${this.token.value}`;
+            return `http://${process.env.HOST_NAME}/user/password_recovery/cancel_recover?email=${this.user.email}&token=${this.token.value}`;
         } else {
-            return `http://${process.env.HOST_NAME}:${process.env.PORT}/user/cancel_recover?email=${this.user.email}&token=${this.token.value}`;
+            return `http://${process.env.HOST_NAME}:${process.env.PORT}/user/password_recovery/cancel_recover?email=${this.user.email}&token=${this.token.value}`;
         }
     }
 }

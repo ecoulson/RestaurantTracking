@@ -46,18 +46,18 @@ export default class GeneralPage extends React.Component<IPageProps, IGeneralPag
     render() {
         return (
             <>
-                <Logo />
+                <Logo dark />
                 <Form isSubmitting={this.state.isSubmitting}>
                     <GeneralTitle />
                     <Instructions>Please provide the following:</Instructions>
-                    <RestaurantDropdown onChange={this.handleRestaurant} />
-                    <DateInput onChange={this.handleDate} />
-                    <TimeInput onChange={this.handleTime} />
+                    <RestaurantDropdown dark onChange={this.handleRestaurant} />
+                    <DateInput dark onChange={this.handleDate} />
+                    <TimeInput dark onChange={this.handleTime} />
                     <Instructions>Please enter one of the following:</Instructions>
-                    <EmailInput onChange={this.handleEmail} />
+                    <EmailInput dark onChange={this.handleEmail} />
                     <p className="or">Or</p>
-                    <PhoneInput onChange={this.handlePhone} />
-                    <Submit onClick={this.handleSubmit} visible={this.state.isComplete}/>
+                    <PhoneInput dark onChange={this.handlePhone} />
+                    <Submit dark onClick={this.handleSubmit} visible={this.state.isComplete}/>
                 </Form>
             </>
         )

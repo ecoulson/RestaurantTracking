@@ -68,14 +68,14 @@ export default class RestaurantPage extends React.Component<IPageProps, IRestaur
         return (
             <>
                 <Toast message={this.state.errorMessage} />
-                <Logo />
+                <Logo dark/>
                 <RestaurantName>{this.state.restaurantName}</RestaurantName>
                 <Instructions>Please enter one of the following:</Instructions>
                 <Form isSubmitting={this.state.isSubmitting}>
-                    <EmailInput onChange={this.handleEmailChange} />
+                    <EmailInput dark onChange={this.handleEmailChange} />
                     <p className="or">Or</p>
-                    <PhoneInput onChange={this.handlePhoneChange} />
-                    <Submit onClick={this.handleSubmit} visible={this.state.isComplete}/>
+                    <PhoneInput dark onChange={this.handlePhoneChange} />
+                    <Submit dark onClick={this.handleSubmit} visible={this.state.isComplete}/>
                 </Form>
             </>
         )

@@ -22,6 +22,7 @@ export default class PhoneInput extends React.Component<IPhoneInputProps, IPhone
             <FormInput 
                 value={this.state.number}
                 isValid={this.state.isValid}
+                dark={this.props.dark}
                 icon={IconType.Phone} 
                 label="phone"
                 placeHolder="Enter phone number here"

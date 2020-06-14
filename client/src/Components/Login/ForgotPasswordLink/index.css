@@ -1,0 +1,14 @@
+.forgot-password-link {
+    color: #234164;
+    text-align: right;
+    width: 50%;
+    font-size: 18px;
+    text-decoration: none;
+    font-family: 'myriad-pro';
+    line-height: 28px;
+    letter-spacing: 0px;
+}
+
+.forgot-password-link:hover {
+    text-decoration: underline;
+}

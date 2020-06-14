@@ -24,13 +24,11 @@ export default class FormInput extends React.Component<IFormInputProps, IFormInp
     render() {
         return (
             <div style={this.getBackgroundColor()} className={`form-input ${this.getActiveClass()}`}>
-                <Label>{this.props.label}</Label>
+                <Label dark={this.props.dark}>{this.props.label}</Label>
                 <div className="input-line">
                     <Icon icon={this.props.icon}/>
                     {this.getInput()}
-                    <ValidationIcon 
-                        isValid={this.props.isValid} 
-                        value={this.props.value} />
+                    {this.getValidationIcon()}
                 </div>
             </div>
         )
@@ -44,6 +42,7 @@ export default class FormInput extends React.Component<IFormInputProps, IFormInp
                 onFocus={this.onFocus}
                 onBlur={this.onBlur}
                 placeholder={this.props.placeHolder}
+                dark={this.props.dark}
                 type={this.props.type} 
                 onChange={this.onChange} />
         } else if (this.props.type === "date") {
@@ -52,11 +51,13 @@ export default class FormInput extends React.Component<IFormInputProps, IFormInp
                 value={this.props.value}
                 onFocus={this.onFocus}
                 onBlur={this.onBlur}
+                dark={this.props.dark}
                 placeholder={this.props.placeHolder}
                 type={this.props.type} 
                 onChange={this.onChange} />
         } else {
             return <Input
+                dark={this.props.dark}
                 disabled={this.props.disabled}
                 value={this.props.value}
                 onFocus={this.onFocus}
@@ -67,19 +68,39 @@ export default class FormInput extends React.Component<IFormInputProps, IFormInp
         }
     }
 
+    private getValidationIcon() {
+        if (this.props.isValid === undefined) {
+            return null;
+        } else {
+            return <ValidationIcon 
+                isValid={this.props.isValid} 
+                value={this.props.value} />
+        }
+    }
+
+    //TODO: Convert to css classes
     getBackgroundColor() {
-        return this.props.disabled ? {
-            textDecoration: "line-through",
-            backgroundColor: "rgb(14, 23, 34)"
-        } : {
-            backgroundColor: "#1B2D42"
+        if (this.props.dark) {
+            return this.props.disabled ? {
+                textDecoration: "line-through",
+                backgroundColor: "rgb(14, 23, 34)"
+            } : {
+                backgroundColor: "#1B2D42"
+            }
+        } else {
+            return this.props.disabled ? {
+                textDecoration: "line-through",
+                backgroundColor: "#E8E8E8)"
+            } : {
+                backgroundColor: "#E8E8E8"
+            }
         }
     }
 
     onChange(value : string, event? : ChangeEvent) {
         this.props.onChange(new FormValue<string>(
             value,
-            this.props.isValid
+            this.props.isValid ? this.props.isValid : false
         ),  event)
     }
 
@@ -96,6 +117,10 @@ export default class FormInput extends React.Component<IFormInputProps, IFormInp
     }
 
     private getActiveClass() {
-        return this.state.focused ? "active" : ""
+        if (this.props.dark) {
+            return this.state.focused ? "active-dark" : ""
+        } else {
+            return this.state.focused ? "active-light" : ""
+        }
     }
 }

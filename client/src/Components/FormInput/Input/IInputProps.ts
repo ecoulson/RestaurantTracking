@@ -8,4 +8,5 @@ export default interface IInputProps {
     onChange: (value: string, event : ChangeEvent) => void;
     onFocus?: (event: FocusEvent) => void;
     onBlur?: (event: FocusEvent) => void;
+    dark?: boolean;
 }

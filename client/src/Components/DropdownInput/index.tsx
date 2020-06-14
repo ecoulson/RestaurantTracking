@@ -93,6 +93,7 @@ export default class RestaurantDropdown extends React.Component<IDropdownProps, 
                     isValid={this.state.valid}
                     value={this.state.value}
                     onChange={this.onChange}
+                    dark={this.props.dark}
                     type="text" 
                     label="Restaurant"
                     icon={IconType.Menu}

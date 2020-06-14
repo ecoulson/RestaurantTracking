@@ -22,6 +22,7 @@ export default class EmailInput extends React.Component<IEmailProps, IEmailState
                 onChange={this.handleEmailChange}
                 isValid={this.state.valid}
                 value={this.state.emailAddress}
+                dark={this.props.dark}
                 icon={IconType.Mail} 
                 label="email" 
                 placeHolder="Enter email here" 
