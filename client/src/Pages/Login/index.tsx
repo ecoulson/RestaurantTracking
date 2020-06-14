@@ -1,22 +1,23 @@
 import React from "react";
-import LoginBackground from "./LoginBackground";
-import LoginContainer from "./LoginContainer";
-import Logo from "../Logo";
-import LoginTitle from "./LoginTitle";
+import AuthenticationBackground from "../../Components/AuthenticationLayout/AuthenticationBackground";
+import AuthenticationContainer from "../../Components/AuthenticationLayout/AuthenticationContainer";
+import Logo from "../../Components/Logo";
+import AuthenticationLayoutTitle from "../../Components/AuthenticationLayout/AuthenticationLayoutTitle";
 import ILoginState from "./ILoginState";
-import Submit from "../Submit";
-import PasswordInput from "../PasswordInput";
-import UsernameInput from "../UsernameInput";
+import Submit from "../../Components/Submit";
+import PasswordInput from "../../Components/PasswordInput";
+import UsernameInput from "../../Components/UsernameInput";
 import Axios from "axios";
-import CheckboxInput from "../CheckboxInput";
-import Form from "../Form";
+import CheckboxInput from "../../Components/CheckboxInput";
+import Form from "../../Components/Form";
 import LoginSettingsContainer from "./LoginSettingsContainer";
 import ForgotPasswordLink from "./ForgotPasswordLink";
-import SignUpContainer from "./SignUpContainer";
+import SignUpContainer from "../../Components/AuthenticationLayout/SignUpContainer";
 import CheckboxContainer from "./CheckboxContainer";
-import Toast from "../Toast";
+import Toast from "../../Components/Toast";
 import Cookie from "../../lib/Cookie";
 import AppHistory from "../../AppHistory";
+import ToastType from "../../Components/Toast/ToastType";
 
 export default class Login extends React.Component<{}, ILoginState> {
     constructor(props : {}) {
@@ -38,21 +39,21 @@ export default class Login extends React.Component<{}, ILoginState> {
         if (token) {
             const res = await Axios.get(`/authentication/is_session_active`)
             if (res.data.data.isActive) {
-                this.redirect()
+                AppHistory.push("/dashboard")
             }
         }
     }
 
     render() {
         return (
-            <LoginBackground>
-                <LoginContainer>
-                    <Toast message={this.state.errorMessage} />
+            <AuthenticationBackground>
+                <AuthenticationContainer>
+                    <Toast type={ToastType.Error} message={this.state.errorMessage} />
                     <Logo />
-                    <LoginTitle/>
+                    <AuthenticationLayoutTitle>Login</AuthenticationLayoutTitle>
                     <Form isSubmitting={false}>
-                        <UsernameInput onChange={this.onUsernameChange} />
-                        <PasswordInput onChange={this.onPasswordChange} />
+                        <UsernameInput iconColor="#AAAAAA" onChange={this.onUsernameChange} />
+                        <PasswordInput iconColor="#AAAAAA" onChange={this.onPasswordChange} />
                         <LoginSettingsContainer>
                             <CheckboxContainer>
                                 <CheckboxInput 
@@ -63,11 +64,13 @@ export default class Login extends React.Component<{}, ILoginState> {
                         </LoginSettingsContainer>
                         <Submit 
                             onClick={this.login} 
-                            visible={this.canSubmitLogin()}/>
+                            visible={this.canSubmitLogin()}>
+                                Submit
+                        </Submit>
                     </Form>
                     <SignUpContainer />
-                </LoginContainer>
-            </LoginBackground>
+                </AuthenticationContainer>
+            </AuthenticationBackground>
         )
     }
 
@@ -85,8 +88,6 @@ export default class Login extends React.Component<{}, ILoginState> {
 
     private canSubmitLogin() {
         return true;
-        // return this.state.username !== "" && 
-        //         this.state.password !== "";
     }
 
     private async login() {
@@ -102,7 +103,11 @@ export default class Login extends React.Component<{}, ILoginState> {
             } else {
                 Cookie.setCookie("token", res.data.data.token, 1)
             }
-            this.redirect();
+            if (!res.data.data.verified) {
+                return AppHistory.push("/verify")
+            } else {
+                AppHistory.push("/dashboard")
+            }
         } catch(error) {
             if (error.response.status === 500) {
                 this.setState({
@@ -113,14 +118,6 @@ export default class Login extends React.Component<{}, ILoginState> {
                     errorMessage: "Invalid credentials"
                 })
             }
-        }
-    }
-
-    private redirect() {
-        if (AppHistory.length === 0) {
-            AppHistory.goBack()
-        } else {
-            AppHistory.push("/dashboard")
         }
     }
 }

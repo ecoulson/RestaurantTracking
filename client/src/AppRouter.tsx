@@ -6,8 +6,10 @@ import {
     Router
 } from "react-router-dom";
 import App from "./App";
-import Login from "./Components/Login";
+import Login from "./Pages/Login";
 import AppHistory from "./AppHistory";
+import Logout from "./Pages/Logout";
+import VerifyAccountPage from "./Pages/VerifyAccountPage";
 
 export default class AppRouter extends React.Component {
     render() {
@@ -17,8 +19,11 @@ export default class AppRouter extends React.Component {
                     <Route path="/login">
                         <Login/>
                     </Route>
+                    <Route path="/logout">
+                        <Logout/>
+                    </Route>
                     <Route path="/verify">
-                        <h1>Verify Account Page</h1>
+                        <VerifyAccountPage />
                     </Route>
                     <Route exact path="/">
                         <App />

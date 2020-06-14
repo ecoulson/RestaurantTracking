@@ -3,6 +3,7 @@ import { ChangeEvent } from "react";
 import IFormValue from "./IFormValue";
 
 export default interface IFormInputProps {
+    iconColor?: string;
     value: string;
     disabled?: boolean
     isValid?: boolean;

@@ -22,6 +22,7 @@ export default class TimeInput extends React.Component<ITimeInputProps, ITimeInp
             <FormInput
                 value={this.state.date}
                 isValid={this.state.valid}
+                iconColor={this.props.iconColor}
                 onChange={this.handleTimeChange}
                 icon={IconType.Clock} 
                 dark={this.props.dark}

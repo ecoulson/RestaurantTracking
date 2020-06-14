@@ -18,6 +18,7 @@ export default class UsernameInput extends React.Component<IUsernameInputProps, 
         return (
             <FormInput
                 value={this.state.username}
+                iconColor={this.props.iconColor}
                 type="text"
                 label="Username"
                 icon={IconType.User}

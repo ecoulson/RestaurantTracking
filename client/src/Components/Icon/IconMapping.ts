@@ -1,12 +1,12 @@
-import Mail from "./mail.svg";
-import Phone from "./phone.svg";
 import IconType from "./IconTypes";
-import Dropdown from "./dropdown.svg";
-import Clock from "./clock.svg";
-import Menu from "./menu.svg";
-import Calendar from "./calendar.svg";
-import Lock from "./lock.svg";
-import User from "./user.svg";
+import { ReactComponent as Phone } from "./phone.svg";
+import { ReactComponent as Mail } from "./mail.svg";
+import { ReactComponent as Dropdown } from "./dropdown.svg";
+import { ReactComponent as Clock } from "./clock.svg";
+import { ReactComponent as Menu } from "./menu.svg";
+import { ReactComponent as Calendar } from "./calendar.svg";
+import { ReactComponent as Lock } from "./lock.svg";
+import { ReactComponent as User } from "./user.svg";
 
 const IconMapping = new Map<IconType, any>();
 IconMapping.set(IconType.Mail, Mail);

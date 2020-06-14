@@ -19,7 +19,7 @@ export default class Submit extends React.Component<ISubmitProps, ISubmitState> 
                 onClick={this.props.onClick} 
                 className={`submit ${this.getClass()}`} 
                 type="button">
-                    Submit
+                    {this.props.children}
             </button>
         )
     }

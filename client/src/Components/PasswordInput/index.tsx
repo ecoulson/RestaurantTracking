@@ -19,6 +19,7 @@ export default class PasswordInput extends React.Component<IPasswordProps, IPass
                 value={this.state.password}
                 type="password"
                 label="Password"
+                iconColor={this.props.iconColor}
                 icon={IconType.Lock}
                 placeHolder="Enter your password"
                 onChange={this.onChange}

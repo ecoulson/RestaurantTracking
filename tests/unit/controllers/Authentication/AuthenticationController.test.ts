@@ -53,6 +53,7 @@ describe("Authentication Controller", () => {
             expect(response.json).toHaveBeenCalledWith({
                 success: true,
                 data: {
+                    verified: true,
                     token: "token"
                 }
             });
@@ -64,7 +65,8 @@ function getLoginRequest() {
     return {
         body: {
             username: faker.internet.userName(),
-            password: faker.internet.password()
+            password: faker.internet.password(),
+            rememberMe: true
         }
     }
 }

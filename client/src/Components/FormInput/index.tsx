@@ -26,7 +26,7 @@ export default class FormInput extends React.Component<IFormInputProps, IFormInp
             <div style={this.getBackgroundColor()} className={`form-input ${this.getActiveClass()}`}>
                 <Label dark={this.props.dark}>{this.props.label}</Label>
                 <div className="input-line">
-                    <Icon icon={this.props.icon}/>
+                    <Icon color={this.props.iconColor} icon={this.props.icon}/>
                     {this.getInput()}
                     {this.getValidationIcon()}
                 </div>

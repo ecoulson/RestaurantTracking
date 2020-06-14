@@ -14,6 +14,7 @@ import Axios from "axios";
 import FormValue from '../FormInput/FormValue';
 import IFormValue from '../FormInput/IFormValue';
 import Toast from '../Toast';
+import ToastType from '../Toast/ToastType';
 
 export default class RestaurantPage extends React.Component<IPageProps, IRestaurantPageState> {
     constructor(props: IPageProps) {
@@ -67,15 +68,20 @@ export default class RestaurantPage extends React.Component<IPageProps, IRestaur
     render() {
         return (
             <>
-                <Toast message={this.state.errorMessage} />
+                <Toast type={ToastType.Error} message={this.state.errorMessage} />
                 <Logo dark/>
                 <RestaurantName>{this.state.restaurantName}</RestaurantName>
                 <Instructions>Please enter one of the following:</Instructions>
                 <Form isSubmitting={this.state.isSubmitting}>
-                    <EmailInput dark onChange={this.handleEmailChange} />
+                    <EmailInput iconColor="white" dark onChange={this.handleEmailChange} />
                     <p className="or">Or</p>
-                    <PhoneInput dark onChange={this.handlePhoneChange} />
-                    <Submit dark onClick={this.handleSubmit} visible={this.state.isComplete}/>
+                    <PhoneInput iconColor="white" dark onChange={this.handlePhoneChange} />
+                    <Submit 
+                        dark 
+                        onClick={this.handleSubmit} 
+                        visible={this.state.isComplete}>
+                            Submit
+                    </Submit>
                 </Form>
             </>
         )
