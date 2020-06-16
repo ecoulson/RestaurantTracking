@@ -1,5 +1,5 @@
 import RouterConfiguration from "../RouterConfiguration"
-import { TokenCallbackSchema, RegistrationBodySchema } from "./UserSchema"
+import { TokenCallbackSchema, RegistrationBodySchema, UsernameCheckSchema } from "./UserSchema"
 import ErrorCatchingMiddlware from "../../middleware/error-handling/ErrorCatchingMiddleware"
 import ValidationMiddleware from "../../middleware/validation/ValidationMiddleware"
 import UserRegistrationController from "../../controllers/User/Registration/UserRegistrationController"
@@ -22,6 +22,12 @@ export default class UserRegistrationRouteConfiguration extends RouterConfigurat
             new ValidationMiddleware(TokenCallbackSchema).validateBody(),
             new JSONWebTokenAuthenticationStrategy().authenticate(),
             ErrorCatchingMiddlware.catchErrors(this.controller.handleResendVerificationEmail())
+        )
+
+        this.router.get(
+            "/availible/:username",
+            new ValidationMiddleware(UsernameCheckSchema).validateParams(),
+            ErrorCatchingMiddlware.catchErrors(this.controller.handleUsernameAvailibilty())
         )
     }
 }

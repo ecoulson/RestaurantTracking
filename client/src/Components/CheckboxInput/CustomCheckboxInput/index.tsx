@@ -11,8 +11,10 @@ export default class CustomCheckboxInput extends React.Component<ICustomCheckbox
 
     render() {
         return (
-            <div onClick={this.handleClick} className="custom-checkbox-input-shadow">
-                <div className={`${this.getCheckedClass()} custom-checkbox-input`}>
+            <div 
+                onClick={this.handleClick} 
+                className={`custom-checkbox-input-shadow ${this.getShadowThemeClass()}`}>
+                <div className={`${this.getCheckedClass()} ${this.getCheckboxThemeClass()} custom-checkbox-input`}>
                     {this.getContent()}
                 </div>
             </div>
@@ -25,8 +27,13 @@ export default class CustomCheckboxInput extends React.Component<ICustomCheckbox
     }
 
     private getCheckedClass() {
-        return this.props.checked ?
-                "custom-checked" : ""
+        if (this.props.dark) {
+            return this.props.checked ?
+                "custom-checked-dark" : ""
+        } else {
+            return this.props.checked ?
+                "custom-checked-light" : ""
+        }
     }
 
     private getContent() {
@@ -36,5 +43,17 @@ export default class CustomCheckboxInput extends React.Component<ICustomCheckbox
                 icon="check" 
                 color="white"/> :
             null;
+    }
+
+    private getShadowThemeClass() {
+        return this.props.dark ? 
+            "checkbox-input-shadow-dark" :
+            "checkbox-input-shadow-light"
+    }
+
+    private getCheckboxThemeClass() {
+        return this.props.dark ? 
+            "checkbox-input-dark" :
+            "checkbox-input-light"
     }
 }

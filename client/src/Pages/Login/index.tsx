@@ -18,6 +18,7 @@ import Toast from "../../Components/Toast";
 import Cookie from "../../lib/Cookie";
 import AppHistory from "../../AppHistory";
 import ToastType from "../../Components/Toast/ToastType";
+import FormValue from "../../Components/FormInput/FormValue";
 
 export default class Login extends React.Component<{}, ILoginState> {
     constructor(props : {}) {
@@ -74,12 +75,12 @@ export default class Login extends React.Component<{}, ILoginState> {
         )
     }
 
-    private onPasswordChange(password : string) {
-        this.setState({ password })
+    private onPasswordChange(password : FormValue<string>) {
+        this.setState({ password: password.value })
     }
 
-    private onUsernameChange(username : string) {
-        this.setState({ username })
+    private onUsernameChange(username : FormValue<string>) {
+        this.setState({ username: username.value })
     }
 
     private onRememberMeChange(rememberMe: boolean) {

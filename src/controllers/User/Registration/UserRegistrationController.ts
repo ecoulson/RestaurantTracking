@@ -8,16 +8,20 @@ import VerificationEmailService from "../../../services/User/Registration/Verifi
 import UserPermissionSetupService from "../../../services/User/Registration/UserPermissionSetupService";
 import IRegistrationBody from "./IRegistrationBody";
 import JSONResponse from "../../../lib/HTTP/JSONResponse";
+import IUsernameAvailibilityService from "../../../services/User/Registration/IUsernameAvailibilityService";
+import UsernameAvailibilityService from "../../../services/User/Registration/UsernameAvailibilityService";
 
 export default class UserRegistrationController implements IUserRegistrationController {
     private userRegistrationService : IUserRegistrationService;
     private verificationEmailService : IVerificationEmailService;
     private userPermissionSetupService : IUserPermissionSetupService;
+    private usernameAvailibilityService : IUsernameAvailibilityService;
 
     constructor() {
         this.userRegistrationService = new UserRegistrationService();
         this.verificationEmailService = new VerificationEmailService();
         this.userPermissionSetupService = new UserPermissionSetupService();
+        this.usernameAvailibilityService = new UsernameAvailibilityService();
     }
     
     handleRegistration() : RequestHandler {
@@ -37,6 +41,15 @@ export default class UserRegistrationController implements IUserRegistrationCont
             }
             const mailData = await this.verificationEmailService.sendVerificationEmail(req.user.email);
             return new JSONResponse(res).send(mailData);
+        }
+    }
+
+    handleUsernameAvailibilty() {
+        return async (req : Request, res : Response) => {
+            const username : string = req.params.username as string;
+            return new JSONResponse(res).send({
+                availible: await this.usernameAvailibilityService.check(username)
+            });
         }
     }
 }

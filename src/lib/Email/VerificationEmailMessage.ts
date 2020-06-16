@@ -26,17 +26,17 @@ export default class VerificationEmailMessage implements IEmailMessage {
 
     private getVerifyUrl() {
         if (process.env.NODE_ENV === "production") {
-            return `http://${process.env.HOST_NAME}/user/verification/verify?email=${this.user.email}&token=${this.token.value}`;
+            return `http://${process.env.HOST_NAME}/verification?email=${this.user.email}&token=${this.token.value}`;
         } else {
-            return `http://${process.env.HOST_NAME}:${process.env.PORT}/user/verification/verify?email=${this.user.email}&token=${this.token.value}`;
+            return `http://${process.env.HOST_NAME}:${process.env.CLIENT_PORT}/verification?email=${this.user.email}&token=${this.token.value}`;
         }
     }
 
     private getSpamUrl() {
         if (process.env.NODE_ENV === "production") {
-            return `http://${process.env.HOST_NAME}/user/verification/spam?email=${this.user.email}&token=${this.token.value}`;
+            return `http://${process.env.HOST_NAME}/spam?email=${this.user.email}&token=${this.token.value}`;
         } else {
-            return `http://${process.env.HOST_NAME}:${process.env.PORT}/user/verification/spam?email=${this.user.email}&token=${this.token.value}`;
+            return `http://${process.env.HOST_NAME}:${process.env.CLIENT_PORT}/spam?email=${this.user.email}&token=${this.token.value}`;
         }
     }
 }

@@ -16,15 +16,18 @@ export default class CheckboxInput extends React.Component<ICheckboxProps, IChec
 
     render() {
         return (
-            <>
+            <div style={{display: "flex"}}>
                 <input
                     className="checkbox-input-native"
                     checked={this.state.checked}
                     onChange={this.onChange}
                     type="checkbox" />
-                <CustomCheckboxInput onClick={this.onClick} checked={this.state.checked}/>
-                <label className="checkbox-label-input">{this.props.label}</label>
-            </>
+                <CustomCheckboxInput 
+                    dark={this.props.dark}
+                    onClick={this.onClick} 
+                    checked={this.state.checked}/>
+                <label className={`checkbox-label-input ${this.getThemeClass()}`}>{this.props.label}</label>
+            </div>
         )
     }
 
@@ -38,5 +41,11 @@ export default class CheckboxInput extends React.Component<ICheckboxProps, IChec
         this.setState({
             checked: checked
         })
+    }
+
+    private getThemeClass() {
+        return this.props.dark ? 
+            "checkbox-input-label-dark" :
+            "checkbox-input-label-light"
     }
 }

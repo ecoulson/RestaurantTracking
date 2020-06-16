@@ -4,6 +4,7 @@ import IFormValue from "./IFormValue";
 
 export default interface IFormInputProps {
     iconColor?: string;
+    id?: string;
     value: string;
     disabled?: boolean
     isValid?: boolean;

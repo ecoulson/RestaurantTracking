@@ -21,11 +21,16 @@ const PasswordResetSchema = Joi.object({
     email: Joi.string().email(),
     token: Joi.string().hex(),
     password: Joi.string()
+});
+
+const UsernameCheckSchema = Joi.object({
+    username: Joi.string().required()
 })
 
 export {
     RegistrationBodySchema,
     TokenCallbackSchema,
     TokenBodySchema,
-    PasswordResetSchema
+    PasswordResetSchema,
+    UsernameCheckSchema
 };

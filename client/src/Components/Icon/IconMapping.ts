@@ -7,6 +7,7 @@ import { ReactComponent as Menu } from "./menu.svg";
 import { ReactComponent as Calendar } from "./calendar.svg";
 import { ReactComponent as Lock } from "./lock.svg";
 import { ReactComponent as User } from "./user.svg";
+import { ReactComponent as Info } from "./info.svg";
 
 const IconMapping = new Map<IconType, any>();
 IconMapping.set(IconType.Mail, Mail);
@@ -17,5 +18,6 @@ IconMapping.set(IconType.Menu, Menu);
 IconMapping.set(IconType.Calendar, Calendar);
 IconMapping.set(IconType.Lock, Lock);
 IconMapping.set(IconType.User, User)
+IconMapping.set(IconType.Info, Info)
 
 export default IconMapping;

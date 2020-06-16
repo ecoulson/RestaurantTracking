@@ -6,7 +6,8 @@ enum IconType {
     Clock,
     Calendar,
     Lock,
-    User
+    User,
+    Info
 }
 
 export default IconType;

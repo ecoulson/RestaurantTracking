@@ -2,10 +2,17 @@
     position: relative;
     width: 16px;
     height: 16px;
-    border: #1B2D42 solid 2px;
     box-sizing: border-box;
     border-radius: 3px;
     z-index: 3;
+}
+
+.checkbox-input-light {
+    border: #1B2D42 solid 2px;
+}
+
+.checkbox-input-dark {
+    border: #AAAAAA solid 2px;
 }
 
 .custom-checkbox-input-shadow {
@@ -19,22 +26,30 @@
 .custom-checkbox-input-shadow:hover {
     cursor: pointer;
     box-shadow: 0px 0px 0px 4px rgb(164, 164, 164);
-    -moz-box-shadow: 0px 0px 0px 4px rgb(164, 164, 164);;
-    -webkit-box-shadow: 0px 0px 0px 4px rgb(164, 164, 164);;
-    -o-box-shadow: 0px 0px 0px 4px rgb(164, 164, 164);;
+    -moz-box-shadow: 0px 0px 0px 4px rgb(164, 164, 164);
+    -webkit-box-shadow: 0px 0px 0px 4px rgb(164, 164, 164);
+    -o-box-shadow: 0px 0px 0px 4px rgb(164, 164, 164);
     border-radius: 100px;
 }
 
 .custom-checkbox-input-shadow:hover > .custom-checkbox-input {
-    background-color:rgb(164, 164, 164);
+    background-color: rgb(164, 164, 164);
 }
 
-.custom-checkbox-input-shadow:hover > .custom-checked {
+.custom-checked-light {
     background-color: #1B2D42;
 }
 
-.custom-checked {
+.custom-checked-dark {
+    background-color: rgb(164, 164, 164);
+}
+
+.custom-checkbox-input-shadow:hover > .custom-checked-light {
     background-color: #1B2D42;
+}
+
+.custom-checkbox-input-shadow:hover > .custom-checked-dark {
+    background-color: rgb(164, 164, 164);
 }
 
 .custom-checkbox-input-icon {

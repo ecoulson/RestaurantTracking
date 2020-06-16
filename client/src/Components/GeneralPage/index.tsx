@@ -20,6 +20,7 @@ import IFormValue from "../FormInput/IFormValue";
 import FormValue from "../FormInput/FormValue";
 import IRestaurant from "../../lib/IRestaurant";
 import DateInput from "../DateInput";
+import CheckboxInput from "../CheckboxInput";
 
 export default class GeneralPage extends React.Component<IPageProps, IGeneralPageState> {
     constructor(props : IPageProps) {

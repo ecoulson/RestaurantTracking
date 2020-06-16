@@ -74,7 +74,7 @@
 .form-raw-input-light:-webkit-autofill:focus,
 .form-raw-input-light:-webkit-autofill:active {
     transition: background-color 5000s ease-in-out 0s;
-    color: #AAAAAA !important;
+    color: #3B3A39 !important;
 }
 
 .form-raw-input-light::placeholder {
@@ -83,15 +83,15 @@
 }
 
 .form-raw-input-light:-webkit-autofil {
-    color: #AAAAAA !important;
+    color: #3B3A39 !important;
     background-color: #E8E8E8;
 }
 
 .form-raw-input-light:-internal-autofill-selected {
-    color: #AAAAAA !important;
+    color: #3B3A39 !important;
     background-color: #E8E8E8 !important;
 }
 
 .form-raw-input-light:-webkit-autofill {
-    -webkit-text-fill-color: #AAAAAA !important;
+    -webkit-text-fill-color: #3B3A39 !important;
 }

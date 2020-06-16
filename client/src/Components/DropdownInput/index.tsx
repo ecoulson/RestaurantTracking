@@ -95,6 +95,7 @@ export default class RestaurantDropdown extends React.Component<IDropdownProps, 
                     value={this.state.value}
                     onChange={this.onChange}
                     dark={this.props.dark}
+                    id={this.props.id}
                     iconColor={this.props.iconColor}
                     type="text" 
                     label="Restaurant"
