@@ -129,7 +129,7 @@ describe("Authentication Service", () => {
             })
             
             try {
-                service.generateAccessToken(user);
+                service.generateAccessToken(user, false);
             } catch (error) {
                 expect(error).toEqual(
                     new Error(`Failed to generate access token for user id ${user._id}`)
@@ -142,7 +142,7 @@ describe("Authentication Service", () => {
             const user = userGenerator.generate();
             const service = new AuthenticationService();
             
-            const accessToken = service.generateAccessToken(user);
+            const accessToken = service.generateAccessToken(user, false);
 
             expect(accessToken).toEqual(jsonwebtoken.sign({
                 _id: user._id
