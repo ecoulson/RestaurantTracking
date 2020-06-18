@@ -13,3 +13,13 @@
     margin: 0 auto;
     padding: 15px 0px 0px;
 }
+
+.logo-horizontal {
+    margin: 25px;
+    padding: 0;
+}
+
+.logo-horizontal {
+    height: 75px;
+    width: 75px;
+}

@@ -1,6 +1,5 @@
 import React from "react";
 import {
-    // BrowserRouter as Router,
     Switch,
     Route,
     Router
@@ -18,44 +17,78 @@ import CancelPasswordRecoveryPage from "./Pages/CancelPasswordRecoveryPage";
 import ConfirmPasswordRecoveryPage from "./Pages/ConfirmPasswordRecoveryPage";
 import ResetPasswordPage from "./Pages/ResetPasswordPage";
 import DashboardPage from "./Pages/DashboardPage";
+import AuthenticateActiveSession from "./Components/AuthenticationWrappers/AuthenticateActiveSession";
+import Toast from "./Components/Toast";
+import ToastType from "./Components/Toast/ToastType";
+import IAppRouterState from "./IAppRouterState";
+import UnauthenticatedAccessWrapper from "./Components/AuthenticationWrappers/UnauthenticatedAccessWrapper";
 
-export default class AppRouter extends React.Component {
+export default class AppRouter extends React.Component<{}, IAppRouterState> {
+    constructor(props: {}) {
+        super(props);
+        this.state = {
+            message: ""
+        }
+        this.showError = this.showError.bind(this);
+    }
+
     render() {
         return (
             <Router history={AppHistory}>
+                <Toast type={ToastType.Error} message={this.state.message} />
                 <Switch>
                     <Route exact path="/login">
-                        <Login/>
+                        <UnauthenticatedAccessWrapper to="/dashboard" showError={this.showError}>
+                            <Login/>
+                        </UnauthenticatedAccessWrapper>
                     </Route>
                     <Route exact path="/dashboard">
-                        <DashboardPage />
+                        <AuthenticateActiveSession showError={this.showError}>
+                            <DashboardPage />
+                        </AuthenticateActiveSession>
                     </Route>
                     <Route exact path="/spam">
-                        <SpamRegistrationPage />
+                        <UnauthenticatedAccessWrapper showError={this.showError} to="/dashboard">
+                            <SpamRegistrationPage />
+                        </UnauthenticatedAccessWrapper>
                     </Route>
                     <Route exact path="/cancel-recover">
-                        <CancelPasswordRecoveryPage />
+                        <UnauthenticatedAccessWrapper showError={this.showError} to="/dashboard">
+                            <CancelPasswordRecoveryPage />
+                        </UnauthenticatedAccessWrapper>
                     </Route>
                     <Route exact path="/confirm-recover">
-                        <ConfirmPasswordRecoveryPage />
+                        <UnauthenticatedAccessWrapper showError={this.showError} to="/dashboard">
+                            <ConfirmPasswordRecoveryPage />
+                        </UnauthenticatedAccessWrapper>
                     </Route>
                     <Route exact path="/reset-password">
-                        <ResetPasswordPage />
+                        <UnauthenticatedAccessWrapper showError={this.showError} to="/dashboard">
+                            <ResetPasswordPage />
+                        </UnauthenticatedAccessWrapper>
                     </Route>
                     <Route exact path="/logout">
                         <Logout/>
                     </Route>
                     <Route exact path="/verify">
-                        <VerifyAccountPage />
+                        <UnauthenticatedAccessWrapper showError={this.showError} to="/dashboard">
+                            <VerifyAccountPage />
+                        </UnauthenticatedAccessWrapper>
                     </Route>
                     <Route exact path="/verification">
-                        <VerificationPage />
+                        <UnauthenticatedAccessWrapper showError={this.showError} to="/dashboard">
+                            <VerificationPage />
+                        </UnauthenticatedAccessWrapper>
                     </Route>
                     <Route exact path="/register">
-                        <UserRegistrationPage />
+                        <UnauthenticatedAccessWrapper showError={this.showError} to="/dashboard">
+                            <UserRegistrationPage />
+                        </UnauthenticatedAccessWrapper>
                     </Route>
                     <Route exact path="/forgot-password">
-                        <ForgotPasswordPage />
+                        <UnauthenticatedAccessWrapper showError={this.showError} to="/dashboard">
+                            <ForgotPasswordPage />
+                        </UnauthenticatedAccessWrapper>
                     </Route>
                     <Route exact path="/">
                         <App />
@@ -63,5 +96,12 @@ export default class AppRouter extends React.Component {
                 </Switch>
             </Router>
         )
+    }
+
+    private showError(message: string, time: number) {
+        this.setState({ message })
+        setTimeout(() => {
+            this.setState({ message: "" })
+        }, time); 
     }
 }

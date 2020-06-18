@@ -13,7 +13,6 @@ import Form from "../../Components/Form";
 import LoginSettingsContainer from "./LoginSettingsContainer";
 import ForgotPasswordLink from "./ForgotPasswordLink";
 import SignUpContainer from "../../Components/AuthenticationLayout/SignUpContainer";
-import CheckboxContainer from "../../Components/CheckboxInput/CheckboxContainer";
 import Toast from "../../Components/Toast";
 import Cookie from "../../lib/Cookie";
 import AppHistory from "../../AppHistory";
@@ -33,16 +32,6 @@ export default class Login extends React.Component<{}, ILoginState> {
         this.onUsernameChange = this.onUsernameChange.bind(this);
         this.login = this.login.bind(this);
         this.onRememberMeChange = this.onRememberMeChange.bind(this);
-    }
-
-    async componentWillMount() {
-        const token = Cookie.getCookie("token");
-        if (token) {
-            const res = await Axios.get(`/authentication/is_session_active`)
-            if (res.data.data.isActive) {
-                AppHistory.push("/dashboard")
-            }
-        }
     }
 
     render() {

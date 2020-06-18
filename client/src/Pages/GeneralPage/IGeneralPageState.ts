@@ -1,4 +1,4 @@
-import IFormValue from "../FormInput/IFormValue";
+import IFormValue from "../../Components/FormInput/IFormValue";
 import IRestaurant from "../../lib/IRestaurant";
 
 export default interface IGeneralPageState {
@@ -10,4 +10,5 @@ export default interface IGeneralPageState {
     restaurant: IFormValue<IRestaurant>
     focusedDropdown: boolean;
     isSubmitting: boolean;
+    selected: number;
 }

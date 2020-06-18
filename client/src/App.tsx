@@ -1,8 +1,8 @@
 import React from 'react';
 import './App.css';
-import RestaurantPage from './Components/RestaurantPage';
+import RestaurantPage from './Pages/RestaurantPage';
 import Page from './Page';
-import GeneralPage from './Components/GeneralPage';
+import GeneralPage from './Pages/GeneralPage';
 import StatusPage from './Components/StatusPage';
 import Status from './Components/StatusPage/Status';
 import IAppState from './IAppState';

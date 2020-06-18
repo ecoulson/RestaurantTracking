@@ -1,20 +1,22 @@
-import Logo from '../Logo';
-import RestaurantName from '../RestaurantName';
-import Instructions from '../Instructions';
-import Form from '../Form';
-import Submit from '../Submit';
+import Logo from '../../Components/Logo';
+import RestaurantName from '../../Components/RestaurantName';
+import Instructions from '../../Components/Instructions';
+import Form from '../../Components/Form';
+import Submit from '../../Components/Submit';
 import React from "react";
-import PhoneInput from '../PhoneInput';
-import EmailInput from '../EmailInput';
+import PhoneInput from '../../Components/PhoneInput';
+import EmailInput from '../../Components/EmailInput';
 import IRestaurantPageState from './IRestaurantPageState';
 import IPageProps from '../../IPageProps';
 import ICheckInBody from '../../lib/ICheckInBody';
 import ApplicationState from '../../Page';
 import Axios from "axios";
-import FormValue from '../FormInput/FormValue';
-import IFormValue from '../FormInput/IFormValue';
-import Toast from '../Toast';
-import ToastType from '../Toast/ToastType';
+import FormValue from '../../Components/FormInput/FormValue';
+import IFormValue from '../../Components/FormInput/IFormValue';
+import Toast from '../../Components/Toast';
+import ToastType from '../../Components/Toast/ToastType';
+import SlideSwitch from '../../Components/SlideSwitch';
+import LegalContainer from '../../Components/LegalContainer';
 
 export default class RestaurantPage extends React.Component<IPageProps, IRestaurantPageState> {
     constructor(props: IPageProps) {
@@ -25,12 +27,14 @@ export default class RestaurantPage extends React.Component<IPageProps, IRestaur
             isComplete: false,
             errorMessage: "",
             restaurantName: "",
-            isSubmitting: false
+            isSubmitting: false,
+            selected: 1
         }
 
         this.handleEmailChange = this.handleEmailChange.bind(this);
         this.handlePhoneChange = this.handlePhoneChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleSlideSwitchChange = this.handleSlideSwitchChange.bind(this);
     }
 
     componentWillMount() {
@@ -73,9 +77,13 @@ export default class RestaurantPage extends React.Component<IPageProps, IRestaur
                 <RestaurantName>{this.state.restaurantName}</RestaurantName>
                 <Instructions>Please enter one of the following:</Instructions>
                 <Form isSubmitting={this.state.isSubmitting}>
-                    <EmailInput iconColor="white" dark onChange={this.handleEmailChange} />
-                    <p className="or">Or</p>
-                    <PhoneInput iconColor="white" dark onChange={this.handlePhoneChange} />
+                    <SlideSwitch onChange={this.handleSlideSwitchChange}/>
+                    {
+                        this.state.selected === 1 ?
+                            <PhoneInput iconColor="white" dark onChange={this.handlePhoneChange} /> :
+                            <EmailInput iconColor="white" dark onChange={this.handleEmailChange} />
+
+                    }
                     <Submit 
                         dark 
                         onClick={this.handleSubmit} 
@@ -83,8 +91,15 @@ export default class RestaurantPage extends React.Component<IPageProps, IRestaur
                             Submit
                     </Submit>
                 </Form>
+                <LegalContainer />
             </>
         )
+    }
+
+    private handleSlideSwitchChange(id : number) {
+        this.setState({
+            selected: id
+        })
     }
 
     private handleEmailChange(email : IFormValue<string>) {

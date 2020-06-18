@@ -14,7 +14,6 @@ import LoginContainer from "../../Components/AuthenticationLayout/LoginContainer
 import Axios from "axios";
 import Cookie from "../../lib/Cookie";
 import ToastType from "../../Components/Toast/ToastType";
-import AppHistory from "../../AppHistory";
 
 export default class VerifyAccountPage extends React.Component<{}, IVerifyAccountPageState> {
     constructor(props: {}) {
@@ -27,24 +26,6 @@ export default class VerifyAccountPage extends React.Component<{}, IVerifyAccoun
             type: ToastType.Error
         }
         this.onClick = this.onClick.bind(this);
-    }
-
-    async componentWillMount() {
-        const token = Cookie.getCookie("token");
-        if (token) {
-            const res = await Axios.get(`/authentication/is_session_active`)
-            if (res.data.data.isActive) {
-                this.redirect()
-            }
-        }
-    }
-
-    private redirect() {
-        if (AppHistory.length !== 0) {
-            AppHistory.goBack()
-        } else {
-            AppHistory.push("/dashboard")
-        }
     }
 
     render() {

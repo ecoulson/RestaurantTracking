@@ -1,10 +1,12 @@
 import React from "react";
-import DashboardTitle from "./DashboardTitle";
+import DashboardLayout from "../../Components/DashboardLayout";
 
 export default class DashboardPage extends React.Component {
     render() {
         return (
-            <DashboardTitle />
+            <DashboardLayout>
+                Home
+            </DashboardLayout>
         )
     }
 }

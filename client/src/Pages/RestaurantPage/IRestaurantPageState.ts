@@ -1,4 +1,4 @@
-import IFormValue from "../FormInput/IFormValue";
+import IFormValue from "../../Components/FormInput/IFormValue";
 
 export default interface IRestaurantPageState {
     email: IFormValue<string>;
@@ -7,4 +7,5 @@ export default interface IRestaurantPageState {
     errorMessage: string;
     restaurantName: string;
     isSubmitting: boolean;
+    selected: number;
 }

@@ -1,0 +1,15 @@
+.legal-container {
+    color: white;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 21px;
+    letter-spacing: 0px;
+    text-align: center;
+    width: 280px;
+    margin: 50px auto;
+}
+
+.legal-link {
+    color: #37D2A7;
+    text-decoration: none;
+}

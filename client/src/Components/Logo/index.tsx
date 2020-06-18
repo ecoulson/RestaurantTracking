@@ -8,14 +8,14 @@ import ILogoProps from "./ILogoProps";
 export default class Logo extends React.Component<ILogoProps> {
     render() {
         return (
-            <>
+            <div style={this.getLogoStyle()}>
                 <img 
-                    className={`company-name ${this.getThemeClass()}`} 
+                    className={`company-name ${this.getThemeClass()} ${this.getLogoDirectionClass()}`} 
                     src={this.getLogo()} 
                     alt="Adapt soltuions logo" 
                 />
-                <LogoTitle dark={this.props.dark}/>
-            </>
+                <LogoTitle horizontal={this.props.horizontal} dark={this.props.dark}/>
+            </div>
         )
     }
 
@@ -29,5 +29,16 @@ export default class Logo extends React.Component<ILogoProps> {
         return this.props.dark ?
             "company-name-dark" :
             "company-name-light"
+    }
+
+    private getLogoStyle() {
+        return this.props.horizontal ?
+            { display: "flex" } :
+            { display: "block" }
+    }
+
+    private getLogoDirectionClass() {
+        return this.props.horizontal ?
+            "logo-horizontal" : "";
     }
 }

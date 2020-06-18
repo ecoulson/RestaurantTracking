@@ -1,26 +1,27 @@
 import React, { MouseEvent } from "react";
-import Logo from "../Logo";
-import Instructions from "../Instructions";
-import Form from "../Form";
-import Submit from "../Submit";
-import GeneralTitle from "../GeneralTitle";
-import RestaurantDropdown from "../DropdownInput";
+import Logo from "../../Components/Logo";
+import Instructions from "../../Components/Instructions";
+import Form from "../../Components/Form";
+import Submit from "../../Components/Submit";
+import GeneralTitle from "../../Components/GeneralTitle";
+import RestaurantDropdown from "../../Components/DropdownInput";
 import IGeneralPageState from "./IGeneralPageState";
-import EmailInput from "../EmailInput";
-import PhoneInput from "../PhoneInput";
-import TimeInput from "../TimeInput";
-import IRestaurantInput from "../DropdownInput/IRestaurantInput";
+import EmailInput from "../../Components/EmailInput";
+import PhoneInput from "../../Components/PhoneInput";
+import TimeInput from "../../Components/TimeInput";
+import IRestaurantInput from "../../Components/DropdownInput/IRestaurantInput";
 import Axios from "axios";
 import ICheckInBody from "../../lib/ICheckInBody";
 import moment from "moment";
 import Restaurant from "../../lib/Restaurant";
 import IPageProps from "../../IPageProps";
 import ApplicationState from "../../Page";
-import IFormValue from "../FormInput/IFormValue";
-import FormValue from "../FormInput/FormValue";
+import IFormValue from "../../Components/FormInput/IFormValue";
+import FormValue from "../../Components/FormInput/FormValue";
 import IRestaurant from "../../lib/IRestaurant";
-import DateInput from "../DateInput";
-import CheckboxInput from "../CheckboxInput";
+import DateInput from "../../Components/DateInput";
+import SlideSwitch from "../../Components/SlideSwitch";
+import LegalContainer from "../../Components/LegalContainer";
 
 export default class GeneralPage extends React.Component<IPageProps, IGeneralPageState> {
     constructor(props : IPageProps) {
@@ -33,7 +34,8 @@ export default class GeneralPage extends React.Component<IPageProps, IGeneralPag
             date: new FormValue<string>("", false),
             restaurant: new FormValue<IRestaurant>(new Restaurant(), false),
             focusedDropdown: false,
-            isSubmitting: false
+            isSubmitting: false,
+            selected: 1
         }
 
         this.handleEmail = this.handleEmail.bind(this);
@@ -42,6 +44,7 @@ export default class GeneralPage extends React.Component<IPageProps, IGeneralPag
         this.handleDate = this.handleDate.bind(this);
         this.handleRestaurant = this.handleRestaurant.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleSlideSwitchChange = this.handleSlideSwitchChange.bind(this);
     }
 
     render() {
@@ -55,9 +58,13 @@ export default class GeneralPage extends React.Component<IPageProps, IGeneralPag
                     <DateInput iconColor="white" dark onChange={this.handleDate} />
                     <TimeInput iconColor="white" dark onChange={this.handleTime} />
                     <Instructions>Please enter one of the following:</Instructions>
-                    <EmailInput iconColor="white" dark onChange={this.handleEmail} />
-                    <p className="or">Or</p>
-                    <PhoneInput iconColor="white" dark onChange={this.handlePhone} />
+                    <SlideSwitch onChange={this.handleSlideSwitchChange}/>
+                    {
+                        this.state.selected === 1 ?
+                            <PhoneInput iconColor="white" dark onChange={this.handlePhone} /> :
+                            <EmailInput iconColor="white" dark onChange={this.handleEmail} />
+
+                    }
                     <Submit 
                         dark 
                         onClick={this.handleSubmit} 
@@ -65,8 +72,15 @@ export default class GeneralPage extends React.Component<IPageProps, IGeneralPag
                             Submit
                     </Submit>
                 </Form>
+                <LegalContainer />
             </>
         )
+    }
+
+    private handleSlideSwitchChange(id : number) {
+        this.setState({
+            selected: id
+        })
     }
 
     private handleRestaurant(restaurant : IRestaurantInput) {

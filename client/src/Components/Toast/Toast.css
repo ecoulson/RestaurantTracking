@@ -1,4 +1,6 @@
 .toast-container {
+    z-index: 5;
+    font-family: 'myriad-pro';
     position: fixed;
     top: 15px;
     left: 50%;
