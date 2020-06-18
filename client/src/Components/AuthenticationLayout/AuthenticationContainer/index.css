@@ -9,3 +9,12 @@
     padding: 45px;
     overflow: scroll;
 }
+
+
+@media all and (max-width: 800px) {
+    .authentication-container {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+    }
+}

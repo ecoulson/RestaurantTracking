@@ -3,6 +3,7 @@ import ICheckboxProps from "./ICheckboxProps";
 import ICheckboxState from "./ICheckboxState";
 import "./index.css";
 import CustomCheckboxInput from "./CustomCheckboxInput";
+import CheckboxContainer from "./CheckboxContainer";
 
 export default class CheckboxInput extends React.Component<ICheckboxProps, ICheckboxState> {
     constructor(props : ICheckboxProps) {
@@ -16,7 +17,7 @@ export default class CheckboxInput extends React.Component<ICheckboxProps, IChec
 
     render() {
         return (
-            <div style={{display: "flex"}}>
+            <CheckboxContainer>
                 <input
                     className="checkbox-input-native"
                     checked={this.state.checked}
@@ -26,8 +27,10 @@ export default class CheckboxInput extends React.Component<ICheckboxProps, IChec
                     dark={this.props.dark}
                     onClick={this.onClick} 
                     checked={this.state.checked}/>
-                <label className={`checkbox-label-input ${this.getThemeClass()}`}>{this.props.label}</label>
-            </div>
+                <label className={`checkbox-label-input ${this.getThemeClass()}`}>
+                    {this.props.label}
+                </label>
+            </CheckboxContainer>
         )
     }
 

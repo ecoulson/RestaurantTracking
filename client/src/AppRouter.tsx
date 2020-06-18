@@ -17,6 +17,7 @@ import SpamRegistrationPage from "./Pages/SpamRegistrationPage";
 import CancelPasswordRecoveryPage from "./Pages/CancelPasswordRecoveryPage";
 import ConfirmPasswordRecoveryPage from "./Pages/ConfirmPasswordRecoveryPage";
 import ResetPasswordPage from "./Pages/ResetPasswordPage";
+import DashboardPage from "./Pages/DashboardPage";
 
 export default class AppRouter extends React.Component {
     render() {
@@ -25,6 +26,9 @@ export default class AppRouter extends React.Component {
                 <Switch>
                     <Route exact path="/login">
                         <Login/>
+                    </Route>
+                    <Route exact path="/dashboard">
+                        <DashboardPage />
                     </Route>
                     <Route exact path="/spam">
                         <SpamRegistrationPage />

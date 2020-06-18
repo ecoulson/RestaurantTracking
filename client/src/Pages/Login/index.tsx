@@ -13,7 +13,7 @@ import Form from "../../Components/Form";
 import LoginSettingsContainer from "./LoginSettingsContainer";
 import ForgotPasswordLink from "./ForgotPasswordLink";
 import SignUpContainer from "../../Components/AuthenticationLayout/SignUpContainer";
-import CheckboxContainer from "./CheckboxContainer";
+import CheckboxContainer from "../../Components/CheckboxInput/CheckboxContainer";
 import Toast from "../../Components/Toast";
 import Cookie from "../../lib/Cookie";
 import AppHistory from "../../AppHistory";
@@ -56,11 +56,9 @@ export default class Login extends React.Component<{}, ILoginState> {
                         <UsernameInput iconColor="#AAAAAA" onChange={this.onUsernameChange} />
                         <PasswordInput iconColor="#AAAAAA" onChange={this.onPasswordChange} />
                         <LoginSettingsContainer>
-                            <CheckboxContainer>
-                                <CheckboxInput 
-                                    onChange={this.onRememberMeChange}
-                                    label="Remember me"/>
-                            </CheckboxContainer>
+                            <CheckboxInput 
+                                onChange={this.onRememberMeChange}
+                                label="Remember me"/>
                             <ForgotPasswordLink />
                         </LoginSettingsContainer>
                         <Submit 

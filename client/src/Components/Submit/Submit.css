@@ -11,7 +11,7 @@
     box-shadow: none;
     border-radius: 5px;
     border: none;
-    color: #3B3A39;
+    color: white;
     background-color: gray;
     border: 0;
     outline: none;
@@ -32,17 +32,17 @@
 .show:hover {
     box-shadow: none;
     cursor: pointer;
-    color: white;
+    color: #3B3A39;
 }
 
 .show:focus {
     box-shadow: none;
     cursor: pointer;
-    color: white;
+    color: #3B3A39;
 }
 
 .show {
-    background-color: #45DFC2;
+    background-color: #37D2A7;
     animation-name: show;
     animation-duration: 1s;
     animation-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
