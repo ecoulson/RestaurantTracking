@@ -1,14 +1,14 @@
 import React from "react";
-import AuthenticationBackground from "../../Components/AuthenticationLayout/AuthenticationBackground";
-import AuthenticationContainer from "../../Components/AuthenticationLayout/AuthenticationContainer";
-import AuthenticationLayoutTitle from "../../Components/AuthenticationLayout/AuthenticationLayoutTitle";
+import AuthenticationBackground from "../../Layouts/AuthenticationLayout/AuthenticationBackground";
+import AuthenticationContainer from "../../Layouts/AuthenticationLayout/AuthenticationContainer";
+import AuthenticationLayoutTitle from "../../Layouts/AuthenticationLayout/AuthenticationLayoutTitle";
 import Logo from "../../Components/Logo";
 import Axios from "axios";
 import Toast from "../../Components/Toast";
 import ToastType from "../../Components/Toast/ToastType";
 import IVerificationPageState from "./IVerificationPageState";
 import AppHistory from "../../AppHistory";
-import LoginContainer from "../../Components/AuthenticationLayout/LoginContainer";
+import LoginContainer from "../../Layouts/AuthenticationLayout/LoginContainer";
 
 export default class VerificationPage extends React.Component<{}, IVerificationPageState> {
     constructor(props: {}) {

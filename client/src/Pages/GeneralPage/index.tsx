@@ -53,18 +53,16 @@ export default class GeneralPage extends React.Component<IPageProps, IGeneralPag
                 <Logo dark />
                 <Form isSubmitting={this.state.isSubmitting}>
                     <GeneralTitle />
-                    <Instructions>Please provide the following:</Instructions>
-                    <RestaurantDropdown iconColor="white" dark onChange={this.handleRestaurant} />
-                    <DateInput iconColor="white" dark onChange={this.handleDate} />
-                    <TimeInput iconColor="white" dark onChange={this.handleTime} />
-                    <Instructions>Please enter one of the following:</Instructions>
                     <SlideSwitch onChange={this.handleSlideSwitchChange}/>
                     {
                         this.state.selected === 1 ?
                             <PhoneInput iconColor="white" dark onChange={this.handlePhone} /> :
                             <EmailInput iconColor="white" dark onChange={this.handleEmail} />
-
                     }
+                    <RestaurantDropdown iconColor="white" dark onChange={this.handleRestaurant} />
+                    <DateInput iconColor="white" dark onChange={this.handleDate} />
+                    <TimeInput iconColor="white" dark onChange={this.handleTime} />
+                    <Instructions>Please enter one of the following:</Instructions>
                     <Submit 
                         dark 
                         onClick={this.handleSubmit} 

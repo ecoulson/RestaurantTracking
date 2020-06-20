@@ -22,6 +22,7 @@ import Toast from "./Components/Toast";
 import ToastType from "./Components/Toast/ToastType";
 import IAppRouterState from "./IAppRouterState";
 import UnauthenticatedAccessWrapper from "./Components/AuthenticationWrappers/UnauthenticatedAccessWrapper";
+import MarketplacePage from "./Pages/MarketplacePage";
 
 export default class AppRouter extends React.Component<{}, IAppRouterState> {
     constructor(props: {}) {
@@ -45,6 +46,11 @@ export default class AppRouter extends React.Component<{}, IAppRouterState> {
                     <Route exact path="/dashboard">
                         <AuthenticateActiveSession showError={this.showError}>
                             <DashboardPage />
+                        </AuthenticateActiveSession>
+                    </Route>
+                    <Route exact path="/marketplace">
+                        <AuthenticateActiveSession showError={this.showError}>
+                            <MarketplacePage />
                         </AuthenticateActiveSession>
                     </Route>
                     <Route exact path="/spam">

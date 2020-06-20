@@ -1,0 +1,7 @@
+.market-place-item-info-container {
+    width: 250px;
+    position: absolute;
+    bottom: 10px;
+    margin-left: -125px;
+    left: 50%;
+}
