@@ -52,7 +52,7 @@ export default class ForgotPasswordPage extends React.Component<{}, IForgotPassw
     private async handleSubmit() {
         if (this.state.email.valid) {
             try {
-                const res = await Axios.post("/user/password_recovery/recover", {
+                await Axios.post("/user/password_recovery/recover", {
                     email: this.state.email.value
                 })
                 this.setState({

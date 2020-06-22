@@ -17,6 +17,8 @@ import Toast from '../../Components/Toast';
 import ToastType from '../../Components/Toast/ToastType';
 import SlideSwitch from '../../Components/SlideSwitch';
 import LegalContainer from '../../Components/LegalContainer';
+import Icon from '../../Components/Icon';
+import IconType from '../../Components/Icon/IconTypes';
 
 export default class RestaurantPage extends React.Component<IPageProps, IRestaurantPageState> {
     constructor(props: IPageProps) {
@@ -77,7 +79,10 @@ export default class RestaurantPage extends React.Component<IPageProps, IRestaur
                 <RestaurantName>{this.state.restaurantName}</RestaurantName>
                 <Instructions>Please enter one of the following:</Instructions>
                 <Form isSubmitting={this.state.isSubmitting}>
-                    <SlideSwitch onChange={this.handleSlideSwitchChange}/>
+                    <SlideSwitch optionWidth={120} onChange={this.handleSlideSwitchChange}>
+                        <Icon color="white" icon={IconType.Phone}/>
+                        <Icon color="white" icon={IconType.Mail}/>
+                    </SlideSwitch>
                     {
                         this.state.selected === 1 ?
                             <PhoneInput iconColor="white" dark onChange={this.handlePhoneChange} /> :
@@ -97,6 +102,7 @@ export default class RestaurantPage extends React.Component<IPageProps, IRestaur
     }
 
     private handleSlideSwitchChange(id : number) {
+        console.log(id);
         this.setState({
             selected: id
         })

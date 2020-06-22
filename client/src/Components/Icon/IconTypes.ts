@@ -16,6 +16,8 @@ enum IconType {
     Shop,
     ClipboardList,
     OpenMenu,
+    CreditCard,
+    Users
 }
 
 export default IconType;

@@ -108,7 +108,7 @@ export default class UserRegistrationPage extends React.Component<{}, IUserRegis
     private async register() {
         if (this.canSubmit()) {
             try {
-                const res = await Axios.post("/user/registration/register", {
+                await Axios.post("/user/registration/register", {
                     username: this.state.username.value,
                     email: this.state.email.value,
                     firstName: this.state.fullname.value[0],

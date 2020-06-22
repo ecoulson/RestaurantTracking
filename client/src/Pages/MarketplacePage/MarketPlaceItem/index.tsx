@@ -4,14 +4,12 @@ import IMarketPlaceItemProps from "./IMarketPlaceItemProps";
 import MarketPlaceItemIcon from "./MarketPlaceItemIcon";
 import MarketPlaceItemName from "./MarketPlaceItemName";
 import MarketPlaceItemDescription from "./MarketPlaceItemDescription";
-import Submit from "../../../Components/Submit";
-import AppHistory from "../../../AppHistory";
 import MarketPlaceItemInfo from "./MarketPlaceItemInfo";
 
 export default class MarketPlaceItem extends React.Component<IMarketPlaceItemProps> {
     render() {
         return (
-            <Widget columns={1} rows={1}>
+            <Widget columns={4} rows={3}>
                 <MarketPlaceItemIcon icon={this.props.icon} />
                 <MarketPlaceItemName name={this.props.name} />
                 <MarketPlaceItemDescription desc={this.props.desc} />

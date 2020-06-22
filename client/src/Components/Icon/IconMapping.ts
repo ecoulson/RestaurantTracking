@@ -16,6 +16,8 @@ import { ReactComponent as Help } from "./svgs/help.svg";
 import { ReactComponent as ClipboardList } from "./svgs/clipboard-list.svg";
 import { ReactComponent as OpenMenu } from "./svgs/book-open.svg";
 import { ReactComponent as Shop } from "./svgs/shop.svg";
+import { ReactComponent as CreditCard } from "./svgs/credit-card.svg";
+import { ReactComponent as Users } from "./svgs/users.svg";
 
 const IconMapping = new Map<IconType, any>();
 IconMapping.set(IconType.Mail, Mail);
@@ -35,5 +37,7 @@ IconMapping.set(IconType.Help, Help);
 IconMapping.set(IconType.ClipboardList, ClipboardList);
 IconMapping.set(IconType.OpenMenu, OpenMenu);
 IconMapping.set(IconType.Shop, Shop);
+IconMapping.set(IconType.CreditCard, CreditCard);
+IconMapping.set(IconType.Users, Users);
 
 export default IconMapping;

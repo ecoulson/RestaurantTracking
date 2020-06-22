@@ -22,7 +22,6 @@ export default class CustomCheckboxInput extends React.Component<ICustomCheckbox
     }
 
     private handleClick() {
-        console.log(this.props.checked);
         this.props.onClick(!this.props.checked)
     }
 

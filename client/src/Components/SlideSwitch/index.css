@@ -1,18 +1,15 @@
 .slide-switch-container {
-    width: 170px;
     height: 40px;
     border-radius: 50px;
     border: 2px solid #37D2A7;
     margin: 25px auto;
-    position: relative;
 }
 
 .slide-switch-background {
-    z-index: -1;
+    z-index: 0;
     position: absolute;
     box-sizing: border-box;
     background-color: #37D2A7;
-    width: 90px;
     height: 40px;
     border-radius: 50px;
     transition: 0.25s linear;
@@ -27,20 +24,20 @@
 }
 
 .slide-switch-option-container {
-    width: 100%;
     height: 40px;
     border-radius: 50px;
     display: flex;
 }
 
 .slide-switch-option {
-    width: 100%;
     color: white;
     font-size: 18px;
     font-weight: 600;
     line-height: 26px;
-    margin-top: 7px;
+    padding-top: 7px;
+    border-radius: 50px;
     text-align: center;
+    z-index: 2;
 }
 
 .slide-switch-option:hover {

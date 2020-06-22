@@ -12,10 +12,11 @@ import {
 	faTimesCircle, 
 	faCheck, 
 	faCheckCircle, 
-	faRedo 
+	faRedo,
+	faChevronRight
 } from '@fortawesome/free-solid-svg-icons'
 
-library.add(faTimes, faTimesCircle, faCheck, faCheckCircle, faRedo);
+library.add(faTimes, faTimesCircle, faCheck, faCheckCircle, faRedo, faChevronRight);
 
 
 export default class App extends React.Component<{}, IAppState> {

@@ -3,10 +3,18 @@
     border-radius: 10px;
     grid-column: span 1;
     grid-row: span 1;
-    min-width: 300px;
-    min-height: 300px;
+    min-width: 100px;
+    min-height: 150px;
     box-shadow: 2px 2px 8px 4px rgba(0, 0, 0, 0.3);
     position: relative;
+}
+
+.col-fill {
+    grid-column: 1/-1;
+}
+
+.row-fill {
+    grid-row: 1/-1;
 }
 
 .row-1 {
@@ -55,4 +63,52 @@
 
 .col-6 {
     grid-column: span 6;
+}
+
+.row-7 {
+    grid-row: span 7;   
+}
+
+.col-7 {
+    grid-column: span 7;
+}
+
+.row-8 {
+    grid-row: span 8;   
+}
+
+.col-8 {
+    grid-column: span 8;
+}
+
+.row-9 {
+    grid-row: span 9;   
+}
+
+.col-9 {
+    grid-column: span 9;
+}
+
+.row-10 {
+    grid-row: span 10;   
+}
+
+.col-10 {
+    grid-column: span 10;
+}
+
+.row-11 {
+    grid-row: span 11;   
+}
+
+.col-11 {
+    grid-column: span 11;
+}
+
+.row-12 {
+    grid-row: span 12;   
+}
+
+.col-12 {
+    grid-column: span 12;
 }
