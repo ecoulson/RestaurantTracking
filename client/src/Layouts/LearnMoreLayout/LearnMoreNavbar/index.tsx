@@ -1,11 +1,13 @@
-import React, { MouseEvent } from "react";
+import React from "react";
 import "./index.css";
 import SlideSwitch from "../../../Components/SlideSwitch";
 import LearnMoreNavlink from "./LearnMoreNavlink";
 import ILearnMoreNavbarState from "./ILearnMoreNavbarState";
+import { debounce } from "../../../lib/Debounce";
 
 export default class LearnMoreNavbar extends React.Component<any, ILearnMoreNavbarState> {
     private clicked : boolean;
+    private unSetClicked : () => void;
 
     constructor(props: any) {
         super(props);
@@ -14,6 +16,9 @@ export default class LearnMoreNavbar extends React.Component<any, ILearnMoreNavb
         }
         this.clicked = false;
         this.onClick = this.onClick.bind(this);
+        this.unSetClicked = debounce(() => {
+            this.clicked = false;
+        }, 1000)
     }
 
     componentDidMount() {
@@ -37,9 +42,7 @@ export default class LearnMoreNavbar extends React.Component<any, ILearnMoreNavb
 
     private onClick() {
         this.clicked = true;
-        setTimeout(() => {
-            this.clicked = false
-        }, 1000)
+        this.unSetClicked();
     }
 
     // TODO: Refactor
