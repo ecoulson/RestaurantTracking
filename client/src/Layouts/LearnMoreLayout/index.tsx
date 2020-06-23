@@ -2,7 +2,7 @@ import React from "react";
 import ILearnMoreLayoutProps from "./ILearnMoreLayoutProps";
 import LearnMoreNavbar from "./LearnMoreNavbar";
 import "./index.css"
-import DashboardNavPannel from "../DashboardLayout/DashboardNavPannel";
+import DashboardNavPannel from "../DashboardLayout/DashboardNavPanel";
 import LearnMorePage from "../../Pages/LearnMorePage";
 import LearnMoreContainer from "./LearnMoreContainer";
 

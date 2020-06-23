@@ -4,6 +4,7 @@ import SlideSwitch from "../../../Components/SlideSwitch";
 import LearnMoreNavlink from "./LearnMoreNavlink";
 import ILearnMoreNavbarState from "./ILearnMoreNavbarState";
 import { debounce } from "../../../lib/Debounce";
+import LearnMoreSections from "./LearnMoreSections";
 
 export default class LearnMoreNavbar extends React.Component<any, ILearnMoreNavbarState> {
     private clicked : boolean;
@@ -65,7 +66,7 @@ export default class LearnMoreNavbar extends React.Component<any, ILearnMoreNavb
                     })
                     if (event.target.scrollTop <= 50) {
                         this.setState({
-                            selected: 1
+                            selected: LearnMoreSections.Top
                         })
                     } else if (index + 1 !== this.state.selected) {
                         this.setState({

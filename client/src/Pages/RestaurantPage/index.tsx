@@ -19,6 +19,7 @@ import SlideSwitch from '../../Components/SlideSwitch';
 import LegalContainer from '../../Components/LegalContainer';
 import Icon from '../../Components/Icon';
 import IconType from '../../Components/Icon/IconTypes';
+import CheckInType from '../../lib/CheckInInputType';
 
 export default class RestaurantPage extends React.Component<IPageProps, IRestaurantPageState> {
     constructor(props: IPageProps) {
@@ -30,7 +31,7 @@ export default class RestaurantPage extends React.Component<IPageProps, IRestaur
             errorMessage: "",
             restaurantName: "",
             isSubmitting: false,
-            selected: 1
+            selected: CheckInType.Phone
         }
 
         this.handleEmailChange = this.handleEmailChange.bind(this);
@@ -84,7 +85,7 @@ export default class RestaurantPage extends React.Component<IPageProps, IRestaur
                         <Icon color="white" icon={IconType.Mail}/>
                     </SlideSwitch>
                     {
-                        this.state.selected === 1 ?
+                        this.state.selected === CheckInType.Phone ?
                             <PhoneInput iconColor="white" dark onChange={this.handlePhoneChange} /> :
                             <EmailInput iconColor="white" dark onChange={this.handleEmailChange} />
 
@@ -153,12 +154,12 @@ export default class RestaurantPage extends React.Component<IPageProps, IRestaur
                 checkInBody.number = this.state.phoneNumber.value;
             }
             if (this.state.isComplete) {
-                this.submitCheckin(checkInBody)
+                this.submitCheckIn(checkInBody)
             }
         }
     }
 
-    private async submitCheckin(checkInBody : ICheckInBody) {
+    private async submitCheckIn(checkInBody : ICheckInBody) {
         try {
             const res = await Axios.post("/check_in/", checkInBody);
             if (res.data.success) {

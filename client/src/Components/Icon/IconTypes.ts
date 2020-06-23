@@ -19,7 +19,8 @@ enum IconType {
     CreditCard,
     Users,
     QRCode,
-    Image
+    Image,
+    Link
 }
 
 export default IconType;

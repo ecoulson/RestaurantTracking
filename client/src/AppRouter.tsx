@@ -24,6 +24,7 @@ import IAppRouterState from "./IAppRouterState";
 import UnauthenticatedAccessWrapper from "./Components/AuthenticationWrappers/UnauthenticatedAccessWrapper";
 import MarketplacePage from "./Pages/MarketplacePage";
 import LearnMoreLayout from "./Layouts/LearnMoreLayout";
+import UserProfilePage from "./Pages/UserProfilePage";
 
 export default class AppRouter extends React.Component<{}, IAppRouterState> {
     constructor(props: {}) {
@@ -68,6 +69,11 @@ export default class AppRouter extends React.Component<{}, IAppRouterState> {
                         <UnauthenticatedAccessWrapper showError={this.showError} to="/dashboard">
                             <SpamRegistrationPage />
                         </UnauthenticatedAccessWrapper>
+                    </Route>
+                    <Route exact path="/settings">
+                        <AuthenticateActiveSession showError={this.showError}>
+                            <UserProfilePage />
+                        </AuthenticateActiveSession>
                     </Route>
                     <Route exact path="/cancel-recover">
                         <UnauthenticatedAccessWrapper showError={this.showError} to="/dashboard">
