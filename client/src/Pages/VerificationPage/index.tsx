@@ -21,7 +21,7 @@ export default class VerificationPage extends React.Component<{}, IVerificationP
     async componentWillMount() {
         const query = new URLSearchParams(window.location.search)
         try {
-            await Axios.get(`/user/verification/verify?email=${query.get("email")}&token=${query.get("token")}`);
+            await Axios.get(`/api/user/verification/verify?email=${query.get("email")}&token=${query.get("token")}`);
             AppHistory.push("/login")
         } catch (error) {
             this.setState({

@@ -54,7 +54,7 @@ export default class RestaurantDropdown extends React.Component<IDropdownProps, 
 
     async componentWillMount() {
         try {
-            const res = await Axios.get("/restaurant");
+            const res = await Axios.get("/api/restaurant");
             if (res.data.success) {
                 const sortedRestaurants = this.sortRestaurants(res.data.data.restaurants);
                 this.setState({

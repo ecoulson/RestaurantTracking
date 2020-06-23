@@ -9,7 +9,7 @@ export default class UnauthenticatedAccessWrapper extends React.Component<IUnaut
     async componentWillMount() {
         const token = Cookie.getCookie("token");
         if (!token) {
-            const res = await Axios.get(`/authentication/is_session_active`)
+            const res = await Axios.get(`/api/authentication/is_session_active`)
             if (res.data.data.isActive) {
                 this.props.showError("You are already logged in", 5000)
                 AppHistory.push(this.props.to)

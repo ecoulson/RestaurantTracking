@@ -22,7 +22,7 @@ export default class ConfirmPasswordRecoveryPage extends React.Component<{}, ICo
         try {
             const params = new URLSearchParams(window.location.search)
             await Axios.get(
-                `/user/password_recovery/confirm?email=${params.get("email")}&token=${params.get("token")}`
+                `/api/user/password_recovery/confirm?email=${params.get("email")}&token=${params.get("token")}`
             )
             AppHistory.push(
                 `/reset-password?email=${params.get("email")}&token=${params.get("token")}`

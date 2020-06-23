@@ -22,7 +22,7 @@ export default class CancelPasswordRecoveryPage extends React.Component<{}, ICan
         try {
             const params = new URLSearchParams(window.location.search);
             await Axios.get(
-                `/user/password_recovery/cancel_recover?email=${params.get("email")}&token=${params.get("token")}`
+                `/api/user/password_recovery/cancel_recover?email=${params.get("email")}&token=${params.get("token")}`
             );
         } catch (error) {
             this.setState({

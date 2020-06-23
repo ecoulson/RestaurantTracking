@@ -51,7 +51,7 @@ export default class RestaurantPage extends React.Component<IPageProps, IRestaur
             });
         } else {
             try {
-                const response = await Axios.get(`/restaurant/${restaurantId}/`);
+                const response = await Axios.get(`/api/restaurant/${restaurantId}/`);
                 if (!response.data.success) {
                     this.setState({
                         errorMessage: `Failed to find restaurant with id ${restaurantId}`

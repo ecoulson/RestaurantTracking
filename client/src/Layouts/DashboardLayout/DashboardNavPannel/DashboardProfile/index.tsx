@@ -20,7 +20,7 @@ export default class DashboardProfile extends React.Component<{}, IDashboardProf
 
     async componentWillMount() {
         try {
-            const res = await Axios.get(`/user/session`, {
+            const res = await Axios.get(`/api/user/session`, {
                 headers: {
                     "Authorization": `Bearer ${Cookie.getCookie("token")}`
                 }

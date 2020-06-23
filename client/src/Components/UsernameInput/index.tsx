@@ -52,7 +52,7 @@ export default class UsernameInput extends React.Component<IUsernameInputProps, 
                     message: ""
                 })
             }
-            const res = await Axios.get(`user/registration/availible/${this.state.username}`);
+            const res = await Axios.get(`/api/user/registration/availible/${this.state.username}`);
             this.setState({
                 valid: res.data.data.availible,
                 message: res.data.data.availible ? "" : "Username has been taken"

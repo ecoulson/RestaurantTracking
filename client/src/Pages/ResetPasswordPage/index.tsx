@@ -58,7 +58,7 @@ export default class ResetPasswordPage extends React.Component<{}, IResetPasswor
         if (this.state.password.valid) {
             try {
                 const params = new URLSearchParams(window.location.search);
-                await Axios.post("/user/password_recovery/reset", {
+                await Axios.post("/api/user/password_recovery/reset", {
                     password: this.state.password.value,
                     email: params.get("email"),
                     token: params.get("token")

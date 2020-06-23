@@ -80,7 +80,7 @@ export default class Login extends React.Component<{}, ILoginState> {
 
     private async login() {
         try {
-            const res = await Axios.post("/authentication/login", {
+            const res = await Axios.post("/api/authentication/login", {
                 username: this.state.username,
                 password: this.state.password,
                 rememberMe: this.state.rememberMe

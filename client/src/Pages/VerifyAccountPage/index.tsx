@@ -68,7 +68,7 @@ export default class VerifyAccountPage extends React.Component<{}, IVerifyAccoun
     }
 
     private async handleSuccessfulResend() {
-        await Axios.post("/user/registration/send_verification", {
+        await Axios.post("/api/user/registration/send_verification", {
             email: this.state.email
         }, {
             headers: {

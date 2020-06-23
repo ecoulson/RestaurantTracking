@@ -57,7 +57,7 @@ if (process.env.NODE_ENV === "production") {
 }
 
 app.use("/", express.static(path.join(__dirname, '..', 'client', 'build')));
-app.use("/", new APIRouterConfiguration({}).setup());
+app.use("/api", new APIRouterConfiguration({}).setup());
 
 if (process.env.NODE_ENV !== "development") {
     app.use(ErrorHandlingMiddleware.productionErrorHandler);
