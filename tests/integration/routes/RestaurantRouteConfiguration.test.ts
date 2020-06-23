@@ -17,8 +17,8 @@ import { generateObjectId } from "../../helpers/mongo";
 
 const chance = new Chance();
 
-const REGISTER_URL = "/restaurant/register";
-const CODE_URL = "/restaurant/:id/generate";
+const REGISTER_URL = "/api/restaurant/register";
+const CODE_URL = "/api/restaurant/:id/generate";
 const OLD_ENV = process.env;
 
 beforeAll(() => {
@@ -184,5 +184,5 @@ async function makeQRCodeRequest(params : any) {
 }
 
 async function makeFindRestaurantRequest(id : string) {
-    return await makeGetRequest(`/restaurant/${id}`);
+    return await makeGetRequest(`/api/restaurant/${id}`);
 }

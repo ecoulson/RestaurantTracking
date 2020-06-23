@@ -18,7 +18,7 @@ import CheckInModel from "../../../src/models/check-in/CheckInModel";
 
 const chance = new Chance();
 
-const CHECKIN_URL = "/check_in";
+const CHECKIN_URL = "/api/check_in";
 
 const OLD_ENV = process.env;
 
