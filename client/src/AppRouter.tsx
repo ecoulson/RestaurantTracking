@@ -29,15 +29,17 @@ export default class AppRouter extends React.Component<{}, IAppRouterState> {
     constructor(props: {}) {
         super(props);
         this.state = {
-            message: ""
+            message: "",
+            type: ToastType.Error
         }
         this.showError = this.showError.bind(this);
+        this.showSuccess = this.showSuccess.bind(this);
     }
 
     render() {
         return (
             <Router history={AppHistory}>
-                <Toast type={ToastType.Error} message={this.state.message} />
+                <Toast type={this.state.type} message={this.state.message} />
                 <Switch>
                     <Route path="/learn-more/:product" render={
                         (props) => (
@@ -83,7 +85,7 @@ export default class AppRouter extends React.Component<{}, IAppRouterState> {
                         </UnauthenticatedAccessWrapper>
                     </Route>
                     <Route exact path="/logout">
-                        <Logout/>
+                        <Logout showSuccess={this.showSuccess}/>
                     </Route>
                     <Route exact path="/verify">
                         <UnauthenticatedAccessWrapper showError={this.showError} to="/dashboard">
@@ -92,7 +94,7 @@ export default class AppRouter extends React.Component<{}, IAppRouterState> {
                     </Route>
                     <Route exact path="/verification">
                         <UnauthenticatedAccessWrapper showError={this.showError} to="/dashboard">
-                            <VerificationPage />
+                            <VerificationPage showSuccess={this.showSuccess}/>
                         </UnauthenticatedAccessWrapper>
                     </Route>
                     <Route exact path="/register">
@@ -114,7 +116,20 @@ export default class AppRouter extends React.Component<{}, IAppRouterState> {
     }
 
     private showError(message: string, time: number) {
-        this.setState({ message })
+        this.setState({ 
+            message,
+            type: ToastType.Error
+        })
+        setTimeout(() => {
+            this.setState({ message: "" })
+        }, time); 
+    }
+
+    private showSuccess(message: string, time: number) {
+        this.setState({ 
+            message,
+            type: ToastType.Success
+        })
         setTimeout(() => {
             this.setState({ message: "" })
         }, time); 

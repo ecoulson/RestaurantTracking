@@ -9,9 +9,10 @@ import ToastType from "../../Components/Toast/ToastType";
 import IVerificationPageState from "./IVerificationPageState";
 import AppHistory from "../../AppHistory";
 import LoginContainer from "../../Layouts/AuthenticationLayout/LoginContainer";
+import IVerificationPageProps from "./IVerificationPageProps";
 
-export default class VerificationPage extends React.Component<{}, IVerificationPageState> {
-    constructor(props: {}) {
+export default class VerificationPage extends React.Component<IVerificationPageProps, IVerificationPageState> {
+    constructor(props: IVerificationPageProps) {
         super(props);
         this.state = {
             message: ""
@@ -21,7 +22,9 @@ export default class VerificationPage extends React.Component<{}, IVerificationP
     async componentWillMount() {
         const query = new URLSearchParams(window.location.search)
         try {
-            await Axios.get(`/api/user/verification/verify?email=${query.get("email")}&token=${query.get("token")}`);
+            await Axios.get(
+                `/api/user/verification/verify?email=${query.get("email")}&token=${query.get("token")}`);
+            this.props.showSuccess("Successfully verified account", 3000);
             AppHistory.push("/login")
         } catch (error) {
             this.setState({

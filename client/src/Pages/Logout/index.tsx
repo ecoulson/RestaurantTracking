@@ -5,10 +5,12 @@ import AuthenticationBackground from "../../Layouts/AuthenticationLayout/Authent
 import AuthenticationContainer from "../../Layouts/AuthenticationLayout/AuthenticationContainer";
 import AuthenticationLayoutTitle from "../../Layouts/AuthenticationLayout/AuthenticationLayoutTitle";
 import Logo from "../../Components/Logo";
+import ILogoutProps from "./ILogoutProps";
 
-export default class Logout extends React.Component {
+export default class Logout extends React.Component<ILogoutProps> {
     componentWillMount() {
         Cookie.eraseCookie("token");
+        this.props.showSuccess("Successfully logged out", 3000);
         AppHistory.push("/login");
     }
     
