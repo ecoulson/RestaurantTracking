@@ -1,4 +1,4 @@
-import IAuthorizationMiddleware from "./IAuthorizationMiddleWare";
+import IAuthorizationMiddleware from "./IAuthorizationMiddleware";
 import { Request, Response, NextFunction } from "express";
 import GetResourceRequestsFunction from "../../lib/Authorization/GetResourceRequestsFunction";
 import OperationType from "../../lib/Authorization/OperationType";
