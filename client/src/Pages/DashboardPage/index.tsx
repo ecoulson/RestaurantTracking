@@ -1,11 +1,14 @@
 import React from "react";
-import DashboardLayout from "../../Components/DashboardLayout";
+import DashboardLayout from "../../Layouts/DashboardLayout";
+import Widget from "../../Components/Widget";
 
 export default class DashboardPage extends React.Component {
     render() {
         return (
-            <DashboardLayout>
-                Home
+            <DashboardLayout title="Dashboard">
+                <Widget columns={3} rows={1}>
+                    
+                </Widget>
             </DashboardLayout>
         )
     }

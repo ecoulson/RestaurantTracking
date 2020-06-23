@@ -22,6 +22,8 @@ import Toast from "./Components/Toast";
 import ToastType from "./Components/Toast/ToastType";
 import IAppRouterState from "./IAppRouterState";
 import UnauthenticatedAccessWrapper from "./Components/AuthenticationWrappers/UnauthenticatedAccessWrapper";
+import MarketplacePage from "./Pages/MarketplacePage";
+import LearnMoreLayout from "./Layouts/LearnMoreLayout";
 
 export default class AppRouter extends React.Component<{}, IAppRouterState> {
     constructor(props: {}) {
@@ -37,6 +39,14 @@ export default class AppRouter extends React.Component<{}, IAppRouterState> {
             <Router history={AppHistory}>
                 <Toast type={ToastType.Error} message={this.state.message} />
                 <Switch>
+                    <Route path="/learn-more/:product" render={
+                        (props) => (
+                            <AuthenticateActiveSession showError={this.showError}>
+                                <LearnMoreLayout {...props} />
+                            </AuthenticateActiveSession>
+                        )
+                    }>
+                    </Route>
                     <Route exact path="/login">
                         <UnauthenticatedAccessWrapper to="/dashboard" showError={this.showError}>
                             <Login/>
@@ -45,6 +55,11 @@ export default class AppRouter extends React.Component<{}, IAppRouterState> {
                     <Route exact path="/dashboard">
                         <AuthenticateActiveSession showError={this.showError}>
                             <DashboardPage />
+                        </AuthenticateActiveSession>
+                    </Route>
+                    <Route exact path="/marketplace">
+                        <AuthenticateActiveSession showError={this.showError}>
+                            <MarketplacePage />
                         </AuthenticateActiveSession>
                     </Route>
                     <Route exact path="/spam">

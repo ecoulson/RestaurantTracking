@@ -1,9 +1,9 @@
 import React from "react";
-import AuthenticationBackground from "../../Components/AuthenticationLayout/AuthenticationBackground";
-import AuthenticationContainer from "../../Components/AuthenticationLayout/AuthenticationContainer";
+import AuthenticationBackground from "../../Layouts/AuthenticationLayout/AuthenticationBackground";
+import AuthenticationContainer from "../../Layouts/AuthenticationLayout/AuthenticationContainer";
 import Logo from "../../Components/Logo";
-import AuthenticationLayoutTitle from "../../Components/AuthenticationLayout/AuthenticationLayoutTitle";
-import LoginContainer from "../../Components/AuthenticationLayout/LoginContainer";
+import AuthenticationLayoutTitle from "../../Layouts/AuthenticationLayout/AuthenticationLayoutTitle";
+import LoginContainer from "../../Layouts/AuthenticationLayout/LoginContainer";
 import Form from "../../Components/Form";
 import UsernameInput from "../../Components/UsernameInput";
 import PasswordInput from "../../Components/PasswordInput";
@@ -108,7 +108,7 @@ export default class UserRegistrationPage extends React.Component<{}, IUserRegis
     private async register() {
         if (this.canSubmit()) {
             try {
-                const res = await Axios.post("/user/registration/register", {
+                await Axios.post("/user/registration/register", {
                     username: this.state.username.value,
                     email: this.state.email.value,
                     firstName: this.state.fullname.value[0],

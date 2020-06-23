@@ -27,7 +27,7 @@ export default class PhoneInput extends React.Component<IPhoneInputProps, IPhone
                 iconColor={this.props.iconColor}
                 icon={IconType.Phone} 
                 label="phone"
-                placeHolder="Enter phone number here"
+                placeHolder="Enter phone number"
                 onChange={this.handleChange}
                 type="tel" />
         )

@@ -28,7 +28,7 @@ export default class DateInput extends React.Component<IDateInputProps, IDateInp
                 onChange={this.handleTimeChange}
                 icon={IconType.Calendar} 
                 label="Date of Entry" 
-                placeHolder="Click here to enter date" 
+                placeHolder="Enter date" 
                 type="date" />
         )
     }

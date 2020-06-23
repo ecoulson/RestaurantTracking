@@ -28,7 +28,7 @@ export default class TimeInput extends React.Component<ITimeInputProps, ITimeInp
                 icon={IconType.Clock} 
                 dark={this.props.dark}
                 label="Time of Entry" 
-                placeHolder="Click here to enter time" 
+                placeHolder="Enter time" 
                 type="time" />
         )
     }

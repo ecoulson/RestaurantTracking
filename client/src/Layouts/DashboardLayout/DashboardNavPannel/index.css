@@ -1,0 +1,12 @@
+.dashboard-nav-pannel {
+    width: 400px;
+    height: 100vh;
+    position: relative;
+    background: transparent linear-gradient(180deg, #212C46 0%, #260D57 100%) 0% 0% no-repeat padding-box;
+}
+
+@media all and (max-width: 750px) {
+    .dashboard-nav-pannel {
+        width: 75px;
+    }
+}

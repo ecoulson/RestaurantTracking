@@ -22,6 +22,8 @@ import IRestaurant from "../../lib/IRestaurant";
 import DateInput from "../../Components/DateInput";
 import SlideSwitch from "../../Components/SlideSwitch";
 import LegalContainer from "../../Components/LegalContainer";
+import Icon from "../../Components/Icon";
+import IconType from "../../Components/Icon/IconTypes";
 
 export default class GeneralPage extends React.Component<IPageProps, IGeneralPageState> {
     constructor(props : IPageProps) {
@@ -53,18 +55,19 @@ export default class GeneralPage extends React.Component<IPageProps, IGeneralPag
                 <Logo dark />
                 <Form isSubmitting={this.state.isSubmitting}>
                     <GeneralTitle />
-                    <Instructions>Please provide the following:</Instructions>
-                    <RestaurantDropdown iconColor="white" dark onChange={this.handleRestaurant} />
-                    <DateInput iconColor="white" dark onChange={this.handleDate} />
-                    <TimeInput iconColor="white" dark onChange={this.handleTime} />
-                    <Instructions>Please enter one of the following:</Instructions>
-                    <SlideSwitch onChange={this.handleSlideSwitchChange}/>
+                    <SlideSwitch onChange={this.handleSlideSwitchChange}>
+                        <Icon color="white" icon={IconType.Phone}/>
+                        <Icon color="white" icon={IconType.Mail}/>
+                    </SlideSwitch>
                     {
                         this.state.selected === 1 ?
                             <PhoneInput iconColor="white" dark onChange={this.handlePhone} /> :
                             <EmailInput iconColor="white" dark onChange={this.handleEmail} />
-
                     }
+                    <RestaurantDropdown iconColor="white" dark onChange={this.handleRestaurant} />
+                    <DateInput iconColor="white" dark onChange={this.handleDate} />
+                    <TimeInput iconColor="white" dark onChange={this.handleTime} />
+                    <Instructions>Please enter one of the following:</Instructions>
                     <Submit 
                         dark 
                         onClick={this.handleSubmit} 

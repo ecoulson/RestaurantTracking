@@ -9,7 +9,6 @@ export default class AuthenticateActiveSession extends React.Component<IAuthenti
         const token = Cookie.getCookie("token");
         if (token) {
             const res = await Axios.get(`/authentication/is_session_active`)
-            console.log(res.data.data);
             if (!res.data.data.isActive) {
                 this.props.showError("Session has expired", 5000)
                 AppHistory.push("/login")

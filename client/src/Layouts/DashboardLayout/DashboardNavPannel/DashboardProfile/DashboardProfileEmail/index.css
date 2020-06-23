@@ -1,0 +1,15 @@
+.dashboard-profile-email {
+    color: #CFD0D3;
+    text-align: center;
+    font-size: 18px;
+    font-family: 'myriad-pro';
+    line-height: 24px;
+    margin: 0;
+    margin-bottom: 50px;
+}
+
+@media all and (max-width: 750px) {
+    .dashboard-profile-email {
+        display: none;
+    }
+}

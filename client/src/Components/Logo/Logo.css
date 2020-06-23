@@ -17,9 +17,24 @@
 .logo-horizontal {
     margin: 25px;
     padding: 0;
-}
-
-.logo-horizontal {
     height: 75px;
     width: 75px;
+}
+
+.logo-horizontal-container {
+    margin: 20px auto;
+    display: flex;
+    width: 300px;
+}
+
+@media all and (max-width: 750px) {
+    .logo-horizontal-container {
+        width: 75px;
+        display: block;
+    }
+    .logo-horizontal {
+        margin: 10px auto;
+        width: 50px;
+        height: 50px;
+    }
 }

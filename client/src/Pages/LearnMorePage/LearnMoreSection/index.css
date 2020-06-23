@@ -1,0 +1,26 @@
+.learn-more-section {
+    padding: 25px 50px;
+}
+
+.learn-more-section-wrapper {
+    max-width: 1500px;
+    margin: 0 auto;
+}
+
+#learn-more-section-top {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background-color: #3B3A39;
+}
+
+#learn-more-section-top > .learn-more-section-wrapper > .learn-more-section-paragraph {
+    color: white;
+}
+
+#learn-more-section-top > .learn-more-section-wrapper > .learn-more-section-title {
+    color: white;
+}
+
+#learn-more-section-top > .learn-more-section-wrapper > .submit {
+    margin: 10px 5px;
+}

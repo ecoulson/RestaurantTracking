@@ -2,6 +2,7 @@
     min-width: 285px;
     max-width: 410px;
     margin: 0 auto;
+    padding: 0 25px;
 }
 
 .submitting-icon {

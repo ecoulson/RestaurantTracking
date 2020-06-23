@@ -8,7 +8,7 @@ import ILogoProps from "./ILogoProps";
 export default class Logo extends React.Component<ILogoProps> {
     render() {
         return (
-            <div style={this.getLogoStyle()}>
+            <div className={this.getLogoStyle()}>
                 <img 
                     className={`company-name ${this.getThemeClass()} ${this.getLogoDirectionClass()}`} 
                     src={this.getLogo()} 
@@ -33,8 +33,8 @@ export default class Logo extends React.Component<ILogoProps> {
 
     private getLogoStyle() {
         return this.props.horizontal ?
-            { display: "flex" } :
-            { display: "block" }
+            "logo-horizontal-container" :
+            "";
     }
 
     private getLogoDirectionClass() {

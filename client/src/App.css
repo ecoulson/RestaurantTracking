@@ -1,12 +1,16 @@
+html {
+	scroll-behavior: smooth;
+}
+
 body {
 	background-color: #1B2D42;
+	font-family: 'myriad-pro', Helvetica, sans-serif;
 }
 
 .app {
 	height: 100%;
 	width: 100%;
 	position: absolute;
-	font-family: 'myriad-pro', 'sans-serif', Helvetica;
 }
 
 .container {

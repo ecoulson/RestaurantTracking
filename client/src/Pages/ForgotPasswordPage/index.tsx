@@ -1,12 +1,12 @@
 import React from "react";
-import AuthenticationBackground from "../../Components/AuthenticationLayout/AuthenticationBackground";
-import AuthenticationContainer from "../../Components/AuthenticationLayout/AuthenticationContainer";
+import AuthenticationBackground from "../../Layouts/AuthenticationLayout/AuthenticationBackground";
+import AuthenticationContainer from "../../Layouts/AuthenticationLayout/AuthenticationContainer";
 import Logo from "../../Components/Logo";
-import AuthenticationLayoutTitle from "../../Components/AuthenticationLayout/AuthenticationLayoutTitle";
+import AuthenticationLayoutTitle from "../../Layouts/AuthenticationLayout/AuthenticationLayoutTitle";
 import Form from "../../Components/Form";
 import EmailInput from "../../Components/EmailInput";
-import AuthenticationLayoutText from "../../Components/AuthenticationLayout/AuthenticationLayoutText";
-import LoginContainer from "../../Components/AuthenticationLayout/LoginContainer";
+import AuthenticationLayoutText from "../../Layouts/AuthenticationLayout/AuthenticationLayoutText";
+import LoginContainer from "../../Layouts/AuthenticationLayout/LoginContainer";
 import IForgotPasswordPageState from "./IForgotPasswordPageState";
 import Toast from "../../Components/Toast";
 import ToastType from "../../Components/Toast/ToastType";
@@ -52,7 +52,7 @@ export default class ForgotPasswordPage extends React.Component<{}, IForgotPassw
     private async handleSubmit() {
         if (this.state.email.valid) {
             try {
-                const res = await Axios.post("/user/password_recovery/recover", {
+                await Axios.post("/user/password_recovery/recover", {
                     email: this.state.email.value
                 })
                 this.setState({
