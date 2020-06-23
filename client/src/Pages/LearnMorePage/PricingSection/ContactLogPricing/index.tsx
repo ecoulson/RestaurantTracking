@@ -46,7 +46,7 @@ export default class ContactLogPricing extends React.Component<IPricingModel, IC
                 <LearnMoreSectionParagraph>{this.getSetupPriceString()}</LearnMoreSectionParagraph>
                 <LearnMoreSubtitle>Maintain and secure your contact log for the monthly price of </LearnMoreSubtitle>
                 <LearnMoreSectionParagraph>{this.getMonthlyPriceString()}</LearnMoreSectionParagraph>
-                <LearnMoreSubtitle>Explore the cost over time</LearnMoreSubtitle>
+                <LearnMoreSubtitle>See the cost over time</LearnMoreSubtitle>
                 <NumberInput 
                     onChange={this.handleMonthInput} 
                     label="Months"
