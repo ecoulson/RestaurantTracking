@@ -18,6 +18,8 @@ import { ReactComponent as OpenMenu } from "./svgs/book-open.svg";
 import { ReactComponent as Shop } from "./svgs/shop.svg";
 import { ReactComponent as CreditCard } from "./svgs/credit-card.svg";
 import { ReactComponent as Users } from "./svgs/users.svg";
+import { ReactComponent as QRCode } from "./svgs/qr-code.svg";
+import { ReactComponent as Image } from "./svgs/image.svg";
 
 const IconMapping = new Map<IconType, any>();
 IconMapping.set(IconType.Mail, Mail);
@@ -39,5 +41,7 @@ IconMapping.set(IconType.OpenMenu, OpenMenu);
 IconMapping.set(IconType.Shop, Shop);
 IconMapping.set(IconType.CreditCard, CreditCard);
 IconMapping.set(IconType.Users, Users);
+IconMapping.set(IconType.QRCode, QRCode);
+IconMapping.set(IconType.Image, Image);
 
 export default IconMapping;

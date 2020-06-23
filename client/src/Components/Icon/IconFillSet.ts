@@ -13,5 +13,6 @@ IconFillSet.add(IconType.Shop);
 IconFillSet.add(IconType.ClipboardList);
 IconFillSet.add(IconType.CreditCard);
 IconFillSet.add(IconType.Users);
+IconFillSet.add(IconType.QRCode);
 
 export default IconFillSet;

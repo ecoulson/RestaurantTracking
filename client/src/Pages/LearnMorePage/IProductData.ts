@@ -6,6 +6,7 @@ export default interface IProductData {
     overview: IOverview;
     features: IFeature[];
     name: string;
+    productName: string;
     description: string;
     pricingModel: IPricingModel;
 }

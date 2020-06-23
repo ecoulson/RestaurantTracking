@@ -13,7 +13,7 @@ export default class TopSection extends React.Component<ITopSectionProps> {
             <LearnMoreSection id="top">
                 <LearnMoreSectionTitle>{this.props.name}</LearnMoreSectionTitle>
                 <LearnMoreSectionParagraph>{this.props.description}</LearnMoreSectionParagraph>
-                <PurchaseButton />
+                <PurchaseButton productName={this.props.productName} />
             </LearnMoreSection>
         )
     }

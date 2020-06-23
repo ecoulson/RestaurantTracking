@@ -1,4 +1,4 @@
 export default interface IRestaurantPricingState {
-    users: string;
-    months: string;
+    users: number;
+    months: number;
 }

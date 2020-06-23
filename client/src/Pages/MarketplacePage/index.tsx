@@ -17,11 +17,6 @@ export default class MarketplacePage extends React.Component {
                     desc="Provide an optional contact tracing logging service using personalized QR Codes. Works great for bars, coffee shops, and seat your self restaurants."
                     to="/learn-more/contact-logs" 
                     name="Contact Logs" />
-                <MarketPlaceItem 
-                    icon={IconType.OpenMenu} 
-                    desc="Easily upload your menus to your restaurant with our menu reading AI. Then, integrate your menus with some of the most popular POS."
-                    to="/learn-more/menus" 
-                    name="Menus" />
             </DashboardLayout>
         )
     }

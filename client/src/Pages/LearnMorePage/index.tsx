@@ -6,6 +6,7 @@ import TopSection from "./TopSection";
 import OverviewSection from "./OverviewSection";
 import FeatureSection from "./FeatureSection";
 import PricingSection from "./PricingSection";
+import PurchaseButton from "./PurchaseButton";
 
 export default class LearnMorePage extends React.Component<ILearnMorePageProps> {
     render() {
@@ -15,10 +16,12 @@ export default class LearnMorePage extends React.Component<ILearnMorePageProps> 
                 <div className="learn-more-section-container">
                     <TopSection 
                         name={productData.name} 
-                        description={productData.description} />
+                        description={productData.description} 
+                        productName={productData.productName} />
                     <OverviewSection overview={productData.overview} />
                     <FeatureSection features={productData.features} />
                     <PricingSection model={productData.pricingModel}/>
+                    <PurchaseButton productName={productData.productName} />
                 </div>
             )
         } else {

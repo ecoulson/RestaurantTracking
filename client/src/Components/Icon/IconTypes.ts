@@ -17,7 +17,9 @@ enum IconType {
     ClipboardList,
     OpenMenu,
     CreditCard,
-    Users
+    Users,
+    QRCode,
+    Image
 }
 
 export default IconType;
