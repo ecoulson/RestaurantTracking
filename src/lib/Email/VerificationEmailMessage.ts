@@ -4,7 +4,7 @@ import IEmailMessage from "./IEmailMessage";
 
 export default class VerificationEmailMessage implements IEmailMessage {
     private user : IUser;
-    private token : IToken;
+    private token : IToken; 
 
     constructor(user : IUser, token : IToken) {
         this.user = user;
