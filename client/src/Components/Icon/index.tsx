@@ -2,9 +2,24 @@ import React from "react";
 import IconMapping from "./IconMapping";
 import IFormIconProps from "./IIconProps";
 import "./Icon.css";
+import IconFillSet from "./IconFillSet";
 
 export default class Icon extends React.Component<IFormIconProps> {
     render() {
-        return <img alt="icon" className="icon" src={IconMapping.get(this.props.icon)}></img>
+        return this.getIcon()
+    }
+
+    private getIcon() {
+        const color = this.props.color ? this.props.color : "";
+        const SelectedIcon = IconMapping.get(this.props.icon)
+        if (IconFillSet.has(this.props.icon)) {
+            return (
+                <SelectedIcon fill={color} stroke="none" className="icon"/>
+            )
+        } else {
+            return (
+                <SelectedIcon fill="none" stroke={color} className="icon"/>
+            )
+        }
     }
 }

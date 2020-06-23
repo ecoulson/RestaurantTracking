@@ -1,18 +1,16 @@
 {
-  "compilerOptions": {
-    "module": "commonjs",
-    "esModuleInterop": true,
-    "target": "es6",
-    "noImplicitAny": true,
-    "moduleResolution": "node",
-    "sourceMap": true,
-    "outDir": "dist",
-    "baseUrl": ".",
-    "noUnusedLocals": true,
-    "typeRoots": [ "./src/typings", "./node_modules/@types"],
-  },
-  "exclude": [
-    "./tests",
-    "./client"
-  ]
-}
+    "compilerOptions": {
+      "module": "commonjs",
+      "esModuleInterop": true,
+      "target": "es6",
+      "noImplicitAny": true,
+      "moduleResolution": "node",
+      "sourceMap": true,
+      "outDir": "dist",
+      "noUnusedLocals": true,
+      "typeRoots": [ "./src/typings", "./node_modules/@types"],
+    },
+    "exclude": [
+      "./client"
+    ]
+  }

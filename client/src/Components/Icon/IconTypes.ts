@@ -4,7 +4,22 @@ enum IconType {
     Dropdown,
     Menu,
     Clock,
-    Calendar
+    Calendar,
+    Lock,
+    User,
+    Info,
+    Dashboard,
+    Shopping,
+    Settings,
+    Logout,
+    Help,
+    Shop,
+    ClipboardList,
+    OpenMenu,
+    CreditCard,
+    Users,
+    QRCode,
+    Image
 }
 
 export default IconType;

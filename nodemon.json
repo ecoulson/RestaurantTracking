@@ -1,5 +1,8 @@
 { 
-    "watch": ["src/**/*.ts"], 
+    "watch": ["src"],
+    "ext": "ts",
     "ignore": ["tests/**/*.test.ts"], 
-    "exec": "ts-node --project ./tsconfig.json ./src/server.ts" 
+    "exec": "ts-node --files --project ./tsconfig.json ./src/server.ts",
+    "verbose": true,
+    "restartable": "rs"
 }

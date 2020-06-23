@@ -2,6 +2,7 @@ import React from "react";
 import IToastProps from "./IToastProps";
 import "./Toast.css";
 import IToastState from "./IToastState";
+import ToastType from "./ToastType";
 
 export default class Toast extends React.Component<IToastProps, IToastState> {
     constructor(props : IToastProps) {
@@ -13,7 +14,7 @@ export default class Toast extends React.Component<IToastProps, IToastState> {
 
     render() {
         return (
-            <div className={`${this.getVisibleClass()} toast-container`}>
+            <div className={`${this.getVisibleClass()} ${this.getToastTheme()} toast-container`}>
                 <p className="toast-message">{this.props.message}</p>
             </div> 
         )
@@ -30,6 +31,16 @@ export default class Toast extends React.Component<IToastProps, IToastState> {
             }
             return this.props.message !== "" ?
                 "show-toast" : "hide-toast"
+        }
+    }
+
+    private getToastTheme() {
+        switch(this.props.type) {
+            case ToastType.Success:
+                return "toast-success";
+            case ToastType.Error:
+            default:
+                return "toast-error";
         }
     }
 }

@@ -1,7 +1,40 @@
-.company-name {
+.company-name-dark {
     width: 100px;
     height: 100px;
+}
+
+.company-name-light {
+    width: 110px;
+    height: 90px;
+}
+
+.company-name {
     display: block;
     margin: 0 auto;
     padding: 15px 0px 0px;
+}
+
+.logo-horizontal {
+    margin: 25px;
+    padding: 0;
+    height: 75px;
+    width: 75px;
+}
+
+.logo-horizontal-container {
+    margin: 20px auto;
+    display: flex;
+    width: 300px;
+}
+
+@media all and (max-width: 750px) {
+    .logo-horizontal-container {
+        width: 75px;
+        display: block;
+    }
+    .logo-horizontal {
+        margin: 10px auto;
+        width: 50px;
+        height: 50px;
+    }
 }

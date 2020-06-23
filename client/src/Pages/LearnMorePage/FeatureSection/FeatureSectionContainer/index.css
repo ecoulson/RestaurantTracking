@@ -1,0 +1,14 @@
+.feature-section-container {
+    display: flex;
+}
+
+.feature-section-container-item {
+    width: 100%;
+    margin: 25px;
+}
+
+@media all and (max-width: 1000px) {
+    .feature-section-container {
+        display: block;
+    }
+}

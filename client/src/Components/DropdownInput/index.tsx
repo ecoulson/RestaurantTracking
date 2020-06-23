@@ -8,6 +8,7 @@ import IRestaurant from "../../lib/IRestaurant";
 import IDropdownProps from "./IDropdownProps";
 import IFormValue from "../FormInput/IFormValue";
 import Toast from "../Toast";
+import ToastType from "../Toast/ToastType";
 
 export default class RestaurantDropdown extends React.Component<IDropdownProps, IDropdownState> {
     constructor(props: IDropdownProps) {
@@ -53,7 +54,7 @@ export default class RestaurantDropdown extends React.Component<IDropdownProps, 
 
     async componentWillMount() {
         try {
-            const res = await Axios.get("/restaurant");
+            const res = await Axios.get("/api/restaurant");
             if (res.data.success) {
                 const sortedRestaurants = this.sortRestaurants(res.data.data.restaurants);
                 this.setState({
@@ -87,12 +88,15 @@ export default class RestaurantDropdown extends React.Component<IDropdownProps, 
     render() {
         return (
             <div className="dropdown">
-                <Toast message={this.state.errorMessage} />
+                <Toast type={ToastType.Error} message={this.state.errorMessage} />
                 <FormInput
                     disabled={this.state.restaurants.length === 0}
                     isValid={this.state.valid}
                     value={this.state.value}
                     onChange={this.onChange}
+                    dark={this.props.dark}
+                    id={this.props.id}
+                    iconColor={this.props.iconColor}
                     type="text" 
                     label="Restaurant"
                     icon={IconType.Menu}

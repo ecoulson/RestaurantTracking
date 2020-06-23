@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import ICheckIn from "./ICheckIn";
+import ICheckInBody from "./ICheckInBody";
 import IGetCheckInsByRestaurantQuery from "./IGetCheckInsByRestaurantQuery";
-import CheckInService from "../../services/CheckInService";
+import CheckInService from "../../services/CheckIn/CheckInService";
 import requestIp from "request-ip";
 import CSVResponse from "../../lib/HTTP/CSVResponse";
 import MessageResponse from "../../lib/HTTP/MessageResponse";
@@ -16,7 +16,7 @@ export default class CheckInController {
     }
 
     public async handleCheckIn(req : Request, res: Response) {
-        const checkIn = req.body as ICheckIn;
+        const checkIn = req.body as ICheckInBody;
         await this.checkInService.checkIn(checkIn, requestIp.getClientIp(req));
         return new MessageResponse(res).send("Successfully checked in");
     }

@@ -7,15 +7,23 @@ import cors from "cors";
 import RateLimit from "express-rate-limit";
 import MongoStore from "rate-limit-mongo";
 import session from "express-session";
-import { requestLogger } from "./lib/logging";
+import { requestLogger, logger } from "./lib/logging";
 import APIRouterConfiguration from "./routes";
 import ErrorHandlingMiddleware from "./middleware/error-handling/ErrorHandlingMiddleware";
+import mongoose from "mongoose";
+import TokenManager from "./services/Token/TokenManger";
+import mongoSanitize from "express-mongo-sanitize"
 
+mongoose.set('useCreateIndex', true);
+
+const OneHour = 60 * 60 * 1000;
+const tokenManager = new TokenManager();
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser());
 app.use(cors());
+app.use(mongoSanitize())
 
 if (process.env.NODE_ENV !== "test") {
     app.use(session({  
@@ -49,12 +57,27 @@ if (process.env.NODE_ENV === "production") {
 }
 
 app.use("/", express.static(path.join(__dirname, '..', 'client', 'build')));
-app.use("/", new APIRouterConfiguration({}).setup());
+app.use("/api", new APIRouterConfiguration({}).setup());
+app.get('*', (req, res) => {                       
+    res.sendFile(path.resolve(__dirname, '..', 'client', 'build', 'index.html'));                               
+});
 
 if (process.env.NODE_ENV !== "development") {
     app.use(ErrorHandlingMiddleware.productionErrorHandler);
 } else {
     app.use(ErrorHandlingMiddleware.devErrorHandler);
+}
+
+clearTokens();
+setInterval(clearTokens, OneHour);
+
+async function clearTokens() {
+    try {
+        await tokenManager.run();
+        logger.info("Cleared expired tokens");
+    } catch (error) {
+        logger.error("Failed to clear expired tokens");
+    }
 }
 
 export default app;

@@ -19,7 +19,7 @@ export default class Submit extends React.Component<ISubmitProps, ISubmitState> 
                 onClick={this.props.onClick} 
                 className={`submit ${this.getClass()}`} 
                 type="button">
-                    Submit
+                    {this.props.children}
             </button>
         )
     }
@@ -33,7 +33,11 @@ export default class Submit extends React.Component<ISubmitProps, ISubmitState> 
                     hasDisplayed: true
                 })
             }
-            return this.props.visible ? "show" : "hide";
+            if (this.props.dark) {
+                return this.props.visible ? "show show-dark" : "hide";
+            } else {
+                return this.props.visible ? "show show-light" : "hide";
+            }
         }
     }
 }

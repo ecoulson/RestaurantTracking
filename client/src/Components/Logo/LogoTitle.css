@@ -4,5 +4,39 @@
     text-align: center;
     margin: 0;
     font-size: 16px;
+}
+
+.logo-title-light {
+    color: #3B3A39;
+}
+
+.logo-title-dark {
     margin-top: -15px;
+    color: white;
+}
+
+.logo-title-top {
+    font-size: 28px;
+}
+
+.logo-title-horizontal {
+    margin-top: 0px;
+    text-align: left;
+    margin-top: 30px;
+}
+
+.logo-title-horizontal > .logo-title-top {
+    font-size: 30px;
+    font-weight: 400;
+}
+
+.logo-title-horizontal > .logo-title-bottom {
+    font-size: 20px;
+    font-weight: 400;
+}
+
+@media all and (max-width: 750px) {
+    .logo-title-horizontal {
+        display: none;
+    }
 }

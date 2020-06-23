@@ -13,8 +13,9 @@ export default class Input extends React.Component<IInputProps> {
         return (
             <input
                 value={this.props.value}
+                autoComplete=""
                 disabled={this.props.disabled}
-                className="form-raw-input" 
+                className={`form-raw-input ${this.getThemeClass()}`}
                 placeholder={this.props.placeholder}
                 onChange={this.handleChange}
                 onBlur={this.props.onBlur ? this.props.onBlur : () => null}
@@ -25,5 +26,11 @@ export default class Input extends React.Component<IInputProps> {
 
     private handleChange(event: ChangeEvent) {
         this.props.onChange((event.target as HTMLInputElement).value, event)
+    }
+
+    private getThemeClass() {
+        return this.props.dark ? 
+            "form-raw-input-dark" :
+            "form-raw-input-light"
     }
 }

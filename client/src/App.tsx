@@ -1,15 +1,22 @@
 import React from 'react';
 import './App.css';
-import RestaurantPage from './Components/RestaurantPage';
+import RestaurantPage from './Pages/RestaurantPage';
 import Page from './Page';
-import GeneralPage from './Components/GeneralPage';
+import GeneralPage from './Pages/GeneralPage';
 import StatusPage from './Components/StatusPage';
 import Status from './Components/StatusPage/Status';
 import IAppState from './IAppState';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faTimes, faTimesCircle, faCheck, faCheckCircle, faRedo } from '@fortawesome/free-solid-svg-icons'
+import { 
+	faTimes, 
+	faTimesCircle, 
+	faCheck, 
+	faCheckCircle, 
+	faRedo,
+	faChevronRight
+} from '@fortawesome/free-solid-svg-icons'
 
-library.add(faTimes, faTimesCircle, faCheck, faCheckCircle, faRedo);
+library.add(faTimes, faTimesCircle, faCheck, faCheckCircle, faRedo, faChevronRight);
 
 
 export default class App extends React.Component<{}, IAppState> {

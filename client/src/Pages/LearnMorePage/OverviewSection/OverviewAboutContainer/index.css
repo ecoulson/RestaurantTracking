@@ -1,0 +1,18 @@
+.overview-about-container {
+    display: flex;
+    align-items: center;
+}
+
+.overview-about-container-item {
+    width: 50%;
+}
+
+@media all and (max-width: 1200px) {
+    .overview-about-container {
+        display: block;
+    }
+    .overview-about-container-item {
+        width: 100%;
+    }
+    
+}

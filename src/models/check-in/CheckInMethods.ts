@@ -1,9 +1,10 @@
 import { logger } from "../../lib/logging";
 import ICheckIn from "./ICheckIn";
+import ModelMethods from "../ModelMethods";
 
 export default class CheckInMethods {
-    static async serialize() {
-        const context : ICheckIn = CheckInMethods.getContext.bind(this)();
+    static serialize() {
+        const context : ICheckIn = ModelMethods.getContext<ICheckIn>(this);
         logger.debug(`Serializing checkin document with id ${context._id}`);
         return {
             __v: context.__v,
@@ -13,9 +14,5 @@ export default class CheckInMethods {
             timeCheckedIn: context.timeCheckedIn,
             restaurantId: context.restaurantId
         }
-    }
-
-    private static getContext() {
-        return this as unknown as ICheckIn
     }
 }
