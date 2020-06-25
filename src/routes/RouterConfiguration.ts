@@ -1,13 +1,11 @@
 import { Router as ExpressRouter } from "express";
 import IRouterConfiguration from "./IRouterConfiguration";
 
-export default abstract class RouterConfiguration<Controller> implements IRouterConfiguration {
+export default abstract class RouterConfiguration implements IRouterConfiguration {
     protected router : ExpressRouter;
-    protected controller : Controller;
 
-    constructor(controller : Controller) {
+    constructor() {
         this.router = ExpressRouter();
-        this.controller = controller;
     }
 
     public setup(): ExpressRouter {

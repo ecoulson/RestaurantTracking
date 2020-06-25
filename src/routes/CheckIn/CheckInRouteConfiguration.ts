@@ -4,12 +4,15 @@ import RouterConfiguration from "../RouterConfiguration";
 import CheckInController from "../../controllers/CheckIn/CheckInController";
 import ErrorResponse from "../../lib/HTTP/ErrorResponse";
 import BasicAuthenticationStrategy from "../../middleware/authentication/BasicAuthenticationStrategy";
-import ErrorCatchingMiddlware from "../../middleware/error-handling/ErrorCatchingMiddleware";
+import ErrorCatchingMiddleware from "../../middleware/error-handling/ErrorCatchingMiddleware";
 import ValidationMiddleware from "../../middleware/validation/ValidationMiddleware";
 
-export default class CheckInRouteConfiguration extends RouterConfiguration<CheckInController> {
+export default class CheckInRouteConfiguration extends RouterConfiguration {
+    private controller : CheckInController;
+
     constructor() {
-        super(new CheckInController());
+        super();
+        this.controller = new CheckInController();
     }
 
     configureRoutes() {
@@ -17,14 +20,14 @@ export default class CheckInRouteConfiguration extends RouterConfiguration<Check
             "/",
             this.ensureEmailOrNumberIsProvided,
             new ValidationMiddleware(CheckingInUserSchema).validateBody(),
-            ErrorCatchingMiddlware.catchErrors(this.controller.handleCheckIn)
+            ErrorCatchingMiddleware.catchErrors(this.controller.handleCheckIn)
         );
 
         this.router.get(
             "/", 
             new BasicAuthenticationStrategy().authenticate(),  
             new ValidationMiddleware(GetCheckinSchema).validateQuery(),
-            ErrorCatchingMiddlware.catchErrors(this.controller.handleGetReport)
+            ErrorCatchingMiddleware.catchErrors(this.controller.handleGetReport)
         )
     }
 

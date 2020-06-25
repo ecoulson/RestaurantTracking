@@ -12,6 +12,10 @@ import URLInput from "../../../Components/URLInput";
 import IFormValue from "../../../Components/FormInput/IFormValue";
 import ImageUploader from "../../../Components/ImageUploader";
 import ProfilePictureType from "./ProfilePictureType";
+import Axios from "axios";
+import Cookie from "../../../lib/Cookie";
+import ToastType from "../../../Components/Toast/ToastType";
+import Toast from "../../../Components/Toast";
 
 export default class ProfilePictureSection extends React.Component<IProfilePictureSectionProps, IProfilePictureSectionState> {
     constructor(props : IProfilePictureSectionProps) {
@@ -20,10 +24,13 @@ export default class ProfilePictureSection extends React.Component<IProfilePictu
             profilePictureURL: props.profilePictureURL,
             inputType: ProfilePictureType.Image,
             profilePictureType: ProfilePictureType.Image,
+            message: "",
+            type: ToastType.Error
         }
         this.handleInputTypeChange = this.handleInputTypeChange.bind(this);
         this.handleURLChange = this.handleURLChange.bind(this);
         this.handleImageUpload = this.handleImageUpload.bind(this);
+        this.updateProfilePicture = this.updateProfilePicture.bind(this);
     }
 
     componentWillReceiveProps(props : IProfilePictureSectionProps) {
@@ -35,6 +42,7 @@ export default class ProfilePictureSection extends React.Component<IProfilePictu
     render() {
         return (
             <UserProfileSection>
+                <Toast type={this.state.type} message={this.state.message} />
                 <UserProfileSectionTitle>Profile Picture</UserProfileSectionTitle>
                 {this.getProfilePicture()}
                 <SlideSwitch onChange={this.handleInputTypeChange}>
@@ -42,7 +50,7 @@ export default class ProfilePictureSection extends React.Component<IProfilePictu
                     <Icon width={25} height={25} icon={IconType.Link} color="black" />
                 </SlideSwitch>
                 {this.getInput()}
-                <Submit visible={true} onClick={() => {}}>Save</Submit>
+                <Submit visible={true} onClick={this.updateProfilePicture}>Save</Submit>
             </UserProfileSection>
         )
     }
@@ -96,5 +104,58 @@ export default class ProfilePictureSection extends React.Component<IProfilePictu
             profilePicture: image,
             profilePictureType: ProfilePictureType.Image
         })
+    }
+
+    private async updateProfilePicture() {
+        try {
+            if (this.state.profilePictureType === ProfilePictureType.URL) {
+                await Axios.post("api/user/avatar/link", {
+                    link: this.state.profilePictureURL
+                }, {
+                    headers: {
+                        "Authorization": `Bearer ${Cookie.getCookie("token")}`
+                    }
+                });
+                this.setState({
+                    message: "Updated profile picture",
+                    type: ToastType.Success
+                })
+                setTimeout(() => {
+                    this.setState({
+                        message: ""
+                    })
+                }, 3000)
+            } else {
+                if (this.state.profilePicture) {
+                    const formData = new FormData();
+                    formData.append("avatar", this.state.profilePicture);
+                    await Axios.post("api/user/avatar/file", formData, {
+                        headers: {
+                            "Authorization": `Bearer ${Cookie.getCookie("token")}`,
+                            "Content-Type": 'multipart/form-data'
+                        }
+                    });
+                    this.setState({
+                        message: "Updated profile picture",
+                        type: ToastType.Success
+                    })
+                    setTimeout(() => {
+                        this.setState({
+                            message: ""
+                        })
+                    }, 3000)
+                }
+            }
+        } catch (error) {
+            this.setState({
+                message: "Failed to update profile picture",
+                type: ToastType.Error
+            })
+            setTimeout(() => {
+                this.setState({
+                    message: ""
+                })
+            }, 3000)
+        }
     }
 }

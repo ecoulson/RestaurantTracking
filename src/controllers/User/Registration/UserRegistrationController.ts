@@ -44,7 +44,7 @@ export default class UserRegistrationController implements IUserRegistrationCont
         }
     }
 
-    handleUsernameAvailibilty() {
+    handleUsernameAvailability() {
         return async (req : Request, res : Response) => {
             const username : string = req.params.username as string;
             return new JSONResponse(res).send({

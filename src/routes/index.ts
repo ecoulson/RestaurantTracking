@@ -4,7 +4,7 @@ import RouterConfiguration from "./RouterConfiguration";
 import AuthenticationRouteConfiguration from "./Authentication/AuthenticationRouteConfiguration";
 import UserRouteConfiguration from "./User/UserRouteConfiguration";
 
-export default class APIRouteConfiguration extends RouterConfiguration<{}> {
+export default class APIRouteConfiguration extends RouterConfiguration {
     configureRoutes() {
         this.router.use("/restaurant", new RestaurantRouteConfiguration().setup());
         this.router.use("/check_in", new CheckInRouteConfiguration().setup());

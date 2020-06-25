@@ -8,7 +8,6 @@ export default class UserMethods {
         return {
             _id: context._id,
             username: context.username,
-            password: context.password,
             firstName: context.firstName,
             lastName: context.lastName,
             verified: context.verified,

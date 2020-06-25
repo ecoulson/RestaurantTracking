@@ -1,25 +1,29 @@
 import RouterConfiguration from "../RouterConfiguration"
 import VerificationController from "../../controllers/User/Verification/VerificationController"
 import { TokenCallbackSchema } from "./UserSchema"
-import ErrorCatchingMiddlware from "../../middleware/error-handling/ErrorCatchingMiddleware"
+import ErrorCatchingMiddleware from "../../middleware/error-handling/ErrorCatchingMiddleware"
 import ValidationMiddleware from "../../middleware/validation/ValidationMiddleware"
+import IVerificationController from "../../controllers/User/Verification/IVerificationController"
 
-export default class VerificationRouteConfiguration extends RouterConfiguration<VerificationController> {
+export default class VerificationRouteConfiguration extends RouterConfiguration {
+    private controller : IVerificationController;
+
     constructor() {
-        super(new VerificationController())
+        super()
+        this.controller = new VerificationController();
     }
 
     configureRoutes() {
         this.router.get(
             "/spam",
             new ValidationMiddleware(TokenCallbackSchema).validateQuery(),
-            ErrorCatchingMiddlware.catchErrors(this.controller.handleSpamVerification())
+            ErrorCatchingMiddleware.catchErrors(this.controller.handleSpamVerification())
         )
 
         this.router.get(
             "/verify",
             new ValidationMiddleware(TokenCallbackSchema).validateQuery(),
-            ErrorCatchingMiddlware.catchErrors(this.controller.handleVerification())
+            ErrorCatchingMiddleware.catchErrors(this.controller.handleVerification())
         )
     }
 }
