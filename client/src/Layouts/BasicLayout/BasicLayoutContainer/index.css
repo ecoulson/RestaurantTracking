@@ -1,18 +1,18 @@
-.user-profile-page {
+.basic-layout-page {
     width: 100%;
     height: 100vh;
     overflow-y: scroll;
     position: relative;
 }
 
-.user-profile-wrapper {
+.basic-layout-wrapper {
     width: 100%;
     padding: 50px;
     display: block;
     box-sizing: border-box;
 }
 
-.user-profile-container {
+.basic-layout-container {
     background-color: #E7E7E7;
     height: auto;
     padding: 25px;

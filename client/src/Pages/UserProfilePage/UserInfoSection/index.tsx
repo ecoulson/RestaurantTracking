@@ -1,10 +1,10 @@
 import React from "react";
-import UserProfileSection from "../UserProfileSection";
+import BasicSection from "../../../Layouts/BasicLayout/BasicSection";
 import UsernameInput from "../../../Components/UsernameInput";
 import EmailInput from "../../../Components/EmailInput";
 import FullNameInput from "../../../Components/FullNameInput";
 import Submit from "../../../Components/Submit";
-import UserProfileSectionTitle from "../UserProfileSectionTitle";
+import BasicSectionTitle from "../../../Layouts/BasicLayout/BasicSectionTitle";
 import IUserInfoSectionProps from "./IUserInfoSectionProps";
 import IUserInfoSectionState from "./IUserInfoSectionState";
 import IFormValue from "../../../Components/FormInput/IFormValue";
@@ -42,9 +42,9 @@ export default class UserInfoSection extends React.Component<IUserInfoSectionPro
 
     render() {
         return(
-            <UserProfileSection>
+            <BasicSection>
                 <Toast type={this.state.type} message={this.state.message} />
-                <UserProfileSectionTitle>Profile Information</UserProfileSectionTitle>
+                <BasicSectionTitle>Profile Information</BasicSectionTitle>
                 <UsernameInput
                     value={this.state.username.value} 
                     whitelist={[this.props.username]}
@@ -60,7 +60,7 @@ export default class UserInfoSection extends React.Component<IUserInfoSectionPro
                     iconColor="#AAAAAA" 
                     onChange={this.handleFullNameChange} />
                 <Submit onClick={this.updateProfile}>Update</Submit>
-            </UserProfileSection>
+            </BasicSection>
         )
     }
 

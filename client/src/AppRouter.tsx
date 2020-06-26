@@ -25,6 +25,7 @@ import UnauthenticatedAccessWrapper from "./Components/AuthenticationWrappers/Un
 import MarketplacePage from "./Pages/MarketplacePage";
 import LearnMoreLayout from "./Layouts/LearnMoreLayout";
 import UserProfilePage from "./Pages/UserProfilePage";
+import HelpPage from "./Pages/HelpPage";
 
 export default class AppRouter extends React.Component<{}, IAppRouterState> {
     constructor(props: {}) {
@@ -113,6 +114,9 @@ export default class AppRouter extends React.Component<{}, IAppRouterState> {
                     </Route>
                     <Route exact path="/">
                         <App />
+                    </Route>
+                    <Route exact path="/help">
+                        <HelpPage />
                     </Route>
                 </Switch>
             </Router>

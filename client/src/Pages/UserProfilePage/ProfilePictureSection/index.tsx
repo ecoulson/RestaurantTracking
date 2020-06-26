@@ -1,11 +1,10 @@
 import React from "react";
 import Submit from "../../../Components/Submit";
-import UserProfileSection from "../UserProfileSection";
-import UserProfileSectionTitle from "../UserProfileSectionTitle";
+import BasicSection from "../../../Layouts/BasicLayout/BasicSection";
+import BasicSectionTitle from "../../../Layouts/BasicLayout/BasicSectionTitle";
 import IProfilePictureSectionProps from "./IProfilePictureSectionProps";
 import Icon from "../../../Components/Icon";
 import IconType from "../../../Components/Icon/IconTypes";
-import "./index.css"
 import SlideSwitch from "../../../Components/SlideSwitch";
 import IProfilePictureSectionState from "./IProfilePictureSectionState";
 import URLInput from "../../../Components/URLInput";
@@ -16,6 +15,7 @@ import Axios from "axios";
 import Cookie from "../../../lib/Cookie";
 import ToastType from "../../../Components/Toast/ToastType";
 import Toast from "../../../Components/Toast";
+import "./index.css"
 
 export default class ProfilePictureSection extends React.Component<IProfilePictureSectionProps, IProfilePictureSectionState> {
     constructor(props : IProfilePictureSectionProps) {
@@ -41,9 +41,9 @@ export default class ProfilePictureSection extends React.Component<IProfilePictu
 
     render() {
         return (
-            <UserProfileSection>
+            <BasicSection>
                 <Toast type={this.state.type} message={this.state.message} />
-                <UserProfileSectionTitle>Profile Picture</UserProfileSectionTitle>
+                <BasicSectionTitle>Profile Picture</BasicSectionTitle>
                 {this.getProfilePicture()}
                 <SlideSwitch onChange={this.handleInputTypeChange}>
                     <Icon width={25} height={25} icon={IconType.Image} color="black" />
@@ -51,13 +51,17 @@ export default class ProfilePictureSection extends React.Component<IProfilePictu
                 </SlideSwitch>
                 {this.getInput()}
                 <Submit onClick={this.updateProfilePicture}>Update</Submit>
-            </UserProfileSection>
+            </BasicSection>
         )
     }
 
     private getProfilePicture() {
         if (!this.state.profilePictureURL) {
-            return <Icon width={75} height={75} icon={IconType.User} color="#AAAAAA" />
+            return (
+                <div className="profile-icon-container">
+                    <Icon width={75} height={75} icon={IconType.User} color="#AAAAAA" />
+                </div>
+            );
         } else {
             return <img alt="profile avatar" className="user-profile-picture" src={this.state.profilePictureURL} />
         }
