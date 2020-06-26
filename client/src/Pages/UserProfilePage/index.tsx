@@ -34,20 +34,29 @@ export default class UserProfilePage extends React.Component<any, IUserProfilePa
             }
         });
         const user = res.data.data;
-        const imageBlob = await Axios.get(`/api/user/avatar/${user._id}`, {
-            responseType: 'blob',
-            headers: {
-                "Authorization": `Bearer ${Cookie.getCookie("token")}`
-            }
-        });
-        this.objectUrl = URL.createObjectURL(imageBlob.data);
-        this.setState({
-            profilePicture: this.objectUrl,
-            email: user.email,
-            username: user.username,
-            firstName: user.firstName,
-            lastName: user.lastName,
-        })
+        if (user.profilePicture && user.profilePicture !== "") {
+            const imageBlob = await Axios.get(`/api/user/avatar/${user._id}`, {
+                responseType: 'blob',
+                headers: {
+                    "Authorization": `Bearer ${Cookie.getCookie("token")}`
+                }
+            });
+            this.objectUrl = URL.createObjectURL(imageBlob.data);
+            this.setState({
+                profilePicture: this.objectUrl,
+                email: user.email,
+                username: user.username,
+                firstName: user.firstName,
+                lastName: user.lastName,
+            })
+        } else {
+            this.setState({
+                email: user.email,
+                username: user.username,
+                firstName: user.firstName,
+                lastName: user.lastName,
+            })
+        }
     }
 
     render() {

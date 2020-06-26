@@ -37,19 +37,27 @@ export default class DashboardProfile extends React.Component<{}, IDashboardProf
                 }
             });
             const user = res.data.data;
-            const imageBlob = await Axios.get(`/api/user/avatar/${user._id}`, {
-                responseType: 'blob',
-                headers: {
-                    "Authorization": `Bearer ${Cookie.getCookie("token")}`
-                }
-            });
-            this.objectUrl = URL.createObjectURL(imageBlob.data);
-            this.setState({
-                email: res.data.data.email,
-                firstName: res.data.data.firstName,
-                lastName: res.data.data.lastName,
-                profilePicture: this.objectUrl
-            });
+            if (user.profilePicture && user.profilePicture !== "") {
+                const imageBlob = await Axios.get(`/api/user/avatar/${user._id}`, {
+                    responseType: 'blob',
+                    headers: {
+                        "Authorization": `Bearer ${Cookie.getCookie("token")}`
+                    }
+                });
+                this.objectUrl = URL.createObjectURL(imageBlob.data);
+                this.setState({
+                    profilePicture: this.objectUrl,
+                    email: user.email,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                })
+            } else {
+                this.setState({
+                    email: user.email,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                })
+            }
         } catch (error) {
             this.setState({
                 message: "Failed to get user profile"
