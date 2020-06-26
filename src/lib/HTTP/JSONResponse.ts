@@ -8,7 +8,7 @@ export default class JSONResponse implements IResponse<any> {
         this.response = response;
     }
 
-    send(data : any) {
+    send(data? : any) {
         this.response.status(200).json({
             success: true,
             data

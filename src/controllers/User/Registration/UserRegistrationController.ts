@@ -8,20 +8,20 @@ import VerificationEmailService from "../../../services/User/Registration/Verifi
 import UserPermissionSetupService from "../../../services/User/Registration/UserPermissionSetupService";
 import IRegistrationBody from "./IRegistrationBody";
 import JSONResponse from "../../../lib/HTTP/JSONResponse";
-import IUsernameAvailibilityService from "../../../services/User/Registration/IUsernameAvailibilityService";
-import UsernameAvailibilityService from "../../../services/User/Registration/UsernameAvailibilityService";
+import IUsernameAvailabilityService from "../../../services/User/Registration/IUsernameAvailabilityService";
+import UsernameAvailabilityService from "../../../services/User/Registration/UsernameAvailibilityService";
 
 export default class UserRegistrationController implements IUserRegistrationController {
     private userRegistrationService : IUserRegistrationService;
     private verificationEmailService : IVerificationEmailService;
     private userPermissionSetupService : IUserPermissionSetupService;
-    private usernameAvailibilityService : IUsernameAvailibilityService;
+    private usernameAvailabilityService : IUsernameAvailabilityService;
 
     constructor() {
         this.userRegistrationService = new UserRegistrationService();
         this.verificationEmailService = new VerificationEmailService();
         this.userPermissionSetupService = new UserPermissionSetupService();
-        this.usernameAvailibilityService = new UsernameAvailibilityService();
+        this.usernameAvailabilityService = new UsernameAvailabilityService();
     }
     
     handleRegistration() : RequestHandler {
@@ -48,7 +48,7 @@ export default class UserRegistrationController implements IUserRegistrationCont
         return async (req : Request, res : Response) => {
             const username : string = req.params.username as string;
             return new JSONResponse(res).send({
-                availible: await this.usernameAvailibilityService.check(username)
+                available: await this.usernameAvailabilityService.check(username)
             });
         }
     }

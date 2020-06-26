@@ -1,15 +1,10 @@
 import React from "react";
 import "./Submit.css";
 import ISubmitProps from "./ISubmitProps";
-import ISubmitState from "./ISubmitState";
 
-export default class Submit extends React.Component<ISubmitProps, ISubmitState> {
+export default class Submit extends React.Component<ISubmitProps> {
     constructor(props : ISubmitProps) {
         super(props);
-        this.state = {
-            hasDisplayed: false
-        }
-
         this.getClass = this.getClass.bind(this);
     }
 
@@ -25,19 +20,13 @@ export default class Submit extends React.Component<ISubmitProps, ISubmitState> 
     }
 
     private getClass() {
-        if (!this.state.hasDisplayed && !this.props.visible) {
-            return "";
+        if (this.props.visible === undefined) {
+            return this.props.dark ? "show show-dark" : "show show-light";
+        }
+        if (this.props.dark) {
+            return this.props.visible ? "show show-dark" : "hide";
         } else {
-            if (!this.state.hasDisplayed) {
-                this.setState({
-                    hasDisplayed: true
-                })
-            }
-            if (this.props.dark) {
-                return this.props.visible ? "show show-dark" : "hide";
-            } else {
-                return this.props.visible ? "show show-light" : "hide";
-            }
+            return this.props.visible ? "show show-light" : "hide";
         }
     }
 }

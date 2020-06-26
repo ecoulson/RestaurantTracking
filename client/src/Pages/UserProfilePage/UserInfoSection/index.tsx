@@ -5,17 +5,132 @@ import EmailInput from "../../../Components/EmailInput";
 import FullNameInput from "../../../Components/FullNameInput";
 import Submit from "../../../Components/Submit";
 import UserProfileSectionTitle from "../UserProfileSectionTitle";
+import IUserInfoSectionProps from "./IUserInfoSectionProps";
+import IUserInfoSectionState from "./IUserInfoSectionState";
+import IFormValue from "../../../Components/FormInput/IFormValue";
+import FormValue from "../../../Components/FormInput/FormValue";
+import Axios from "axios";
+import Cookie from "../../../lib/Cookie";
+import ToastType from "../../../Components/Toast/ToastType";
+import Toast from "../../../Components/Toast";
 
-export default class UserInfoSection extends React.Component {
+export default class UserInfoSection extends React.Component<IUserInfoSectionProps, IUserInfoSectionState> {
+    constructor(props : IUserInfoSectionProps) {
+        super(props);
+        this.state = {
+            username: new FormValue<string>("", false),
+            email: new FormValue<string>("", false),
+            fullName: new FormValue<string[]>([], false),
+            registering: true,
+            message: "",
+            type: ToastType.Error
+        }
+        this.handleUsernameChange = this.handleUsernameChange.bind(this);
+        this.handleEmailChange = this.handleEmailChange.bind(this);
+        this.handleFullNameChange = this.handleFullNameChange.bind(this);
+        this.updateProfile = this.updateProfile.bind(this);
+    }
+
+    componentWillReceiveProps(props : IUserInfoSectionProps) {
+        this.setState({
+            username: new FormValue<string>(props.username, true),
+            email: new FormValue<string>(props.email, true),
+            fullName: new FormValue<string[]>([props.firstName, props.lastName], true),
+            registering: false
+        })
+    }
+
     render() {
         return(
             <UserProfileSection>
+                <Toast type={this.state.type} message={this.state.message} />
                 <UserProfileSectionTitle>Profile Information</UserProfileSectionTitle>
-                <UsernameInput iconColor="#AAAAAA" registering onChange={() => {}} />
-                <EmailInput iconColor="#AAAAAA" onChange={() => {}} />
-                <FullNameInput iconColor="#AAAAAA" onChange={() => {}} />
-                <Submit visible={true} onClick={() => {}}>Save</Submit>
+                <UsernameInput 
+                    value={this.state.username.value} 
+                    iconColor="#AAAAAA" 
+                    registering={this.state.registering} 
+                    onChange={this.handleUsernameChange} />
+                <EmailInput 
+                    value={this.state.email.value}
+                    iconColor="#AAAAAA" 
+                    onChange={this.handleEmailChange} />
+                <FullNameInput 
+                    value={this.state.fullName.value}
+                    iconColor="#AAAAAA" 
+                    onChange={this.handleFullNameChange} />
+                <Submit onClick={this.updateProfile}>Update</Submit>
             </UserProfileSection>
         )
+    }
+
+    private handleUsernameChange(username : IFormValue<string>) {
+        this.setState({
+            username,
+            registering: username.value !== this.props.username
+        })
+    }
+
+    private handleEmailChange(email : IFormValue<string>) {
+        this.setState({ email })
+    }
+
+    private handleFullNameChange(fullName : IFormValue<string[]>) {
+        this.setState({ fullName });
+    }
+
+    private async updateProfile() {
+        if (this.isValidProfile()) {
+            try {
+                await Axios.put(`/api/user/`, {
+                    email: this.state.email.value,
+                    username: this.state.username.value,
+                    firstName: this.state.fullName.value[0],
+                    lastName: this.state.fullName.value.length > 1 ? 
+                        this.state.fullName.value[this.state.fullName.value.length - 1] :
+                        ""
+                }, {
+                    headers: {
+                        "Authorization": `Bearer ${Cookie.getCookie("token")}`
+                    }
+                })
+                this.setState({
+                    type: ToastType.Success,
+                    message: "Successfully updated your profile"
+                })
+                setTimeout(() => {
+                    this.setState({
+                        type: ToastType.Error,
+                        message: ""
+                    })
+                }, 3000)
+            } catch (error) {
+                this.setState({
+                    type: ToastType.Error,
+                    message: "Failed to update profile information"
+                })
+                setTimeout(() => {
+                    this.setState({
+                        type: ToastType.Error,
+                        message: ""
+                    })
+                }, 3000)
+            }
+        } else {
+            this.setState({
+                type: ToastType.Error,
+                message: "Please correct errors in your profile information"
+            })
+            setTimeout(() => {
+                this.setState({
+                    type: ToastType.Error,
+                    message: ""
+                })
+            }, 3000)
+        }
+    }
+
+    private isValidProfile() {
+        return this.state.email.valid && this.state.fullName.valid && 
+            this.state.username.valid;
     }
 }

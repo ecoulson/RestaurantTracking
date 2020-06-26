@@ -50,7 +50,7 @@ export default class ProfilePictureSection extends React.Component<IProfilePictu
                     <Icon width={25} height={25} icon={IconType.Link} color="black" />
                 </SlideSwitch>
                 {this.getInput()}
-                <Submit visible={true} onClick={this.updateProfilePicture}>Save</Submit>
+                <Submit onClick={this.updateProfilePicture}>Update</Submit>
             </UserProfileSection>
         )
     }

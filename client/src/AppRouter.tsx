@@ -44,9 +44,7 @@ export default class AppRouter extends React.Component<{}, IAppRouterState> {
                 <Switch>
                     <Route path="/learn-more/:product" render={
                         (props) => (
-                            <AuthenticateActiveSession showError={this.showError}>
-                                <LearnMoreLayout {...props} />
-                            </AuthenticateActiveSession>
+                            <LearnMoreLayout {...props} />
                         )
                     }>
                     </Route>

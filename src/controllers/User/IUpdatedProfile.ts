@@ -1,5 +1,4 @@
-export default interface IUserProfilePageState {
-    profilePicture: string | null;
+export default interface IUpdatedProfile {
     email: string;
     username: string;
     firstName: string;

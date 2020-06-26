@@ -13,7 +13,11 @@ export default class UserProfilePage extends React.Component<any, IUserProfilePa
     constructor(props : any) {
         super(props);
         this.state = {
-            profilePicture: null
+            profilePicture: null,
+            email: "",
+            username: "",
+            firstName: "",
+            lastName: "",
         }
     }
 
@@ -38,7 +42,11 @@ export default class UserProfilePage extends React.Component<any, IUserProfilePa
         });
         this.objectUrl = URL.createObjectURL(imageBlob.data);
         this.setState({
-            profilePicture: this.objectUrl
+            profilePicture: this.objectUrl,
+            email: user.email,
+            username: user.username,
+            firstName: user.firstName,
+            lastName: user.lastName,
         })
     }
 
@@ -46,7 +54,12 @@ export default class UserProfilePage extends React.Component<any, IUserProfilePa
         return (
             <UserProfileLayout>
                 <ProfilePictureSection profilePictureURL={this.state.profilePicture} />
-                <UserInfoSection />
+                <UserInfoSection 
+                    email={this.state.email}
+                    firstName={this.state.firstName}
+                    lastName={this.state.lastName}
+                    username={this.state.username}
+                    />
                 <UserPasswordChangeSection />
             </UserProfileLayout>
         )

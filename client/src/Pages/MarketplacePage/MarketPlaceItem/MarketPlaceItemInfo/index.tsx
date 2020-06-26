@@ -13,7 +13,7 @@ export default class MarketPlaceItemInfo extends React.Component<IMarketPlaceIte
     render() {
         return (
             <div className="market-place-item-info-container">
-                <Submit visible={true} onClick={this.redirect}>Learn More</Submit>
+                <Submit onClick={this.redirect}>Learn More</Submit>
             </div>
         )
     }

@@ -35,7 +35,7 @@
     color: #3B3A39;
 }
 
-.show:focus {
+.show-light:focus {
     box-shadow: none;
     cursor: pointer;
     color: #3B3A39;

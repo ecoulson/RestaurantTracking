@@ -6,4 +6,6 @@ export default interface IPasswordProps {
     iconColor?: string;
     id?: string;
     registering?: boolean;
+    placeholder?: string;
+    label?: string;
 }
