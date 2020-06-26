@@ -21,10 +21,10 @@ export default class UserInfoSection extends React.Component<IUserInfoSectionPro
             username: new FormValue<string>("", false),
             email: new FormValue<string>("", false),
             fullName: new FormValue<string[]>([], false),
-            registering: true,
             message: "",
             type: ToastType.Error
         }
+        console.log(props);
         this.handleUsernameChange = this.handleUsernameChange.bind(this);
         this.handleEmailChange = this.handleEmailChange.bind(this);
         this.handleFullNameChange = this.handleFullNameChange.bind(this);
@@ -32,11 +32,11 @@ export default class UserInfoSection extends React.Component<IUserInfoSectionPro
     }
 
     componentWillReceiveProps(props : IUserInfoSectionProps) {
+        console.log("here");
         this.setState({
             username: new FormValue<string>(props.username, true),
             email: new FormValue<string>(props.email, true),
             fullName: new FormValue<string[]>([props.firstName, props.lastName], true),
-            registering: false
         })
     }
 
@@ -45,10 +45,11 @@ export default class UserInfoSection extends React.Component<IUserInfoSectionPro
             <UserProfileSection>
                 <Toast type={this.state.type} message={this.state.message} />
                 <UserProfileSectionTitle>Profile Information</UserProfileSectionTitle>
-                <UsernameInput 
+                <UsernameInput
                     value={this.state.username.value} 
+                    whitelist={[this.props.username]}
                     iconColor="#AAAAAA" 
-                    registering={this.state.registering} 
+                    registering
                     onChange={this.handleUsernameChange} />
                 <EmailInput 
                     value={this.state.email.value}
@@ -66,7 +67,6 @@ export default class UserInfoSection extends React.Component<IUserInfoSectionPro
     private handleUsernameChange(username : IFormValue<string>) {
         this.setState({
             username,
-            registering: username.value !== this.props.username
         })
     }
 

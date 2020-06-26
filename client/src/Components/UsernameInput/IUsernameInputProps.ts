@@ -6,5 +6,6 @@ export default interface IUsernameInputProps {
     id?: string;
     value?: string;
     registering?: boolean;
+    whitelist? : string[]
     onChange : (username : FormValue<string>) => void;
 }

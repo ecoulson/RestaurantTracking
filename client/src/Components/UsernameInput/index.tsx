@@ -64,12 +64,18 @@ export default class UsernameInput extends React.Component<IUsernameInputProps, 
                     valid: true,
                     message: ""
                 })
+            } else if (this.props.whitelist && this.props.whitelist.includes(this.state.username)) {
+                return this.setState({
+                    valid: true,
+                    message: ""
+                })
+            } else {
+                const res = await Axios.get(`/api/user/registration/available/${this.state.username}`);
+                this.setState({
+                    valid: res.data.data.available,
+                    message: res.data.data.available ? "" : "Username has been taken"
+                })
             }
-            const res = await Axios.get(`/api/user/registration/available/${this.state.username}`);
-            this.setState({
-                valid: res.data.data.available,
-                message: res.data.data.available ? "" : "Username has been taken"
-            })
         } catch (error) {
             this.setState({
                 message: "Failed to check if username is available"
