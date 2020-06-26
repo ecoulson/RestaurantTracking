@@ -8,6 +8,7 @@ import { debounce } from "../../lib/Debounce";
 import Axios from "axios";
 import ToastType from "../Toast/ToastType";
 import Toast from "../Toast";
+import FormValue from "../FormInput/FormValue";
 
 export default class UsernameInput extends React.Component<IUsernameInputProps, IUsernameInputState> {
     private validateUsername : () => void;
@@ -15,14 +16,26 @@ export default class UsernameInput extends React.Component<IUsernameInputProps, 
     constructor(props: IUsernameInputProps) {
         super(props);
         this.state = {
-            username: "",
+            username: props.value ? props.value : "",
             message: "",
-            valid: this.props.registering ? true : undefined,
+            valid: props.registering ? true : undefined,
         }
-        this.validateUsername = debounce(() => {
-            this.checkUsername();
+        this.validateUsername = debounce(async () => {
+            await this.checkUsername();
+            if (this.state.valid !== undefined) {
+                this.props.onChange(
+                    new FormValue<string>(this.state.username, this.state.valid)
+                )
+            }
         }, 500)
         this.onChange = this.onChange.bind(this);
+    }
+
+    componentWillReceiveProps(props : IUsernameInputProps) {
+        this.setState({
+            username: props.value ? props.value : this.state.username,
+            valid: props.registering ? this.state.valid : undefined
+        })
     }
 
     render() {
@@ -51,24 +64,30 @@ export default class UsernameInput extends React.Component<IUsernameInputProps, 
                     valid: true,
                     message: ""
                 })
+            } else if (this.props.whitelist && this.props.whitelist.includes(this.state.username)) {
+                return this.setState({
+                    valid: true,
+                    message: ""
+                })
+            } else {
+                const res = await Axios.get(`/api/user/registration/available/${this.state.username}`);
+                this.setState({
+                    valid: res.data.data.available,
+                    message: res.data.data.available ? "" : "Username has been taken"
+                })
             }
-            const res = await Axios.get(`/api/user/registration/availible/${this.state.username}`);
-            this.setState({
-                valid: res.data.data.availible,
-                message: res.data.data.availible ? "" : "Username has been taken"
-            })
         } catch (error) {
             this.setState({
-                message: "Failed to check if username is availible"
+                message: "Failed to check if username is available"
             })
         }
     }
 
     private onChange(formValue : IFormValue<string>) {
-        this.props.onChange(formValue);
         this.setState({
             username: formValue.value
         }, () => {
+            this.props.onChange(formValue);
             if (this.props.registering) {
                 this.validateUsername();
             }

@@ -24,6 +24,7 @@ import SlideSwitch from "../../Components/SlideSwitch";
 import LegalContainer from "../../Components/LegalContainer";
 import Icon from "../../Components/Icon";
 import IconType from "../../Components/Icon/IconTypes";
+import CheckInType from "../../lib/CheckInInputType";
 
 export default class GeneralPage extends React.Component<IPageProps, IGeneralPageState> {
     constructor(props : IPageProps) {
@@ -37,7 +38,7 @@ export default class GeneralPage extends React.Component<IPageProps, IGeneralPag
             restaurant: new FormValue<IRestaurant>(new Restaurant(), false),
             focusedDropdown: false,
             isSubmitting: false,
-            selected: 1
+            selected: CheckInType.Phone
         }
 
         this.handleEmail = this.handleEmail.bind(this);
@@ -60,7 +61,7 @@ export default class GeneralPage extends React.Component<IPageProps, IGeneralPag
                         <Icon color="white" icon={IconType.Mail}/>
                     </SlideSwitch>
                     {
-                        this.state.selected === 1 ?
+                        this.state.selected === CheckInType.Phone ?
                             <PhoneInput iconColor="white" dark onChange={this.handlePhone} /> :
                             <EmailInput iconColor="white" dark onChange={this.handleEmail} />
                     }

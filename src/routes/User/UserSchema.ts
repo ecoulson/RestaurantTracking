@@ -27,10 +27,34 @@ const UsernameCheckSchema = Joi.object({
     username: Joi.string().required()
 })
 
+const URLProfilePictureSchema = Joi.object({
+    link: Joi.string().required()
+});
+
+const ProfilePictureSchema = Joi.object({
+    userId: Joi.string().hex()
+})
+
+const UpdatedProfileSchema = Joi.object({
+    username: Joi.string().required(),
+    email: Joi.string().email(),
+    firstName: Joi.string().required(),
+    lastName: Joi.string()
+});
+
+const PasswordUpdateSchema = Joi.object({
+    currentPassword: Joi.string().required(),
+    newPassword: Joi.string().required()
+})
+
 export {
     RegistrationBodySchema,
     TokenCallbackSchema,
     TokenBodySchema,
     PasswordResetSchema,
-    UsernameCheckSchema
+    UsernameCheckSchema,
+    URLProfilePictureSchema,
+    ProfilePictureSchema,
+    UpdatedProfileSchema,
+    PasswordUpdateSchema
 };

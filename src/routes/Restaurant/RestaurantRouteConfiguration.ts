@@ -6,12 +6,15 @@ import {
 import RouterConfiguration from "../RouterConfiguration";
 import RestaurantController from "../../controllers/Restaurant/RestaurantController";
 import BasicAuthenticationStrategy from "../../middleware/authentication/BasicAuthenticationStrategy";
-import ErrorCatchingMiddlware from "../../middleware/error-handling/ErrorCatchingMiddleware";
+import ErrorCatchingMiddleware from "../../middleware/error-handling/ErrorCatchingMiddleware";
 import ValidationMiddleware from "../../middleware/validation/ValidationMiddleware";
 
-export default class RestaurantRouteConfiguration extends RouterConfiguration<RestaurantController> {
+export default class RestaurantRouteConfiguration extends RouterConfiguration {
+    private controller : RestaurantController;
+
     constructor() {
-        super(new RestaurantController());
+        super();
+        this.controller = new RestaurantController();
     }
 
     configureRoutes() {
@@ -19,25 +22,25 @@ export default class RestaurantRouteConfiguration extends RouterConfiguration<Re
             "/:restaurantId/generate",
             new BasicAuthenticationStrategy().authenticate(), 
             new ValidationMiddleware(GenerateQRCodeSchema).validateParams(),
-            ErrorCatchingMiddlware.catchErrors(this.controller.handleQRCodeGeneration)
+            ErrorCatchingMiddleware.catchErrors(this.controller.handleQRCodeGeneration)
         );
             
         this.router.post(
             "/register",
             new BasicAuthenticationStrategy().authenticate(), 
             new ValidationMiddleware(RegisterRestaurantSchema).validateBody(),
-            ErrorCatchingMiddlware.catchErrors(this.controller.handleRestaurantRegistration)
+            ErrorCatchingMiddleware.catchErrors(this.controller.handleRestaurantRegistration)
         )
         
         this.router.get(
             "/:restaurantId",
             new ValidationMiddleware(FindRestaurantByIdSchema).validateParams(),
-            ErrorCatchingMiddlware.catchErrors(this.controller.handleGetRestaurantByID)
+            ErrorCatchingMiddleware.catchErrors(this.controller.handleGetRestaurantByID)
         );
 
         this.router.get(
             "/",
-            ErrorCatchingMiddlware.catchErrors(this.controller.handleGetAllRestaurants)
+            ErrorCatchingMiddleware.catchErrors(this.controller.handleGetAllRestaurants)
         )
     }
 }

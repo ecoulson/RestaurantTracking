@@ -62,7 +62,7 @@ export default class SlideSwitch extends React.Component<ISlideSwitchProps, ISli
     private handleOptionClick(event: MouseEvent) {
         const optionElement = this.getOption(event.target as HTMLElement);
         const id = parseInt(optionElement.id.split("-")[1]);
-        this.props.onChange(id);
+        this.props.onChange(id - 1);
         this.setState({
             selected: id
         });

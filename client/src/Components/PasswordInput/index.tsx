@@ -32,12 +32,12 @@ export default class PasswordInput extends React.Component<IPasswordProps, IPass
                 <FormInput
                     value={this.state.password}
                     type="password"
-                    label="Password"
+                    label={this.props.label ? this.props.label : "Password"} 
                     iconColor={this.props.iconColor}
                     isValid={this.state.valid}
                     id={this.props.id}
                     icon={IconType.Lock}
-                    placeHolder="Enter your password"
+                    placeHolder={this.props.placeholder ? this.props.placeholder : "Enter your password"}
                     onChange={this.onChange}
                 />
             </>

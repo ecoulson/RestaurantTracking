@@ -57,7 +57,7 @@ export default class PasswordRecoveryController implements IPasswordRecoveryCont
         }
     }
 
-    handlePasswordResetCancelation() {
+    handlePasswordResetCancellation() {
         return async (req : Request, res : Response) => {
             const tokenCallbackQuery = req.query as unknown as ITokenCallbackQuery;
             const canceled = await this.cancelPasswordResetService.cancel(

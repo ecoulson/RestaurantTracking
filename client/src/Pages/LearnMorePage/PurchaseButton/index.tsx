@@ -12,7 +12,7 @@ export default class PurchaseButton extends React.Component<IPurchaseButtonProps
 
     render() {
         return (
-            <Submit visible={true} onClick={this.directToPurchase}>
+            <Submit onClick={this.directToPurchase}>
                 Purchase <FontAwesomeIcon icon="chevron-right" color="white"/>
             </Submit>
         )

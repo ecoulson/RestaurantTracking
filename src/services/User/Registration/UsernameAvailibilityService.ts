@@ -1,12 +1,12 @@
-import IUsernameAvailibilityService from "./IUsernameAvailibilityService";
+import IUsernameAvailabilityService from "./IUsernameAvailabilityService";
 import UserModel from "../../../models/user/UserModel";
 
-export default class UsernameAvailibilityService implements IUsernameAvailibilityService {
+export default class UsernameAvailabilityService implements IUsernameAvailabilityService {
     async check(username : string) {
         try {
             return await UserModel.findByUsername(username) === null;
         } catch (error) {
-            throw new Error(`Failed to check username availibility`);
+            throw new Error(`Failed to check username availability`);
         }
     }
 }

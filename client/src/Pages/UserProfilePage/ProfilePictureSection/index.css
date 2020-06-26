@@ -1,0 +1,23 @@
+.user-profile-section > .icon {
+    display: block;
+    margin: 25px auto;
+    fill: #AAAAAA;
+    background-color: #3B3A39;
+    padding: 25px;
+    border-radius: 100%;
+    box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.2);
+}
+
+.user-profile-picture {
+    display: block;
+    margin: 25px auto;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 100%;
+    box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.2);
+}
+
+.user-profile-section > .simple-file-input > .image-file-uploader {
+    margin: 50px auto;
+}

@@ -1,5 +1,6 @@
 import { RequestHandler } from "express";
 
 export default interface IUserController {
-    handleGetSessionUser() : RequestHandler
+    handleGetSessionUser() : RequestHandler;
+    handleUpdateSessionUserProfile() : RequestHandler;
 }

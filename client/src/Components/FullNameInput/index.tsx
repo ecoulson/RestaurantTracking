@@ -9,9 +9,15 @@ export default class FullNameInput extends React.Component<IFullNameInputProps, 
     constructor(props : IFullNameInputProps) {
         super(props);
         this.state = {
-            name: ""
+            name: props.value ? props.value.join(" ") : ""
         }
         this.onChange = this.onChange.bind(this);
+    }
+
+    componentWillReceiveProps(props : IFullNameInputProps) {
+        this.setState({
+            name: props.value ? props.value.join(" ") : this.state.name
+        })
     }
 
     render() {
@@ -19,12 +25,12 @@ export default class FullNameInput extends React.Component<IFullNameInputProps, 
             <FormInput
                 value={this.state.name}
                 iconColor={this.props.iconColor}
-                isValid={this.state.name !== ""}
+                isValid={this.state.name !== "" && this.state.name.trim() !== ""}
                 id={this.props.id}
                 type="text"
                 label="Full name"
                 icon={IconType.Info}
-                placeHolder="Enter your fullname"
+                placeHolder="Enter your full name"
                 onChange={this.onChange}
             />
         )
@@ -32,12 +38,13 @@ export default class FullNameInput extends React.Component<IFullNameInputProps, 
 
     private onChange(name : FormValue<string>) {
         const names = name.value.split(" ")
-        this.props.onChange(new FormValue<string[]>(
-            names,
-            names.length !== 0
-        ));
         this.setState({
             name: name.value
+        }, () => {
+            this.props.onChange(new FormValue<string[]>(
+                names,
+                names.length !== 0 && name.value.trim() !== ""
+            ));
         })
     }
 }

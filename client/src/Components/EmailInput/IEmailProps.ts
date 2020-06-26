@@ -5,4 +5,5 @@ export default interface IEmailProps {
     dark?: boolean;
     iconColor?: string;
     id?: string;
+    value? : string;
 }
