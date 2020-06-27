@@ -6,7 +6,7 @@ export default class LegalContainer extends React.Component {
     render() {
         return (
             <p className="legal-container">
-                View our <Link className="legal-link" to="/privacy">Privacy Policy</Link> and <Link className="legal-link" to="/terms-and-condition">Terms and Conditions</Link>
+                View our <Link className="legal-link" to="legal/privacy-policy">Privacy Policy</Link> and <Link className="legal-link" to="/legal/terms-and-condition">Terms and Conditions</Link>
             </p>
         )
     }
