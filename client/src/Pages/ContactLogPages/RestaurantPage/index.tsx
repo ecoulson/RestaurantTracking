@@ -1,6 +1,6 @@
 import Logo from '../../../Components/Logo';
-import RestaurantName from '../../../Components/RestaurantName';
-import Instructions from '../../../Components/Instructions';
+import RestaurantName from '../RestaurantName';
+import Instructions from '../Instructions';
 import Form from '../../../Components/Form';
 import Submit from '../../../Components/Submit';
 import React from "react";
@@ -16,7 +16,7 @@ import IFormValue from '../../../Components/FormInput/IFormValue';
 import Toast from '../../../Components/Toast';
 import ToastType from '../../../Components/Toast/ToastType';
 import SlideSwitch from '../../../Components/SlideSwitch';
-import LegalContainer from '../../../Components/LegalContainer';
+import LegalContainer from '../LegalContainer';
 import Icon from '../../../Components/Icon';
 import IconType from '../../../Components/Icon/IconTypes';
 import CheckInType from '../../../lib/CheckInInputType';
