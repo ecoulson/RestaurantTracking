@@ -1,6 +1,5 @@
 import React from "react";
 import "./index.css";
-import ILegalSectionTitleProps from "./ILegalSectionTitleProps";
 
 export default class LegalSectionTitle extends React.Component {
     render() {

@@ -1,6 +1,5 @@
 import IPricingStrategy from "../Model/IPricingStrategy";
 import IContactLogPricingParameters from "./IContactLogPricingParameters";
-import IPricingBreakdown from "../Model/IPricingBreakdown";
 import ContactLogPricingBreakdown from "./ContactLogPricingBreakdown";
 import IContactLogPricingBreakdown from "./IContactLogPricingBreakdown";
 

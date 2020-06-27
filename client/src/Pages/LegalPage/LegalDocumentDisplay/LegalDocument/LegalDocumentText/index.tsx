@@ -1,7 +1,7 @@
 import React from "react";
 import "./index.css";
 import ReactMarkdown from "react-markdown";
-import ILegalDocumentTextProps from "./IlegalDocumentTextProps";
+import ILegalDocumentTextProps from "./ILegalDocumentTextProps";
 
 export default class LegalDocumentText extends React.Component<ILegalDocumentTextProps> {
     render() {

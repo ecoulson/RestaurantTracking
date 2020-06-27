@@ -15,7 +15,7 @@ export default class DashboardProfileAvatar extends React.Component<IDashboardPr
 
     private getAvatar() {
         if (this.props.profilePicture) {
-            return <img className="dashboard-profile-avatar-image" src={this.props.profilePicture} />
+            return <img alt="profile avatar" className="dashboard-profile-avatar-image" src={this.props.profilePicture} />
         } else {
             return <Icon icon={IconType.User} color="#969090" />;
         }

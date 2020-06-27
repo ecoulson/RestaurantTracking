@@ -17,9 +17,9 @@ export default class LegalDocumentTableOfContentsItem extends React.Component<IL
                 <span className="legal-document-table-of-contents-index">
                     {this.props.index}.
                 </span> 
-                <a className="legal-document-table-of-contents-link">
+                <span className="legal-document-table-of-contents-link">
                     {this.props.name}
-                </a>
+                </span>
             </div>
         )
     }
