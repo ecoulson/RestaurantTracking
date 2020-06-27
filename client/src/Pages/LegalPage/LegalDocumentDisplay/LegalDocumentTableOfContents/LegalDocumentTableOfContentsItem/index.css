@@ -1,0 +1,27 @@
+.legal-document-table-of-contents-item {
+    display: flex;
+    width: 250px;
+    position: relative;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.legal-document-table-of-contents-index {
+    display: block;
+    width: 20px;
+    margin-right: 10px;
+    font-weight: 700;
+}
+
+.legal-document-table-of-contents-link {
+    display: block;
+    color: #258f71;
+}
+
+.legal-document-table-of-contents-item:hover {
+    cursor: pointer;
+}
+
+.legal-document-table-of-contents-item:hover > .legal-document-table-of-contents-link {
+    text-decoration: underline;
+}

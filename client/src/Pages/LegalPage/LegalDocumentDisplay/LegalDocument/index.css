@@ -1,0 +1,24 @@
+.legal-document {
+    width: 100%;
+    word-wrap: break-word;
+    padding: 50px;
+    box-sizing: border-box;
+}
+
+@media all and (max-width: 620px) {
+    .legal-document {
+        padding: 25px;
+    }
+}
+
+table {
+    border-collapse: collapse;
+}
+
+table, td, th {
+    border: 1px solid black;
+}
+
+blockquote {
+    line-height: 24px;
+}

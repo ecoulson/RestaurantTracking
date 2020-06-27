@@ -12,8 +12,8 @@ export default class HelpPage extends React.Component {
                 <BasicSection>
                     <BasicSectionTitle>Legal</BasicSectionTitle>
                     <div className="legal-list">
-                        <Link className="legal-document-link" to="/privacy">Privacy Policy</Link>
-                        <Link className="legal-document-link" to="/terms">Terms and Conditions</Link>
+                        <Link className="legal-document-link" to="/legal/privacy-policy">Privacy Policy</Link>
+                        <Link className="legal-document-link" to="/legal/terms-and-conditions">Terms and Conditions</Link>
                     </div>
                 </BasicSection>
                 <BasicSection>
