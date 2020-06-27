@@ -1,4 +1,4 @@
-import React, { ChangeEvent, Ref, createRef, RefObject } from "react";
+import React, { ChangeEvent, createRef, RefObject } from "react";
 import ISimpleFileInputProps from "./ISimpleFileInputProps";
 import ISimpleFileInputState from "./ISimpleFileInputState";
 import "./index.css";

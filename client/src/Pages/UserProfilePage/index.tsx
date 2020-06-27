@@ -1,5 +1,5 @@
 import React from "react";
-import UserProfileLayout from "../../Layouts/UserProfileLayout";
+import BasicLayout from "../../Layouts/BasicLayout";
 import ProfilePictureSection from "./ProfilePictureSection";
 import UserInfoSection from "./UserInfoSection";
 import UserPasswordChangeSection from "./UserPasswordChangeSection";
@@ -61,7 +61,7 @@ export default class UserProfilePage extends React.Component<any, IUserProfilePa
 
     render() {
         return (
-            <UserProfileLayout>
+            <BasicLayout title="Edit Profile">
                 <ProfilePictureSection profilePictureURL={this.state.profilePicture} />
                 <UserInfoSection 
                     email={this.state.email}
@@ -70,7 +70,7 @@ export default class UserProfilePage extends React.Component<any, IUserProfilePa
                     username={this.state.username}
                     />
                 <UserPasswordChangeSection />
-            </UserProfileLayout>
+            </BasicLayout>
         )
     }
 }

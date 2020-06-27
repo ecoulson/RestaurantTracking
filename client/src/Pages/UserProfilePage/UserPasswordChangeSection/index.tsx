@@ -1,8 +1,8 @@
 import React from "react";
-import UserProfileSection from "../UserProfileSection";
+import BasicSection from "../../../Layouts/BasicLayout/BasicSection";
 import PasswordInput from "../../../Components/PasswordInput";
 import Submit from "../../../Components/Submit";
-import UserProfileSectionTitle from "../UserProfileSectionTitle";
+import BasicSectionTitle from "../../../Layouts/BasicLayout/BasicSectionTitle";
 import IUserPasswordChangeSectionState from "./IUserPasswordChangeSectionState";
 import FormValue from "../../../Components/FormInput/FormValue";
 import ToastType from "../../../Components/Toast/ToastType";
@@ -28,9 +28,9 @@ export default class UserPasswordChangeSection extends React.Component<any, IUse
 
     render() {
         return (
-            <UserProfileSection>
+            <BasicSection>
                 <Toast type={this.state.type} message={this.state.message} />
-                <UserProfileSectionTitle>Change Password</UserProfileSectionTitle>
+                <BasicSectionTitle>Change Password</BasicSectionTitle>
                 <PasswordInput 
                     iconColor="#AAAAAA" 
                     label="Current Password"
@@ -43,7 +43,7 @@ export default class UserPasswordChangeSection extends React.Component<any, IUse
                     placeholder="Enter your new password" 
                     onChange={this.handleNewPassword} />
                 <Submit onClick={this.handlePasswordUpdate}>Update</Submit>
-            </UserProfileSection>
+            </BasicSection>
         )
     }
 

@@ -1,0 +1,30 @@
+.basic-layout-page {
+    width: 100%;
+    height: 100vh;
+    overflow-y: scroll;
+    position: relative;
+}
+
+.basic-layout-wrapper {
+    width: 100%;
+    padding: 50px;
+    display: block;
+    box-sizing: border-box;
+}
+
+.basic-layout-container {
+    background-color: #E7E7E7;
+    height: auto;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 8px 4px rgba(0, 0, 0, 0.3);
+}
+
+@media all and (max-width: 620px) {
+    .basic-layout-wrapper {
+        padding: 25px;
+    }
+    .basic-layout-container {
+        padding: 10px;
+    }
+}

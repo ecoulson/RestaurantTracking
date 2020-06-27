@@ -1,11 +1,14 @@
-.user-profile-section > .icon {
+.profile-icon-container {
+    width: 100%;
+}
+
+.profile-icon-container > .icon {
     display: block;
-    margin: 25px auto;
-    fill: #AAAAAA;
-    background-color: #3B3A39;
-    padding: 25px;
-    border-radius: 100%;
     box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.2);
+    padding: 15px;
+    border-radius: 100%;
+    margin: 25px auto;
+    background-color: #3B3A39;
 }
 
 .user-profile-picture {

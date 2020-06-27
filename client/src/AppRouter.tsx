@@ -5,17 +5,17 @@ import {
     Router
 } from "react-router-dom";
 import App from "./App";
-import Login from "./Pages/Login";
+import Login from "./Pages/AuthenticationPages/Login";
 import AppHistory from "./AppHistory";
-import Logout from "./Pages/Logout";
-import VerifyAccountPage from "./Pages/VerifyAccountPage";
-import VerificationPage from "./Pages/VerificationPage";
-import UserRegistrationPage from "./Pages/UserRegistrationPage";
-import ForgotPasswordPage from "./Pages/ForgotPasswordPage";
-import SpamRegistrationPage from "./Pages/SpamRegistrationPage";
-import CancelPasswordRecoveryPage from "./Pages/CancelPasswordRecoveryPage";
-import ConfirmPasswordRecoveryPage from "./Pages/ConfirmPasswordRecoveryPage";
-import ResetPasswordPage from "./Pages/ResetPasswordPage";
+import Logout from "./Pages/AuthenticationPages/Logout";
+import VerifyAccountPage from "./Pages/AuthenticationPages/VerifyAccountPage";
+import VerificationPage from "./Pages/AuthenticationPages/VerificationPage";
+import UserRegistrationPage from "./Pages/AuthenticationPages/UserRegistrationPage";
+import ForgotPasswordPage from "./Pages/AuthenticationPages/ForgotPasswordPage";
+import SpamRegistrationPage from "./Pages/AuthenticationPages/SpamRegistrationPage";
+import CancelPasswordRecoveryPage from "./Pages/AuthenticationPages/CancelPasswordRecoveryPage";
+import ConfirmPasswordRecoveryPage from "./Pages/AuthenticationPages/ConfirmPasswordRecoveryPage";
+import ResetPasswordPage from "./Pages/AuthenticationPages/ResetPasswordPage";
 import DashboardPage from "./Pages/DashboardPage";
 import AuthenticateActiveSession from "./Components/AuthenticationWrappers/AuthenticateActiveSession";
 import Toast from "./Components/Toast";
@@ -25,6 +25,8 @@ import UnauthenticatedAccessWrapper from "./Components/AuthenticationWrappers/Un
 import MarketplacePage from "./Pages/MarketplacePage";
 import LearnMoreLayout from "./Layouts/LearnMoreLayout";
 import UserProfilePage from "./Pages/UserProfilePage";
+import HelpPage from "./Pages/HelpPage";
+import LegalPage from "./Pages/LegalPage";
 
 export default class AppRouter extends React.Component<{}, IAppRouterState> {
     constructor(props: {}) {
@@ -46,8 +48,13 @@ export default class AppRouter extends React.Component<{}, IAppRouterState> {
                         (props) => (
                             <LearnMoreLayout {...props} />
                         )
-                    }>
-                    </Route>
+                    }/>
+                    <Route path="/legal/:documentName" render={
+                        (props) => (
+                            <LegalPage {...props} />
+                        )
+                    }/>
+
                     <Route exact path="/login">
                         <UnauthenticatedAccessWrapper to="/dashboard" showError={this.showError}>
                             <Login/>
@@ -113,6 +120,11 @@ export default class AppRouter extends React.Component<{}, IAppRouterState> {
                     </Route>
                     <Route exact path="/">
                         <App />
+                    </Route>
+                    <Route exact path="/help">
+                        <AuthenticateActiveSession showError={this.showError}>
+                            <HelpPage />
+                        </AuthenticateActiveSession>
                     </Route>
                 </Switch>
             </Router>

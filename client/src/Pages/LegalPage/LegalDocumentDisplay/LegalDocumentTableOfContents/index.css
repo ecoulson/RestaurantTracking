@@ -1,0 +1,14 @@
+.legal-document-table-of-contents-fixed {
+    top: 25px;
+    position: fixed;
+}
+
+.legal-document-table-of-contents {
+    width: 250px;
+}
+
+@media all and (max-width: 930px) {
+    .legal-document-table-of-contents {
+        display: none;
+    }
+}
