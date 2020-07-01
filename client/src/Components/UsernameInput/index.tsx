@@ -47,6 +47,7 @@ export default class UsernameInput extends React.Component<IUsernameInputProps, 
                     id={this.props.id}
                     iconColor={this.props.iconColor}
                     isValid={this.state.valid}
+                    hoverColor={this.props.hoverColor}
                     type="text"
                     label="Username"
                     icon={IconType.User}

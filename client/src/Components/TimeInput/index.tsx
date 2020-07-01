@@ -25,6 +25,7 @@ export default class TimeInput extends React.Component<ITimeInputProps, ITimeInp
                 iconColor={this.props.iconColor}
                 id={this.props.id}
                 onChange={this.handleTimeChange}
+                hoverColor={this.props.hoverColor}
                 icon={IconType.Clock} 
                 dark={this.props.dark}
                 label="Time of Entry" 

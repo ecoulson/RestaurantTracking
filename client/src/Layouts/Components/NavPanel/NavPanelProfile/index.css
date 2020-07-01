@@ -1,0 +1,17 @@
+.dashboard-profile {
+    width: 100%;
+    margin: 0 auto;
+    position: absolute;
+    bottom: 75px;
+    border-top: 1px solid #707070
+}
+
+@media all and (max-width: 750px) {
+    .dashboard-profile {
+        bottom: 0;
+    }
+}
+
+.dashboard-profile-collapsed {
+    bottom: 0;
+}

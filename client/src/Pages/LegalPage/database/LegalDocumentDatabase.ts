@@ -55,10 +55,6 @@ The information we collect includes:
 -   _Device Data._ We collect device data such as information about your computer, phone, tablet or other device you use to access the Website. Depending on the device used, this device data may include information such as your IP address (or proxy server), device application identification numbers, location, browser type, hardware model Internet service provider and/or mobile carrier, operating system configuration information.
 
 -   _Location Data._  We collect information data such as information about your device's location, which can be either precise or imprecise. How much information we collect depends on the type of settings of the device you use to access the  Website. For example, we may use GPS and other technologies to collect geolocation data that tells us your current location (based on your IP address). You can opt out of allowing us to collect this information either by refusing access to the information or by disabling your Locations settings on your device. Note however, if you choose to opt out, you may not be able to use certain aspects of the Services.
-
-** COVID-19 Tracking Logs in Washington State **
-
-Our Check-In feature maintains 30-Day logs containing a users, email or phone number and their IP address. This is compliant with Washington governor Jay Inslee's May 15th, 2020 memo mandating that restaurants maintain a voluntary, 30-Day customer log, which you can find here <https://www.governor.wa.gov/sites/default/files/COVID19CustomerLogMemo.pdf?utm_medium=email&utm_source=govdelivery>
 `
         },
         {
@@ -123,7 +119,12 @@ We may use cookies and similar tracking technologies (like web beacons and pixel
 
 We will only keep your personal information for as long as it is necessary for the purposes set out in this privacy notice, unless a longer retention period is required or permitted by law (such as tax, accounting or other legal requirements). No purpose in this notice will require us keeping your personal information for longer than the period of time in which users have an account with us.
 
-When we have no ongoing legitimate business need to process your personal information, we will either delete or anonymize such information, or, if this is not possible (for example, because your personal information has been stored in backup archives), then we will securely store your personal information and isolate it from any further processing until deletion is possible.`
+When we have no ongoing legitimate business need to process your personal information, we will either delete or anonymize such information, or, if this is not possible (for example, because your personal information has been stored in backup archives), then we will securely store your personal information and isolate it from any further processing until deletion is possible.
+
+** COVID-19 Tracking Logs in Washington State **
+
+Our Check-In feature maintains 30-Day logs containing a users, email or phone number and their IP address. This is compliant with Washington governor Jay Inslee's May 15th, 2020 memo mandating that restaurants maintain a voluntary, 30-Day customer log, which you can find here <https://www.governor.wa.gov/sites/default/files/COVID19CustomerLogMemo.pdf?utm_medium=email&utm_source=govdelivery>
+`
         },
         {
             title: "How Do We Keep Your Information Safe?",

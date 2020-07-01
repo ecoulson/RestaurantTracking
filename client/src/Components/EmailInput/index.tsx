@@ -31,6 +31,7 @@ export default class EmailInput extends React.Component<IEmailProps, IEmailState
                 isValid={this.state.valid}
                 value={this.state.emailAddress}
                 dark={this.props.dark}
+                hoverColor={this.props.hoverColor}
                 id={this.props.id}
                 icon={IconType.Mail} 
                 label="email" 

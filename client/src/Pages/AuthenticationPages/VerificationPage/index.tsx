@@ -39,7 +39,7 @@ export default class VerificationPage extends React.Component<IVerificationPageP
                 <AuthenticationContainer>
                     <Toast type={ToastType.Error} message={this.state.message}/>
                     <Logo />
-                    <AuthenticationLayoutTitle>Verifying Acount...</AuthenticationLayoutTitle>
+                    <AuthenticationLayoutTitle>Verifying Account...</AuthenticationLayoutTitle>
                     <LoginContainer />
                 </AuthenticationContainer>
             </AuthenticationBackground>

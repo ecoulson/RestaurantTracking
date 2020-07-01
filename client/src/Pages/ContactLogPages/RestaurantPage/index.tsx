@@ -2,7 +2,7 @@ import Logo from '../../../Components/Logo';
 import RestaurantName from '../RestaurantName';
 import Instructions from '../Instructions';
 import Form from '../../../Components/Form';
-import Submit from '../../../Components/Submit';
+import Button from '../../../Components/Button';
 import React from "react";
 import PhoneInput from '../../../Components/PhoneInput';
 import EmailInput from '../../../Components/EmailInput';
@@ -79,23 +79,23 @@ export default class RestaurantPage extends React.Component<IPageProps, IRestaur
                 <Logo dark/>
                 <RestaurantName>{this.state.restaurantName}</RestaurantName>
                 <Instructions>Please enter one of the following:</Instructions>
-                <Form isSubmitting={this.state.isSubmitting}>
+                <Form onSubmit={this.handleSubmit} isSubmitting={this.state.isSubmitting}>
                     <SlideSwitch optionWidth={120} onChange={this.handleSlideSwitchChange}>
                         <Icon color="white" icon={IconType.Phone}/>
                         <Icon color="white" icon={IconType.Mail}/>
                     </SlideSwitch>
                     {
                         this.state.selected === CheckInType.Phone ?
-                            <PhoneInput iconColor="white" dark onChange={this.handlePhoneChange} /> :
-                            <EmailInput iconColor="white" dark onChange={this.handleEmailChange} />
+                            <PhoneInput hoverColor="white" iconColor="#707070" dark onChange={this.handlePhoneChange} /> :
+                            <EmailInput hoverColor="white" iconColor="#707070" dark onChange={this.handleEmailChange} />
 
                     }
-                    <Submit 
+                    <Button 
                         dark 
-                        onClick={this.handleSubmit} 
+                        submit 
                         visible={this.state.isComplete}>
                             Submit
-                    </Submit>
+                    </Button>
                 </Form>
                 <LegalContainer />
             </>

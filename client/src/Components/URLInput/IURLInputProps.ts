@@ -4,5 +4,6 @@ export default interface IURLInputProps {
     onChange : (url : IFormValue<string>) => void;
     dark? : boolean;
     iconColor?: string; 
+    hoverColor?: string;
     value? : string;
 }

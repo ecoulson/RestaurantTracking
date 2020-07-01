@@ -36,7 +36,7 @@ export default class SpamRegistrationPage extends React.Component<{}, ISPamRegis
                     <Toast type={ToastType.Error} message={this.state.message} />
                     <Logo />
                     <AuthenticationLayoutTitle>Spam Registration</AuthenticationLayoutTitle>
-                    <AuthenticationLayoutText>We are removing your registration from our system. Aplogies.</AuthenticationLayoutText>
+                    <AuthenticationLayoutText>We are removing your registration from our system. Apologies.</AuthenticationLayoutText>
                     <LoginContainer />
                 </AuthenticationContainer>
             </AuthenticationBackground>

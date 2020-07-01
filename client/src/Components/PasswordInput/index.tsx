@@ -36,6 +36,7 @@ export default class PasswordInput extends React.Component<IPasswordProps, IPass
                     iconColor={this.props.iconColor}
                     isValid={this.state.valid}
                     id={this.props.id}
+                    hoverColor={this.props.hoverColor}
                     icon={IconType.Lock}
                     placeHolder={this.props.placeholder ? this.props.placeholder : "Enter your password"}
                     onChange={this.onChange}

@@ -5,6 +5,7 @@ export default interface IUsernameInputProps {
     iconColor? : string;
     id?: string;
     value?: string;
+    hoverColor?: string;
     registering?: boolean;
     whitelist? : string[]
     onChange : (username : FormValue<string>) => void;

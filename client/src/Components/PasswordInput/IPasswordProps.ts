@@ -7,5 +7,6 @@ export default interface IPasswordProps {
     id?: string;
     registering?: boolean;
     placeholder?: string;
+    hoverColor?: string;
     label?: string;
 }

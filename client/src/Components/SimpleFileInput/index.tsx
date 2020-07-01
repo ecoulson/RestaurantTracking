@@ -1,4 +1,4 @@
-import React, { ChangeEvent, createRef, RefObject } from "react";
+import React, { ChangeEvent, createRef, RefObject, KeyboardEvent } from "react";
 import ISimpleFileInputProps from "./ISimpleFileInputProps";
 import ISimpleFileInputState from "./ISimpleFileInputState";
 import "./index.css";
@@ -14,11 +14,15 @@ export default class SimpleFileInput extends React.Component<ISimpleFileInputPro
         }
         this.inputRef = createRef<HTMLInputElement>();
         this.handleClick = this.handleClick.bind(this);
+        this.onKeyPress = this.onKeyPress.bind(this);
     }
 
     render() {
         return (
-            <div onClick={this.handleClick} className="simple-file-input">
+            <div 
+                onKeyPress={this.onKeyPress}
+                onClick={this.handleClick} 
+                className="simple-file-input">
                 <input 
                     ref={this.inputRef}
                     multiple={this.props.multiple}
@@ -29,6 +33,13 @@ export default class SimpleFileInput extends React.Component<ISimpleFileInputPro
                 {this.props.children}
             </div>
         )
+    }
+
+    private onKeyPress(event : KeyboardEvent) {
+        event.preventDefault();
+        if (event.key === " ") {
+            this.inputRef.current?.click();
+        }
     }
 
     private handleClick() {

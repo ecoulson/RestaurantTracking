@@ -7,7 +7,7 @@ import LoginContainer from "../../../Layouts/AuthenticationLayout/LoginContainer
 import Form from "../../../Components/Form";
 import UsernameInput from "../../../Components/UsernameInput";
 import PasswordInput from "../../../Components/PasswordInput";
-import Submit from "../../../Components/Submit";
+import Button from "../../../Components/Button";
 import EmailInput from "../../../Components/EmailInput";
 import FullNameInput from "../../../Components/FullNameInput";
 import "./index.css"
@@ -44,28 +44,34 @@ export default class UserRegistrationPage extends React.Component<{}, IUserRegis
                     <Toast type={this.state.type} message={this.state.message}/>
                     <Logo />
                     <AuthenticationLayoutTitle>Sign Up</AuthenticationLayoutTitle>
-                    <Form isSubmitting={false}>
+                    <Form onSubmit={this.register} isSubmitting={false}>
                         <UsernameInput 
                             registering 
                             id="register-username" 
                             iconColor="#AAAAAA" 
+                            hoverColor="#1B2D42"
                             onChange={this.handleUsername} />
                         <FullNameInput 
                             id="register-fullname" 
                             iconColor="#AAAAAA" 
+                            hoverColor="#1B2D42"
                             onChange={this.handleFullname} />
                         <EmailInput 
                             id="register-email" 
                             iconColor="#AAAAAA" 
+                            hoverColor="#1B2D42"
                             onChange={this.handleEmail} />
                         <PasswordInput 
                             registering 
                             id="register-password" 
                             iconColor="#AAAAAA" 
+                            hoverColor="#1B2D42"
                             onChange={this.handlePassword} />
-                        <Submit 
-                            visible={this.canSubmit()} 
-                            onClick={this.register}>Create Account</Submit>
+                        <Button
+                            submit 
+                            visible={this.canSubmit()}>
+                            Create Account
+                        </Button>
                     </Form>
                     <LoginContainer />
                 </AuthenticationContainer>
@@ -108,6 +114,9 @@ export default class UserRegistrationPage extends React.Component<{}, IUserRegis
     private async register() {
         if (this.canSubmit()) {
             try {
+                if (this.state.fullname.value.length === 1) {
+                    this.state.fullname.value.push("");
+                }
                 await Axios.post("/api/user/registration/register", {
                     username: this.state.username.value,
                     email: this.state.email.value,
@@ -121,7 +130,7 @@ export default class UserRegistrationPage extends React.Component<{}, IUserRegis
                 })
             } catch (error) {
                 this.setState({
-                    message: "Failed to reigster account. Please try again later.",
+                    message: "Failed to register account. Please try again later.",
                     type: ToastType.Error
                 })
             }

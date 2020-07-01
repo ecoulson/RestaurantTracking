@@ -7,7 +7,7 @@ import AuthenticationLayoutTitle from "../../../Layouts/AuthenticationLayout/Aut
 import AuthenticationLayoutText from "../../../Layouts/AuthenticationLayout/AuthenticationLayoutText";
 import Form from "../../../Components/Form";
 import PasswordInput from "../../../Components/PasswordInput";
-import Submit from "../../../Components/Submit";
+import Button from "../../../Components/Button";
 import IResetPasswordPageState from "./IResetPasswordPageState";
 import FormValue from "../../../Components/FormInput/FormValue";
 import Axios from "axios";
@@ -35,14 +35,17 @@ export default class ResetPasswordPage extends React.Component<{}, IResetPasswor
                     <Logo />
                     <AuthenticationLayoutTitle>Reset Password</AuthenticationLayoutTitle>
                     <AuthenticationLayoutText>Reset your password below</AuthenticationLayoutText>
-                    <Form isSubmitting={false}>
+                    <Form onSubmit={this.handleSubmit} isSubmitting={false}>
                         <PasswordInput 
                             registering 
                             iconColor="#AAAAAA" 
+                            hoverColor="#1B2D42"
                             onChange={this.handlePassword}/>
-                        <Submit 
-                            visible={this.state.password.valid} 
-                            onClick={this.handleSubmit}>Reset Password</Submit>
+                        <Button
+                            submit 
+                            visible={this.state.password.valid}>
+                            Reset Password
+                        </Button>
                     </Form>
                     <LoginContainer />
                 </AuthenticationContainer>

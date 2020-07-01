@@ -1,4 +1,4 @@
-import React, { MouseEvent } from "react";
+import React, { MouseEvent, Key, KeyboardEvent } from "react";
 import "./index.css";
 import ISlideSwitchState from "./ISlideSwitchState";
 import ISlideSwitchProps from "./ISlideSwitchProps";
@@ -10,6 +10,7 @@ export default class SlideSwitch extends React.Component<ISlideSwitchProps, ISli
             selected: this.props.selected ? this.props.selected : 1
         }
         this.handleOptionClick = this.handleOptionClick.bind(this);
+        this.handleOptionSelect = this.handleOptionSelect.bind(this);
     }
     
     componentWillReceiveProps(props : ISlideSwitchProps) {
@@ -49,6 +50,8 @@ export default class SlideSwitch extends React.Component<ISlideSwitchProps, ISli
             return (
                 <div 
                     onClick={this.handleOptionClick} 
+                    tabIndex={0}
+                    onKeyPress={this.handleOptionSelect}
                     style={this.getOptionWidth()}
                     id={`option-${i + 1}`} 
                     key={i} 
@@ -57,6 +60,18 @@ export default class SlideSwitch extends React.Component<ISlideSwitchProps, ISli
                 </div>
             );
         })
+    }
+
+    private handleOptionSelect(event : KeyboardEvent) {
+        event.preventDefault();
+        if (event.key === " ") {
+            const optionElement = this.getOption(event.target as HTMLElement);
+            const id = parseInt(optionElement.id.split("-")[1]);
+            this.props.onChange(id - 1);
+            this.setState({
+                selected: id
+            });
+        }
     }
 
     private handleOptionClick(event: MouseEvent) {
@@ -85,7 +100,7 @@ export default class SlideSwitch extends React.Component<ISlideSwitchProps, ISli
             (this.state.selected - 1) * 90
         return {
             ...this.getOptionWidth(),
-            transform: `translateX(${position}px)`
+            transform: `translateX(${position - 1}px)`
         }
     }
 }

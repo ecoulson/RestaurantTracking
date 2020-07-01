@@ -1,5 +1,5 @@
 import React from "react";
-import Submit from "../../../Components/Submit";
+import Button from "../../../Components/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import IPurchaseButtonProps from "./IPurchaseButtonProps";
 import AppHistory from "../../../AppHistory";
@@ -12,9 +12,9 @@ export default class PurchaseButton extends React.Component<IPurchaseButtonProps
 
     render() {
         return (
-            <Submit onClick={this.directToPurchase}>
+            <Button onClick={this.directToPurchase}>
                 Purchase <FontAwesomeIcon icon="chevron-right" color="white"/>
-            </Submit>
+            </Button>
         )
     }
 

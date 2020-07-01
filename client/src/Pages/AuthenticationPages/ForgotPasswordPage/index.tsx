@@ -11,7 +11,7 @@ import IForgotPasswordPageState from "./IForgotPasswordPageState";
 import Toast from "../../../Components/Toast";
 import ToastType from "../../../Components/Toast/ToastType";
 import IFormValue from "../../../Components/FormInput/IFormValue";
-import Submit from "../../../Components/Submit";
+import Button from "../../../Components/Button";
 import FormValue from "../../../Components/FormInput/FormValue";
 import Axios from "axios";
 
@@ -36,9 +36,16 @@ export default class ForgotPasswordPage extends React.Component<{}, IForgotPassw
                     <AuthenticationLayoutTitle>Forgot Password</AuthenticationLayoutTitle>
                     <AuthenticationLayoutText>Enter your email to begin the password recovery process</AuthenticationLayoutText>
                     <Form isSubmitting={false}>
-                        <EmailInput iconColor="#AAAAAA" onChange={this.handleEmailChange} />
+                        <EmailInput 
+                            iconColor="#AAAAAA" 
+                            hoverColor="#1B2D42"
+                            onChange={this.handleEmailChange} />
+                        <Button 
+                            submit
+                            visible={this.state.email.valid}>
+                            Send Email
+                        </Button>
                     </Form>
-                    <Submit onClick={this.handleSubmit} visible={this.state.email.valid}>Send Email</Submit>
                     <LoginContainer />
                 </AuthenticationContainer>
             </AuthenticationBackground>

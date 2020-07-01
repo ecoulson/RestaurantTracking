@@ -3,7 +3,7 @@ import BasicSection from "../../../Layouts/BasicLayout/BasicSection";
 import UsernameInput from "../../../Components/UsernameInput";
 import EmailInput from "../../../Components/EmailInput";
 import FullNameInput from "../../../Components/FullNameInput";
-import Submit from "../../../Components/Submit";
+import Button from "../../../Components/Button";
 import BasicSectionTitle from "../../../Layouts/BasicLayout/BasicSectionTitle";
 import IUserInfoSectionProps from "./IUserInfoSectionProps";
 import IUserInfoSectionState from "./IUserInfoSectionState";
@@ -13,6 +13,7 @@ import Axios from "axios";
 import Cookie from "../../../lib/Cookie";
 import ToastType from "../../../Components/Toast/ToastType";
 import Toast from "../../../Components/Toast";
+import Form from "../../../Components/Form";
 
 export default class UserInfoSection extends React.Component<IUserInfoSectionProps, IUserInfoSectionState> {
     constructor(props : IUserInfoSectionProps) {
@@ -45,21 +46,26 @@ export default class UserInfoSection extends React.Component<IUserInfoSectionPro
             <BasicSection>
                 <Toast type={this.state.type} message={this.state.message} />
                 <BasicSectionTitle>Profile Information</BasicSectionTitle>
-                <UsernameInput
-                    value={this.state.username.value} 
-                    whitelist={[this.props.username]}
-                    iconColor="#AAAAAA" 
-                    registering
-                    onChange={this.handleUsernameChange} />
-                <EmailInput 
-                    value={this.state.email.value}
-                    iconColor="#AAAAAA" 
-                    onChange={this.handleEmailChange} />
-                <FullNameInput 
-                    value={this.state.fullName.value}
-                    iconColor="#AAAAAA" 
-                    onChange={this.handleFullNameChange} />
-                <Submit onClick={this.updateProfile}>Update</Submit>
+                <Form onSubmit={this.updateProfile} isSubmitting={false}>
+                    <UsernameInput
+                        value={this.state.username.value} 
+                        whitelist={[this.props.username]}
+                        iconColor="#AAAAAA" 
+                        hoverColor="#1B2D42"
+                        registering
+                        onChange={this.handleUsernameChange} />
+                    <EmailInput 
+                        value={this.state.email.value}
+                        iconColor="#AAAAAA" 
+                        hoverColor="#1B2D42"
+                        onChange={this.handleEmailChange} />
+                    <FullNameInput 
+                        value={this.state.fullName.value}
+                        iconColor="#AAAAAA" 
+                        hoverColor="#1B2D42"
+                        onChange={this.handleFullNameChange} />
+                    <Button submit>Update</Button>
+                </Form>
             </BasicSection>
         )
     }

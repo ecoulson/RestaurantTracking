@@ -2,8 +2,9 @@ import React from "react";
 import IBasicLayoutProps from "../IBasicLayoutProps";
 import DashboardTitle from "../../DashboardLayout/DashboardTitle";
 import "./index.css";
-import DashboardNavPanel from "../../DashboardLayout/DashboardNavPanel";
+import NavPanel from "../../Components/NavPanel";
 import Cookie from "../../../lib/Cookie";
+import LegalFooter from "../../Components/LegalFooter";
 
 export default class BasicLayoutContainer extends React.Component<IBasicLayoutProps> {
     render() {
@@ -11,15 +12,16 @@ export default class BasicLayoutContainer extends React.Component<IBasicLayoutPr
             <div style={{display: "flex"}}>
                 {
                     Cookie.getCookie("token") !== null ?
-                        <DashboardNavPanel /> :
+                        <NavPanel /> :
                         null
                 }
                 <div className="basic-layout-page"> 
-                    <DashboardTitle>{this.props.title}</DashboardTitle>
                     <div className="basic-layout-wrapper">
+                        <DashboardTitle>{this.props.title}</DashboardTitle>
                         <div className="basic-layout-container">
                             {this.props.children}
                         </div>
+                        <LegalFooter />
                     </div>
                 </div>
             </div>

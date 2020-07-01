@@ -21,10 +21,12 @@ export default class Toast extends React.Component<IToastProps, IToastState> {
     }
 
     componentDidUpdate() {
-        if (!this.state.hasDisplayed) {
-            this.setState({
-                hasDisplayed: true
-            })
+        if (this.state.hasDisplayed || this.props.message !== "") {
+            if (!this.state.hasDisplayed) {
+                this.setState({
+                    hasDisplayed: true
+                })
+            }
         }
     }
 

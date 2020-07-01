@@ -2,6 +2,7 @@ import React from "react";
 import "./index.css";
 import DashboardTitle from "../DashboardTitle";
 import IDashboardContainerProps from "./IDashboardContainerProps";
+import LegalFooter from "../../Components/LegalFooter";
 
 export default class DashboardContainer extends React.Component<IDashboardContainerProps> {
     render() {
@@ -11,6 +12,7 @@ export default class DashboardContainer extends React.Component<IDashboardContai
                 <div className="dashboard-grid">
                     {this.props.children}
                 </div>
+                <LegalFooter />
             </div>
         )
     }

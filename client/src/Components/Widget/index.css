@@ -1,6 +1,6 @@
 .widget-container {
     background: #E7E7E7 0% 0% no-repeat padding-box;
-    border-radius: 10px;
+    border-radius: 5px;
     grid-column: span 1;
     grid-row: span 1;
     min-width: 100px;

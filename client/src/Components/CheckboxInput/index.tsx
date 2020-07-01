@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, KeyboardEvent } from "react";
 import ICheckboxProps from "./ICheckboxProps";
 import ICheckboxState from "./ICheckboxState";
 import "./index.css";
@@ -22,6 +22,7 @@ export default class CheckboxInput extends React.Component<ICheckboxProps, IChec
                     className="checkbox-input-native"
                     checked={this.state.checked}
                     onChange={this.onChange}
+                    tabIndex={0}
                     type="checkbox" />
                 <CustomCheckboxInput 
                     dark={this.props.dark}

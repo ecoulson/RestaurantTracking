@@ -5,4 +5,5 @@ export default interface IDropdownProps {
     dark?: boolean;
     iconColor?: string;
     id?: string;
+    hoverColor?: string;
 }

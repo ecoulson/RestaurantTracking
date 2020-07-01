@@ -2,7 +2,7 @@ import React from "react";
 import ILearnMoreLayoutProps from "./ILearnMoreLayoutProps";
 import LearnMoreNavbar from "./LearnMoreNavbar";
 import "./index.css"
-import DashboardNavPanel from "../DashboardLayout/DashboardNavPanel";
+import NavPanel from "../Components/NavPanel";
 import LearnMorePage from "../../Pages/LearnMorePage";
 import LearnMoreContainer from "./LearnMoreContainer";
 import Cookie from "../../lib/Cookie";
@@ -13,7 +13,7 @@ export default class LearnMoreLayout extends React.Component<ILearnMoreLayoutPro
             <div style={{display: "flex"}}>
                 {
                     Cookie.getCookie("token") !== null ? 
-                        <DashboardNavPanel /> :
+                        <NavPanel /> :
                         null
                 }
                 <LearnMoreNavbar />

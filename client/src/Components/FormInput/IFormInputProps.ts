@@ -13,5 +13,6 @@ export default interface IFormInputProps {
     placeHolder: string;
     type: string;
     dark?: boolean;
+    hoverColor?: string;
     onChange: (value : IFormValue<string>, event? : ChangeEvent) => void;
 }

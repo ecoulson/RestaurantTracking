@@ -99,6 +99,7 @@ export default class RestaurantDropdown extends React.Component<IDropdownProps, 
                     iconColor={this.props.iconColor}
                     type="text" 
                     label="Restaurant"
+                    hoverColor={this.props.hoverColor}
                     icon={IconType.Menu}
                     placeHolder="Pick where you ate" />
                 <Menu 

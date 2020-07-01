@@ -1,4 +1,4 @@
-import React from "react";
+import React, { KeyboardEvent } from "react";
 import "./index.css";
 import ICustomCheckboxInputProps from "./ICustomCheckboxInputProps";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,11 +7,14 @@ export default class CustomCheckboxInput extends React.Component<ICustomCheckbox
     constructor(props : ICustomCheckboxInputProps) {
         super(props);
         this.handleClick = this.handleClick.bind(this);
+        this.handleToggle = this.handleToggle.bind(this);
     }
 
     render() {
         return (
-            <div 
+            <div
+                tabIndex={0}
+                onKeyPress={this.handleToggle}
                 onClick={this.handleClick} 
                 className={`custom-checkbox-input-shadow ${this.getShadowThemeClass()}`}>
                 <div className={`${this.getCheckedClass()} ${this.getCheckboxThemeClass()} custom-checkbox-input`}>
@@ -19,6 +22,13 @@ export default class CustomCheckboxInput extends React.Component<ICustomCheckbox
                 </div>
             </div>
         )
+    }
+
+    private handleToggle(event : KeyboardEvent<any>) {
+        event.preventDefault();
+        if (event.key === " ") {
+            this.props.onClick(!this.props.checked)
+        }
     }
 
     private handleClick() {

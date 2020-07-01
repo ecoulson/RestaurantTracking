@@ -4,7 +4,7 @@ import AuthenticationContainer from "../../../Layouts/AuthenticationLayout/Authe
 import Logo from "../../../Components/Logo";
 import AuthenticationLayoutTitle from "../../../Layouts/AuthenticationLayout/AuthenticationLayoutTitle";
 import ILoginState from "./ILoginState";
-import Submit from "../../../Components/Submit";
+import Button from "../../../Components/Button";
 import PasswordInput from "../../../Components/PasswordInput";
 import UsernameInput from "../../../Components/UsernameInput";
 import Axios from "axios";
@@ -41,20 +41,26 @@ export default class Login extends React.Component<{}, ILoginState> {
                     <Toast type={ToastType.Error} message={this.state.errorMessage} />
                     <Logo />
                     <AuthenticationLayoutTitle>Login</AuthenticationLayoutTitle>
-                    <Form isSubmitting={false}>
-                        <UsernameInput iconColor="#AAAAAA" onChange={this.onUsernameChange} />
-                        <PasswordInput iconColor="#AAAAAA" onChange={this.onPasswordChange} />
+                    <Form onSubmit={this.login} isSubmitting={false}>
+                        <UsernameInput 
+                            iconColor="#AAAAAA" 
+                            hoverColor="#1B2D42"
+                            onChange={this.onUsernameChange} />
+                        <PasswordInput 
+                            iconColor="#AAAAAA"
+                            hoverColor="#1B2D42"
+                            onChange={this.onPasswordChange} />
                         <LoginSettingsContainer>
                             <CheckboxInput 
                                 onChange={this.onRememberMeChange}
                                 label="Remember me"/>
                             <ForgotPasswordLink />
                         </LoginSettingsContainer>
-                        <Submit 
-                            onClick={this.login} 
+                        <Button
+                            submit
                             visible={this.canSubmitLogin()}>
-                                Submit
-                        </Submit>
+                            Submit
+                        </Button>
                     </Form>
                     <SignUpContainer />
                 </AuthenticationContainer>

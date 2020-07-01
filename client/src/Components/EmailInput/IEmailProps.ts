@@ -6,4 +6,5 @@ export default interface IEmailProps {
     iconColor?: string;
     id?: string;
     value? : string;
+    hoverColor?: string;
 }

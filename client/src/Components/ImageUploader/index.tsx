@@ -17,7 +17,7 @@ export default class ImageUploader extends React.Component<IImageUploaderProps, 
     render() {
         return (
             <SimpleFileInput onChange={this.handleChange} accept={[".png", ".jpg", ".jpeg"]}>
-                <div className={`image-file-uploader ${this.getCompleteClass()}`}>
+                <div tabIndex={0} className={`image-file-uploader ${this.getCompleteClass()}`}>
                     <div style={this.getXTranslation()} className="image-file-uploader-progress"></div>
                     <div className="image-file-uploader-container">
                         <div className="image-file-uploader-button">Upload</div>

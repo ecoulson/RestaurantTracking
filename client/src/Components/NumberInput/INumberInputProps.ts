@@ -5,4 +5,5 @@ export default interface INumberInputProps {
     label: string;
     placeHolder: string;
     icon: IconType;
+    hoverColor?: string;
 }

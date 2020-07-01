@@ -1,8 +1,8 @@
-import React, { MouseEvent } from "react";
+import React, { MouseEvent, FormEvent } from "react";
 import Logo from "../../../Components/Logo";
 import Instructions from "../Instructions";
 import Form from "../../../Components/Form";
-import Submit from "../../../Components/Submit";
+import Button from "../../../Components/Button";
 import GeneralTitle from "../GeneralTitle";
 import RestaurantDropdown from "../../../Components/DropdownInput";
 import IGeneralPageState from "./IGeneralPageState";
@@ -54,7 +54,7 @@ export default class GeneralPage extends React.Component<IPageProps, IGeneralPag
         return (
             <>
                 <Logo dark />
-                <Form isSubmitting={this.state.isSubmitting}>
+                <Form onSubmit={this.handleSubmit} isSubmitting={this.state.isSubmitting}>
                     <GeneralTitle />
                     <SlideSwitch onChange={this.handleSlideSwitchChange}>
                         <Icon color="white" icon={IconType.Phone}/>
@@ -62,19 +62,27 @@ export default class GeneralPage extends React.Component<IPageProps, IGeneralPag
                     </SlideSwitch>
                     {
                         this.state.selected === CheckInType.Phone ?
-                            <PhoneInput iconColor="white" dark onChange={this.handlePhone} /> :
-                            <EmailInput iconColor="white" dark onChange={this.handleEmail} />
+                            <PhoneInput 
+                                hoverColor="white" 
+                                iconColor="#707070" 
+                                dark 
+                                onChange={this.handlePhone} /> :
+                            <EmailInput 
+                                hoverColor="white" 
+                                iconColor="#707070" 
+                                dark 
+                                onChange={this.handleEmail} />
                     }
-                    <RestaurantDropdown iconColor="white" dark onChange={this.handleRestaurant} />
-                    <DateInput iconColor="white" dark onChange={this.handleDate} />
-                    <TimeInput iconColor="white" dark onChange={this.handleTime} />
+                    <RestaurantDropdown hoverColor="white" iconColor="#707070" dark onChange={this.handleRestaurant} />
+                    <DateInput hoverColor="white" iconColor="#707070" dark onChange={this.handleDate} />
+                    <TimeInput hoverColor="white" iconColor="#707070" dark onChange={this.handleTime} />
                     <Instructions>Please enter one of the following:</Instructions>
-                    <Submit 
+                    <Button 
                         dark 
-                        onClick={this.handleSubmit} 
+                        submit
                         visible={this.state.isComplete}>
                             Submit
-                    </Submit>
+                    </Button>
                 </Form>
                 <LegalContainer />
             </>
@@ -155,7 +163,7 @@ export default class GeneralPage extends React.Component<IPageProps, IGeneralPag
         })
     }
 
-    private async handleSubmit(event : MouseEvent) {
+    private async handleSubmit(event : FormEvent) {
         if (this.state.isComplete) {
             this.setState({
                 isSubmitting: true

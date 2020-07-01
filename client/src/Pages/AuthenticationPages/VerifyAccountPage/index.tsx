@@ -5,7 +5,7 @@ import Logo from "../../../Components/Logo";
 import Form from "../../../Components/Form";
 import EmailInput from "../../../Components/EmailInput";
 import FormValue from "../../../Components/FormInput/FormValue";
-import Submit from "../../../Components/Submit";
+import Button from "../../../Components/Button";
 import IVerifyAccountPageState from "./IVerifyAccountPageState";
 import Toast from "../../../Components/Toast";
 import AuthenticationLayoutTitle from "../../../Layouts/AuthenticationLayout/AuthenticationLayoutTitle";
@@ -25,7 +25,7 @@ export default class VerifyAccountPage extends React.Component<{}, IVerifyAccoun
             message: "",
             type: ToastType.Error
         }
-        this.onClick = this.onClick.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
     }
 
     render() {
@@ -36,13 +36,16 @@ export default class VerifyAccountPage extends React.Component<{}, IVerifyAccoun
                     <Logo />
                     <AuthenticationLayoutTitle>Verifiy Account</AuthenticationLayoutTitle>
                     <AuthenticationLayoutText>If you can not find your verification email, get a new verification email below.</AuthenticationLayoutText>
-                    <Form isSubmitting={false}>
-                        <EmailInput iconColor="#AAAAAA" onChange={this.onEmailChange}/>
-                        <Submit
-                            onClick={this.onClick}
+                    <Form onSubmit={this.onSubmit} isSubmitting={false}>
+                        <EmailInput 
+                            iconColor="#AAAAAA" 
+                            hoverColor="#1B2D42"
+                            onChange={this.onEmailChange}/>
+                        <Button
+                            submit
                             visible={this.state.canSubmit}>
                                 Resend Email
-                        </Submit>
+                        </Button>
                     </Form>
                     <LoginContainer />
                 </AuthenticationContainer>
@@ -57,7 +60,7 @@ export default class VerifyAccountPage extends React.Component<{}, IVerifyAccoun
         })
     }
 
-    private onClick() {
+    private onSubmit() {
         if (this.state.canSubmit) {
             try {
                 this.handleSuccessfulResend();
