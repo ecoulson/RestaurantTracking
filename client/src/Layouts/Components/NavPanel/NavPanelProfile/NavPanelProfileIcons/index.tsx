@@ -1,8 +1,6 @@
 import React from "react";
-import Icon from "../../../../../Components/Icon";
 import IconType from "../../../../../Components/Icon/IconTypes";
 import "./index.css";
-import { Link } from "react-router-dom";
 import INavPanelProfileIconsProps from "./INavPanelProfileIconsProps";
 import NavPanelProfileIcon from "./NavPanelProfileIcon";
 

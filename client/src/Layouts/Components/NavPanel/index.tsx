@@ -15,7 +15,7 @@ class NavPanel extends React.Component<Props> {
                 <Logo collapsed={this.props.collapsed} dark horizontal />
                 <NavPanelCollapseButton collapsed={this.props.collapsed} onClick={this.props.toggleCollapse} />
                 <NavPanelLinks collapsed={this.props.collapsed} />
-                <NavPanelProfile collapsed={this.props.collapsed} />
+                <NavPanelProfile />
             </div>
         )
     }

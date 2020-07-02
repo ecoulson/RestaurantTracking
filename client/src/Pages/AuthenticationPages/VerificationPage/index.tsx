@@ -19,7 +19,8 @@ export default class VerificationPage extends React.Component<IVerificationPageP
         }
     }
 
-    async componentWillMount() {
+    async componentDidMount() {
+        document.title = "Account Verification"
         const query = new URLSearchParams(window.location.search)
         try {
             await Axios.get(

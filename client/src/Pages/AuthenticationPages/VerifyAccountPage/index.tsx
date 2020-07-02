@@ -28,6 +28,10 @@ export default class VerifyAccountPage extends React.Component<{}, IVerifyAccoun
         this.onSubmit = this.onSubmit.bind(this);
     }
 
+    componentDidMount() {
+        document.title = "Activate Account"
+    }
+
     render() {
         return (
             <AuthenticationBackground>

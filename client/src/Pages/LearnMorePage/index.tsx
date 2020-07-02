@@ -9,6 +9,15 @@ import PricingSection from "./PricingSection";
 import PurchaseButton from "./PurchaseButton";
 
 export default class LearnMorePage extends React.Component<ILearnMorePageProps> {
+    componentDidMount() {
+        const productData = ProductDatabase.get(this.props.product)
+        if (productData) {
+            document.title = productData.name
+        } else {
+            document.title = "Learn More"
+        }
+    }
+
     render() {
         const productData = ProductDatabase.get(this.props.product)
         if (productData) {

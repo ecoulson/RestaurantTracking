@@ -3,11 +3,11 @@ export interface INavPanel {
 }
 
 export enum NavPanelActions {
-    TOGGLE_COLLAPSE = "Toggle_Collapse"
+    TOGGLE_COLLAPSE = "Toggle_Collapse",
 }
 
 interface IToggleCollapseAction {
-    type: NavPanelActions;
+    type: NavPanelActions.TOGGLE_COLLAPSE;
     collapsed: boolean;
 }
 

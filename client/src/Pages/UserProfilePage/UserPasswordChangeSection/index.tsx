@@ -65,7 +65,6 @@ export default class UserPasswordChangeSection extends React.Component<any, IUse
     }
 
     private async handlePasswordUpdate() {
-        console.log(this.state);
         if (this.state.currentPassword !== "" && this.state.newPassword.valid) {
             try {
                 await Axios.put("/api/user/password", {

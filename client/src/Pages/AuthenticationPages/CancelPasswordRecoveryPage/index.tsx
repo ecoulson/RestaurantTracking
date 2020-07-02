@@ -18,7 +18,8 @@ export default class CancelPasswordRecoveryPage extends React.Component<{}, ICan
         }
     }
 
-    async componentWillMount() {
+    async componentDidMount() {
+        document.title = "Cancel Password Recovery"
         try {
             const params = new URLSearchParams(window.location.search);
             await Axios.get(

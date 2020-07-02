@@ -28,6 +28,7 @@ export default class ImageUploader extends React.Component<IImageUploaderProps, 
         )
     }
 
+    // TODO: Refactor
     private handleChange(files : File[]) {
         this.setState({
             progress: 0

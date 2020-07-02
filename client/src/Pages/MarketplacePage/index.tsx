@@ -4,6 +4,10 @@ import MarketPlaceItem from "./MarketPlaceItem";
 import IconType from "../../Components/Icon/IconTypes";
 
 export default class MarketplacePage extends React.Component {
+    componentDidMount() {
+        document.title = "Marketplace"
+    }
+
     render() {
         return (
             <DashboardLayout title="Marketplace">

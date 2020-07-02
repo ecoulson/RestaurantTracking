@@ -23,7 +23,7 @@
 
 .nav-panel-collapse-button:hover > .icon {
     cursor: pointer;
-    stroke: rgb(189, 189, 189);
+    stroke: white;
     transform: scale(1.05);    
 }
 
@@ -35,7 +35,7 @@
 
 .nav-panel-collapse-button-collapsed:hover > .icon {
     cursor: pointer;
-    stroke: rgb(189, 189, 189);
+    stroke: white;
     transform: scale(1.05);  
 }
 

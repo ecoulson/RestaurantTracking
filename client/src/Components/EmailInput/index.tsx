@@ -16,11 +16,11 @@ export default class EmailInput extends React.Component<IEmailProps, IEmailState
         };
     }
 
-    componentWillReceiveProps(props : IEmailProps) {
-        this.setState({
-            emailAddress: props.value ? props.value : this.state.emailAddress,
-            valid: EmailValidator.validate(props.value ? props.value : this.state.emailAddress)
-        })
+    static getDerivedStateFromProps(props : IEmailProps, state : IEmailState) : IEmailState {
+        return {
+            emailAddress: props.value ? props.value : state.emailAddress,
+            valid: EmailValidator.validate(props.value ? props.value : state.emailAddress)
+        }
     }
 
     render() {

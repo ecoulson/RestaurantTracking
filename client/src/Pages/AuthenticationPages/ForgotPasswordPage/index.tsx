@@ -14,6 +14,7 @@ import IFormValue from "../../../Components/FormInput/IFormValue";
 import Button from "../../../Components/Button";
 import FormValue from "../../../Components/FormInput/FormValue";
 import Axios from "axios";
+import AppHistory from "../../../AppHistory";
 
 export default class ForgotPasswordPage extends React.Component<{}, IForgotPasswordPageState> {
     constructor(props: {}) {
@@ -25,6 +26,10 @@ export default class ForgotPasswordPage extends React.Component<{}, IForgotPassw
         }
         this.handleEmailChange = this.handleEmailChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    componentDidMount() {
+        document.title = "Forgot Password Page"
     }
 
     render() {

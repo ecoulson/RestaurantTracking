@@ -5,7 +5,7 @@ const LegalDocumentDatabase : Map<string, ILegalDocument> = new Map<string, ILeg
 
 LegalDocumentDatabase.set("privacy-policy", {
     id: "privacy-policy",
-    lastUpdated: moment("June 26 2020").toDate(),
+    lastUpdated: moment("June 26 2020", "MMM Do, YYYY").toDate(),
     documentName: "Privacy Policy",
     summary: `
 Thank you for choosing to be part of our community at Adapt Solutions LLC ("**Company**", "**we**", "**us**", or "**our**"). We are committed to protecting your personal information and your right to privacy. If you have any questions or concerns about this privacy notice, or our practices with regards to your personal information, please contact us at
@@ -312,7 +312,7 @@ This privacy policy was created using  [Termly’s Privacy Policy Generator](htt
 
 LegalDocumentDatabase.set("terms-and-conditions", {
     id: "terms-and-conditions",
-    lastUpdated: moment("June 27 2020").toDate(),
+    lastUpdated: moment("June 27, 2020", "MMM Do, YYYY").toDate(),
     documentName: "Terms And Conditions Of Usage",
     sections: [
         {

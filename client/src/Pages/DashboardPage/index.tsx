@@ -3,6 +3,10 @@ import DashboardLayout from "../../Layouts/DashboardLayout";
 import Widget from "../../Components/Widget";
 
 export default class DashboardPage extends React.Component {
+    componentDidMount() {
+        document.title = "Dashboard"
+    }
+
     render() {
         return (
             <DashboardLayout title="Dashboard">

@@ -1,15 +1,13 @@
-import React, { MouseEvent, FormEvent } from "react";
+import React, { FormEvent } from "react";
 import Logo from "../../../Components/Logo";
 import Instructions from "../Instructions";
 import Form from "../../../Components/Form";
 import Button from "../../../Components/Button";
 import GeneralTitle from "../GeneralTitle";
-import RestaurantDropdown from "../../../Components/DropdownInput";
 import IGeneralPageState from "./IGeneralPageState";
 import EmailInput from "../../../Components/EmailInput";
 import PhoneInput from "../../../Components/PhoneInput";
 import TimeInput from "../../../Components/TimeInput";
-import IRestaurantInput from "../../../Components/DropdownInput/IRestaurantInput";
 import Axios from "axios";
 import ICheckInBody from "../../../lib/ICheckInBody";
 import moment from "moment";
@@ -25,6 +23,7 @@ import LegalContainer from "../LegalContainer";
 import Icon from "../../../Components/Icon";
 import IconType from "../../../Components/Icon/IconTypes";
 import CheckInType from "../../../lib/CheckInInputType";
+import RestaurantDropdown from "../../../Components/RestaurantDropdown";
 
 export default class GeneralPage extends React.Component<IPageProps, IGeneralPageState> {
     constructor(props : IPageProps) {
@@ -73,7 +72,11 @@ export default class GeneralPage extends React.Component<IPageProps, IGeneralPag
                                 dark 
                                 onChange={this.handleEmail} />
                     }
-                    <RestaurantDropdown hoverColor="white" iconColor="#707070" dark onChange={this.handleRestaurant} />
+                    <RestaurantDropdown 
+                        hoverColor="white" 
+                        iconColor="#707070" 
+                        dark 
+                        onChange={this.handleRestaurant} />
                     <DateInput hoverColor="white" iconColor="#707070" dark onChange={this.handleDate} />
                     <TimeInput hoverColor="white" iconColor="#707070" dark onChange={this.handleTime} />
                     <Instructions>Please enter one of the following:</Instructions>
@@ -95,18 +98,14 @@ export default class GeneralPage extends React.Component<IPageProps, IGeneralPag
         })
     }
 
-    private handleRestaurant(restaurant : IRestaurantInput) {
+    private handleRestaurant(restaurant : IFormValue<IRestaurant>) {
         if (restaurant.valid) {
             document.title = "Check In: " + restaurant.value.name;
             this.props.setRestaurantName!(restaurant.value.name)
         } 
         this.setState({
             restaurant
-        }, () => {
-            this.setState({
-                isComplete: this.isComplete()
-            })
-        })
+        }, this.setComplete)
     }
 
     private isComplete() {
@@ -126,41 +125,31 @@ export default class GeneralPage extends React.Component<IPageProps, IGeneralPag
     private handleDate(date : IFormValue<string>) {
         this.setState({
             date,
-        }, () => {
-            this.setState({
-                isComplete: this.isComplete()
-            })
+        }, this.setComplete)
+    }
+
+    private setComplete() {
+        this.setState({
+            isComplete: this.isComplete()
         })
     }
 
     private handleTime(time : IFormValue<string>) {
         this.setState({
             time,
-        }, () => {
-            this.setState({
-                isComplete: this.isComplete()
-            })
-        })
+        }, this.setComplete)
     }
 
     private handleEmail(email : IFormValue<string>) {
         this.setState({
             email,
-        }, () => {
-            this.setState({
-                isComplete: this.isComplete()
-            })
-        })
+        }, this.setComplete)
     }
 
     private handlePhone(phone : IFormValue<string>) {
         this.setState({
             phone,
-        }, () => {
-            this.setState({
-                isComplete: this.isComplete()
-            })
-        })
+        }, this.setComplete)
     }
 
     private async handleSubmit(event : FormEvent) {

@@ -18,7 +18,8 @@ export default class SpamRegistrationPage extends React.Component<{}, ISPamRegis
         }
     }
 
-    async componentWillMount() {
+    async componentDidMount() {
+        document.title = "Spam Registration"
         const parameters = new URLSearchParams(window.location.search);
         try {
             await Axios.get(`/api/user/verification/spam?email=${parameters.get("email")}&token=${parameters.get("token")}`)

@@ -40,8 +40,8 @@ export default class RestaurantPage extends React.Component<IPageProps, IRestaur
         this.handleSlideSwitchChange = this.handleSlideSwitchChange.bind(this);
     }
 
-    componentWillMount() {
-        this.getRestaurantName();
+    async componentDidMount() {
+        await this.getRestaurantName();
     }
 
     async getRestaurantName() {
@@ -103,7 +103,6 @@ export default class RestaurantPage extends React.Component<IPageProps, IRestaur
     }
 
     private handleSlideSwitchChange(id : number) {
-        console.log(id);
         this.setState({
             selected: id
         })

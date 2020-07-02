@@ -31,11 +31,12 @@ export default class UsernameInput extends React.Component<IUsernameInputProps, 
         this.onChange = this.onChange.bind(this);
     }
 
-    componentWillReceiveProps(props : IUsernameInputProps) {
-        this.setState({
-            username: props.value ? props.value : this.state.username,
-            valid: props.registering ? this.state.valid : undefined
-        })
+    static getDerivedStateFromProps(props : IUsernameInputProps, state : IUsernameInputState) : IUsernameInputState {
+        return {
+            username: props.value ? props.value : state.username,
+            valid: props.registering ? state.valid : undefined,
+            message: state.message
+        }
     }
 
     render() {

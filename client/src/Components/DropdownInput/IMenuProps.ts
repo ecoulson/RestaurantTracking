@@ -1,7 +1,5 @@
-import IRestaurant from "../../lib/IRestaurant";
-
 export default interface IMenuProps {
-    restaurants: IRestaurant[];
+    values: string[];
     visible: boolean;
-    handleMenuClick: (restaurant : IRestaurant) => void;
+    handleMenuClick: (index : number) => void;
 }

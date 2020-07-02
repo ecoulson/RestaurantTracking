@@ -25,20 +25,19 @@ export default class UserInfoSection extends React.Component<IUserInfoSectionPro
             message: "",
             type: ToastType.Error
         }
-        console.log(props);
         this.handleUsernameChange = this.handleUsernameChange.bind(this);
         this.handleEmailChange = this.handleEmailChange.bind(this);
         this.handleFullNameChange = this.handleFullNameChange.bind(this);
         this.updateProfile = this.updateProfile.bind(this);
     }
 
-    componentWillReceiveProps(props : IUserInfoSectionProps) {
-        console.log("here");
-        this.setState({
+    static getDerivedStateFromProps(props : IUserInfoSectionProps, state : IUserInfoSectionState) : IUserInfoSectionState {
+        return {
+            ...state,
             username: new FormValue<string>(props.username, true),
             email: new FormValue<string>(props.email, true),
             fullName: new FormValue<string[]>([props.firstName, props.lastName], true),
-        })
+        }
     }
 
     render() {

@@ -6,6 +6,10 @@ import BasicSectionTitle from "../../Layouts/BasicLayout/BasicSectionTitle";
 import "./index.css";
 
 export default class HelpPage extends React.Component {
+    componentDidMount() {
+        document.title = "Help"
+    }
+
     render() {
         return (
             <BasicLayout title="Help">

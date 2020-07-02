@@ -1,4 +1,4 @@
-import React, { ChangeEvent, KeyboardEvent } from "react";
+import React, { ChangeEvent } from "react";
 import ICheckboxProps from "./ICheckboxProps";
 import ICheckboxState from "./ICheckboxState";
 import "./index.css";

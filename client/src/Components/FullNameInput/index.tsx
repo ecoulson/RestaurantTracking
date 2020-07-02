@@ -14,10 +14,10 @@ export default class FullNameInput extends React.Component<IFullNameInputProps, 
         this.onChange = this.onChange.bind(this);
     }
 
-    componentWillReceiveProps(props : IFullNameInputProps) {
-        this.setState({
-            name: props.value ? props.value.join(" ") : this.state.name
-        })
+    static getDerivedStateFromProps(props : IFullNameInputProps, state : IFullNameInputState) : IFullNameInputState {
+        return {
+            name: props.value ? props.value.join(" ") : state.name,
+        }
     }
 
     render() {

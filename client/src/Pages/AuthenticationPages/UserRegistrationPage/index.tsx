@@ -37,6 +37,10 @@ export default class UserRegistrationPage extends React.Component<{}, IUserRegis
         this.register = this.register.bind(this);
     }
 
+    componentDidMount() {
+        document.title = "User Registration Page"
+    }
+
     render() {
         return (
             <AuthenticationBackground>

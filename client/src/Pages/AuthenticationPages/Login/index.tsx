@@ -34,6 +34,10 @@ export default class Login extends React.Component<{}, ILoginState> {
         this.onRememberMeChange = this.onRememberMeChange.bind(this);
     }
 
+    componentDidMount() {
+        document.title = "Login"
+    }
+
     render() {
         return (
             <AuthenticationBackground>

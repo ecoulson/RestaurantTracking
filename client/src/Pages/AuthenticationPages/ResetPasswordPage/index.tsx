@@ -27,6 +27,10 @@ export default class ResetPasswordPage extends React.Component<{}, IResetPasswor
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    componentDidMount() {
+        document.title = "Reset Password"
+    }
+
     render() {
         return (
             <AuthenticationBackground>

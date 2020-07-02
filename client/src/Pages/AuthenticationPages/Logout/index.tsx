@@ -8,7 +8,8 @@ import Logo from "../../../Components/Logo";
 import ILogoutProps from "./ILogoutProps";
 
 export default class Logout extends React.Component<ILogoutProps> {
-    componentWillMount() {
+    componentDidMount() {
+        document.title = "Logout"
         Cookie.eraseCookie("token");
         this.props.showSuccess("Successfully logged out", 3000);
         AppHistory.push("/login");

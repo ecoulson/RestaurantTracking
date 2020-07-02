@@ -1,4 +1,4 @@
-import React, { MouseEvent, Key, KeyboardEvent } from "react";
+import React, { MouseEvent, KeyboardEvent } from "react";
 import "./index.css";
 import ISlideSwitchState from "./ISlideSwitchState";
 import ISlideSwitchProps from "./ISlideSwitchProps";
@@ -22,7 +22,6 @@ export default class SlideSwitch extends React.Component<ISlideSwitchProps, ISli
     }
 
     render() {
-        console.log(this.state.selected)
         return (
             <div style={this.getWidth()} className="slide-switch-container">
                 <div style={this.getSliderPosition()} className="slide-switch-background"></div>
@@ -80,7 +79,7 @@ export default class SlideSwitch extends React.Component<ISlideSwitchProps, ISli
         this.props.onChange(id - 1);
         this.setState({
             selected: id
-        });
+        })
     }
 
     private getOption(element : HTMLElement | null) : HTMLElement {
@@ -100,7 +99,7 @@ export default class SlideSwitch extends React.Component<ISlideSwitchProps, ISli
             (this.state.selected - 1) * 90
         return {
             ...this.getOptionWidth(),
-            transform: `translateX(${position - 1}px)`
+            transform: `translateX(${position}px)`
         }
     }
 }

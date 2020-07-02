@@ -18,7 +18,8 @@ export default class ConfirmPasswordRecoveryPage extends React.Component<{}, ICo
         }
     }
 
-    async componentWillMount() {
+    async componentDidMount() {
+        document.title = "Confirm Password Recovery"
         try {
             const params = new URLSearchParams(window.location.search)
             await Axios.get(

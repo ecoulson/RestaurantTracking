@@ -8,7 +8,11 @@ export default class NavPanelCollapseButton extends React.Component<INavPanelCol
     render() {
         return (
             <div id="collapse-button" onClick={this.props.onClick} className={this.getClass()}>
-                <Icon color="white" icon={IconType.ChevronLeft} />
+                {
+                    !this.props.collapsed ?
+                        <Icon color="rgb(189, 189, 189)" icon={IconType.ChevronLeft} /> :
+                        <Icon color="rgb(189, 189, 189)" icon={IconType.ChevronRight} /> 
+                }
             </div>
         )
     }

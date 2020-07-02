@@ -27,7 +27,8 @@ export default class UserProfilePage extends React.Component<any, IUserProfilePa
         }
     }
 
-    async componentWillMount() {
+    async componentDidMount() {
+        document.title = "Edit Profile"
         const res = await Axios.get("/api/user/session", {
             headers: {
                 "Authorization": `Bearer ${Cookie.getCookie("token")}`
