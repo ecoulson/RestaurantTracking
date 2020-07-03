@@ -85,14 +85,20 @@ export default class UsernameInput extends React.Component<IUsernameInputProps, 
         }
     }
 
-    private onChange(formValue : IFormValue<string>) {
-        this.setState({
-            username: formValue.value
-        }, () => {
-            this.props.onChange(formValue);
-            if (this.props.registering) {
-                this.validateUsername();
-            }
+    private async onChange(username : IFormValue<string>) {
+        await this.asyncSetState({
+            ...this.state,
+            username: username.value,
+        })
+        this.props.onChange(username);
+        if (this.props.registering) {
+            this.validateUsername();
+        }
+    }
+
+    private asyncSetState(state : IUsernameInputState) {
+        return new Promise((resolve) => {
+            this.setState(state, resolve);
         })
     }
 }

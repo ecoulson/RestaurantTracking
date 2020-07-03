@@ -10,11 +10,7 @@ export default class BasicLayoutContainer extends React.Component<IBasicLayoutPr
     render() {
         return (
             <div style={{display: "flex"}}>
-                {
-                    Cookie.getCookie("token") !== null ?
-                        <NavPanel /> :
-                        null
-                }
+                {this.getNavPanel()}
                 <div className="basic-layout-page"> 
                     <div className="basic-layout-wrapper">
                         <DashboardTitle>{this.props.title}</DashboardTitle>
@@ -26,5 +22,11 @@ export default class BasicLayoutContainer extends React.Component<IBasicLayoutPr
                 </div>
             </div>
         )
+    }
+
+    private getNavPanel() {
+        return Cookie.getCookie("token") !== null ?
+            <NavPanel /> :
+            null
     }
 }

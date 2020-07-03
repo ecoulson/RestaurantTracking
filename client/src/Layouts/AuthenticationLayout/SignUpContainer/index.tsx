@@ -5,8 +5,8 @@ import "./index.css"
 export default class SignUpContainer extends React.Component {
     render() {
         return (
-            <div className="user-signup-container">
-                <p className="user-signup-container-text">Don't have an account?</p>
+            <div className="user-sign-up-container">
+                <p className="user-sign-up-container-text">Don't have an account?</p>
                 <SignUpLink />
             </div>
         )

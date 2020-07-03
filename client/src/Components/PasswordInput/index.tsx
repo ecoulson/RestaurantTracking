@@ -56,17 +56,17 @@ export default class PasswordInput extends React.Component<IPasswordProps, IPass
                 message: "Password is too long",
                 valid: false
             })
-        } else if (!this.digitRegex.test(this.state.password)) {
+        } else if (!this.state.password.match(this.digitRegex)) {
             this.setState({
                 message: "Password must contain a digit",
                 valid: true
             })
-        } else if (!this.uppercaseRegex.test(this.state.password)) {
+        } else if (!this.state.password.match(this.uppercaseRegex)) {
             this.setState({
                 message: "Password must contain a an uppercase letter",
                 valid: true
             })
-        } else if (!this.lowercaseRegex.test(this.state.password)) {
+        } else if (!this.state.password.match(this.lowercaseRegex)) {
             this.setState({
                 message: "Password must contain a an lowercase letter",
                 valid: true
@@ -84,14 +84,19 @@ export default class PasswordInput extends React.Component<IPasswordProps, IPass
         }
     }
 
-    private onChange(value : IFormValue<string>) {
-        this.setState({
-            password: value.value
-        }, () => {
-            if (this.props.registering) {
-                this.checkPassword();
-            }
+    private async onChange(password : IFormValue<string>) {
+        await this.asyncSetState({
+            password: password.value
         })
-        this.props.onChange(value);
+        if (this.props.registering) {
+            this.checkPassword();
+        }
+        this.props.onChange(password);
+    }
+
+    private asyncSetState(state : any) {
+        return new Promise((resolve) => {
+            this.setState(state, resolve)
+        })
     }
 }

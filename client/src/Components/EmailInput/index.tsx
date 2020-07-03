@@ -40,15 +40,20 @@ export default class EmailInput extends React.Component<IEmailProps, IEmailState
         )
     }
 
-    private handleEmailChange(event: IFormValue<string>) {
-        this.setState({
-            emailAddress: event.value,
-            valid: EmailValidator.validate(event.value)
-        }, () => {
-            this.props.onChange({
-                value: this.state.emailAddress,
-                valid: this.state.valid
-            });
+    private async handleEmailChange(email: IFormValue<string>) {
+        await this.asyncSetState({
+            emailAddress: email.value,
+            valid: EmailValidator.validate(email.value)
+        })
+        this.props.onChange({
+            value: this.state.emailAddress,
+            valid: this.state.valid
+        });
+    }
+
+    private asyncSetState(state : IEmailState) {
+        return new Promise((resolve) => {
+            this.setState(state, resolve)
         })
     }
 }

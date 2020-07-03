@@ -5,7 +5,7 @@ import NavPanelLinks from "./NavPanelLinks";
 import NavPanelProfile from "./NavPanelProfile";
 import NavPanelCollapseButton from "./NavPanelCollapseButton";
 import { connect, ConnectedProps } from "react-redux";
-import { INavPanel, NavPanelActions } from "../../../Store/NavPanel/types";
+import { INavPanel } from "../../../Store/NavPanel/types";
 import IState from "../../../Store/IState";
 import Icon from "../../../Components/Icon";
 import IconType from "../../../Components/Icon/IconTypes";

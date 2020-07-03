@@ -34,7 +34,7 @@ export default class PhoneInput extends React.Component<IPhoneInputProps, IPhone
         )
     }
 
-    private handleChange(phoneNumber : IFormValue<string>, event?: ChangeEvent) {
+    private async handleChange(phoneNumber : IFormValue<string>, event?: ChangeEvent) {
         if (!event) {
             return;
         }
@@ -42,11 +42,13 @@ export default class PhoneInput extends React.Component<IPhoneInputProps, IPhone
             phoneNumber.value = this.deleteAreaCode(phoneNumber.value);
         };
         const formattedNumber = new AsYouType("US").input(phoneNumber.value);
-        this.updateState(formattedNumber, () => {
-            this.props.onChange({
-                value: this.state.number,
-                valid: this.state.isValid
-            });
+        await this.asyncSetState({
+            number: formattedNumber,
+            isValid: this.validateNumber(formattedNumber)
+        })
+        this.props.onChange({
+            value: this.state.number,
+            valid: this.state.isValid
         });
     }
 
@@ -58,10 +60,13 @@ export default class PhoneInput extends React.Component<IPhoneInputProps, IPhone
         return rawPhoneNumber.substring(0, rawPhoneNumber.length - 1);
     }
 
-    private updateState(formattedNumber : string, done : () => void) {
-        this.setState({
-            number: formattedNumber,
-            isValid: Object.keys(parseNumber(formattedNumber, "US")).length === 2
-        }, done);
+    private asyncSetState(state : IPhoneInputState) {
+        return new Promise((resolve) => {
+            this.setState(state, resolve);
+        })
+    }
+
+    private validateNumber(formattedNumber: string) {
+        return Object.keys(parseNumber(formattedNumber, "US")).length === 2;
     }
 }

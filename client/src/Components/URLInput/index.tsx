@@ -36,11 +36,19 @@ export default class URLInput extends React.Component<IURLInputProps, IURLInputS
         )
     }
 
-    handleChange(url : IFormValue<string>) {  
-        this.setState({ 
-            url: new FormValue(url.value, ValidUrl.isWebUri(url.value) !== undefined)
-        }, () => {
-            this.props.onChange(this.state.url);
+    private async handleChange(url : IFormValue<string>) {  
+        await this.asyncSetState({
+            url: new FormValue(
+                url.value, 
+                ValidUrl.isWebUri(url.value) !== undefined
+            )
+        })
+        this.props.onChange(this.state.url);
+    }
+
+    private asyncSetState(state : IURLInputState) {
+        return new Promise((resolve) => {
+            this.setState(state, resolve);
         })
     }
 }

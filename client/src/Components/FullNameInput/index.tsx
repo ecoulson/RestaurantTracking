@@ -37,15 +37,20 @@ export default class FullNameInput extends React.Component<IFullNameInputProps, 
         )
     }
 
-    private onChange(name : FormValue<string>) {
+    private async onChange(name : FormValue<string>) {
         const names = name.value.split(" ")
-        this.setState({
+        await this.asyncSetState({
             name: name.value
-        }, () => {
-            this.props.onChange(new FormValue<string[]>(
-                names,
-                names.length !== 0 && name.value.trim() !== ""
-            ));
+        })
+        this.props.onChange(new FormValue<string[]>(
+            names,
+            names.length !== 0 && name.value.trim() !== ""
+        ));
+    }
+
+    private asyncSetState(state : any) {
+        return new Promise((resolve) => {
+            this.setState(state, resolve)
         })
     }
 }
