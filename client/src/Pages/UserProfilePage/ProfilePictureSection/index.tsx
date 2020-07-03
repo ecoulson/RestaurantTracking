@@ -46,7 +46,7 @@ export default class ProfilePictureSection extends React.Component<IProfilePictu
             <BasicSection>
                 <Toast type={this.state.type} message={this.state.message} />
                 <BasicSectionTitle>Profile Picture</BasicSectionTitle>
-                <Form isSubmitting={false} onSubmit={this.updateProfilePicture}>
+                <Form onSubmit={this.updateProfilePicture}>
                 {this.getProfilePicture()}
                     <SlideSwitch onChange={this.handleInputTypeChange}>
                         <Icon width={25} height={25} icon={IconType.Image} color="black" />

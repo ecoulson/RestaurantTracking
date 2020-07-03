@@ -45,7 +45,7 @@ export default class UserInfoSection extends React.Component<IUserInfoSectionPro
             <BasicSection>
                 <Toast type={this.state.type} message={this.state.message} />
                 <BasicSectionTitle>Profile Information</BasicSectionTitle>
-                <Form onSubmit={this.updateProfile} isSubmitting={false}>
+                <Form onSubmit={this.updateProfile}>
                     <UsernameInput
                         value={this.state.username.value} 
                         whitelist={[this.props.username]}

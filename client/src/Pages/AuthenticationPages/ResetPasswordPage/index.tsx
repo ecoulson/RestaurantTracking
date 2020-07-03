@@ -39,7 +39,7 @@ export default class ResetPasswordPage extends React.Component<{}, IResetPasswor
                     <Logo />
                     <AuthenticationLayoutTitle>Reset Password</AuthenticationLayoutTitle>
                     <AuthenticationLayoutText>Reset your password below</AuthenticationLayoutText>
-                    <Form onSubmit={this.handleSubmit} isSubmitting={false}>
+                    <Form onSubmit={this.handleSubmit}>
                         <PasswordInput 
                             registering 
                             iconColor="#AAAAAA" 

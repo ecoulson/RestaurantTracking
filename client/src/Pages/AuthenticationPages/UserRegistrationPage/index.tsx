@@ -48,7 +48,7 @@ export default class UserRegistrationPage extends React.Component<{}, IUserRegis
                     <Toast type={this.state.type} message={this.state.message}/>
                     <Logo />
                     <AuthenticationLayoutTitle>Sign Up</AuthenticationLayoutTitle>
-                    <Form onSubmit={this.register} isSubmitting={false}>
+                    <Form onSubmit={this.register}>
                         <UsernameInput 
                             registering 
                             id="register-username" 

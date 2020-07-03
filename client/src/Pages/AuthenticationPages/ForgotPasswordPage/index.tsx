@@ -40,7 +40,7 @@ export default class ForgotPasswordPage extends React.Component<{}, IForgotPassw
                     <Logo/>
                     <AuthenticationLayoutTitle>Forgot Password</AuthenticationLayoutTitle>
                     <AuthenticationLayoutText>Enter your email to begin the password recovery process</AuthenticationLayoutText>
-                    <Form isSubmitting={false}>
+                    <Form onSubmit={this.handleSubmit}>
                         <EmailInput 
                             iconColor="#AAAAAA" 
                             hoverColor="#1B2D42"

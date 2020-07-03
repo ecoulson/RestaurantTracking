@@ -40,7 +40,7 @@ export default class VerifyAccountPage extends React.Component<{}, IVerifyAccoun
                     <Logo />
                     <AuthenticationLayoutTitle>Verifiy Account</AuthenticationLayoutTitle>
                     <AuthenticationLayoutText>If you can not find your verification email, get a new verification email below.</AuthenticationLayoutText>
-                    <Form onSubmit={this.onSubmit} isSubmitting={false}>
+                    <Form onSubmit={this.onSubmit}>
                         <EmailInput 
                             iconColor="#AAAAAA" 
                             hoverColor="#1B2D42"

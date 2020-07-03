@@ -45,7 +45,7 @@ export default class Login extends React.Component<{}, ILoginState> {
                     <Toast type={ToastType.Error} message={this.state.errorMessage} />
                     <Logo />
                     <AuthenticationLayoutTitle>Login</AuthenticationLayoutTitle>
-                    <Form onSubmit={this.login} isSubmitting={false}>
+                    <Form onSubmit={this.login}>
                         <UsernameInput 
                             iconColor="#AAAAAA" 
                             hoverColor="#1B2D42"

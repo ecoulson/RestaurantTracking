@@ -32,7 +32,7 @@ export default class UserPasswordChangeSection extends React.Component<any, IUse
             <BasicSection>
                 <Toast type={this.state.type} message={this.state.message} />
                 <BasicSectionTitle>Change Password</BasicSectionTitle>
-                <Form isSubmitting={false} onSubmit={this.handlePasswordUpdate}>
+                <Form onSubmit={this.handlePasswordUpdate}>
                     <PasswordInput 
                         iconColor="#AAAAAA" 
                         label="Current Password"
