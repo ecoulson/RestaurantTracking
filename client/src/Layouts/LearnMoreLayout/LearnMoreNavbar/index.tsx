@@ -43,6 +43,8 @@ export default class LearnMoreNavbar extends React.Component<any, ILearnMoreNavb
     }
 
     private onChange(index : number) {
+        this.clicked = true;
+        this.unSetClicked();
         const container = document.getElementsByClassName("learn-more-container")[0];
         const sections = container.getElementsByClassName("learn-more-section");
         const section = sections[index] as HTMLElement;

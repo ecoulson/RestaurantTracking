@@ -1,8 +1,13 @@
-import { INavPanel, NavPanelActionTypes, NavPanelActions } from "./types";
+import { NavPanelActionTypes, NavPanelActions } from "./types";
 
-export function toggleNavPanelCollapseAction(navPanel : INavPanel) : NavPanelActionTypes {
+export function toggleNavPanelCollapseAction() : NavPanelActionTypes {
     return {
-        type: NavPanelActions.TOGGLE_COLLAPSE,
-        collapsed: navPanel.collapsed
+        type: NavPanelActions.TOGGLE_COLLAPSE
+    }
+}
+
+export function toggleNavPanelHideAction() : NavPanelActionTypes {
+    return {
+        type: NavPanelActions.TOGGLE_HIDDEN
     }
 }

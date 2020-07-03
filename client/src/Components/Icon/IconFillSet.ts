@@ -1,4 +1,5 @@
 import IconType from "./IconTypes";
+import Icon from ".";
 
 const IconFillSet = new Set<IconType>();
 
@@ -14,5 +15,6 @@ IconFillSet.add(IconType.ClipboardList);
 IconFillSet.add(IconType.CreditCard);
 IconFillSet.add(IconType.Users);
 IconFillSet.add(IconType.QRCode);
+IconFillSet.add(IconType.HamburgerMenu)
 
 export default IconFillSet;

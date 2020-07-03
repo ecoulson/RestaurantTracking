@@ -23,6 +23,7 @@ import { ReactComponent as Image } from "./svgs/image.svg";
 import { ReactComponent as Link } from "./svgs/link.svg";
 import { ReactComponent as ChevronRight } from "./svgs/right-chevron.svg";
 import { ReactComponent as ChevronLeft } from "./svgs/left-chevron.svg";
+import { ReactComponent as HamburgerMenu } from "./svgs/hamburger-menu.svg";
 
 const IconMapping = new Map<IconType, any>();
 IconMapping.set(IconType.Mail, Mail);
@@ -49,5 +50,6 @@ IconMapping.set(IconType.Image, Image);
 IconMapping.set(IconType.Link, Link);
 IconMapping.set(IconType.ChevronLeft, ChevronLeft);
 IconMapping.set(IconType.ChevronRight, ChevronRight);
+IconMapping.set(IconType.HamburgerMenu, HamburgerMenu);
 
 export default IconMapping;

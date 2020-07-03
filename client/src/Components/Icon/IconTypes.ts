@@ -22,7 +22,8 @@ enum IconType {
     Image,
     Link,
     ChevronLeft,
-    ChevronRight
+    ChevronRight,
+    HamburgerMenu
 }
 
 export default IconType;

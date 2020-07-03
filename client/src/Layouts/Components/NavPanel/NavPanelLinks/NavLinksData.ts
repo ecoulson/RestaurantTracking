@@ -4,14 +4,14 @@ import IconType from "../../../../Components/Icon/IconTypes";
 const NavLinksData : INavLinkData[] = [
     {
         icon: IconType.Dashboard,
-        iconColor: "#CFD0D3",
+        iconColor: "#b1b1b3",
         text: "Dashboard",
         to: "/dashboard",
         hoverColor: "white"
     },
     {
         icon: IconType.Shopping,
-        iconColor: "#CFD0D3",
+        iconColor: "#b1b1b3",
         text: "Marketplace",
         to: "/marketplace",
         hoverColor: "white"

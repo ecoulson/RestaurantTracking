@@ -20,7 +20,7 @@ export default class NavPanelProfileIcon extends React.Component<INavPanelProfil
                 onMouseEnter={this.toggleHover}
                 onMouseLeave={this.toggleHover}
                 className={this.getContainerClass()}>
-                <Icon hovered={this.state.hovered} hoverColor="white" icon={this.props.icon} color="#CFD0D3" />
+                <Icon hovered={this.state.hovered} hoverColor="white" icon={this.props.icon} color="#b1b1b3" />
             </Link>
         )
     }
