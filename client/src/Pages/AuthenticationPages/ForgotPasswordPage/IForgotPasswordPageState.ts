@@ -3,6 +3,5 @@ import IFormValue from "../../../Components/FormInput/IFormValue";
 
 export default interface IForgotPasswordPageState {
     email: IFormValue<string>;
-    message: string;
-    type: ToastType;
+    isRecovering: boolean;
 }

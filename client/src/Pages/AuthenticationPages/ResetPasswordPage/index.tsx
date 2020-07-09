@@ -1,60 +1,65 @@
 import React from "react";
-import AuthenticationBackground from "../../../Layouts/AuthenticationLayout/AuthenticationBackground";
-import AuthenticationContainer from "../../../Layouts/AuthenticationLayout/AuthenticationContainer";
-import Logo from "../../../Components/Logo";
 import LoginContainer from "../../../Layouts/AuthenticationLayout/LoginContainer";
-import AuthenticationLayoutTitle from "../../../Layouts/AuthenticationLayout/AuthenticationLayoutTitle";
 import AuthenticationLayoutText from "../../../Layouts/AuthenticationLayout/AuthenticationLayoutText";
 import Form from "../../../Components/Form";
 import PasswordInput from "../../../Components/PasswordInput";
 import Button from "../../../Components/Button";
 import IResetPasswordPageState from "./IResetPasswordPageState";
 import FormValue from "../../../Components/FormInput/FormValue";
-import Axios from "axios";
-import ToastType from "../../../Components/Toast/ToastType";
-import Toast from "../../../Components/Toast";
+import AuthenticationLayout from "../../../Layouts/AuthenticationLayout";
+import ResetPasswordRequest from "../../../API/ResetPasswordRequest";
 
 export default class ResetPasswordPage extends React.Component<{}, IResetPasswordPageState> {
+    private urlParams : URLSearchParams;
+
     constructor(props: {}) {
         super(props);
         this.state = {
             password: new FormValue<string>("", false),
-            message: "",
-            type: ToastType.Error
+            send: false,
         }
+        
+        this.urlParams = new URLSearchParams(window.location.search);
 
         this.handlePassword = this.handlePassword.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    componentDidMount() {
-        document.title = "Reset Password"
+        this.onComplete = this.onComplete.bind(this);
     }
 
     render() {
         return (
-            <AuthenticationBackground>
-                <AuthenticationContainer>
-                    <Toast type={this.state.type} message={this.state.message} />
-                    <Logo />
-                    <AuthenticationLayoutTitle>Reset Password</AuthenticationLayoutTitle>
-                    <AuthenticationLayoutText>Reset your password below</AuthenticationLayoutText>
-                    <Form onSubmit={this.handleSubmit}>
-                        <PasswordInput 
-                            registering 
-                            iconColor="#AAAAAA" 
-                            hoverColor="#1B2D42"
-                            onChange={this.handlePassword}/>
-                        <Button
-                            submit 
-                            visible={this.state.password.valid}>
-                            Reset Password
-                        </Button>
-                    </Form>
-                    <LoginContainer />
-                </AuthenticationContainer>
-            </AuthenticationBackground>
+            <AuthenticationLayout pageTitle="Reset Password">
+                <AuthenticationLayoutText>Reset your password below</AuthenticationLayoutText>
+                <Form onSubmit={this.handleSubmit}>
+                    <ResetPasswordRequest 
+                        send={this.state.send}
+                        email={this.getEmail()}
+                        token={this.getToken()}
+                        password={this.state.password.value}
+                        onComplete={this.onComplete}
+                        />
+                    <PasswordInput 
+                        registering 
+                        iconColor="#AAAAAA" 
+                        hoverColor="#1B2D42"
+                        onChange={this.handlePassword}/>
+                    <Button
+                        submit
+                        visible={this.state.password.valid}>
+                        Reset Password
+                    </Button>
+                </Form>
+                <LoginContainer />
+            </AuthenticationLayout>
         )
+    }
+
+    private getEmail() {
+        return this.urlParams.has("email") ? this.urlParams.get("email") as string : "";
+    }
+
+    private getToken() {
+        return this.urlParams.has("token") ? this.urlParams.get("token") as string : "";
     }
 
     private handlePassword(password: FormValue<string>) {
@@ -63,23 +68,15 @@ export default class ResetPasswordPage extends React.Component<{}, IResetPasswor
 
     private async handleSubmit() {
         if (this.state.password.valid) {
-            try {
-                const params = new URLSearchParams(window.location.search);
-                await Axios.post("/api/user/password_recovery/reset", {
-                    password: this.state.password.value,
-                    email: params.get("email"),
-                    token: params.get("token")
-                });
-                this.setState({
-                    message: "Successfully reset password",
-                    type: ToastType.Success
-                })
-            } catch (error) {
-                this.setState({
-                    message: "Failed to reset password",
-                    type: ToastType.Error
-                })
-            }
+            this.setState({
+                send: true
+            })
         }
+    }
+
+    private onComplete() {
+        this.setState({
+            send: false
+        })
     }
 }

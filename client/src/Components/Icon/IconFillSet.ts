@@ -1,5 +1,4 @@
 import IconType from "./IconTypes";
-import Icon from ".";
 
 const IconFillSet = new Set<IconType>();
 

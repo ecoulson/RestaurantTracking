@@ -1,59 +1,44 @@
 import React from "react";
-import AuthenticationBackground from "../../../Layouts/AuthenticationLayout/AuthenticationBackground";
-import AuthenticationContainer from "../../../Layouts/AuthenticationLayout/AuthenticationContainer";
-import Logo from "../../../Components/Logo";
-import AuthenticationLayoutTitle from "../../../Layouts/AuthenticationLayout/AuthenticationLayoutTitle";
 import Form from "../../../Components/Form";
 import EmailInput from "../../../Components/EmailInput";
 import AuthenticationLayoutText from "../../../Layouts/AuthenticationLayout/AuthenticationLayoutText";
 import LoginContainer from "../../../Layouts/AuthenticationLayout/LoginContainer";
 import IForgotPasswordPageState from "./IForgotPasswordPageState";
-import Toast from "../../../Components/Toast";
-import ToastType from "../../../Components/Toast/ToastType";
 import IFormValue from "../../../Components/FormInput/IFormValue";
 import Button from "../../../Components/Button";
 import FormValue from "../../../Components/FormInput/FormValue";
-import Axios from "axios";
-import AppHistory from "../../../AppHistory";
+import AuthenticationLayout from "../../../Layouts/AuthenticationLayout";
+import RecoverPasswordRequest from "../../../API/RecoverPasswordRequest";
 
 export default class ForgotPasswordPage extends React.Component<{}, IForgotPasswordPageState> {
     constructor(props: {}) {
         super(props);
         this.state = {
-            message: "",
             email: new FormValue<string>("", false),
-            type: ToastType.Error
+            isRecovering: false
         }
         this.handleEmailChange = this.handleEmailChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    componentDidMount() {
-        document.title = "Forgot Password Page"
+        this.handleComplete = this.handleComplete.bind(this);
     }
 
     render() {
         return (
-            <AuthenticationBackground>
-                <AuthenticationContainer>
-                    <Toast type={this.state.type} message={this.state.message} />
-                    <Logo/>
-                    <AuthenticationLayoutTitle>Forgot Password</AuthenticationLayoutTitle>
-                    <AuthenticationLayoutText>Enter your email to begin the password recovery process</AuthenticationLayoutText>
-                    <Form onSubmit={this.handleSubmit}>
-                        <EmailInput 
-                            iconColor="#AAAAAA" 
-                            hoverColor="#1B2D42"
-                            onChange={this.handleEmailChange} />
-                        <Button 
-                            submit
-                            visible={this.state.email.valid}>
-                            Send Email
-                        </Button>
-                    </Form>
-                    <LoginContainer />
-                </AuthenticationContainer>
-            </AuthenticationBackground>
+            <AuthenticationLayout pageTitle="Forgot Password">
+                <RecoverPasswordRequest 
+                    send={this.state.isRecovering}
+                    email={this.state.email.value} 
+                    onComplete={this.handleComplete} />
+                <AuthenticationLayoutText>Enter your email to begin the password recovery process</AuthenticationLayoutText>
+                <Form onSubmit={this.handleSubmit}>
+                    <EmailInput 
+                        iconColor="#AAAAAA" 
+                        hoverColor="#1B2D42"
+                        onChange={this.handleEmailChange} />
+                    <Button submit>Send Email</Button>
+                </Form>
+                <LoginContainer />
+            </AuthenticationLayout>
         )
     }
 
@@ -61,22 +46,15 @@ export default class ForgotPasswordPage extends React.Component<{}, IForgotPassw
         this.setState({ email })
     }
 
-    private async handleSubmit() {
-        if (this.state.email.valid) {
-            try {
-                await Axios.post("/api/user/password_recovery/recover", {
-                    email: this.state.email.value
-                })
-                this.setState({
-                    message: "Sent password reset email",
-                    type: ToastType.Success
-                })
-            } catch (error) {
-                this.setState({
-                    message: "Failed to send password reset email",
-                    type: ToastType.Error
-                })
-            }
-        }
+    private handleSubmit() {
+        this.setState({
+            isRecovering: true
+        })
+    }
+
+    private handleComplete() {
+        this.setState({
+            isRecovering: false
+        })
     }
 }

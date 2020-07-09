@@ -8,7 +8,7 @@ import LoginContainer from "../../../Layouts/AuthenticationLayout/LoginContainer
 import Toast from "../../../Components/Toast";
 import ToastType from "../../../Components/Toast/ToastType";
 import ISPamRegistrationPageState from "./ISpamRegistrationPageState";
-import Axios from "axios";
+import { handleSpamRegistration } from "../../../API";
 
 export default class SpamRegistrationPage extends React.Component<{}, ISPamRegistrationPageState> {
     constructor(props: {}) {
@@ -22,7 +22,11 @@ export default class SpamRegistrationPage extends React.Component<{}, ISPamRegis
         document.title = "Spam Registration"
         const parameters = new URLSearchParams(window.location.search);
         try {
-            await Axios.get(`/api/user/verification/spam?email=${parameters.get("email")}&token=${parameters.get("token")}`)
+            const email = parameters.get("email");
+            const token = parameters.get("token");
+            if (email && token) {
+                await handleSpamRegistration(email, token);
+            }
         } catch (error) {
             this.setState({
                 message: "Something went wrong"
