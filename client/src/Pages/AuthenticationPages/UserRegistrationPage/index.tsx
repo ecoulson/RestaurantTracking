@@ -1,8 +1,4 @@
 import React from "react";
-import AuthenticationBackground from "../../../Layouts/AuthenticationLayout/AuthenticationBackground";
-import AuthenticationContainer from "../../../Layouts/AuthenticationLayout/AuthenticationContainer";
-import Logo from "../../../Components/Logo";
-import AuthenticationLayoutTitle from "../../../Layouts/AuthenticationLayout/AuthenticationLayoutTitle";
 import LoginContainer from "../../../Layouts/AuthenticationLayout/LoginContainer";
 import Form from "../../../Components/Form";
 import UsernameInput from "../../../Components/UsernameInput";
@@ -14,9 +10,8 @@ import "./index.css"
 import IUserRegistrationPageState from "./IUserRegistrationPageState";
 import FormValue from "../../../Components/FormInput/FormValue";
 import IFormValue from "../../../Components/FormInput/IFormValue";
-import Axios from "axios";
-import Toast from "../../../Components/Toast";
-import ToastType from "../../../Components/Toast/ToastType";
+import AuthenticationLayout from "../../../Layouts/AuthenticationLayout";
+import UserRegistrationRequest from "../../../API/UserRegistrationRequest";
 
 export default class UserRegistrationPage extends React.Component<{}, IUserRegistrationPageState> {
     constructor(props: {}) {
@@ -25,63 +20,68 @@ export default class UserRegistrationPage extends React.Component<{}, IUserRegis
             email: new FormValue<string>("", false),
             username: new FormValue<string>("", false),
             password: new FormValue<string>("", false),
-            fullname: new FormValue<string[]>([], false),
-            message: "",
-            type: ToastType.Error
+            fullName: new FormValue<string[]>([], false),
+            send: false
         }
 
         this.handleEmail = this.handleEmail.bind(this);
-        this.handleFullname = this.handleFullname.bind(this);
+        this.handleFullName = this.handleFullName.bind(this);
         this.handlePassword = this.handlePassword.bind(this);
         this.handleUsername = this.handleUsername.bind(this);
         this.register = this.register.bind(this);
-    }
-
-    componentDidMount() {
-        document.title = "User Registration Page"
+        this.onComplete = this.onComplete.bind(this);
     }
 
     render() {
         return (
-            <AuthenticationBackground>
-                <AuthenticationContainer>
-                    <Toast type={this.state.type} message={this.state.message}/>
-                    <Logo />
-                    <AuthenticationLayoutTitle>Sign Up</AuthenticationLayoutTitle>
-                    <Form onSubmit={this.register}>
-                        <UsernameInput 
-                            registering 
-                            id="register-username" 
-                            iconColor="#AAAAAA" 
-                            hoverColor="#1B2D42"
-                            onChange={this.handleUsername} />
-                        <FullNameInput 
-                            id="register-fullname" 
-                            iconColor="#AAAAAA" 
-                            hoverColor="#1B2D42"
-                            onChange={this.handleFullname} />
-                        <EmailInput 
-                            id="register-email" 
-                            iconColor="#AAAAAA" 
-                            hoverColor="#1B2D42"
-                            onChange={this.handleEmail} />
-                        <PasswordInput 
-                            registering 
-                            id="register-password" 
-                            iconColor="#AAAAAA" 
-                            hoverColor="#1B2D42"
-                            onChange={this.handlePassword} />
-                        <Button
-                            submit 
-                            visible={this.canSubmit()}>
-                            Create Account
-                        </Button>
-                    </Form>
-                    <LoginContainer />
-                </AuthenticationContainer>
-            </AuthenticationBackground>
+            <AuthenticationLayout pageTitle="Sign Up">
+                <UserRegistrationRequest
+                    send={this.state.send}
+                    onComplete={this.onComplete}
+                    username={this.state.username.value}
+                    email={this.state.email.value}
+                    firstName={this.state.fullName.value[0]}
+                    lastName={this.getLastName()}
+                    password={this.state.password.value}
+                    />
+                <Form onSubmit={this.register}>
+                    <UsernameInput 
+                        registering 
+                        id="register-username" 
+                        iconColor="#AAAAAA" 
+                        hoverColor="#1B2D42"
+                        onChange={this.handleUsername} />
+                    <FullNameInput 
+                        id="register-fullname" 
+                        iconColor="#AAAAAA" 
+                        hoverColor="#1B2D42"
+                        onChange={this.handleFullName} />
+                    <EmailInput 
+                        id="register-email" 
+                        iconColor="#AAAAAA" 
+                        hoverColor="#1B2D42"
+                        onChange={this.handleEmail} />
+                    <PasswordInput 
+                        registering 
+                        id="register-password" 
+                        iconColor="#AAAAAA" 
+                        hoverColor="#1B2D42"
+                        onChange={this.handlePassword} />
+                    <Button
+                        submit 
+                        visible={this.canSubmit()}>
+                        Create Account
+                    </Button>
+                </Form>
+                <LoginContainer />
+            </AuthenticationLayout>
         )
+    }
 
+    private getLastName() {
+        return this.state.fullName.value.length === 1 ? 
+            "" : 
+            this.state.fullName.value[this.state.fullName.value.length - 1]
     }
 
     private handleUsername(username : IFormValue<string>) {
@@ -102,42 +102,28 @@ export default class UserRegistrationPage extends React.Component<{}, IUserRegis
         })
     }
 
-    private handleFullname(fullname : IFormValue<string[]>) {
-        this.setState({
-            fullname
-        })
+    private handleFullName(fullName : IFormValue<string[]>) {
+        this.setState({ fullName })
     }
 
     private canSubmit() {
         return this.state.email.valid &&
-                this.state.fullname.valid &&
+                this.state.fullName.valid &&
                 this.state.password.valid &&
                 this.state.username.valid;
     }
 
     private async register() {
         if (this.canSubmit()) {
-            try {
-                if (this.state.fullname.value.length === 1) {
-                    this.state.fullname.value.push("");
-                }
-                await Axios.post("/api/user/registration/register", {
-                    username: this.state.username.value,
-                    email: this.state.email.value,
-                    firstName: this.state.fullname.value[0],
-                    lastName: this.state.fullname.value[this.state.fullname.value.length - 1],
-                    password: this.state.password.value
-                });
-                this.setState({
-                    message: "Successfully registered account, please check your email",
-                    type: ToastType.Success
-                })
-            } catch (error) {
-                this.setState({
-                    message: "Failed to register account. Please try again later.",
-                    type: ToastType.Error
-                })
-            }
+            this.setState({
+                send: true
+            })
         }
+    }
+
+    private onComplete() {
+        this.setState({
+            send: false
+        })
     }
 }

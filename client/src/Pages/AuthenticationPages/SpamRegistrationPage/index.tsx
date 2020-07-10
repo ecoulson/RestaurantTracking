@@ -1,50 +1,35 @@
 import React from "react";
-import AuthenticationBackground from "../../../Layouts/AuthenticationLayout/AuthenticationBackground";
-import AuthenticationContainer from "../../../Layouts/AuthenticationLayout/AuthenticationContainer";
-import Logo from "../../../Components/Logo";
-import AuthenticationLayoutTitle from "../../../Layouts/AuthenticationLayout/AuthenticationLayoutTitle";
 import AuthenticationLayoutText from "../../../Layouts/AuthenticationLayout/AuthenticationLayoutText";
 import LoginContainer from "../../../Layouts/AuthenticationLayout/LoginContainer";
-import Toast from "../../../Components/Toast";
-import ToastType from "../../../Components/Toast/ToastType";
-import ISPamRegistrationPageState from "./ISpamRegistrationPageState";
-import { handleSpamRegistration } from "../../../API";
+import AuthenticationLayout from "../../../Layouts/AuthenticationLayout";
+import SpamRegistrationRequest from "../../../API/SpamRegistrationRequest";
 
-export default class SpamRegistrationPage extends React.Component<{}, ISPamRegistrationPageState> {
+export default class SpamRegistrationPage extends React.Component {
+    private urlParams : URLSearchParams;
+
     constructor(props: {}) {
         super(props);
-        this.state = {
-            message: ""
-        }
-    }
-
-    async componentDidMount() {
-        document.title = "Spam Registration"
-        const parameters = new URLSearchParams(window.location.search);
-        try {
-            const email = parameters.get("email");
-            const token = parameters.get("token");
-            if (email && token) {
-                await handleSpamRegistration(email, token);
-            }
-        } catch (error) {
-            this.setState({
-                message: "Something went wrong"
-            })
-        }
+        this.urlParams = new URLSearchParams(window.location.search);
     }
 
     render() {
         return (
-            <AuthenticationBackground>
-                <AuthenticationContainer>
-                    <Toast type={ToastType.Error} message={this.state.message} />
-                    <Logo />
-                    <AuthenticationLayoutTitle>Spam Registration</AuthenticationLayoutTitle>
-                    <AuthenticationLayoutText>We are removing your registration from our system. Apologies.</AuthenticationLayoutText>
-                    <LoginContainer />
-                </AuthenticationContainer>
-            </AuthenticationBackground>
+            <AuthenticationLayout pageTitle="Spam Registration">
+                <SpamRegistrationRequest
+                    send
+                    email={this.getEmail()}
+                    token={this.getToken()}/>
+                <AuthenticationLayoutText>We are removing your registration from our system.</AuthenticationLayoutText>
+                <LoginContainer />
+            </AuthenticationLayout>
         )
+    }
+
+    private getEmail() {
+        return this.urlParams.has("email") ? this.urlParams.get("email") as string : "";
+    }
+
+    private getToken() {
+        return this.urlParams.has("token") ? this.urlParams.get("token") as string : "";
     }
 }
