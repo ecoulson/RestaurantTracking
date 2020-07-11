@@ -46,7 +46,7 @@ ProductDatabase.set("contact-logs", {
     overview: {
         title: "Help track the spread of COVID-19",
         about: "Purchase this add on to create your own stylized QR that patrons of your restaurant can easily scan upon entry to your restaurant. By scanning this QR Code users will be directed to your own check-in log page where users enter either their phone number or email to enter themselves confidentially into the log. We create daily reports that are securely stored and only distributed to official contact tracers. Each report lives for 30 days and then expires. This add on complies with Washington State governor Jay Inslee's May 15th memo regarding restaurant logs.",
-        mediaPath: "https://www.flytap.com/-/media/Flytap/fly-tap/lead-images/check-in-automatido-ld.svg"
+        mediaPath: "https://wesley.edu/wp-content/uploads/2020/01/South-1-900x500.jpg"
     },
     features: [
         {

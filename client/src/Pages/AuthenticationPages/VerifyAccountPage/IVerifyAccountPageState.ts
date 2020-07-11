@@ -1,8 +1,7 @@
 import ToastType from "../../../Components/Toast/ToastType";
+import IFormValue from "../../../Components/FormInput/IFormValue";
 
 export default interface IVerifyAccountPageState {
-    email: string;
-    canSubmit: boolean;
-    message: string;
-    type: ToastType;
+    email: IFormValue<string>;
+    send: boolean;
 }

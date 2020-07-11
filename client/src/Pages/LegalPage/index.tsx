@@ -10,24 +10,6 @@ import LegalMission from "./LegalMission";
 import LegalDocumentDisplay from "./LegalDocumentDisplay";
 
 export default class LegalPage extends React.Component<ILegalPageProps> {
-    componentDidMount() {
-        const legalDocument = LegalDocumentDatabase.get(this.props.match.params.documentName)
-        if (legalDocument) {
-            document.title = legalDocument.documentName
-        } else {
-            document.title = "Legal Document"
-        }
-    }
-
-    componentDidUpdate() {
-        const legalDocument = LegalDocumentDatabase.get(this.props.match.params.documentName)
-        if (legalDocument) {
-            document.title = legalDocument.documentName
-        } else {
-            document.title = "Legal Document"
-        }
-    }
-
     render() {
         if (LegalDocumentDatabase.has(this.props.match.params.documentName)) {
             return this.renderDocument()

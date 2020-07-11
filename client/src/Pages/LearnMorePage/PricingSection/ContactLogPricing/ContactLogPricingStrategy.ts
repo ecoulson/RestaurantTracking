@@ -3,20 +3,18 @@ import IContactLogPricingParameters from "./IContactLogPricingParameters";
 import ContactLogPricingBreakdown from "./ContactLogPricingBreakdown";
 import IContactLogPricingBreakdown from "./IContactLogPricingBreakdown";
 
-const smallPricing = 4.99;
-const wallPricing = 7.99;
-const largePricing = 8.99;
-const setupPrice = 5;
-const monthlyPrice = 15;
+const standingDisplayPricing = 77.99;
+const wallPricing = 12.99;
+const tabletopPricing = 7.99;
+const monthlyPrice = 40;
 
 export default class ContactLogPricingStrategy implements IPricingStrategy {
     calculatePrice(parameters : IContactLogPricingParameters) : IContactLogPricingBreakdown {
         return new ContactLogPricingBreakdown(
             monthlyPrice,
-            smallPricing * parameters.smallDisplays + 
-                largePricing * parameters.largeDisplays +
-                wallPricing * parameters.wallDisplays +
-                setupPrice
+            standingDisplayPricing * parameters.smallDisplays + 
+                tabletopPricing * parameters.largeDisplays +
+                wallPricing * parameters.wallDisplays
         );
     }
 }

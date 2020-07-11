@@ -5,6 +5,7 @@ import LearnMoreNavLink from "./LearnMoreNavlink";
 import ILearnMoreNavbarState from "./ILearnMoreNavbarState";
 import { debounce } from "../../../lib/Debounce";
 import LearnMoreSections from "./LearnMoreSections";
+import Cookie from "../../../lib/Cookie";
 
 const TopRange = 50;
 const FixedNavbarRange = 200;
@@ -35,7 +36,7 @@ export default class LearnMoreNavbar extends React.Component<any, ILearnMoreNavb
 
     render() {
         return (
-            <div className="learn-more-navbar-container">
+            <div className={`learn-more-navbar-container ${this.getInitialPosition()}`}>
                 <div onClick={this.onClick} className="learn-more-navbar">
                     <SlideSwitch 
                         selected={this.state.selected} 
@@ -49,6 +50,12 @@ export default class LearnMoreNavbar extends React.Component<any, ILearnMoreNavb
                 </div>
             </div>
         )
+    }
+
+    private getInitialPosition() {
+        return Cookie.getCookie("token") ?
+            "learn-more-navbar-container" :
+            "learn-more-navbar-container-unauthenticated"
     }
 
     private onChange(index : number) {

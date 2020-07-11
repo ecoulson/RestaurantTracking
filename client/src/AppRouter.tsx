@@ -121,7 +121,7 @@ export default class AppRouter extends React.Component<{}, IAppRouterState> {
                             <ForgotPasswordPage />
                         </UnauthenticatedAccessWrapper>
                     </Route>
-                    <Route exact path="/">
+                    <Route exact path="/check-in">
                         <App />
                     </Route>
                     <Route exact path="/help">

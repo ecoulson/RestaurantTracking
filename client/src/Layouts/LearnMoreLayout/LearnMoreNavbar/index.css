@@ -16,6 +16,10 @@
     transition: left 0.25s linear;
 }
 
+.learn-more-navbar-container-unauthenticated {
+    left: 75px;
+}
+
 .learn-more-nav-link {
     margin-top: -2px;
 }
@@ -23,7 +27,7 @@
 .learn-more-navbar-container-top {
     top: 0px;
     left: 50%;
-    margin-left: -204px;
+    margin-left: -302px;
 }
 
 @media all and (max-width: 920px) {
