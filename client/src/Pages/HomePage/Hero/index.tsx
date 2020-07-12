@@ -3,6 +3,7 @@ import "./index.css";
 import HeroLogo from "./HeroLogo";
 import HeroTitle from "./HeroTitle";
 import HeroMenu from "./HeroMenu";
+import Triangle from "../Triangle";
 
 export default class Hero extends React.Component {
     render() {
@@ -11,6 +12,7 @@ export default class Hero extends React.Component {
                 <HeroLogo />
                 <HeroTitle />
                 <HeroMenu />
+                <Triangle />
             </div>
         )
     }
