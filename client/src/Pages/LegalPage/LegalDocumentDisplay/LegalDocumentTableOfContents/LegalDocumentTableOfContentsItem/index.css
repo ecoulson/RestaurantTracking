@@ -16,10 +16,25 @@
 .legal-document-table-of-contents-link {
     display: block;
     color: #258f71;
+    border: none;
+    background-color: inherit;
+    text-align: left;
+    font-weight: 700;
+    font-size: 16px;
+    font-family: inherit;
+    outline: none;
+}
+
+.legal-document-table-of-contents-link:hover {
+    cursor: pointer;
 }
 
 .legal-document-table-of-contents-item:hover {
     cursor: pointer;
+}
+
+.legal-document-table-of-contents-link:focus {
+    text-decoration: underline;
 }
 
 .legal-document-table-of-contents-item:hover > .legal-document-table-of-contents-link {

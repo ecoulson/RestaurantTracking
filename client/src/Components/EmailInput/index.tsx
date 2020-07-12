@@ -16,11 +16,11 @@ export default class EmailInput extends React.Component<IEmailProps, IEmailState
         };
     }
 
-    componentWillReceiveProps(props : IEmailProps) {
-        this.setState({
-            emailAddress: props.value ? props.value : this.state.emailAddress,
-            valid: EmailValidator.validate(props.value ? props.value : this.state.emailAddress)
-        })
+    static getDerivedStateFromProps(props : IEmailProps, state : IEmailState) : IEmailState {
+        return {
+            emailAddress: props.value ? props.value : state.emailAddress,
+            valid: EmailValidator.validate(props.value ? props.value : state.emailAddress)
+        }
     }
 
     render() {
@@ -31,6 +31,7 @@ export default class EmailInput extends React.Component<IEmailProps, IEmailState
                 isValid={this.state.valid}
                 value={this.state.emailAddress}
                 dark={this.props.dark}
+                hoverColor={this.props.hoverColor}
                 id={this.props.id}
                 icon={IconType.Mail} 
                 label="email" 
@@ -39,15 +40,20 @@ export default class EmailInput extends React.Component<IEmailProps, IEmailState
         )
     }
 
-    private handleEmailChange(event: IFormValue<string>) {
-        this.setState({
-            emailAddress: event.value,
-            valid: EmailValidator.validate(event.value)
-        }, () => {
-            this.props.onChange({
-                value: this.state.emailAddress,
-                valid: this.state.valid
-            });
+    private async handleEmailChange(email: IFormValue<string>) {
+        await this.asyncSetState({
+            emailAddress: email.value,
+            valid: EmailValidator.validate(email.value)
+        })
+        this.props.onChange({
+            value: this.state.emailAddress,
+            valid: this.state.valid
+        });
+    }
+
+    private asyncSetState(state : IEmailState) {
+        return new Promise((resolve) => {
+            this.setState(state, resolve)
         })
     }
 }

@@ -6,7 +6,7 @@ export default interface IUserSchema extends IDocument {
     password: string;
     email: string;
     firstName: string;
-    lastName: string;
+    lastName?: string;
     verified: boolean;
     passwordResetDate: Date;
     dateCreated: Date;

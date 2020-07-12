@@ -1,8 +1,8 @@
 import Logo from '../../../Components/Logo';
-import RestaurantName from '../../../Components/RestaurantName';
-import Instructions from '../../../Components/Instructions';
+import RestaurantName from '../RestaurantName';
+import Instructions from '../Instructions';
 import Form from '../../../Components/Form';
-import Submit from '../../../Components/Submit';
+import Button from '../../../Components/Button';
 import React from "react";
 import PhoneInput from '../../../Components/PhoneInput';
 import EmailInput from '../../../Components/EmailInput';
@@ -16,7 +16,7 @@ import IFormValue from '../../../Components/FormInput/IFormValue';
 import Toast from '../../../Components/Toast';
 import ToastType from '../../../Components/Toast/ToastType';
 import SlideSwitch from '../../../Components/SlideSwitch';
-import LegalContainer from '../../../Components/LegalContainer';
+import LegalContainer from '../LegalContainer';
 import Icon from '../../../Components/Icon';
 import IconType from '../../../Components/Icon/IconTypes';
 import CheckInType from '../../../lib/CheckInInputType';
@@ -40,8 +40,8 @@ export default class RestaurantPage extends React.Component<IPageProps, IRestaur
         this.handleSlideSwitchChange = this.handleSlideSwitchChange.bind(this);
     }
 
-    componentWillMount() {
-        this.getRestaurantName();
+    async componentDidMount() {
+        await this.getRestaurantName();
     }
 
     async getRestaurantName() {
@@ -79,23 +79,23 @@ export default class RestaurantPage extends React.Component<IPageProps, IRestaur
                 <Logo dark/>
                 <RestaurantName>{this.state.restaurantName}</RestaurantName>
                 <Instructions>Please enter one of the following:</Instructions>
-                <Form isSubmitting={this.state.isSubmitting}>
+                <Form onSubmit={this.handleSubmit} isSubmitting={this.state.isSubmitting}>
                     <SlideSwitch optionWidth={120} onChange={this.handleSlideSwitchChange}>
                         <Icon color="white" icon={IconType.Phone}/>
                         <Icon color="white" icon={IconType.Mail}/>
                     </SlideSwitch>
                     {
                         this.state.selected === CheckInType.Phone ?
-                            <PhoneInput iconColor="white" dark onChange={this.handlePhoneChange} /> :
-                            <EmailInput iconColor="white" dark onChange={this.handleEmailChange} />
+                            <PhoneInput hoverColor="white" iconColor="#707070" dark onChange={this.handlePhoneChange} /> :
+                            <EmailInput hoverColor="white" iconColor="#707070" dark onChange={this.handleEmailChange} />
 
                     }
-                    <Submit 
+                    <Button 
                         dark 
-                        onClick={this.handleSubmit} 
+                        submit 
                         visible={this.state.isComplete}>
                             Submit
-                    </Submit>
+                    </Button>
                 </Form>
                 <LegalContainer />
             </>
@@ -103,7 +103,6 @@ export default class RestaurantPage extends React.Component<IPageProps, IRestaur
     }
 
     private handleSlideSwitchChange(id : number) {
-        console.log(id);
         this.setState({
             selected: id
         })

@@ -1,6 +1,6 @@
 export default interface IContactLogPricingState {
     months: number;
-    smallDisplays: number;
-    largeDisplays: number;
+    standingDisplays: number;
+    tableTopDisplays: number;
     wallDisplays: number;
 }

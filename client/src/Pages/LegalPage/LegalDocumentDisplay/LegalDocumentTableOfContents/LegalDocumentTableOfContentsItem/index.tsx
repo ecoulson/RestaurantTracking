@@ -1,4 +1,4 @@
-import React from "react";
+import React, { KeyboardEvent } from "react";
 import ILegalDocumentTableOfContentsItemProps from "./ILegalDocumentTableOfContentsItemProps";
 
 import "./index.css";
@@ -7,6 +7,7 @@ export default class LegalDocumentTableOfContentsItem extends React.Component<IL
     constructor(props : ILegalDocumentTableOfContentsItemProps) {
         super(props);
         this.onClick = this.onClick.bind(this);
+        this.onKeyPress = this.onKeyPress.bind(this);
     }
 
     render() {
@@ -17,11 +18,21 @@ export default class LegalDocumentTableOfContentsItem extends React.Component<IL
                 <span className="legal-document-table-of-contents-index">
                     {this.props.index}.
                 </span> 
-                <span className="legal-document-table-of-contents-link">
+                <button 
+                    onKeyPress={this.onKeyPress} 
+                    tabIndex={0} 
+                    className="legal-document-table-of-contents-link">
                     {this.props.name}
-                </span>
+                </button>
             </div>
         )
+    }
+
+    private onKeyPress(event : KeyboardEvent) {
+        event.preventDefault();
+        if (event.key === "Enter") {
+            this.onClick();
+        }
     }
 
     private onClick() {

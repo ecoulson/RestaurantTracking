@@ -27,6 +27,7 @@ import LearnMoreLayout from "./Layouts/LearnMoreLayout";
 import UserProfilePage from "./Pages/UserProfilePage";
 import HelpPage from "./Pages/HelpPage";
 import LegalPage from "./Pages/LegalPage";
+import AuthenticationLayout from "./Layouts/AuthenticationLayout";
 
 export default class AppRouter extends React.Component<{}, IAppRouterState> {
     constructor(props: {}) {
@@ -57,7 +58,9 @@ export default class AppRouter extends React.Component<{}, IAppRouterState> {
 
                     <Route exact path="/login">
                         <UnauthenticatedAccessWrapper to="/dashboard" showError={this.showError}>
-                            <Login/>
+                            <AuthenticationLayout pageTitle="Login">
+                                <Login/>
+                            </AuthenticationLayout>
                         </UnauthenticatedAccessWrapper>
                     </Route>
                     <Route exact path="/dashboard">
@@ -118,7 +121,7 @@ export default class AppRouter extends React.Component<{}, IAppRouterState> {
                             <ForgotPasswordPage />
                         </UnauthenticatedAccessWrapper>
                     </Route>
-                    <Route exact path="/">
+                    <Route exact path="/check-in">
                         <App />
                     </Route>
                     <Route exact path="/help">

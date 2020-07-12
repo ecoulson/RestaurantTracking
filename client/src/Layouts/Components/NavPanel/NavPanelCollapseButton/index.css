@@ -1,0 +1,46 @@
+.nav-panel-collapse-button {
+    position: absolute;
+    top: 50px;
+    right: 15px;
+    height: 50px;
+    width: 50px;
+}
+
+.nav-panel-collapse-button-collapsed {
+    position: absolute;
+    top: auto;
+    left: 12px;
+    bottom: 275px;
+    height: 50px;
+    width: 50px;
+}
+
+.nav-panel-collapse-button > .icon {
+    transition: all 0.5s ease;
+    width: 100%;
+    height: 100%;
+}
+
+.nav-panel-collapse-button:hover > .icon {
+    cursor: pointer;
+    stroke: white;
+    transform: scale(1.05);    
+}
+
+.nav-panel-collapse-button-collapsed > .icon {
+    transition: all 0.5s ease;
+    width: 100%;
+    height: 100%;
+}
+
+.nav-panel-collapse-button-collapsed:hover > .icon {
+    cursor: pointer;
+    stroke: white;
+    transform: scale(1.05);  
+}
+
+@media all and (max-width: 750px) {
+    .nav-panel-collapse-button {
+        display: none;
+    }
+}

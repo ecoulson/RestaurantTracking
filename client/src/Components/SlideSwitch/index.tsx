@@ -1,4 +1,4 @@
-import React, { MouseEvent } from "react";
+import React, { MouseEvent, KeyboardEvent } from "react";
 import "./index.css";
 import ISlideSwitchState from "./ISlideSwitchState";
 import ISlideSwitchProps from "./ISlideSwitchProps";
@@ -10,6 +10,7 @@ export default class SlideSwitch extends React.Component<ISlideSwitchProps, ISli
             selected: this.props.selected ? this.props.selected : 1
         }
         this.handleOptionClick = this.handleOptionClick.bind(this);
+        this.handleOptionSelect = this.handleOptionSelect.bind(this);
     }
     
     componentWillReceiveProps(props : ISlideSwitchProps) {
@@ -21,7 +22,6 @@ export default class SlideSwitch extends React.Component<ISlideSwitchProps, ISli
     }
 
     render() {
-        console.log(this.state.selected)
         return (
             <div style={this.getWidth()} className="slide-switch-container">
                 <div style={this.getSliderPosition()} className="slide-switch-background"></div>
@@ -49,6 +49,8 @@ export default class SlideSwitch extends React.Component<ISlideSwitchProps, ISli
             return (
                 <div 
                     onClick={this.handleOptionClick} 
+                    tabIndex={0}
+                    onKeyPress={this.handleOptionSelect}
                     style={this.getOptionWidth()}
                     id={`option-${i + 1}`} 
                     key={i} 
@@ -59,13 +61,25 @@ export default class SlideSwitch extends React.Component<ISlideSwitchProps, ISli
         })
     }
 
+    private handleOptionSelect(event : KeyboardEvent) {
+        event.preventDefault();
+        if (event.key === " ") {
+            const optionElement = this.getOption(event.target as HTMLElement);
+            const id = parseInt(optionElement.id.split("-")[1]);
+            this.props.onChange(id - 1);
+            this.setState({
+                selected: id
+            });
+        }
+    }
+
     private handleOptionClick(event: MouseEvent) {
         const optionElement = this.getOption(event.target as HTMLElement);
         const id = parseInt(optionElement.id.split("-")[1]);
         this.props.onChange(id - 1);
         this.setState({
             selected: id
-        });
+        })
     }
 
     private getOption(element : HTMLElement | null) : HTMLElement {

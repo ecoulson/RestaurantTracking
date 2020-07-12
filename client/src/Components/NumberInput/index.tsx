@@ -21,6 +21,7 @@ export default class NumberInput extends React.Component<INumberInputProps, INum
                 placeHolder={this.props.placeHolder}
                 value={this.state.number} 
                 label={this.props.label} 
+                hoverColor={this.props.hoverColor}
                 type="text" 
                 onChange={this.handleNumberChange} />
         )

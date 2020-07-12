@@ -26,6 +26,7 @@ export default class URLInput extends React.Component<IURLInputProps, IURLInputS
                 dark={this.props.dark}
                 onChange={this.handleChange}
                 icon={IconType.Link}
+                hoverColor={this.props.hoverColor}
                 iconColor={this.props.iconColor}
                 isValid={this.state.url.valid}
                 placeHolder="Enter URL"
@@ -35,11 +36,19 @@ export default class URLInput extends React.Component<IURLInputProps, IURLInputS
         )
     }
 
-    handleChange(url : IFormValue<string>) {  
-        this.setState({ 
-            url: new FormValue(url.value, ValidUrl.isWebUri(url.value) !== undefined)
-        }, () => {
-            this.props.onChange(this.state.url);
+    private async handleChange(url : IFormValue<string>) {  
+        await this.asyncSetState({
+            url: new FormValue(
+                url.value, 
+                ValidUrl.isWebUri(url.value) !== undefined
+            )
+        })
+        this.props.onChange(this.state.url);
+    }
+
+    private asyncSetState(state : IURLInputState) {
+        return new Promise((resolve) => {
+            this.setState(state, resolve);
         })
     }
 }

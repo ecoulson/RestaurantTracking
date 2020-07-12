@@ -25,6 +25,7 @@ export default class TimeInput extends React.Component<ITimeInputProps, ITimeInp
                 iconColor={this.props.iconColor}
                 id={this.props.id}
                 onChange={this.handleTimeChange}
+                hoverColor={this.props.hoverColor}
                 icon={IconType.Clock} 
                 dark={this.props.dark}
                 label="Time of Entry" 
@@ -33,15 +34,20 @@ export default class TimeInput extends React.Component<ITimeInputProps, ITimeInp
         )
     }
 
-    private handleTimeChange(date : IFormValue<string>) {
-        this.setState({
+    private async handleTimeChange(date : IFormValue<string>) {
+        await this.asyncSetState({
             date: date.value,
             valid: this.validateDate(date.value) 
-        }, () => {
-            this.props.onChange({
-                valid: this.state.valid,
-                value: this.state.date
-            })
+        })
+        this.props.onChange({
+            valid: this.state.valid,
+            value: this.state.date
+        })
+    }
+
+    private asyncSetState(state : ITimeInputState) {
+        return new Promise((resolve) => {
+            this.setState(state, resolve);
         })
     }
 

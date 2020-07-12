@@ -4,22 +4,30 @@
 }
 
 .learn-more-navbar-container {
-    top: 200px;
-    left: 400px;
+    top: 150px;
+    left: 375px;
     z-index: 3;
     position: absolute;
     background-color: #1E2744;
-    width: 604px;
-    height: 44px;
+    width: 602px;
+    height: 42px;
     border-radius: 50px;
     box-shadow: 8px 8px 10px 3px rgba(0,0,0,0.3);
     transition: left 0.25s linear;
 }
 
+.learn-more-navbar-container-unauthenticated {
+    left: 75px;
+}
+
+.learn-more-nav-link {
+    margin-top: -2px;
+}
+
 .learn-more-navbar-container-top {
     top: 0px;
     left: 50%;
-    margin-left: -204px;
+    margin-left: -302px;
 }
 
 @media all and (max-width: 920px) {

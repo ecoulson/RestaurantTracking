@@ -14,24 +14,41 @@ export default class FormInput extends React.Component<IFormInputProps, IFormInp
     constructor(props : IFormInputProps) {
         super(props);
         this.state = {
-            focused: false
+            focused: false,
+            hovered: false
         }
         this.onFocus = this.onFocus.bind(this);
         this.onBlur = this.onBlur.bind(this);
         this.onChange = this.onChange.bind(this);
+        this.toggleHover = this.toggleHover.bind(this);
     }
 
     render() {
         return (
-            <div id={`form-input-${this.props.id}`} style={this.getBackgroundColor()} className={`form-input ${this.getActiveClass()}`}>
+            <div 
+                id={`form-input-${this.props.id}`}
+                onMouseEnter={this.toggleHover}
+                onMouseLeave={this.toggleHover}
+                style={this.getBackgroundColor()} 
+                className={`form-input ${this.getActiveClass()}`}>
                 <Label dark={this.props.dark}>{this.props.label}</Label>
                 <div className="input-line">
-                    <Icon color={this.props.iconColor} icon={this.props.icon}/>
+                    <Icon 
+                        hovered={this.state.focused || this.state.hovered} 
+                        hoverColor={this.props.hoverColor}
+                        color={this.props.iconColor} 
+                        icon={this.props.icon}/>
                     {this.getInput()}
                     {this.getValidationIcon()}
                 </div>
             </div>
         )
+    }
+
+    toggleHover() {
+        this.setState({
+            hovered: !this.state.hovered
+        })
     }
 
     getInput() {
@@ -118,9 +135,9 @@ export default class FormInput extends React.Component<IFormInputProps, IFormInp
 
     private getActiveClass() {
         if (this.props.dark) {
-            return this.state.focused ? "active-dark" : ""
+            return (this.state.focused || this.state.hovered) ? "active-dark" : ""
         } else {
-            return this.state.focused ? "active-light" : ""
+            return (this.state.focused || this.state.hovered) ? "active-light" : ""
         }
     }
 }

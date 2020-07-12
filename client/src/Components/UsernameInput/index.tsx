@@ -31,11 +31,12 @@ export default class UsernameInput extends React.Component<IUsernameInputProps, 
         this.onChange = this.onChange.bind(this);
     }
 
-    componentWillReceiveProps(props : IUsernameInputProps) {
-        this.setState({
-            username: props.value ? props.value : this.state.username,
-            valid: props.registering ? this.state.valid : undefined
-        })
+    static getDerivedStateFromProps(props : IUsernameInputProps, state : IUsernameInputState) : IUsernameInputState {
+        return {
+            username: props.value ? props.value : state.username,
+            valid: props.registering ? state.valid : undefined,
+            message: state.message
+        }
     }
 
     render() {
@@ -47,6 +48,7 @@ export default class UsernameInput extends React.Component<IUsernameInputProps, 
                     id={this.props.id}
                     iconColor={this.props.iconColor}
                     isValid={this.state.valid}
+                    hoverColor={this.props.hoverColor}
                     type="text"
                     label="Username"
                     icon={IconType.User}
@@ -83,14 +85,20 @@ export default class UsernameInput extends React.Component<IUsernameInputProps, 
         }
     }
 
-    private onChange(formValue : IFormValue<string>) {
-        this.setState({
-            username: formValue.value
-        }, () => {
-            this.props.onChange(formValue);
-            if (this.props.registering) {
-                this.validateUsername();
-            }
+    private async onChange(username : IFormValue<string>) {
+        await this.asyncSetState({
+            ...this.state,
+            username: username.value,
+        })
+        this.props.onChange(username);
+        if (this.props.registering) {
+            this.validateUsername();
+        }
+    }
+
+    private asyncSetState(state : IUsernameInputState) {
+        return new Promise((resolve) => {
+            this.setState(state, resolve);
         })
     }
 }

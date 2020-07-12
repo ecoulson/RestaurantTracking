@@ -6,6 +6,11 @@
     overflow: hidden;
     transition: box-shadow 0.5s ease;
     margin: 50px auto;
+    outline: none;
+}
+
+.image-file-uploader:focus {
+    box-shadow: 4px 4px 7px 3px rgba(0, 0, 0, 0.5);    
 }
 
 .image-file-uploader-progress {
@@ -35,10 +40,10 @@
 }
 
 .image-file-uploader-file-name {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 300;
     color: #3B3A39;
-    padding: 10px;
+    padding: 12px 10px;
     border-bottom: 1px solid #3B3A39;
     width: 100%;
     padding-left: 115px;

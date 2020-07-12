@@ -1,7 +1,7 @@
 import React from "react";
 import BasicSection from "../../../Layouts/BasicLayout/BasicSection";
 import PasswordInput from "../../../Components/PasswordInput";
-import Submit from "../../../Components/Submit";
+import Button from "../../../Components/Button";
 import BasicSectionTitle from "../../../Layouts/BasicLayout/BasicSectionTitle";
 import IUserPasswordChangeSectionState from "./IUserPasswordChangeSectionState";
 import FormValue from "../../../Components/FormInput/FormValue";
@@ -10,6 +10,7 @@ import Toast from "../../../Components/Toast";
 import IFormValue from "../../../Components/FormInput/IFormValue";
 import Axios from "axios";
 import Cookie from "../../../lib/Cookie";
+import Form from "../../../Components/Form";
 
 export default class UserPasswordChangeSection extends React.Component<any, IUserPasswordChangeSectionState> {
     constructor(props : any) {
@@ -31,18 +32,22 @@ export default class UserPasswordChangeSection extends React.Component<any, IUse
             <BasicSection>
                 <Toast type={this.state.type} message={this.state.message} />
                 <BasicSectionTitle>Change Password</BasicSectionTitle>
-                <PasswordInput 
-                    iconColor="#AAAAAA" 
-                    label="Current Password"
-                    placeholder="Enter your current password" 
-                    onChange={this.handleCurrentPassword} />
-                <PasswordInput 
-                    iconColor="#AAAAAA" 
-                    registering 
-                    label="New Password"
-                    placeholder="Enter your new password" 
-                    onChange={this.handleNewPassword} />
-                <Submit onClick={this.handlePasswordUpdate}>Update</Submit>
+                <Form onSubmit={this.handlePasswordUpdate}>
+                    <PasswordInput 
+                        iconColor="#AAAAAA" 
+                        label="Current Password"
+                        placeholder="Enter your current password" 
+                        hoverColor="#1B2D42"
+                        onChange={this.handleCurrentPassword} />
+                    <PasswordInput 
+                        iconColor="#AAAAAA" 
+                        registering 
+                        label="New Password"
+                        hoverColor="#1B2D42"
+                        placeholder="Enter your new password" 
+                        onChange={this.handleNewPassword} />
+                    <Button submit>Update</Button>
+                </Form>
             </BasicSection>
         )
     }
@@ -60,7 +65,6 @@ export default class UserPasswordChangeSection extends React.Component<any, IUse
     }
 
     private async handlePasswordUpdate() {
-        console.log(this.state);
         if (this.state.currentPassword !== "" && this.state.newPassword.valid) {
             try {
                 await Axios.put("/api/user/password", {

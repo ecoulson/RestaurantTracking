@@ -3,9 +3,9 @@ import Joi from "@hapi/joi";
 const RegistrationBodySchema = Joi.object({
     username: Joi.string().required(),
     password: Joi.string().required(),
-    email: Joi.string().email(),
-    firstName: Joi.string(),
-    lastName: Joi.string()
+    email: Joi.string().email().required(),
+    firstName: Joi.string().required(),
+    lastName: Joi.string().allow("")
 });
 
 const TokenCallbackSchema = Joi.object({

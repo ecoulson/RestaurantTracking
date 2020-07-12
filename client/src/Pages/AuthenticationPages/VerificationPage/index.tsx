@@ -1,48 +1,44 @@
 import React from "react";
-import AuthenticationBackground from "../../../Layouts/AuthenticationLayout/AuthenticationBackground";
-import AuthenticationContainer from "../../../Layouts/AuthenticationLayout/AuthenticationContainer";
-import AuthenticationLayoutTitle from "../../../Layouts/AuthenticationLayout/AuthenticationLayoutTitle";
-import Logo from "../../../Components/Logo";
-import Axios from "axios";
-import Toast from "../../../Components/Toast";
-import ToastType from "../../../Components/Toast/ToastType";
-import IVerificationPageState from "./IVerificationPageState";
 import AppHistory from "../../../AppHistory";
 import LoginContainer from "../../../Layouts/AuthenticationLayout/LoginContainer";
 import IVerificationPageProps from "./IVerificationPageProps";
+import AuthenticationLayout from "../../../Layouts/AuthenticationLayout";
+import VerificationRequest from "../../../API/VerificationRequest";
 
-export default class VerificationPage extends React.Component<IVerificationPageProps, IVerificationPageState> {
+export default class VerificationPage extends React.Component<IVerificationPageProps> {
+    private urlParams : URLSearchParams;
+
     constructor(props: IVerificationPageProps) {
         super(props);
-        this.state = {
-            message: ""
-        }
-    }
 
-    async componentWillMount() {
-        const query = new URLSearchParams(window.location.search)
-        try {
-            await Axios.get(
-                `/api/user/verification/verify?email=${query.get("email")}&token=${query.get("token")}`);
-            this.props.showSuccess("Successfully verified account", 3000);
-            AppHistory.push("/login")
-        } catch (error) {
-            this.setState({
-                message: "Failed to verify account"
-            })
-        }
+        this.urlParams = new URLSearchParams(window.location.search);
+        this.onComplete = this.onComplete.bind(this);
     }
 
     render() {
         return (
-            <AuthenticationBackground>
-                <AuthenticationContainer>
-                    <Toast type={ToastType.Error} message={this.state.message}/>
-                    <Logo />
-                    <AuthenticationLayoutTitle>Verifying Acount...</AuthenticationLayoutTitle>
-                    <LoginContainer />
-                </AuthenticationContainer>
-            </AuthenticationBackground>
+            <AuthenticationLayout pageTitle="Verifying Acount...">
+                <VerificationRequest
+                    redirect
+                    send 
+                    onComplete={this.onComplete} 
+                    token={this.getToken()}
+                    email={this.getEmail()}/>
+                <LoginContainer />
+            </AuthenticationLayout>
         )
+    }
+
+    private getEmail() {
+        return this.urlParams.has("email") ? this.urlParams.get("email") as string : "";
+    }
+
+    private getToken() {
+        return this.urlParams.has("token") ? this.urlParams.get("token") as string : "";
+    }
+
+    private onComplete() {
+        this.props.showSuccess("Successfully verified account", 3000);
+        AppHistory.push("/login");
     }
 }

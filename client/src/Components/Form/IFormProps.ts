@@ -1,6 +1,7 @@
-import { MouseEvent } from "react";
+import { MouseEvent, FormEvent } from "react";
 
 export default interface IFormProps {
     onClick?: (event : MouseEvent) => void;
-    isSubmitting: boolean;
+    onSubmit?: (event : FormEvent) => void;
+    isSubmitting?: boolean;
 }

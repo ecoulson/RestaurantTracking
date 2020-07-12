@@ -1,10 +1,17 @@
 import React from "react";
 import "./index.css";
 import SlideSwitch from "../../../Components/SlideSwitch";
-import LearnMoreNavlink from "./LearnMoreNavlink";
+import LearnMoreNavLink from "./LearnMoreNavlink";
 import ILearnMoreNavbarState from "./ILearnMoreNavbarState";
 import { debounce } from "../../../lib/Debounce";
 import LearnMoreSections from "./LearnMoreSections";
+import Cookie from "../../../lib/Cookie";
+
+const TopRange = 50;
+const FixedNavbarRange = 200;
+const SectionPortion = 8;
+const DebounceTimeout = 1000;
+const OptionWidth = 150;
 
 export default class LearnMoreNavbar extends React.Component<any, ILearnMoreNavbarState> {
     private clicked : boolean;
@@ -19,7 +26,8 @@ export default class LearnMoreNavbar extends React.Component<any, ILearnMoreNavb
         this.onClick = this.onClick.bind(this);
         this.unSetClicked = debounce(() => {
             this.clicked = false;
-        }, 1000)
+        }, DebounceTimeout)
+        this.onChange = this.onChange.bind(this);
     }
 
     componentDidMount() {
@@ -28,17 +36,47 @@ export default class LearnMoreNavbar extends React.Component<any, ILearnMoreNavb
 
     render() {
         return (
-            <div className="learn-more-navbar-container">
+            <div className={`learn-more-navbar-container ${this.getInitialPosition()}`}>
                 <div onClick={this.onClick} className="learn-more-navbar">
-                    <SlideSwitch selected={this.state.selected} optionWidth={150} onChange={() => {}}>
-                        <LearnMoreNavlink>Top</LearnMoreNavlink>
-                        <LearnMoreNavlink>Overview</LearnMoreNavlink>
-                        <LearnMoreNavlink>Features</LearnMoreNavlink>
-                        <LearnMoreNavlink>Pricing</LearnMoreNavlink>
+                    <SlideSwitch 
+                        selected={this.state.selected} 
+                        optionWidth={OptionWidth} 
+                        onChange={this.onChange}>
+                        <LearnMoreNavLink>Top</LearnMoreNavLink>
+                        <LearnMoreNavLink>Overview</LearnMoreNavLink>
+                        <LearnMoreNavLink>Features</LearnMoreNavLink>
+                        <LearnMoreNavLink>Pricing</LearnMoreNavLink>
                     </SlideSwitch>
                 </div>
             </div>
         )
+    }
+
+    private getInitialPosition() {
+        return Cookie.getCookie("token") ?
+            "learn-more-navbar-container" :
+            "learn-more-navbar-container-unauthenticated"
+    }
+
+    private onChange(index : number) {
+        this.clicked = true;
+        this.unSetClicked();
+        const container = document.getElementsByClassName("learn-more-container")[0];
+        const sections = container.getElementsByClassName("learn-more-section");
+        const section = sections[index] as HTMLElement;
+        if (section.id === "learn-more-section-top") {
+            container.scrollTo({
+                behavior: "smooth",
+                top: 0,
+                left: 0,
+            })
+        } else {
+            container.scrollTo({
+                behavior: "smooth",
+                top: section.offsetTop - TopRange,
+                left: 0,
+            })
+        }
     }
 
     private onClick() {
@@ -46,35 +84,69 @@ export default class LearnMoreNavbar extends React.Component<any, ILearnMoreNavb
         this.unSetClicked();
     }
 
-    // TODO: Refactor
     private handleScroll() {
         const container = document.getElementsByClassName("learn-more-container")[0];
         if (container) {
-            const widgets = container.getElementsByClassName("learn-more-section");
-            container.addEventListener("scroll", (event : any) => {
-                if (event.target.scrollTop > 200) {
-                    document.getElementsByClassName("learn-more-navbar-container")[0].classList.add("learn-more-navbar-container-top")
-                } else {
-                    document.getElementsByClassName("learn-more-navbar-container")[0].classList.remove("learn-more-navbar-container-top")
-                }
-                if (!this.clicked) {
-                    let index = 0;
-                    Array.from(widgets).forEach((widget, i) => {
-                        if ((widget as HTMLElement).offsetTop < event.target.scrollTop + window.innerHeight / 8) {
-                            index = i;
-                        }
-                    })
-                    if (event.target.scrollTop <= 50) {
-                        this.setState({
-                            selected: LearnMoreSections.Top
-                        })
-                    } else if (index + 1 !== this.state.selected) {
-                        this.setState({
-                            selected: index + 1
-                        })
-                    }
-                }
+            const sections = container.getElementsByClassName("learn-more-section");
+            container.addEventListener("scroll", this.scrollHandler(sections))
+        }
+    }
+
+    private scrollHandler(sections: HTMLCollectionOf<Element>) {
+        return (event: Event) => {
+            const target = event.target as HTMLElement
+            this.positionNavbar(target)
+            if (!this.clicked) {
+                const index = this.getSelectedIndex(sections, target)
+                this.updateSelectedIndex(target, index);
+            }
+        }
+    }
+
+    private positionNavbar(target : HTMLElement) {
+        if (this.isNavbarFixed(target)) {
+            document
+                .getElementsByClassName("learn-more-navbar-container")[0]
+                .classList.add("learn-more-navbar-container-top")
+        } else {
+            document
+                .getElementsByClassName("learn-more-navbar-container")[0]
+                .classList.remove("learn-more-navbar-container-top")
+        }
+    }
+
+    private isNavbarFixed(target : HTMLElement) {
+        return target.scrollTop > FixedNavbarRange;
+    }
+
+    private getSelectedIndex(sections : HTMLCollectionOf<Element>, target : HTMLElement) {
+        let index = 0;
+        Array.from(sections).forEach((section, i) => {
+            const element = section as HTMLElement;
+            if (element.offsetTop < target.scrollTop + window.innerHeight / SectionPortion) {
+                index = i;
+            }
+        })
+        return index;
+    }
+
+    private updateSelectedIndex(target : HTMLElement, index : number) {
+        if (this.isAtTop(target)) {
+            this.setState({
+                selected: LearnMoreSections.Top
+            })
+        } else if (this.hasPassedIndex(index)) {
+            this.setState({
+                selected: index + 1
             })
         }
+    }
+
+    private isAtTop(target : HTMLElement) {
+        return target.scrollTop <= TopRange;
+    }
+
+    private hasPassedIndex(index : number) {
+        return index + 1 !== this.state.selected;
     }
 }

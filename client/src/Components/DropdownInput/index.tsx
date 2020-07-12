@@ -3,23 +3,16 @@ import FormInput from "../FormInput";
 import IconType from "../Icon/IconTypes";
 import Menu from "./Menu";
 import IDropdownState from "./IDropdownState";
-import Axios from "axios";
-import IRestaurant from "../../lib/IRestaurant";
 import IDropdownProps from "./IDropdownProps";
 import IFormValue from "../FormInput/IFormValue";
-import Toast from "../Toast";
-import ToastType from "../Toast/ToastType";
 
-export default class RestaurantDropdown extends React.Component<IDropdownProps, IDropdownState> {
+export default class DropdownInput extends React.Component<IDropdownProps, IDropdownState> {
     constructor(props: IDropdownProps) {
         super(props);
         this.state = {
-            restaurants: [],
-            filteredRestaurants: [],
             value: "",
             valid: false,
             focused: false,
-            errorMessage: ""
         };
 
         this.onChange = this.onChange.bind(this);
@@ -37,7 +30,6 @@ export default class RestaurantDropdown extends React.Component<IDropdownProps, 
         })
     }
 
-
     componentWillUnmount() {
         document.removeEventListener("click", this.documentClickListener)
     }
@@ -52,45 +44,11 @@ export default class RestaurantDropdown extends React.Component<IDropdownProps, 
         }
     }
 
-    async componentWillMount() {
-        try {
-            const res = await Axios.get("/api/restaurant");
-            if (res.data.success) {
-                const sortedRestaurants = this.sortRestaurants(res.data.data.restaurants);
-                this.setState({
-                    restaurants: sortedRestaurants,
-                    filteredRestaurants: sortedRestaurants
-                });
-            } else {
-                this.setState({
-                    errorMessage: "Failed to get restaurants"
-                })
-            }
-        } catch (error) {
-            this.setState({
-                errorMessage: "Failed to get restaurants"
-            })
-        }
-    }
-
-    private sortRestaurants(restaurants : IRestaurant[]) {
-        return restaurants.sort((a : any, b : any) => {
-            if (a.name.toLowerCase() > b.name.toLowerCase()) {
-                return 1;
-            }
-            if (a.name.toLowerCase() < b.name.toLowerCase()) {
-                return -1;
-            }
-            return 0;
-        }) as IRestaurant[];
-    }
-
     render() {
         return (
             <div className="dropdown">
-                <Toast type={ToastType.Error} message={this.state.errorMessage} />
                 <FormInput
-                    disabled={this.state.restaurants.length === 0}
+                    disabled={this.props.values.length === 0}
                     isValid={this.state.valid}
                     value={this.state.value}
                     onChange={this.onChange}
@@ -99,18 +57,19 @@ export default class RestaurantDropdown extends React.Component<IDropdownProps, 
                     iconColor={this.props.iconColor}
                     type="text" 
                     label="Restaurant"
+                    hoverColor={this.props.hoverColor}
                     icon={IconType.Menu}
                     placeHolder="Pick where you ate" />
                 <Menu 
                     handleMenuClick={this.handleMenuItemClick}
                     visible={this.isVisible()} 
-                    restaurants={this.state.filteredRestaurants} />
+                    values={this.props.values} />
             </div>
         )
     }
 
     private isDisabled() {
-        return this.state.restaurants.length === 0;
+        return this.props.values.length === 0;
     }
 
     private isVisible() {
@@ -118,29 +77,25 @@ export default class RestaurantDropdown extends React.Component<IDropdownProps, 
     }
 
     private onChange(restaurantName : IFormValue<string>) {
-        const filteredRestaurants = this.state.restaurants.filter((restaurant) => {
-            return restaurant.name.toLowerCase().startsWith(restaurantName.value.toLowerCase())
-        })
         this.setState({
             value: restaurantName.value,
-            filteredRestaurants,
             valid: this.validateInput(restaurantName.value.toLowerCase())
         }, () => {
             this.props.onChange({
-                value: this.state.filteredRestaurants[0],
-                valid: this.state.filteredRestaurants.length === 1
+                value: 0,
+                valid: this.props.values.length === 1
             });
         })
     }
 
     private validateInput(key : string) {
         let start = 0;
-        let end = this.state.restaurants.length - 1;
+        let end = this.props.values.length - 1;
         while (start <= end) {
             let mid = Math.floor((start + end) / 2);
-            if (this.state.restaurants[mid].name.toLowerCase() === key) {
+            if (this.props.values[mid].toLowerCase() === key) {
                 return true;
-            } else if (this.state.restaurants[mid].name.toLowerCase() < key) {
+            } else if (this.props.values[mid].toLowerCase() < key) {
                 start = mid + 1;
             } else {
                 end = mid - 1;
@@ -149,13 +104,13 @@ export default class RestaurantDropdown extends React.Component<IDropdownProps, 
         return false;
     }
 
-    private handleMenuItemClick(restaurant : IRestaurant) {
+    private handleMenuItemClick(index : number) {
         this.props.onChange({
-            value: restaurant,
+            value: index,
             valid: true
         })
         this.setState({
-            value: restaurant.name,
+            value: this.props.values[index],
             valid: true
         })
     }

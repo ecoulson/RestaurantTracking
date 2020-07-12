@@ -14,10 +14,10 @@ export default class FullNameInput extends React.Component<IFullNameInputProps, 
         this.onChange = this.onChange.bind(this);
     }
 
-    componentWillReceiveProps(props : IFullNameInputProps) {
-        this.setState({
-            name: props.value ? props.value.join(" ") : this.state.name
-        })
+    static getDerivedStateFromProps(props : IFullNameInputProps, state : IFullNameInputState) : IFullNameInputState {
+        return {
+            name: props.value ? props.value.join(" ") : state.name,
+        }
     }
 
     render() {
@@ -28,6 +28,7 @@ export default class FullNameInput extends React.Component<IFullNameInputProps, 
                 isValid={this.state.name !== "" && this.state.name.trim() !== ""}
                 id={this.props.id}
                 type="text"
+                hoverColor={this.props.hoverColor}
                 label="Full name"
                 icon={IconType.Info}
                 placeHolder="Enter your full name"
@@ -36,15 +37,20 @@ export default class FullNameInput extends React.Component<IFullNameInputProps, 
         )
     }
 
-    private onChange(name : FormValue<string>) {
+    private async onChange(name : FormValue<string>) {
         const names = name.value.split(" ")
-        this.setState({
+        await this.asyncSetState({
             name: name.value
-        }, () => {
-            this.props.onChange(new FormValue<string[]>(
-                names,
-                names.length !== 0 && name.value.trim() !== ""
-            ));
+        })
+        this.props.onChange(new FormValue<string[]>(
+            names,
+            names.length !== 0 && name.value.trim() !== ""
+        ));
+    }
+
+    private asyncSetState(state : any) {
+        return new Promise((resolve) => {
+            this.setState(state, resolve)
         })
     }
 }

@@ -20,15 +20,20 @@ export default class Toast extends React.Component<IToastProps, IToastState> {
         )
     }
 
-    private getVisibleClass() {
-        if (!this.state.hasDisplayed && this.props.message === "") {
-            return "";
-        } else {
+    componentDidUpdate() {
+        if (this.state.hasDisplayed || this.props.message !== "") {
             if (!this.state.hasDisplayed) {
                 this.setState({
                     hasDisplayed: true
                 })
             }
+        }
+    }
+
+    private getVisibleClass() {
+        if (!this.state.hasDisplayed && this.props.message === "") {
+            return "";
+        } else {
             return this.props.message !== "" ?
                 "show-toast" : "hide-toast"
         }

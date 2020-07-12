@@ -1,0 +1,45 @@
+.dashboard-link {
+    display: flex;
+    padding: 20px 25px;
+    text-decoration: none;
+    margin: 0 auto;
+    width: 250px;
+}
+
+.dashboard-link > .icon {
+    height: 30px;
+    width: 30px;
+    padding: 5px 8px;
+}
+
+.dashboard-link-text {
+    margin-top: 7px;
+    font-size: 33px;
+    line-height: 25px;
+    color: #b1b1b3;
+    transition: all 0.5s ease;
+    font-family: 'myriad-pro', Helvetica, sans-serif;
+}
+
+.dashboard-link:hover > .dashboard-link-text {
+    color: white;
+}
+
+@media all and (max-width: 750px) {
+    .dashboard-link-text {
+        display: none;
+    }
+    .dashboard-link {
+        width: 50px;
+        padding: 10px;
+    }
+}
+
+.dashboard-link-collapsed {
+    width: 50px;
+    padding: 10px;
+}
+
+.dashboard-link-text-collapsed {
+    display: none;
+}

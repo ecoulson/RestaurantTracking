@@ -5,4 +5,6 @@ export default interface IIconProps {
     color?: string;
     width?: number;
     height?: number;
+    hoverColor?: string;
+    hovered?: boolean;
 }

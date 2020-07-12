@@ -1,0 +1,43 @@
+.dashboard-nav-panel {
+    width: 400px;
+    height: 100vh;
+    position: relative;
+    background: transparent linear-gradient(180deg, #212C46 0%, #260D57 100%) 0% 0% no-repeat padding-box;
+    box-shadow: 0px -20px 10px 4px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dashboard-nav-panel > div > .icon {
+    width: 50px;
+    height: 50px;
+    display: block;
+    margin: 10px auto;
+    display: none;
+}
+
+.dashboard-nav-panel > div:hover > .icon {
+    fill: white;
+    cursor: pointer;
+}
+
+@media all and (max-width: 750px) {
+    .dashboard-nav-panel {
+        width: 70px;
+    }
+    .dashboard-nav-panel-hidden {
+        max-height: 70px;
+        position: absolute;
+        background: #2e3d61;
+        box-shadow: 2px 2px 8px 4px rgba(0, 0, 0, 0.3);
+    }
+    .dashboard-nav-panel-content-hidden {
+        display: none;
+    }
+    .dashboard-nav-panel > div > .icon {
+        display: block;
+    }
+}
+
+.dashboard-nav-panel-collapsed {
+    width: 75px;
+}

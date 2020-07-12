@@ -8,13 +8,16 @@ import ILogoProps from "./ILogoProps";
 export default class Logo extends React.Component<ILogoProps> {
     render() {
         return (
-            <div className={this.getLogoStyle()}>
+            <div className={`${this.getLogoStyle()} ${this.getCollapsedClass()} `}>
                 <img 
-                    className={`company-name ${this.getThemeClass()} ${this.getLogoDirectionClass()}`} 
+                    className={`company-name ${this.getThemeClass()} ${this.getLogoDirectionClass()} ${this.getCollapsedLogoClass()}`} 
                     src={this.getLogo()} 
-                    alt="Adapt soltuions logo" 
+                    alt="adapt solutions logo" 
                 />
-                <LogoTitle horizontal={this.props.horizontal} dark={this.props.dark}/>
+                <LogoTitle 
+                    collapsed={this.props.collapsed} 
+                    horizontal={this.props.horizontal} 
+                    dark={this.props.dark}/>
             </div>
         )
     }
@@ -40,5 +43,15 @@ export default class Logo extends React.Component<ILogoProps> {
     private getLogoDirectionClass() {
         return this.props.horizontal ?
             "logo-horizontal" : "";
+    }
+
+    private getCollapsedClass() {
+        return this.props.collapsed ?
+            "logo-collapsed-container" : "";
+    }
+
+    private getCollapsedLogoClass() {
+        return this.props.collapsed ?
+            "logo-collapsed" : ""
     }
 }

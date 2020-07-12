@@ -20,7 +20,10 @@ enum IconType {
     Users,
     QRCode,
     Image,
-    Link
+    Link,
+    ChevronLeft,
+    ChevronRight,
+    HamburgerMenu
 }
 
 export default IconType;

@@ -3,13 +3,13 @@
 }
 
 .learn-more-section-wrapper {
-    max-width: 1500px;
+    max-width: 1200px;
     margin: 0 auto;
 }
 
 #learn-more-section-top {
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
     background-color: #3B3A39;
 }
 
@@ -21,6 +21,6 @@
     color: white;
 }
 
-#learn-more-section-top > .learn-more-section-wrapper > .submit {
+#learn-more-section-top > .learn-more-section-wrapper > .button {
     margin: 10px 5px;
 }

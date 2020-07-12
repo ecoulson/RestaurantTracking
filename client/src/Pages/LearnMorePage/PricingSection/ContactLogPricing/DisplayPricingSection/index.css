@@ -1,0 +1,14 @@
+.display-pricing-section {
+    width: 33.3%;
+    min-width: 400px;
+    box-sizing: border-box;
+    padding: 15px;
+    height: 600px;
+}
+
+.display-pricing-section-image {
+    width: 400px;
+    height: 500px;
+    margin: 0 auto;
+    display: block;
+}

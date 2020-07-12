@@ -12,8 +12,8 @@ export default class FeatureSection extends React.Component<IFeatureSectionProps
                 <LearnMoreSectionTitle>Features</LearnMoreSectionTitle>
                 <FeatureSectionContainer>
                     {
-                        this.props.features.map((feature) => {
-                            return <FeatureItem feature={feature} />
+                        this.props.features.map((feature, i) => {
+                            return <FeatureItem key={i} feature={feature} />
                         })
                     }
                 </FeatureSectionContainer>

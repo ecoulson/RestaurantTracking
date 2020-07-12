@@ -1,5 +1,5 @@
 import React from "react";
-import Submit from "../../../Components/Submit";
+import Button from "../../../Components/Button";
 import BasicSection from "../../../Layouts/BasicLayout/BasicSection";
 import BasicSectionTitle from "../../../Layouts/BasicLayout/BasicSectionTitle";
 import IProfilePictureSectionProps from "./IProfilePictureSectionProps";
@@ -16,6 +16,7 @@ import Cookie from "../../../lib/Cookie";
 import ToastType from "../../../Components/Toast/ToastType";
 import Toast from "../../../Components/Toast";
 import "./index.css"
+import Form from "../../../Components/Form";
 
 export default class ProfilePictureSection extends React.Component<IProfilePictureSectionProps, IProfilePictureSectionState> {
     constructor(props : IProfilePictureSectionProps) {
@@ -35,8 +36,8 @@ export default class ProfilePictureSection extends React.Component<IProfilePictu
 
     componentWillReceiveProps(props : IProfilePictureSectionProps) {
         this.setState({
-            profilePictureURL: props.profilePictureURL
-        })
+            profilePictureURL: props.profilePictureURL,
+        });
     }
 
     render() {
@@ -44,13 +45,15 @@ export default class ProfilePictureSection extends React.Component<IProfilePictu
             <BasicSection>
                 <Toast type={this.state.type} message={this.state.message} />
                 <BasicSectionTitle>Profile Picture</BasicSectionTitle>
+                <Form onSubmit={this.updateProfilePicture}>
                 {this.getProfilePicture()}
-                <SlideSwitch onChange={this.handleInputTypeChange}>
-                    <Icon width={25} height={25} icon={IconType.Image} color="black" />
-                    <Icon width={25} height={25} icon={IconType.Link} color="black" />
-                </SlideSwitch>
-                {this.getInput()}
-                <Submit onClick={this.updateProfilePicture}>Update</Submit>
+                    <SlideSwitch onChange={this.handleInputTypeChange}>
+                        <Icon width={25} height={25} icon={IconType.Image} color="black" />
+                        <Icon width={25} height={25} icon={IconType.Link} color="black" />
+                    </SlideSwitch>
+                    {this.getInput()}
+                    <Button submit>Update</Button>
+                </Form>
             </BasicSection>
         )
     }
@@ -73,9 +76,15 @@ export default class ProfilePictureSection extends React.Component<IProfilePictu
 
     private getInput() {
         if (this.state.inputType === ProfilePictureType.Image) {
-            return <ImageUploader value={this.state.profilePicture} onImageUpload={this.handleImageUpload}/>;
+            return <ImageUploader 
+                        value={this.state.profilePicture} 
+                        onImageUpload={this.handleImageUpload}/>;
         } else {
-            return <URLInput value={this.getURL()} iconColor="#AAAAAA" onChange={this.handleURLChange} />
+            return <URLInput 
+                        value={this.getURL()} 
+                        iconColor="#AAAAAA" 
+                        hoverColor="#1B2D42"
+                        onChange={this.handleURLChange} />
         }
     }
 

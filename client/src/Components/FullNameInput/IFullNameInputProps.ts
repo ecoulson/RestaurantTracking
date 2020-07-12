@@ -6,4 +6,5 @@ export default interface IFullNameInputProps {
     onChange: (fullName: FormValue<string[]>) => void;
     id?: string;
     value?: string[];
+    hoverColor?: string;
 }

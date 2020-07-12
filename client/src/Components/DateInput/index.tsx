@@ -24,6 +24,7 @@ export default class DateInput extends React.Component<IDateInputProps, IDateInp
                 isValid={this.state.valid}
                 dark={this.props.dark}
                 iconColor={this.props.iconColor}
+                hoverColor={this.props.hoverColor}
                 id={this.props.id}
                 onChange={this.handleTimeChange}
                 icon={IconType.Calendar} 
@@ -33,15 +34,20 @@ export default class DateInput extends React.Component<IDateInputProps, IDateInp
         )
     }
 
-    private handleTimeChange(date : IFormValue<string>) {
-        this.setState({
+    private async handleTimeChange(date : IFormValue<string>) {
+        await this.asyncSetState({
             date: date.value,
-            valid: this.validateDate(date.value) 
-        }, () => {
-            this.props.onChange({
-                valid: this.state.valid,
-                value: this.state.date
-            })
+            valid: this.validateDate(date.value)
+        })
+        this.props.onChange({
+            valid: this.state.valid,
+            value: this.state.date
+        })
+    }
+
+    private asyncSetState(state : IDateInputState) {
+        return new Promise((resolve) => {
+            this.setState(state, resolve);
         })
     }
 

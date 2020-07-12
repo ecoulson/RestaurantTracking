@@ -28,8 +28,7 @@ const UserSchema = new Schema({
         required: true
     },
     lastName: {
-        type: String,
-        required: true
+        type: String
     },
     verified: {
         type: Boolean,

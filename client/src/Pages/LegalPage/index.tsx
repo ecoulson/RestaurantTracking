@@ -26,7 +26,7 @@ export default class LegalPage extends React.Component<ILegalPageProps> {
             <BasicLayout title={document.documentName}>
                 <LegalSectionTitle>{document.documentName}</LegalSectionTitle>
                 <LegalSectionSubtitle>
-                    Last updated {moment(document.lastUpdated).format("MMM Do, YYYY")}
+                    Last updated {moment(document.lastUpdated.toISOString(), moment.ISO_8601).format("MMM Do, YYYY")}
                 </LegalSectionSubtitle>
                 {this.renderMission(document)}
                 <hr></hr>

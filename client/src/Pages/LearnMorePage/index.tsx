@@ -7,6 +7,7 @@ import OverviewSection from "./OverviewSection";
 import FeatureSection from "./FeatureSection";
 import PricingSection from "./PricingSection";
 import PurchaseButton from "./PurchaseButton";
+import DescriptionSections from "./DescriptionSection";
 
 export default class LearnMorePage extends React.Component<ILearnMorePageProps> {
     render() {
@@ -20,8 +21,9 @@ export default class LearnMorePage extends React.Component<ILearnMorePageProps> 
                         productName={productData.productName} />
                     <OverviewSection overview={productData.overview} />
                     <FeatureSection features={productData.features} />
+                    <DescriptionSections sections={productData.sections} />
                     <PricingSection model={productData.pricingModel}/>
-                    <PurchaseButton productName={productData.productName} />
+                    {/* <PurchaseButton productName={productData.productName} /> */}
                 </div>
             )
         } else {

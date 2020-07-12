@@ -10,7 +10,7 @@ export default class MenuItem extends React.Component<IMenuItemProps> {
 
     handleClick() {
         return (event : MouseEvent) => {
-            this.props.onClick(this.props.restaurant);
+            this.props.onClick(this.props.index);
         }
     }
 }

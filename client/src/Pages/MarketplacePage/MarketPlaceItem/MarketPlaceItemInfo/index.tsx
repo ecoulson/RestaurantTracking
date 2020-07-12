@@ -1,7 +1,7 @@
 import React from "react";
 import AppHistory from "../../../../AppHistory";
 import IMarketPlaceItemInfoProps from "./IMarketPlaceItemInfoProps";
-import Submit from "../../../../Components/Submit";
+import Button from "../../../../Components/Button";
 import "./index.css"
 
 export default class MarketPlaceItemInfo extends React.Component<IMarketPlaceItemInfoProps> {
@@ -13,7 +13,7 @@ export default class MarketPlaceItemInfo extends React.Component<IMarketPlaceIte
     render() {
         return (
             <div className="market-place-item-info-container">
-                <Submit onClick={this.redirect}>Learn More</Submit>
+                <Button onClick={this.redirect}>Learn More</Button>
             </div>
         )
     }

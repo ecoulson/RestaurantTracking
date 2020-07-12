@@ -1,4 +1,11 @@
-.feature-item > .icon {
+.feature-item-fill > .icon {
     width: 50px;
     height: 50px;
+    fill: url(#feature)
+}
+
+.feature-item-stroke > .icon {
+    width: 50px;
+    height: 50px;
+    stroke: url(#feature)
 }

@@ -32,6 +32,7 @@ ProductDatabase.set("restaurant", {
             description: "By adding a credit card to your restaurant you gain access to adding our solutions to your restaurant with the click of a button."
         }
     ],
+    sections: [],
     pricingModel: {
         description: "Explore the cost of bring your restaurant into the next era using our business services.",
         type: PricingModelType.RestaurantRegistration,
@@ -46,7 +47,7 @@ ProductDatabase.set("contact-logs", {
     overview: {
         title: "Help track the spread of COVID-19",
         about: "Purchase this add on to create your own stylized QR that patrons of your restaurant can easily scan upon entry to your restaurant. By scanning this QR Code users will be directed to your own check-in log page where users enter either their phone number or email to enter themselves confidentially into the log. We create daily reports that are securely stored and only distributed to official contact tracers. Each report lives for 30 days and then expires. This add on complies with Washington State governor Jay Inslee's May 15th memo regarding restaurant logs.",
-        mediaPath: "https://www.flytap.com/-/media/Flytap/fly-tap/lead-images/check-in-automatido-ld.svg"
+        mediaPath: "https://wesley.edu/wp-content/uploads/2020/01/South-1-900x500.jpg"
     },
     features: [
         {
@@ -65,6 +66,7 @@ ProductDatabase.set("contact-logs", {
             description: "Know that your logs are secured in our system and are anonymous."
         }
     ],
+    sections: [],
     pricingModel: {
         description: "Calculate the setup and maintenance cost of a COVID-19 contact log for your business.",
         type: PricingModelType.ContactLog,
