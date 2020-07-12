@@ -45,7 +45,7 @@ export default class LearnMoreNavbar extends React.Component<any, ILearnMoreNavb
                         <LearnMoreNavLink>Top</LearnMoreNavLink>
                         <LearnMoreNavLink>Overview</LearnMoreNavLink>
                         <LearnMoreNavLink>Features</LearnMoreNavLink>
-                        <LearnMoreNavLink>Pricing</LearnMoreNavLink>
+                        <LearnMoreNavLink>Price</LearnMoreNavLink>
                     </SlideSwitch>
                 </div>
             </div>

@@ -8,7 +8,7 @@ export default class NumberInput extends React.Component<INumberInputProps, INum
     constructor(props : INumberInputProps) {
         super(props);
         this.state = {
-            number: "0"
+            number: ""
         }
         this.handleNumberChange = this.handleNumberChange.bind(this);
     }

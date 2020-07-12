@@ -4,7 +4,7 @@ import "./index.css";
 export default class ContactTitle extends React.Component {
     render() {
         return (
-            <h3 className="contact-title">Refined and innovative products to ease the transition into a post-corona economy.</h3>
+            <h3 className="contact-title">Continue with your work safely—from an office or school. </h3>
         )
     }
 }
