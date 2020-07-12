@@ -12,7 +12,7 @@ export default class ContactParagraph extends React.Component {
                 <p className="contact-paragraph">
                     Whether one of our products interests you and your team, or you have an idea for something you need, please feel free to
                 </p>
-                <SimpleButton>Contact Us</SimpleButton>
+                <SimpleButton to="/contact">Contact Us</SimpleButton>
             </div>
         )
     }

@@ -1,10 +1,12 @@
 .contact-logs-section {
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
+    z-index: 2;
     background: transparent linear-gradient(180deg, #242C48 0%, #45DFC2 100%) 0% 0% no-repeat padding-box;
 }
 
 .contact-logs-section-wrapper {
     max-width: 1400px;
     margin: 0 auto;
+    padding: 25px;
 }

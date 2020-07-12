@@ -1,4 +1,5 @@
 .simple-button {
+    text-decoration: none;
     letter-spacing: 0px;
     color: #FFFFFF;
     box-shadow: 0px 3px 6px #00000029;
@@ -9,10 +10,12 @@
     font-weight: 600;
     font-size: 36px;
     margin: 0 auto;
-    display: block;
     font-family: 'sweet-sans-pro';
     outline: none;
     transition: all 0.5s ease;
+    display: block;
+    width: 250px;
+    text-align: center;
 }
 
 .simple-button:hover {

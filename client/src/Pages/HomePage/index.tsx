@@ -11,11 +11,15 @@ export default class HomePage extends React.Component {
         return (
             <PageLayout pageTitle="Adapt Solutions">
                 <Hero />
-                <div style={{position: "relative"}}>
-                    <ContactSection />
-                    <ContactLogsSection />
-                    <TriangleTop />
-                    <TriangleBottom />
+                <div style={{position: "relative", overflow: "hidden"}}>
+                    <div style={{zIndex: 2}}>
+                        <ContactSection />
+                        <ContactLogsSection />
+                    </div>
+                    <div style={{zIndex: 1}}>
+                        <TriangleTop />
+                        <TriangleBottom />
+                    </div>
                 </div>
             </PageLayout>
         )
