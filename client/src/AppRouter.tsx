@@ -28,6 +28,7 @@ import UserProfilePage from "./Pages/UserProfilePage";
 import HelpPage from "./Pages/HelpPage";
 import LegalPage from "./Pages/LegalPage";
 import AuthenticationLayout from "./Layouts/AuthenticationLayout";
+import HomePage from "./Pages/HomePage";
 
 export default class AppRouter extends React.Component<{}, IAppRouterState> {
     constructor(props: {}) {
@@ -55,7 +56,6 @@ export default class AppRouter extends React.Component<{}, IAppRouterState> {
                             <LegalPage {...props} />
                         )
                     }/>
-
                     <Route exact path="/login">
                         <UnauthenticatedAccessWrapper to="/dashboard" showError={this.showError}>
                             <AuthenticationLayout pageTitle="Login">
@@ -128,6 +128,9 @@ export default class AppRouter extends React.Component<{}, IAppRouterState> {
                         <AuthenticateActiveSession showError={this.showError}>
                             <HelpPage />
                         </AuthenticateActiveSession>
+                    </Route>
+                    <Route exact path="/">
+                        <HomePage />
                     </Route>
                 </Switch>
             </Router>

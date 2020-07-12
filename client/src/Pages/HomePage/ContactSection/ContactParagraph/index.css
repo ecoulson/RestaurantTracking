@@ -1,0 +1,14 @@
+.contact-paragraph {
+    color: #FFFFFF;
+    font-size: 24px;
+    line-height: 40px;
+    font-family: 'myriad-pro';
+}
+
+.contact-paragraph-container {
+    width: 500px;
+}
+
+.contact-paragraph-container > .simple-button {
+    margin: 50px 0px 0px;
+}

@@ -1,0 +1,10 @@
+.contact-logs-section {
+    width: 100vw;
+    height: 100vh;
+    background: transparent linear-gradient(180deg, #242C48 0%, #45DFC2 100%) 0% 0% no-repeat padding-box;
+}
+
+.contact-logs-section-wrapper {
+    max-width: 1400px;
+    margin: 0 auto;
+}
