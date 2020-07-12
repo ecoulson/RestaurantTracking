@@ -14,10 +14,10 @@ export default class Logo extends React.Component<ILogoProps> {
                     src={this.getLogo()} 
                     alt="adapt solutions logo" 
                 />
-                <LogoTitle 
+                {!this.props.noTitle ? <LogoTitle 
                     collapsed={this.props.collapsed} 
                     horizontal={this.props.horizontal} 
-                    dark={this.props.dark}/>
+                    dark={this.props.dark}/> : null}
             </div>
         )
     }
