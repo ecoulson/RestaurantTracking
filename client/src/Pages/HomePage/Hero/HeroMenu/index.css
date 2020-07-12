@@ -1,5 +1,14 @@
 .hero-menu {
     position: absolute;
-    top: 50px;
-    right: 50px;
+    top: 65px;
+    right: 65px;
+}
+
+.hero-menu > .icon {
+    transition: all 0.25s ease;
+}
+
+.hero-menu:hover > .icon {
+    cursor: pointer;
+    stroke: #707070;
 }
