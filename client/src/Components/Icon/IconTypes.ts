@@ -23,6 +23,7 @@ enum IconType {
     Link,
     ChevronLeft,
     ChevronRight,
+    ChevronDown,
     HamburgerMenu
 }
 

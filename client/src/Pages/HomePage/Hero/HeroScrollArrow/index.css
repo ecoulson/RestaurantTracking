@@ -1,0 +1,22 @@
+.hero-scroll-arrow {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    margin-left: -25px;
+    animation-name: bounce;
+    animation-iteration-count: infinite;
+    transform: translateY(-15px);
+    animation-duration: 2s;
+}
+
+@keyframes bounce {
+    0% {
+        transform: translateY(-15px);
+    }
+    50% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-15px);
+    }
+}

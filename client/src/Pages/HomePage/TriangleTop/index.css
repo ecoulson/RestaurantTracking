@@ -1,0 +1,7 @@
+.triangle-top {
+    position: absolute;
+    top: -300px;
+    right: -100px;
+    width: 1300px;
+    z-index: 1;
+}

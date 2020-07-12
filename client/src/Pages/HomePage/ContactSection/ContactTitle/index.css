@@ -1,0 +1,11 @@
+.contact-title {
+    font-size: 48px;
+    line-height: 74px;
+    font-family: 'sweet-sans-pro';
+    font-weight: 600;
+    color: #EAEAEB;
+    border-bottom: 1px solid #707070;
+    text-align: center;
+    padding: 150px 0px 35px;
+    margin: 0;
+}

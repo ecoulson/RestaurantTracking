@@ -1,0 +1,7 @@
+.triangle-bottom {
+    position: absolute;
+    top: 875px;
+    right: -1100px;
+    width: 3000px;
+    z-index: 1;
+}

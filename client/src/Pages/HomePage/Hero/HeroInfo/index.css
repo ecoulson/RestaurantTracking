@@ -1,0 +1,14 @@
+.hero-info {
+    color: #DDDCDA;
+    font-weight: 800;
+    font-size: 90px;
+    font-family: 'sweet-sans-pro';
+    text-align: center;
+    margin: 200px 0 25px;
+    opacity: 0.8;
+}
+
+.hero-container {
+    position: relative;
+    margin-top: 5%;
+}
