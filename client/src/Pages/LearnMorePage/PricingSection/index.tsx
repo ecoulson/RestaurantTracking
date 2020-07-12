@@ -11,7 +11,7 @@ export default class PricingSection extends React.Component<IPricingModelProps> 
     render() {
         return (
             <LearnMoreSection id="pricing">
-                <LearnMoreSectionTitle>Pricing</LearnMoreSectionTitle>
+                <LearnMoreSectionTitle>Price</LearnMoreSectionTitle>
                 {this.getPricingComponent()}
             </LearnMoreSection>
         )
