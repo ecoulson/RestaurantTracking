@@ -29,7 +29,7 @@ export default class ContactLogPricing extends React.Component<IPricingModel, IC
             <>
                 <LearnMoreSectionParagraph>{this.props.description}</LearnMoreSectionParagraph>
                 <LearnMoreSubtitle>Explore the setup cost</LearnMoreSubtitle>
-                <div style={{display: "flex"}}>
+                <div style={{display: "flex", flexWrap: "wrap"}}>
                     <DisplayPricingSection
                         onChange={this.handleTabletopDisplays}
                         label="Tabletop Displays"

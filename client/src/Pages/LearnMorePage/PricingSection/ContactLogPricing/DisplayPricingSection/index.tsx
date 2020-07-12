@@ -19,7 +19,7 @@ export default class DisplayPricingSection extends React.Component<IDisplayPrici
                 <NumberInput 
                     onChange={this.onChange} 
                     label={this.props.label}
-                    placeHolder={this.props.label}
+                    placeHolder={this.props.placeHolder}
                     icon={IconType.Image} />
             </div>
         )

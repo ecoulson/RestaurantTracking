@@ -34,11 +34,10 @@ export default class ProfilePictureSection extends React.Component<IProfilePictu
         this.updateProfilePicture = this.updateProfilePicture.bind(this);
     }
 
-    static getDerivedStateFromProps(props : IProfilePictureSectionProps, state : IProfilePictureSectionState) : IProfilePictureSectionState {
-        return {
-            ...state,
+    componentWillReceiveProps(props : IProfilePictureSectionProps) {
+        this.setState({
             profilePictureURL: props.profilePictureURL,
-        }
+        });
     }
 
     render() {

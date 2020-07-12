@@ -31,13 +31,12 @@ export default class UserInfoSection extends React.Component<IUserInfoSectionPro
         this.updateProfile = this.updateProfile.bind(this);
     }
 
-    static getDerivedStateFromProps(props : IUserInfoSectionProps, state : IUserInfoSectionState) : IUserInfoSectionState {
-        return {
-            ...state,
+    componentWillReceiveProps(props : IUserInfoSectionProps) {
+        this.setState({
             username: new FormValue<string>(props.username, true),
             email: new FormValue<string>(props.email, true),
             fullName: new FormValue<string[]>([props.firstName, props.lastName], true),
-        }
+        });
     }
 
     render() {

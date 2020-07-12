@@ -32,6 +32,7 @@ ProductDatabase.set("restaurant", {
             description: "By adding a credit card to your restaurant you gain access to adding our solutions to your restaurant with the click of a button."
         }
     ],
+    sections: [],
     pricingModel: {
         description: "Explore the cost of bring your restaurant into the next era using our business services.",
         type: PricingModelType.RestaurantRegistration,
@@ -65,6 +66,7 @@ ProductDatabase.set("contact-logs", {
             description: "Know that your logs are secured in our system and are anonymous."
         }
     ],
+    sections: [],
     pricingModel: {
         description: "Calculate the setup and maintenance cost of a COVID-19 contact log for your business.",
         type: PricingModelType.ContactLog,
