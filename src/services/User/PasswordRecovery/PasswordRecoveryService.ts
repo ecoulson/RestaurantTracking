@@ -1,12 +1,12 @@
 import IPasswordRecoveryService from "./IPasswordRecoveryService";
 import UserModel from "../../../models/user/UserModel";
-import ITokenSerivce from "../../Token/ITokenService";
+import ITokenService from "../../Token/ITokenService";
 import TokenService from "../../Token/TokenService";
 import Scope from "../../Token/Scope";
 import PasswordRecoveryEmail from "../../../lib/Email/PasswordRecoveryEmail"
 
 export default class PasswordRecoveryService implements IPasswordRecoveryService {
-    private tokenService : ITokenSerivce;
+    private tokenService : ITokenService;
 
     constructor() {
         this.tokenService = new TokenService([Scope.ResetPassword], 1);
@@ -17,7 +17,7 @@ export default class PasswordRecoveryService implements IPasswordRecoveryService
         if (!user) {
             throw new Error(`No user with email ${email}`)
         }
-        await this.tokenService.deleteExisitingToken(user);
+        await this.tokenService.deleteExistingToken(user);
         const token = await this.tokenService.generate(user);
         const recoveryMessage = new PasswordRecoveryEmail(user, token);
         return await recoveryMessage.send();

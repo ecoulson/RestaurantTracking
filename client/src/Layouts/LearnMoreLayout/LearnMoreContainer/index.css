@@ -27,4 +27,14 @@
     .learn-more-container {
         padding: 10px;
     }
+
+    .learn-more-wrapper {
+        padding: 0;
+    }
+}
+
+@media all and (max-width: 600px) {
+    .learn-more-container {
+        padding: 0;
+    }
 }

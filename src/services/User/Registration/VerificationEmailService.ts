@@ -2,44 +2,33 @@ import IVerificationEmailService from "./IVerificationEmailService";
 import TokenService from "../../Token/TokenService";
 import VerificationEmail from "../../../lib/Email/VerificationEmail";
 import IVerificationEmailData from "../../../lib/Email/IVerificationEmailData";
-import UserModel from "../../../models/user/UserModel";
-import IEmail from "../../../lib/Email/IEmail";
 import Scope from "../../Token/Scope";
-import ITokenSerivce from "../../Token/ITokenService";
+import ITokenService from "../../Token/ITokenService";
+import UserBroker from "../../../brokers/UserBroker";
+import EmailBroker from "../../../brokers/EmailBroker";
 
 export default class VerificationEmailService implements IVerificationEmailService {
-    private accessTokenService : ITokenSerivce;
+    private accessTokenService : ITokenService;
+    private userBroker : UserBroker;
+    private emailBroker : EmailBroker<IVerificationEmailData>;
 
     constructor() {
         this.accessTokenService = new TokenService([Scope.VerifyEmail], 24);
+        this.userBroker = new UserBroker();
+        this.emailBroker = new EmailBroker<IVerificationEmailData>();
     }
 
     async sendVerificationEmail(email : string) {
-        const user = await this.findUserWithEmail(email);
+        const user = await this.userBroker.findUserByEmail(email);
         if (!user) {
             throw new Error(`No user with email ${email}`)
         }
         if (user.verified) {
             throw new Error(`User with email ${email} is already verified`)
         }
-        await this.accessTokenService.deleteExisitingToken(user);
+        await this.accessTokenService.deleteExistingToken(user);
         const token = await this.accessTokenService.generate(user);
-        return await this.sendEmail(new VerificationEmail(user, token)) as IVerificationEmailData;
-    }
-
-    private async findUserWithEmail(email: string) {
-        try {
-            return await UserModel.findByEmail(email);
-        } catch(error) {
-            throw new Error(`Failed to find user with email ${email}`);
-        }
-    }
-
-    private async sendEmail(email : IEmail) {
-        try {
-            return await email.send();
-        } catch(error) {
-            throw new Error(`Failed to send email to ${email.getAddress()}`);
-        }
+        const verificationEmail = new VerificationEmail(user, token);
+        return await this.emailBroker.send(verificationEmail);
     }
 }

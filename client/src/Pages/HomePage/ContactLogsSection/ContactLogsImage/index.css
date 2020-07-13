@@ -1,7 +1,10 @@
 .contact-us-image {
-    width: 700px;
+    width: 75%;
+    min-width: 350px;
+    height: 50%;
     margin: 45px auto;
     z-index: 2;
+    display: block;
 }
 
 .contact-us-image > img {

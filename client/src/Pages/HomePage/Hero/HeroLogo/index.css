@@ -4,3 +4,11 @@
     width: 100px;
     position: absolute;
 }
+
+@media all and (max-width: 500px) {
+    .hero-logo-container {
+        top: 25px;
+        left: 25px;
+        width: 50px;
+    }
+}

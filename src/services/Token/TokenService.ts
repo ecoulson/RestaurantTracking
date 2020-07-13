@@ -3,11 +3,11 @@ import crypto from "crypto"
 import TokenModel from "../../models/token/TokenModel";
 import IToken from "../../models/token/IToken";
 import Scope from "./Scope";
-import ITokenSerivce from "./ITokenService";
+import ITokenService from "./ITokenService";
 
 const NumberOfBytes = 38
 
-export default class TokenService implements ITokenSerivce {
+export default class TokenService implements ITokenService {
     private scopes : Scope[];
     private tokenLifeTime : number;
 
@@ -53,7 +53,7 @@ export default class TokenService implements ITokenSerivce {
         }
     }
 
-    async deleteExisitingToken(user : IUser) {
+    async deleteExistingToken(user : IUser) {
         const tokens = await this.getUsersTokens(user);
         if (this.userHasTokens(tokens)) {
             return null;

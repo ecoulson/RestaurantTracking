@@ -84,7 +84,7 @@ describe("Email Verification Token Service", () => {
             TokenModel.findByUserId = jest.fn().mockRejectedValue(new Error());
 
             try {
-                await service.deleteExisitingToken(user);
+                await service.deleteExistingToken(user);
             } catch (error) {
                 expect(error).toEqual(new Error(`Failed to find tokens associatied with user ${user._id}`))
             }
@@ -96,7 +96,7 @@ describe("Email Verification Token Service", () => {
             const service = new TokenService(scope, hours);
             const user = userGenerator.generate();
 
-            const verificationToken = await service.deleteExisitingToken(user);
+            const verificationToken = await service.deleteExistingToken(user);
 
             expect(verificationToken).toEqual(null);
         });
@@ -108,7 +108,7 @@ describe("Email Verification Token Service", () => {
             const user = userGenerator.generate();
             TokenModel.findByUserId = jest.fn().mockResolvedValue([token]);
 
-            const verificationToken = await service.deleteExisitingToken(user);
+            const verificationToken = await service.deleteExistingToken(user);
 
             expect(verificationToken).toEqual(null);
         })
@@ -120,7 +120,7 @@ describe("Email Verification Token Service", () => {
             const user = userGenerator.generate();
             TokenModel.findByUserId = jest.fn().mockResolvedValue([token, token]);
 
-            const verificationToken = await service.deleteExisitingToken(user);
+            const verificationToken = await service.deleteExistingToken(user);
 
             expect(verificationToken).toEqual(null);
         })
@@ -134,7 +134,7 @@ describe("Email Verification Token Service", () => {
             TokenModel.prototype.remove = jest.fn().mockRejectedValue(new Error())
             
             try {
-                await service.deleteExisitingToken(user);
+                await service.deleteExistingToken(user);
             } catch (error) {
                 expect(error).toEqual(
                     new Error(`Failed to remove token with id ${token._id}`)
@@ -154,7 +154,7 @@ describe("Email Verification Token Service", () => {
             TokenModel.findByUserId = jest.fn().mockResolvedValue([forgotPasswordToken, expectedVerificationToken]);
             TokenModel.prototype.remove = jest.fn();
             
-            const verificationToken = await service.deleteExisitingToken(user);
+            const verificationToken = await service.deleteExistingToken(user);
 
             expect(verificationToken).toEqual(expectedVerificationToken);
         });

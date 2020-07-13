@@ -5,3 +5,31 @@
     width: 1000px;
     z-index: 0;
 }
+
+@media all and (max-width: 1400px) {
+    .triangle-bottom {
+        top: 775px;
+        right: -80px;
+        width: 800px;
+    }
+}
+
+@media all and (max-width: 1200px) {
+    .triangle-bottom {
+        top: 600px;
+        width: 600px;
+    }
+}
+
+@media all and (max-width: 1000px) {
+    .triangle-bottom {
+        top: 425px;
+        width: 400px;
+    }
+}
+
+@media all and (max-width: 700px) {
+    .triangle-bottom {
+        display: none;
+    }
+}

@@ -64,7 +64,7 @@ describe("Password Recovery Service", () => {
 
             await service.sendForgotPasswordEmail(user.email);
 
-            expect(TokenService.prototype.deleteExisitingToken).toHaveBeenCalledWith(user)
+            expect(TokenService.prototype.deleteExistingToken).toHaveBeenCalledWith(user)
         })
 
         test("Generates new forgot password token", async () => {

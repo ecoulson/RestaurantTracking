@@ -24,3 +24,9 @@
 #learn-more-section-top > .learn-more-section-wrapper > .button {
     margin: 10px 5px;
 }
+
+@media all and (max-width: 800px) {
+    .learn-more-section {
+        padding: 10px 25px;
+    }
+}

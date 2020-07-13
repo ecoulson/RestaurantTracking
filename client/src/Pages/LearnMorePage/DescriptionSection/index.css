@@ -11,17 +11,27 @@
 
 .description-section-text-container {
     width: 25%;
-    min-width: 400px;
+    min-width: 300px;
 }
 
 .description-section-image-container {
     width: 66%;
-    min-width: 400px;
+    min-width: 300px;
 }
 
 .description-section-image {
     width: 90%;
     margin: 0 auto;
     display: block;
-    height: 500px;
+    height: auto;
+    max-height: 500px;
+}
+
+@media all and (max-width: 800px) {
+    .description-section-text-container {
+        order: 1;
+    }
+    .description-section-image-container {
+        order: 2;
+    }
 }
