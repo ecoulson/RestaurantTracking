@@ -39,7 +39,6 @@ export default class PermissionBuilder implements IPermissionBuilder {
     setResourceId(id: string) {
         this.resourceId = id;
         return this as unknown as IPermissionBuilder;
-
     }
 
     build() {

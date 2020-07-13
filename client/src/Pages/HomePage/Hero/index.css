@@ -1,6 +1,5 @@
 .hero {
-    width: 100vw;
-    box-sizing: border-box; 
+    width: 100%;
     min-height: 100vh;
     background: url("./hero-background.png");
     background-size: cover;

@@ -1,5 +1,5 @@
 .logo-title {
-    font-family: 'Ubuntu', sans-serif;
+    font-family: 'sweet-sans-pro', sans-serif;
     color: white;
     text-align: center;
     margin: 0;
@@ -22,7 +22,7 @@
 .logo-title-horizontal {
     margin-top: 0px;
     text-align: left;
-    margin-top: 30px;
+    margin-top: 18px;
 }
 
 .logo-title-horizontal > .logo-title-top {

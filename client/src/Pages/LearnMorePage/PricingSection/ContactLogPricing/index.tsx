@@ -13,12 +13,12 @@ export default class ContactLogPricing extends React.Component<IPricingModel, IC
     constructor(props : IPricingModel) {
         super(props);
         this.state = {
-            months: 0,
+            years: 1,
             standingDisplays: 0,
             tableTopDisplays: 0,
             wallDisplays: 0
         }
-        this.handleMonthInput = this.handleMonthInput.bind(this);
+        this.handleYearsInput = this.handleYearsInput.bind(this);
         this.handleTabletopDisplays = this.handleTabletopDisplays.bind(this);
         this.handleStandingDisplays = this.handleStandingDisplays.bind(this);
         this.handleWallDisplays = this.handleWallDisplays.bind(this);
@@ -34,34 +34,34 @@ export default class ContactLogPricing extends React.Component<IPricingModel, IC
                         onChange={this.handleTabletopDisplays}
                         label="Tabletop Displays"
                         placeHolder="Enter number of tabletop display(s)"
-                        image="https://alpineindustries.com/wp-content/uploads/2020/02/acrylic-sign-holder-639-8511-tl.jpg"/>
+                        image="/table-display.png"/>
                     <DisplayPricingSection 
                         onChange={this.handleWallDisplays} 
                         label="Wall Displays"
                         placeHolder="Enter number of wall display(s)"
-                        image="https://www.fixturedisplays.com/image/data/10772-3%208511%20acrylic/10772-3%208511%20acrylic.JPG" />
+                        image="/wall-display.png" />
                     <DisplayPricingSection 
                         onChange={this.handleStandingDisplays} 
                         label="Standing Displays"
                         placeHolder="Enter number of standing display(s)"
-                        image="https://m.media-amazon.com/images/I/61-tPg0dvNL._SR500,500_.jpg" />
+                        image="/standing-display.png" />
                 </div>
                 <LearnMoreSectionParagraph>{this.getSetupPriceString()}</LearnMoreSectionParagraph>
-                <LearnMoreSubtitle>Maintain and secure your contact log for the monthly price of </LearnMoreSubtitle>
-                <LearnMoreSectionParagraph>{this.getMonthlyPriceString()}</LearnMoreSectionParagraph>
+                <LearnMoreSubtitle>Maintain and secure your contact log for the yearly price of </LearnMoreSubtitle>
+                <LearnMoreSectionParagraph>{this.getYearlyPriceString()}</LearnMoreSectionParagraph>
                 <LearnMoreSubtitle>See the cost over time</LearnMoreSubtitle>
                 <NumberInput 
-                    onChange={this.handleMonthInput} 
-                    label="Months"
-                    placeHolder="Enter months"
+                    onChange={this.handleYearsInput} 
+                    label="Years"
+                    placeHolder="Enter years"
                     icon={IconType.Calendar} />
                 <LearnMoreSectionParagraph>{this.getFuturePrice()}</LearnMoreSectionParagraph>
             </>
         )
     }
 
-    private handleMonthInput(months: number) {
-        this.setState({ months: this.getValue(months) })
+    private handleYearsInput(years: number) {
+        this.setState({ years: this.getValue(years) })
     }
 
     private handleTabletopDisplays(tableTopDisplays: number) {
@@ -90,14 +90,15 @@ export default class ContactLogPricing extends React.Component<IPricingModel, IC
         return `$${strategy.calculatePrice(parameters).setup.toFixed(2)}`
     }
 
-    private getMonthlyPriceString() {
+    private getYearlyPriceString() {
         const strategy = this.props.pricingStrategy as ContactLogPricingStrategy;
         const parameters = new ContactLogPricingParameters(
             this.state.standingDisplays,
             this.state.tableTopDisplays,
             this.state.wallDisplays
         )
-        return `$${strategy.calculatePrice(parameters).monthly} / Month`
+        const price = strategy.calculatePrice(parameters);
+        return `$${(price.setup + price.monthly).toFixed(2)} / Year`
     }
 
     private getFuturePrice() {
@@ -108,6 +109,6 @@ export default class ContactLogPricing extends React.Component<IPricingModel, IC
             this.state.wallDisplays
         )
         const price = strategy.calculatePrice(parameters);
-        return `$${(price.setup + price.monthly * this.state.months).toFixed(2)} / After ${this.state.months} Months`
+        return `$${(price.setup + price.monthly * this.state.years).toFixed(2)} / After ${this.state.years} Years`
     }
 }
