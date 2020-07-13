@@ -16,7 +16,8 @@ const PermissionSchema = new Schema({
         type: String,
         enum: [
             "Restaurant",
-            "User"
+            "User",
+            "Organization"
         ],
         required: true
     },

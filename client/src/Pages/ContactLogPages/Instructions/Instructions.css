@@ -1,10 +1,9 @@
 .instructions {
-    font-size: 18px;
-    line-height: 26px;
-    text-align: left;
-    letter-spacing: 0.9px;
+    font-size: 16px;
+    line-height: 22px;
+    text-align: center;
     color: white;
-    font-weight: 500;
+    font-weight: 400;
     width: 285px;
-    margin: 0 auto;
+    margin: 25px auto;
 }

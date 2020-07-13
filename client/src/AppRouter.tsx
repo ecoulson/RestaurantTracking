@@ -29,6 +29,7 @@ import HelpPage from "./Pages/HelpPage";
 import LegalPage from "./Pages/LegalPage";
 import AuthenticationLayout from "./Layouts/AuthenticationLayout";
 import HomePage from "./Pages/HomePage";
+import PinEmailPage from "./Pages/ContactLogPages/EducationCheckin/PinEmailPage";
 
 export default class AppRouter extends React.Component<{}, IAppRouterState> {
     constructor(props: {}) {
@@ -124,6 +125,11 @@ export default class AppRouter extends React.Component<{}, IAppRouterState> {
                     <Route exact path="/check-in">
                         <App />
                     </Route>
+                    <Route exact path="/check-in/:organizationId/login" render={
+                        (props) => (
+                            <PinEmailPage {...props} />
+                        )
+                    }/>
                     <Route exact path="/help">
                         <AuthenticateActiveSession showError={this.showError}>
                             <HelpPage />
