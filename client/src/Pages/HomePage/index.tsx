@@ -13,8 +13,8 @@ export default class HomePage extends React.Component {
                 <Hero />
                 <div style={{position: "relative", overflow: "hidden"}}>
                     <div style={{zIndex: 2}}>
-                        <ContactSection />
                         <ContactLogsSection />
+                        <ContactSection />
                     </div>
                     <div style={{zIndex: 1}}>
                         <TriangleTop />

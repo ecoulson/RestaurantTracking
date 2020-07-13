@@ -9,7 +9,7 @@ import IRequestProps from "../IRequestProps";
 
 const MessageTimeOut = 5 * 1000; // 5 seconds
 
-export default abstract class RequestComponent<P extends IRequestProps<any>> extends React.Component<P, IRequestState> {
+export default abstract class RequestComponent<P extends IRequestProps<T>, T = {}> extends React.Component<P, IRequestState> {
     constructor(props : P) {
         super(props);
         this.state = {
@@ -122,7 +122,7 @@ export default abstract class RequestComponent<P extends IRequestProps<any>> ext
         return error.response && this.getErrorStatusMessage().has(error.response.status)
     }
 
-    protected abstract async onLoad() : Promise<IResponse<any>>;
+    protected abstract async onLoad() : Promise<IResponse<T>>;
 
     render() {
         return <Toast type={this.state.type} message={this.state.message} />

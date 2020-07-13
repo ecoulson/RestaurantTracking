@@ -102,14 +102,14 @@ export default class FormInput extends React.Component<IFormInputProps, IFormInp
                 textDecoration: "line-through",
                 backgroundColor: "rgb(14, 23, 34)"
             } : {
-                backgroundColor: "#1B2D42"
+                backgroundColor: "transparent"
             }
         } else {
             return this.props.disabled ? {
                 textDecoration: "line-through",
-                backgroundColor: "#E8E8E8)"
-            } : {
                 backgroundColor: "#E8E8E8"
+            } : {
+                backgroundColor: "transparent"
             }
         }
     }

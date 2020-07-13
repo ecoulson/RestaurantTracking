@@ -1,8 +1,8 @@
-import IOrganizationAccountService from "./IOrganizationAccountService";
-import OrganizationBroker from "../../brokers/OrganizationBrooker";
-import UserModel from "../../models/user/UserModel";
+import IOrganizationAccountExistsService from "./IOrganizationAccountExistsService";
+import OrganizationBroker from "../../../brokers/OrganizationBroker";
+import UserModel from "../../../models/user/UserModel";
 
-export default class OrganizationAccountService implements IOrganizationAccountService {
+export default class OrganizationAccountExistsService implements IOrganizationAccountExistsService {
     private organizationBroker : OrganizationBroker;
 
     constructor() {
@@ -17,7 +17,7 @@ export default class OrganizationAccountService implements IOrganizationAccountS
         })[0];
         const users = await UserModel.find({
             $and: [
-                { permissionSets: [studentPermissionSet._id] },
+                { permissionSets: studentPermissionSet._id },
                 { email: email }
             ]
         });

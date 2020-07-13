@@ -13,8 +13,6 @@
     font-family: 'sweet-sans-pro';
     outline: none;
     transition: all 0.5s ease;
-    display: block;
-    width: 250px;
     text-align: center;
 }
 
@@ -22,4 +20,13 @@
     cursor: pointer;
     color: black;
     background-color: #CBCACA;    
+}
+
+.simple-button-container {
+    margin: 50px 0;
+}
+
+.simple-button-container-center {
+    display: flex;
+    justify-content: center;
 }

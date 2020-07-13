@@ -1,3 +1,3 @@
-export default interface IOrganizationAccountService {
+export default interface IOrganizationAccountExistsService {
     hasAccount(organizationId: string, email : string) : Promise<boolean>;
 }

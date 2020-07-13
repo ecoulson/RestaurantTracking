@@ -3,9 +3,11 @@ import UserModel from "../../models/user/UserModel";
 import IUser from "../../models/user/IUser";
 import bcrypt from "bcrypt";
 import jsonwebtoken from "jsonwebtoken";
+import LoginArguments from "./LoginArguments";
 
 export default class AuthenticationService implements IAuthenticationService {
-    async login(username: string, password: string) {
+    async login(parameters : LoginArguments) {
+        const { username, password } = parameters;
         const user = await this.getUser(username);
         this.ensureUserExists(user, username);
         await this.checkPassword(user, password);
@@ -16,7 +18,7 @@ export default class AuthenticationService implements IAuthenticationService {
         try {
             return await UserModel.findByUsername(username);
         } catch(error) {
-            throw new Error(`Error occured while finding ${username}`);
+            throw new Error(`Error ocurred while finding ${username}`);
         }
     }
 
@@ -28,7 +30,7 @@ export default class AuthenticationService implements IAuthenticationService {
 
     private async checkPassword(user : IUser, password : string) {
         if (!await this.isCorrectPassword(user, password)) {
-            throw new Error(`Loggin for ${user._id} failed because passwords did not match`);
+            throw new Error(`Login for ${user._id} failed because passwords did not match`);
         }
     }
 
@@ -37,7 +39,7 @@ export default class AuthenticationService implements IAuthenticationService {
             return await bcrypt.compare(password, user.password);
         } catch (error) {
             throw new Error(
-                `Error occured while comparing password for user with id ${user._id}`
+                `Error ocurred while comparing password for user with id ${user._id}`
             )
         }
     }

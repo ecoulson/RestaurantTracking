@@ -1,5 +1,5 @@
 import { RouteComponentProps } from "react-router-dom";
 
-export default interface IPinEmailPageProps extends RouteComponentProps<{
+export default interface IPINEmailPageProps extends RouteComponentProps<{
     organizationId: string;
 }>{}

@@ -42,7 +42,7 @@ ProductDatabase.set("restaurant", {
 
 ProductDatabase.set("contact-logs", {
     productName: "contact-logs",
-    name: "Safer-at-school Contract Logs for Colleges and Universities",
+    name: "Safer-at-school Contact Logs for Colleges and Universities",
     description: "Students enter a contact log with the choice of a simple hover, scan, or link. Our data empowers schools to make smart, data informed decisions.",
     overview: {
         title: "Help track the spread of COVID-19",
@@ -70,7 +70,7 @@ ProductDatabase.set("contact-logs", {
         {
             title: "Touchless check-ins/check-outs",
             mediaURL: "https://bestcellphonespyapps.com/wp-content/uploads/2018/04/shutterstock_269190068.jpg",
-            description: "Adapt Solutions offers touch free check-ins for buildings and rooms. We are committed to working with you to provide quality displays and custom branding. Our displays employ NFC technology for streamlined check-in. Individuals hover over our poster and will be directed to a page indicating that they can enter the building. We also have QRs incorporated on our poster offer an alternative to NFC chip usage and Bit.ly urls that direct individuals to pages manually."
+            description: "Adapt Solutions offers touch-free check-ins for buildings and rooms. We are committed to working with you to provide quality displays and custom branding. Our displays employ NFC technology for streamlined check-in. Individuals hover over our poster and will be directed to a page indicating that they can enter the building. We also have QRs incorporated on our poster offer an alternative to NFC chip usage and Bit.ly urls that direct individuals to pages manually."
         },
         {
             title: "Simple Authentication",

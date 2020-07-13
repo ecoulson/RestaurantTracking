@@ -18,12 +18,12 @@
 
 .form-raw-input-dark {
     color: white;
-    background-color: #1B2D42;
+    background-color: transparent;
 }
 
 .form-raw-input-light {
     color: #3B3A39;
-    background-color: #E8E8E8;
+    background-color: transparent;
 }
 
 .custom-date {
@@ -51,12 +51,12 @@
 
 .form-raw-input-dark:-webkit-autofil {
     color: white !important;
-    background-color: #1B2D42;
+    background-color: transparent;
 }
 
 .form-raw-input-dark:-internal-autofill-selected {
     color: white !important;
-    background-color: #1B2D42 !important;
+    background-color: transparent !important;
 }
 
 .form-raw-input-dark:-webkit-autofill {
@@ -84,12 +84,12 @@
 
 .form-raw-input-light:-webkit-autofil {
     color: #3B3A39 !important;
-    background-color: #E8E8E8;
+    background-color: transparent;
 }
 
 .form-raw-input-light:-internal-autofill-selected {
     color: #3B3A39 !important;
-    background-color: #E8E8E8 !important;
+    background-color: transparent !important;
 }
 
 .form-raw-input-light:-webkit-autofill {

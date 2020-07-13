@@ -29,7 +29,11 @@ import HelpPage from "./Pages/HelpPage";
 import LegalPage from "./Pages/LegalPage";
 import AuthenticationLayout from "./Layouts/AuthenticationLayout";
 import HomePage from "./Pages/HomePage";
-import PinEmailPage from "./Pages/ContactLogPages/EducationCheckin/PinEmailPage";
+import PINEmailPage from "./Pages/ContactLogPages/EducationCheckin/PINEmailPage";
+import PINLoginPage from "./Pages/ContactLogPages/EducationCheckin/PINLoginPage";
+import SetPINPage from "./Pages/ContactLogPages/EducationCheckin/SetPINPage";
+import ResetPINPage from "./Pages/ContactLogPages/EducationCheckin/ResetPINPage";
+import VerifyPINAccountPage from "./Pages/ContactLogPages/EducationCheckin/VerifyPINAccountPage";
 
 export default class AppRouter extends React.Component<{}, IAppRouterState> {
     constructor(props: {}) {
@@ -127,7 +131,27 @@ export default class AppRouter extends React.Component<{}, IAppRouterState> {
                     </Route>
                     <Route exact path="/check-in/:organizationId/login" render={
                         (props) => (
-                            <PinEmailPage {...props} />
+                            <PINEmailPage {...props} />
+                        )
+                    }/>
+                    <Route exact path="/check-in/:organizationId/login-PIN" render={
+                        (props) => (
+                            <PINLoginPage {...props} />
+                        )
+                    }/>
+                    <Route exact path="/check-in/:organizationId/set-PIN" render={
+                        (props) => (
+                            <SetPINPage {...props} />
+                        )
+                    }/>
+                    <Route exact path="/check-in/:organizationId/reset-PIN" render={
+                        (props) => (
+                            <ResetPINPage {...props} />
+                        )
+                    }/>
+                    <Route exact path="/check-in/:organizationId/verify-account" render={
+                        (props) => (
+                            <VerifyPINAccountPage {...props} />
                         )
                     }/>
                     <Route exact path="/help">

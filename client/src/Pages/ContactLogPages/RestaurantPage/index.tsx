@@ -1,5 +1,5 @@
 import Logo from '../../../Components/Logo';
-import RestaurantName from '../RestaurantName';
+import OrganizationName from '../OrganizationName';
 import Instructions from '../Instructions';
 import Form from '../../../Components/Form';
 import Button from '../../../Components/Button';
@@ -77,7 +77,7 @@ export default class RestaurantPage extends React.Component<IPageProps, IRestaur
             <>
                 <Toast type={ToastType.Error} message={this.state.errorMessage} />
                 <Logo dark/>
-                <RestaurantName>{this.state.restaurantName}</RestaurantName>
+                <OrganizationName>{this.state.restaurantName}</OrganizationName>
                 <Instructions>Please enter one of the following:</Instructions>
                 <Form onSubmit={this.handleSubmit} isSubmitting={this.state.isSubmitting}>
                     <SlideSwitch optionWidth={120} onChange={this.handleSlideSwitchChange}>

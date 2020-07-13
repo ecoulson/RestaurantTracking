@@ -1,8 +1,9 @@
 import Axios from "axios";
 import ILoginRequestProps from "./ILoginRequestProps";
 import RequestComponent from "../RequestComponent";
+import ILoginResponse from "./ILoginResponse";
 
-export default class LoginRequest extends RequestComponent<ILoginRequestProps> {
+export default class LoginRequest extends RequestComponent<ILoginRequestProps, ILoginResponse> {
     getFailureMessage() {
         return "Invalid credentials";
     }
