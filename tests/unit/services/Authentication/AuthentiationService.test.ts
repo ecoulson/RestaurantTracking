@@ -3,6 +3,7 @@ import AuthenticationService from "../../../../src/services/Authentication/Authe
 import UserModel from "../../../../src/models/user/UserModel";
 import jsonwebtoken from "jsonwebtoken";
 import UserGenerator from "../../../mocks/Generators/UserGenerator";
+import LoginArguments from "../../../../src/services/Authentication/LoginArguments";
 
 const compare = bcrypt.compare;
 const userGenerator = new UserGenerator();
@@ -25,7 +26,7 @@ describe("Authentication Service", () => {
             UserModel.findByUsername = jest.fn().mockResolvedValue(null)
 
             try {
-                await service.login(user.username, user.password);
+                await service.login(new LoginArguments(user.username, user.password));
             } catch(error) {
                 expect(error).toEqual(new Error(`No user with username ${user.username}`));
             }
@@ -38,9 +39,9 @@ describe("Authentication Service", () => {
             UserModel.findByUsername = jest.fn().mockRejectedValue(new Error())
 
             try {
-                await service.login(user.username, user.password);
+                await service.login(new LoginArguments(user.username, user.password));
             } catch(error) {
-                expect(error).toEqual(new Error(`Error occured while finding ${user.username}`));
+                expect(error).toEqual(new Error(`Error ocurred while finding ${user.username}`));
             }
             expect.assertions(1);
         });
@@ -51,16 +52,16 @@ describe("Authentication Service", () => {
             UserModel.findByUsername = jest.fn().mockResolvedValue(user)
 
             try {
-                await service.login(user.username, "");
+                await service.login(new LoginArguments(user.username, ""));
             } catch(error) {
                 expect(error).toEqual(
-                    new Error(`Loggin for ${user._id} failed because passwords did not match`)
+                    new Error(`Login for ${user._id} failed because passwords did not match`)
                 );
             }
             expect.assertions(1);
         });
 
-        test("Should fail to login because an error occured while comparing the password", async () => {
+        test("Should fail to login because an error ocurred while comparing the password", async () => {
             userGenerator.setVerified();
             const user = userGenerator.generate();
             const service = new AuthenticationService();
@@ -68,10 +69,10 @@ describe("Authentication Service", () => {
             UserModel.findByUsername = jest.fn().mockResolvedValue(user)
 
             try {
-                await service.login(user.username, user.password);
+                await service.login(new LoginArguments(user.username, user.password));
             } catch(error) {
                 expect(error).toEqual(
-                    new Error(`Error occured while comparing password for user with id ${user._id}`)
+                    new Error(`Error ocurred while comparing password for user with id ${user._id}`)
                 );
             }
             expect.assertions(1);
@@ -84,10 +85,10 @@ describe("Authentication Service", () => {
             UserModel.findByUsername = jest.fn().mockResolvedValue(user)
 
             try {
-                await service.login(user.username, "");
+                await service.login(new LoginArguments(user.username, ""));
             } catch(error) {
                 expect(error).toEqual(
-                    new Error(`Loggin for ${user._id} failed because passwords did not match`)
+                    new Error(`Login for ${user._id} failed because passwords did not match`)
                 );
             }
             expect.assertions(1);
@@ -101,7 +102,7 @@ describe("Authentication Service", () => {
             user.password = bcrypt.hashSync(user.password, 10)
             UserModel.findByUsername = jest.fn().mockResolvedValue(user);
 
-            const foundUser = await service.login(user.username, password);
+            const foundUser = await service.login(new LoginArguments(user.username, password));
 
             expect(foundUser.serialize()).toEqual(user.serialize());
         })
@@ -114,7 +115,7 @@ describe("Authentication Service", () => {
             user.password = bcrypt.hashSync(user.password, 10)
             UserModel.findByUsername = jest.fn().mockResolvedValue(user);
 
-            const foundUser = await service.login(user.username, password);
+            const foundUser = await service.login(new LoginArguments(user.username, password));
 
             expect(foundUser.serialize()).toEqual(user.serialize());
         })
