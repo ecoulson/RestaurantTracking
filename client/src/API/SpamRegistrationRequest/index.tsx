@@ -2,7 +2,7 @@ import RequestComponent from "../RequestComponent";
 import ISpamRegistrationRequestProps from "./ISpamRegistrationRequestProps";
 import Axios from "axios";
 
-export default class SpamRegistrationRequest extends RequestComponent<ISpamRegistrationRequestProps> {
+export default class SpamRegistrationRequest extends RequestComponent<ISpamRegistrationRequestProps, {}> {
     getSuccessMessage() {
         return "Successfully canceled registration"
     }

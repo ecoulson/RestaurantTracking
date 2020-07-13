@@ -1,0 +1,22 @@
+.pin-digit-input {
+    height: 100px;
+    width: 50px;
+    margin: 0 10px;
+    font-size: 50px;
+    text-align: center;
+    outline: none;
+    background-color: transparent;
+    border: none;
+    color: #cacaca;
+    font-family: 'myriad-pro';
+    border-bottom: 1px solid #707070;
+    transition: 0.25s all;
+    padding: 25px 5px 15px;
+    box-sizing: border-box;
+    border-radius: 0px;
+}
+
+.pin-digit-input-complete {
+    color:white;
+    border-bottom: 1px solid white;
+}

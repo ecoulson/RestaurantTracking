@@ -1,0 +1,11 @@
+.reset-link {
+    text-align: center;
+    color: #37D2A7;
+    text-decoration: none;
+    margin: 0 auto 25px;
+    display: block;
+}
+
+.reset-link:hover {
+    text-decoration: underline;
+}

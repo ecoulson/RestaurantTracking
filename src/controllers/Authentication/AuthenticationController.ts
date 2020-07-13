@@ -5,6 +5,7 @@ import ILoginBody from "./ILoginBody";
 import JSONResponse from "../../lib/HTTP/JSONResponse";
 import jsonwebtoken from "jsonwebtoken";
 import UserModel from "../../models/user/UserModel";
+import LoginArguments from "../../services/Authentication/LoginArguments";
 
 export default class AuthenticationController {
     authenticationService : IAuthenticationService;
@@ -16,7 +17,7 @@ export default class AuthenticationController {
     handleLogin() : RequestHandler {
         return async (request : Request, response : Response) => {
             const body : ILoginBody = request.body as ILoginBody;
-            const user = await this.authenticationService.login(body.username, body.password);
+            const user = await this.authenticationService.login(new LoginArguments(body.username, body.password));
             const token = await this.authenticationService.generateAccessToken(
                 user,
                 body.rememberMe

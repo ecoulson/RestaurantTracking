@@ -1,34 +1,34 @@
-import IOrganizationAccountService from "../../services/Organization/IOrganizationAccountService";
-import OrganizationAccountService from "../../services/Organization/OrganizationAccountService";
 import IOrganizationController from "./IOrganizationController";
 import { Request, Response } from "express";
 import JSONResponse from "../../lib/HTTP/JSONResponse";
-import IRegisterOrganizationService from "../../services/Organization/IRegisterOrganizationService";
-import RegisterOrganizationService from "../../services/Organization/RegisterOrganizationService";
+import IRegisterOrganizationService from "../../services/Organization/Registration/IRegisterOrganizationService";
+import RegisterOrganizationService from "../../services/Organization/Registration/RegisterOrganizationService";
+import IGetOrganizationService from "../../services/Organization/IGetOrganizationService";
+import GetOrganizationService from "../../services/Organization/GetOrganizationService";
 
 export default class OrganizationController implements IOrganizationController {
-    private organizationAccountService : IOrganizationAccountService;
-    private registerOrganization : IRegisterOrganizationService; 
+    private registerOrganizationService : IRegisterOrganizationService;
+    private getOrganizationService : IGetOrganizationService;
 
     constructor() {
-        this.organizationAccountService = new OrganizationAccountService();
-        this.registerOrganization = new RegisterOrganizationService();
-    }
-
-    handleAccountSignOn() {
-        return async (request : Request, response : Response) => {
-            const isRegistered = await this.organizationAccountService.hasAccount(request.params.organizationId, request.body.email);
-            new JSONResponse(response).send({ isRegistered })
-        }
+        this.registerOrganizationService = new RegisterOrganizationService();
+        this.getOrganizationService = new GetOrganizationService();
     }
 
     handleOrganizationRegistration() {
         return async (request : Request, response : Response) => {
-            const organization = await this.registerOrganization.registerOrganization(
+            const organization = await this.registerOrganizationService.registerOrganization(
                 request.body.organizationId, 
                 request.body.organizationName
             );
             new JSONResponse(response).send({ organization });
+        }
+    }
+
+    handleGetOrganizationName() {
+        return async (request : Request, response : Response) => {
+            const organization = await this.getOrganizationService.getOrganization(request.params.organizationId)
+            new JSONResponse(response).send({ organizationName: organization.organizationName })
         }
     }
 }

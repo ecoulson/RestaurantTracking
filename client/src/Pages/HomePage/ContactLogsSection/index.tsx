@@ -1,7 +1,7 @@
 import React from "react";
 import "./index.css";
 import ContactLogsTitle from "./ContactLogsTitle";
-import ContactParagraph from "../ContactSection/ContactParagraph";
+import ContactLogsImage from "./ContactLogsImage";
 import ContactLogsParagraph from "./ContactLogsParagraph";
 
 export default class ContactLogsSection extends React.Component {
@@ -12,6 +12,7 @@ export default class ContactLogsSection extends React.Component {
                     <ContactLogsTitle />
                     <div className="contact-logs-content">
                         <ContactLogsParagraph />
+                        <ContactLogsImage />
                     </div>
                 </div>
             </div>

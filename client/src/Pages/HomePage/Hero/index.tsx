@@ -16,7 +16,7 @@ export default class Hero extends React.Component {
                 <HeroMenu />
                 <div className="hero-container">
                     <HeroInfo />
-                    <SimpleButton to="/login">See Our Work</SimpleButton>
+                    <SimpleButton center to="/register">Create Account</SimpleButton>
                 </div>
                 <HeroScrollArrow />
             </div>

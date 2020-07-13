@@ -5,6 +5,22 @@ import ISimpleButtonProps from "./ISimpleButtonProps";
 
 export default class SimpleButton extends React.Component<ISimpleButtonProps> {
     render() {
-        return <Link to={this.props.to ? this.props.to : ""} className="simple-button">{this.props.children}</Link>
+        return (
+            <div className={`simple-button-container ${this.getCenterClass()}`}>
+                {this.getLink()}
+            </div>
+        );
+    }
+
+    getLink() {
+        return this.props.email ?
+            <a href={`mailto:${this.props.email}`} className="simple-button">{this.props.children}</a> :
+            <Link to={this.props.to ? this.props.to : ""} className="simple-button">{this.props.children}</Link>
+    }
+
+    getCenterClass() {
+        return this.props.center ?
+            "simple-button-container-center" :
+            ""
     }
 }

@@ -7,12 +7,12 @@ export default class ContactParagraph extends React.Component {
         return (
             <div className="contact-paragraph-container">
                 <p className="contact-paragraph">
-                    With uncertainty at an all time high and cashflow at an all-time low, we strive to provide the highest quality solutions at the <b>lowest possible solutions</b>
+                    We work with COVID-19 related record systems. Our products and services empower you to prevent and stop the spread of COVID-19. 
                 </p>
                 <p className="contact-paragraph">
-                    Whether one of our products interests you and your team, or you have an idea for something you need, please feel free to
+                    If one of our products interests you and your team, or you have an idea for something you need, please feel free to contact us.
                 </p>
-                <SimpleButton to="/contact">Contact Us</SimpleButton>
+                <SimpleButton email="communications@adaptsolutions.tech" center>Contact Us</SimpleButton>
             </div>
         )
     }

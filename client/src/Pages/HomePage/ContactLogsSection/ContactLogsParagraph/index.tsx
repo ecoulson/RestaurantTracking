@@ -7,10 +7,10 @@ export default class ContactLogsParagraph extends React.Component {
         return (
             <div className="contact-logs-paragraph-container">
                 <p className="contact-logs-paragraph">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis nisl ex, ullamcorper eu justo vitae, ornare egestas odio. Proin et velit lacus. Quisque porta nisi turpis, quis pharetra lorem bibendum vel. Etiam in euismod purus, a consequat lectus. In id ornare lacus. Donec ac sodales enim. Nam sapien nisi, aliquet a elit vel, tristique molestie ex. Donec gravida pharetra mi vitae malesuada.
+                    Adapt Solutions offers touch-free check-ins for buildings and rooms. We are committed to working with you to provide quality displays and custom branding. Our displays employ NFC technology for streamlined check-in.
                 </p>
                 <p className="contact-logs-paragraph">
-                    Mauris pretium dui nec aliquam sagittis. Vestibulum cursus lorem pretium sapien molestie consectetur. Proin vitae erat nec augue consequat tempor. Praesent non nisl felis. Donec pulvinar nulla eget mauris porttitor, nec tempus felis sagittis. Nulla quis felis ac justo tincidunt mollis placerat vel risus. Nullam posuere dolor a massa fringilla consectetur.
+                    Individuals hover over our poster and will be directed to a page indicating that they can enter the building. We also have QRs incorporated on our poster offer an alternative to NFC chip usage and Bit.ly urls that direct individuals to pages manually.
                 </p>
                 <SimpleButton to="/learn-more/contact-logs">Learn More</SimpleButton>
             </div>
