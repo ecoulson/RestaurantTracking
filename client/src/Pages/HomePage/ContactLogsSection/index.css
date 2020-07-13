@@ -1,17 +1,28 @@
 .contact-logs-section {
     width: 100vw;
     min-height: 100vh;
+    position: relative;
     z-index: 2;
-    background: transparent linear-gradient(180deg, #010101 0%, #242C48 100%) 0% 0% no-repeat padding-box;
 }
 
 .contact-logs-section-wrapper {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 25px;
+    padding: 25px 50px;
 }
 
 .contact-logs-content {
     display: flex;
-    flex-wrap: wrap;
+}
+
+@media all and (max-width: 600px) {
+    .contact-logs-section-wrapper {
+        padding: 10px;
+    }
+}
+
+@media all and (max-width: 900px) {
+    .contact-logs-content {
+        display: block;
+    }
 }

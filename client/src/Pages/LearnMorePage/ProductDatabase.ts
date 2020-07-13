@@ -45,7 +45,7 @@ ProductDatabase.set("contact-logs", {
     name: "Safer-at-school Contact Logs for Colleges and Universities",
     description: "Students enter a contact log with the choice of a simple hover, scan, or link. Our data empowers schools to make smart, data informed decisions.",
     overview: {
-        title: "Help track the spread of COVID-19",
+        title: "Returning responsibly during COVID-19",
         about: "Safer-at-School Contact Logs help you to track infected individuals, monitor building capacity, and identify choke points and high risk areas. Check-in and check-out displays at entrances and exits improve your ability to quarantine exposed individuals, reduce high density check-ins by identifying busy checkpoints, and to enforce a building capacity.",
         mediaPath: "https://wesley.edu/wp-content/uploads/2020/01/South-1-900x500.jpg"
     },

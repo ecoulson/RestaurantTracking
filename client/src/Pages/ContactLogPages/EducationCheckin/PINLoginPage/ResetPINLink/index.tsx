@@ -14,6 +14,7 @@ export default class ResetPINLink extends React.Component<{}, IResetPINLink> {
 
     // TODO: Send Reset Pin Email Request
     // TODO: Create PIN Account and Send Verification Email
+    // TODO: Verify Accounts
 
     render() {
         return (

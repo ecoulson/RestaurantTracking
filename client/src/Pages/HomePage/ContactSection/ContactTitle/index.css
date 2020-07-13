@@ -8,3 +8,19 @@
     padding: 150px 0px 35px;
     margin: 0;
 }
+
+@media all and (max-width : 800px) {
+    .contact-title {
+        padding: 75px 0px 25px;
+        line-height: 62px;
+        font-size: 36px;
+    }
+}
+
+@media all and (max-width : 600px) {
+    .contact-title {
+        padding: 50px 0px 25px;
+        font-size: 32px;
+        line-height: 50px;
+    }
+}

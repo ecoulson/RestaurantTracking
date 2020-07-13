@@ -6,9 +6,29 @@
 }
 
 .contact-logs-paragraph-container {
-    width: 500px;
+    max-width: 500px;
+    width: auto;
 }
 
 .contact-logs-paragraph-container > .simple-button {
     margin: 50px 0px 0px;
+}
+
+@media all and (max-width : 900px) {
+    .contact-logs-paragraph-container > .simple-button-container {
+        display: flex;
+        justify-content: center;
+    }
+
+    .contact-logs-paragraph {
+        font-size: 18px;
+        line-height: 35px;
+    }
+}
+
+@media all and (max-width : 600px) {
+    .contact-logs-paragraph {
+        line-height: 30px;
+        font-size: 18px;
+    }
 }

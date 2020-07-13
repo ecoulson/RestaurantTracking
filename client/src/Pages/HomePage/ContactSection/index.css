@@ -1,15 +1,15 @@
 .contact-section {
     min-height: 100vh;
     width: 100vw;
-    background: transparent linear-gradient(180deg, #242C48 0%, #45DFC2 100%) 0% 0% no-repeat padding-box;
     position: relative;
     overflow: hidden;
+    z-index: 2;
 }
 
 .contact-section-container {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 25px;
+    padding: 25px 50px;
 }
 
 .contact-content {

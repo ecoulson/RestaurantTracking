@@ -12,3 +12,11 @@
     cursor: pointer;
     stroke: #707070;
 }
+
+@media all and (max-width: 500px) {
+    .hero-menu  {
+        top: 40px;
+        right: 50px;
+        width: 50px;
+    }
+}

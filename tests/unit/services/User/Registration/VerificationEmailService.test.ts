@@ -18,36 +18,6 @@ const tokenGenerator = new TokenGenerator();
 
 describe("Verification Email Service Suite", () => {
     describe("Send verification email", () => {
-        test("Fails to find a user with the given email", async () => {
-            const user = userGenerator.generate()
-            const service = new VerificationEmailService();
-            UserModel.findByEmail = jest.fn().mockRejectedValue(new Error());
-
-            try {
-                await service.sendVerificationEmail(user.email);
-            } catch (error) {
-                expect(error).toEqual(
-                    new Error(`Failed to find user with email ${user.email}`)
-                );
-            }
-            expect.assertions(1);
-        });
-
-        test("No user with the given email", async () => {
-            const user = userGenerator.generate()
-            const service = new VerificationEmailService();
-            UserModel.findByEmail = jest.fn().mockResolvedValue(null);
-
-            try {
-                await service.sendVerificationEmail(user.email);
-            } catch (error) {
-                expect(error).toEqual(
-                    new Error(`No user with email ${user.email}`)
-                );
-            }
-            expect.assertions(1);
-        });
-
         test("User is already verified", async () => {
             userGenerator.setVerified();
             const user = userGenerator.generate()
@@ -69,7 +39,7 @@ describe("Verification Email Service Suite", () => {
             const user = userGenerator.generate();
             TokenService
                 .prototype
-                .deleteExisitingToken = jest.fn().mockRejectedValue(
+                .deleteExistingToken = jest.fn().mockRejectedValue(
                     new Error(`Failed to delete existing verification token ${user.email}`)
                 );
             UserModel.findByEmail = jest.fn().mockResolvedValue(user);
@@ -84,31 +54,6 @@ describe("Verification Email Service Suite", () => {
             expect.assertions(1);
         });
 
-        test("Throws error when sending verification email", async () => {
-            tokenGenerator.setValue("token");
-            const service = new VerificationEmailService();
-            const user = userGenerator.generate();
-            const token = tokenGenerator.generate();
-            TokenService
-                .prototype
-                .deleteExisitingToken = jest.fn();
-            TokenService
-                .prototype
-                .generate = jest.fn().mockResolvedValue(token);
-            UserModel.findByEmail = jest.fn().mockResolvedValue(user);
-            SendGridMail.setApiKey = jest.fn();
-            SendGridMail.send = jest.fn().mockRejectedValue(new Error());
-            
-            try {
-                await service.sendVerificationEmail(user.email);
-            } catch (error) {
-                expect(error).toEqual(
-                    new Error(`Failed to send email to ${user.email}`)
-                );
-            }
-            expect.assertions(1);
-        })
-
         test("Sends verification email", async () => {
             tokenGenerator.setValue("token");
             const service = new VerificationEmailService();
@@ -116,7 +61,7 @@ describe("Verification Email Service Suite", () => {
             const token = tokenGenerator.generate();
             TokenService
                 .prototype
-                .deleteExisitingToken = jest.fn();
+                .deleteExistingToken = jest.fn();
             TokenService
                 .prototype
                 .generate = jest.fn().mockResolvedValue(token);

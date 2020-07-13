@@ -10,5 +10,15 @@
 
 .hero-container {
     position: relative;
-    margin-top: 5%;
+    padding-top: 5%;
+}
+
+@media all and (max-width : 760px) {
+    .hero-container {
+        padding-top: 1%;
+    }
+
+    .hero-info {
+        font-size: 50px;
+    }
 }

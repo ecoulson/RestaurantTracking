@@ -5,4 +5,11 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    box-sizing: border-box;
+}
+
+@media all and (max-width: 500px) {
+    .hero {
+        background-size: auto 100vh;
+    }
 }

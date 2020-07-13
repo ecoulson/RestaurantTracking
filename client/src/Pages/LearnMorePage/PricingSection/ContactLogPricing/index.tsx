@@ -4,8 +4,6 @@ import LearnMoreSubtitle from "../../LearnMoreSubtitle";
 import IPricingModel from "../Model/IPricingModel";
 import IContactLogPricingState from "./IContactLogPricingState";
 import ContactLogPricingStrategy from "./ContactLogPricingStrategy";
-import NumberInput from "../../../../Components/NumberInput";
-import IconType from "../../../../Components/Icon/IconTypes";
 import ContactLogPricingParameters from "./ContactLogPricingParameters";
 import DisplayPricingSection from "./DisplayPricingSection";
 
@@ -13,12 +11,10 @@ export default class ContactLogPricing extends React.Component<IPricingModel, IC
     constructor(props : IPricingModel) {
         super(props);
         this.state = {
-            years: 1,
             standingDisplays: 0,
             tableTopDisplays: 0,
             wallDisplays: 0
         }
-        this.handleYearsInput = this.handleYearsInput.bind(this);
         this.handleTabletopDisplays = this.handleTabletopDisplays.bind(this);
         this.handleStandingDisplays = this.handleStandingDisplays.bind(this);
         this.handleWallDisplays = this.handleWallDisplays.bind(this);
@@ -28,7 +24,7 @@ export default class ContactLogPricing extends React.Component<IPricingModel, IC
         return (
             <>
                 <LearnMoreSectionParagraph>{this.props.description}</LearnMoreSectionParagraph>
-                <LearnMoreSubtitle>Explore the setup cost</LearnMoreSubtitle>
+                <LearnMoreSubtitle>Price Estimator</LearnMoreSubtitle>
                 <div style={{display: "flex", flexWrap: "wrap"}}>
                     <DisplayPricingSection
                         onChange={this.handleTabletopDisplays}
@@ -49,19 +45,8 @@ export default class ContactLogPricing extends React.Component<IPricingModel, IC
                 <LearnMoreSectionParagraph>{this.getSetupPriceString()}</LearnMoreSectionParagraph>
                 <LearnMoreSubtitle>Maintain and secure your contact log for the yearly price of </LearnMoreSubtitle>
                 <LearnMoreSectionParagraph>{this.getYearlyPriceString()}</LearnMoreSectionParagraph>
-                <LearnMoreSubtitle>See the cost over time</LearnMoreSubtitle>
-                <NumberInput 
-                    onChange={this.handleYearsInput} 
-                    label="Years"
-                    placeHolder="Enter years"
-                    icon={IconType.Calendar} />
-                <LearnMoreSectionParagraph>{this.getFuturePrice()}</LearnMoreSectionParagraph>
             </>
         )
-    }
-
-    private handleYearsInput(years: number) {
-        this.setState({ years: this.getValue(years) })
     }
 
     private handleTabletopDisplays(tableTopDisplays: number) {
@@ -99,16 +84,5 @@ export default class ContactLogPricing extends React.Component<IPricingModel, IC
         )
         const price = strategy.calculatePrice(parameters);
         return `$${(price.setup + price.monthly).toFixed(2)} / Year`
-    }
-
-    private getFuturePrice() {
-        const strategy = this.props.pricingStrategy as ContactLogPricingStrategy;
-        const parameters = new ContactLogPricingParameters(
-            this.state.standingDisplays,
-            this.state.tableTopDisplays,
-            this.state.wallDisplays
-        )
-        const price = strategy.calculatePrice(parameters);
-        return `$${(price.setup + price.monthly * this.state.years).toFixed(2)} / After ${this.state.years} Years`
     }
 }
