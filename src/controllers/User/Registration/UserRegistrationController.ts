@@ -1,35 +1,43 @@
 import IUserRegistrationController from "./IUserRegistrationController";
 import { RequestHandler, Request, Response } from "express";
 import IUserRegistrationService from "../../../services/User/Registration/IUserRegistrationService";
-import IVerificationEmailService from "../../../services/User/Registration/IVerificationEmailService";
 import IUserPermissionSetupService from "../../../services/User/Registration/IUserPermissionSetupService";
 import UserRegistrationService from "../../../services/User/Registration/UserRegistrationService";
-import VerificationEmailService from "../../../services/User/Registration/VerificationEmailService";
 import UserPermissionSetupService from "../../../services/User/Registration/UserPermissionSetupService";
 import IRegistrationBody from "./IRegistrationBody";
 import JSONResponse from "../../../lib/HTTP/JSONResponse";
 import IUsernameAvailabilityService from "../../../services/User/Registration/IUsernameAvailabilityService";
 import UsernameAvailabilityService from "../../../services/User/Registration/UsernameAvailibilityService";
+import IVerifyUserService from "../../../services/User/Registration/IVerifyUserService";
+import VerifyUserService from "../../../services/User/Registration/VerifyUserService";
+import TokenService from "../../../services/Token/TokenService";
+import Scope from "../../../services/Token/Scope";
+import UserBroker from "../../../brokers/UserBroker";
+import UserVerificationEmailService from "../../../services/User/Registration/UserVerificationEmailService";
 
 export default class UserRegistrationController implements IUserRegistrationController {
-    private userRegistrationService : IUserRegistrationService;
-    private verificationEmailService : IVerificationEmailService;
-    private userPermissionSetupService : IUserPermissionSetupService;
+    private registrationService : IUserRegistrationService;
+    private verifyService : IVerifyUserService;
+    private permissionSetupService : IUserPermissionSetupService;
     private usernameAvailabilityService : IUsernameAvailabilityService;
 
     constructor() {
-        this.userRegistrationService = new UserRegistrationService();
-        this.verificationEmailService = new VerificationEmailService();
-        this.userPermissionSetupService = new UserPermissionSetupService();
+        this.registrationService = new UserRegistrationService();
+        this.verifyService = new VerifyUserService(
+            new TokenService([Scope.VerifyEmail], 24),
+            new UserBroker(),
+            new UserVerificationEmailService()
+        );
+        this.permissionSetupService = new UserPermissionSetupService();
         this.usernameAvailabilityService = new UsernameAvailabilityService();
     }
     
     handleRegistration() : RequestHandler {
         return async (req : Request, res : Response) => {
             const registration = req.body as IRegistrationBody;
-            const user = await this.userRegistrationService.register(registration);
-            await this.userPermissionSetupService.setup(user);
-            await this.verificationEmailService.sendVerificationEmail(user.email);
+            const user = await this.registrationService.register(registration);
+            await this.permissionSetupService.setup(user);
+            await this.verifyService.verify(user.email);
             return new JSONResponse(res).send(user);
         }
     }
@@ -39,8 +47,8 @@ export default class UserRegistrationController implements IUserRegistrationCont
             if (req.user.verified) {
                 throw new Error(`User ${req.user.username} is already verified`);
             }
-            const mailData = await this.verificationEmailService.sendVerificationEmail(req.user.email);
-            return new JSONResponse(res).send(mailData);
+            const user = await this.verifyService.verify(req.user.email);
+            return new JSONResponse(res).send(user);
         }
     }
 

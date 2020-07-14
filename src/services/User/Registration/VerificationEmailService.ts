@@ -1,34 +1,26 @@
 import IVerificationEmailService from "./IVerificationEmailService";
-import TokenService from "../../Token/TokenService";
-import VerificationEmail from "../../../lib/Email/VerificationEmail";
-import IVerificationEmailData from "../../../lib/Email/IVerificationEmailData";
-import Scope from "../../Token/Scope";
-import ITokenService from "../../Token/ITokenService";
-import UserBroker from "../../../brokers/UserBroker";
-import EmailBroker from "../../../brokers/EmailBroker";
 
-export default class VerificationEmailService implements IVerificationEmailService {
-    private accessTokenService : ITokenService;
-    private userBroker : UserBroker;
-    private emailBroker : EmailBroker<IVerificationEmailData>;
+import EmailBroker from "../../../brokers/EmailBroker";
+import IEmailMessageBuilder from "../../../lib/Email/IEmailMessageBuilder";
+import Email from "../../../lib/Email/Email";
+import IUser from "../../../models/user/IUser";
+import IToken from "../../../models/token/IToken";
+import EmailMessageBuilder from "../../../lib/Email/EmailMessageBuilder";
+
+export default abstract class VerificationEmailService implements IVerificationEmailService {
+    private emailBroker : EmailBroker;
+    protected emailBuilder : IEmailMessageBuilder;
 
     constructor() {
-        this.accessTokenService = new TokenService([Scope.VerifyEmail], 24);
-        this.userBroker = new UserBroker();
-        this.emailBroker = new EmailBroker<IVerificationEmailData>();
+        this.emailBroker = new EmailBroker();
+        this.emailBuilder = new EmailMessageBuilder();
     }
 
-    async sendVerificationEmail(email : string) {
-        const user = await this.userBroker.findUserByEmail(email);
-        if (!user) {
-            throw new Error(`No user with email ${email}`)
-        }
-        if (user.verified) {
-            throw new Error(`User with email ${email} is already verified`)
-        }
-        await this.accessTokenService.deleteExistingToken(user);
-        const token = await this.accessTokenService.generate(user);
-        const verificationEmail = new VerificationEmail(user, token);
+    async sendVerificationEmail(user : IUser, token : IToken) {
+        this.buildEmail(user, token);
+        const verificationEmail = new Email(this.emailBuilder);
         return await this.emailBroker.send(verificationEmail);
     }
+
+    abstract buildEmail(user : IUser, token : IToken) : void;
 }

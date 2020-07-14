@@ -15,7 +15,7 @@ const RegisterOrganizationSchema = Joi.object({
 
 const OrganizationPINLoginSchema = Joi.object({
     email: Joi.string().email().required(),
-    PIN: Joi.string().regex(new RegExp("\\d{4}")).required()
+    password: Joi.string().regex(new RegExp("\\d{4}")).required()
 })
 
 export {

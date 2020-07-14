@@ -1,5 +1,6 @@
-import IVerificationEmailData from "../../../lib/Email/IVerificationEmailData";
+import IUser from "../../../models/user/IUser";
+import IToken from "../../../models/token/IToken";
 
 export default interface IVerificationEmailService {
-    sendVerificationEmail(email : string): Promise<IVerificationEmailData>
+    sendVerificationEmail(user : IUser, token : IToken): Promise<IEmailData>
 }

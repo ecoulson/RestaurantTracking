@@ -49,7 +49,7 @@ export default class PINLoginPage extends React.Component<IPinLoginPageProps, IP
                     redirect
                     onComplete={this.onLogin}
                     onError={this.onError}
-                    PIN={this.state.PIN.value} />
+                    password={this.state.PIN.value} />
                 <Logo dark />
                 <OrganizationName>{this.state.organizationName}</OrganizationName>
                 <Form onSubmit={this.onSubmit}>

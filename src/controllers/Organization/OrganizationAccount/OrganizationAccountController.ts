@@ -25,7 +25,7 @@ export default class OrganizationAccountController implements IOrganizationAccou
         return async (request : Request, response : Response) => {
             const user = await this.authenticationService.login(new OrganizationPINLoginArguments(
                 request.body.email,
-                request.body.PIN,
+                request.body.password,
                 request.params.organizationId
             ));
             const token = await this.authenticationService.generateAccessToken(user, true);
