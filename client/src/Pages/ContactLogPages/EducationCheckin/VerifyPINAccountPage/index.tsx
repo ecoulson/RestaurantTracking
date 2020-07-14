@@ -41,8 +41,7 @@ export default class VerifyPINAccountPage extends React.Component<IVerifyPINAcco
                     organizationId={this.props.match.params.organizationId}
                     email={this.state.email.value}
                     onComplete={this.onComplete}
-                    onError={this.onComplete}
-                    />
+                    onError={this.onComplete} />
                 <Logo dark />
                 <OrganizationName>{this.state.organizationName}</OrganizationName>
                 <Instructions>Check your email to verify your account</Instructions>

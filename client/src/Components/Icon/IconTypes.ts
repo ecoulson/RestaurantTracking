@@ -24,7 +24,9 @@ enum IconType {
     ChevronLeft,
     ChevronRight,
     ChevronDown,
-    HamburgerMenu
+    HamburgerMenu,
+    SortAZ,
+    AppsOutline
 }
 
 export default IconType;

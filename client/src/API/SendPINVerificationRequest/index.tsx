@@ -13,7 +13,7 @@ export default class SendPINVerificationRequest extends RequestComponent<ISendPI
     }
 
     async onLoad() {
-        return (await Axios.post(`/api/organization/account/${this.props.organizationId}/send-verification/`, {
+        return (await Axios.post(`/api/organization/account/${this.props.organizationId}/resend-verification/`, {
             email: this.props.email
         }, {
             headers: {

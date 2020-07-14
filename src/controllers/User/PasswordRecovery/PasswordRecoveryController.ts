@@ -3,7 +3,6 @@ import JSONResponse from "../../../lib/HTTP/JSONResponse";
 import PasswordResetService from "../../../services/User/PasswordRecovery/PasswordResetService";
 import CancelPasswordRecoveryService from "../../../services/User/PasswordRecovery/CancelPasswordRecoveryService";
 import PasswordRecoveryConfirmationService from "../../../services/User/PasswordRecovery/PasswordRecoveryConfirmationService";
-import PasswordRecoveryService from "../../../services/User/PasswordRecovery/PasswordRecoveryService";
 import IPasswordRecoveryService from "../../../services/User/PasswordRecovery/IPasswordRecoveryService";
 import IPasswordRecoveryConfirmationService from "../../../services/User/PasswordRecovery/IPasswordRecoveryConfirmationService";
 import IPasswordResetService from "../../../services/User/PasswordRecovery/IPasswordResetService";
@@ -18,8 +17,8 @@ export default class PasswordRecoveryController implements IPasswordRecoveryCont
     private passwordResetService : IPasswordResetService;
     private cancelPasswordResetService : ICancelPasswordRecoveryService;
 
-    constructor() {
-        this.passwordRecoveryService = new PasswordRecoveryService();
+    constructor(passwordRecoveryService : IPasswordRecoveryService) {
+        this.passwordRecoveryService = passwordRecoveryService;
         this.passwordRecoveryConfirmationService = new PasswordRecoveryConfirmationService();
         this.passwordResetService = new PasswordResetService();
         this.cancelPasswordResetService = new CancelPasswordRecoveryService();
@@ -28,7 +27,8 @@ export default class PasswordRecoveryController implements IPasswordRecoveryCont
     handlePasswordRecovery() {
         return async (req : Request, res : Response) => {
             const mailData = await this.passwordRecoveryService.sendForgotPasswordEmail(
-                req.body.email
+                req.body.email,
+                req.tokenValues ? req.tokenValues : new Map<string, string>()
             );
             return new JSONResponse(res).send(mailData);
         }

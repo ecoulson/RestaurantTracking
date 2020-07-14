@@ -1,3 +1,3 @@
-export default interface IResetPINLink {
+export default interface IResetPINLinkState {
     send: boolean;
 }

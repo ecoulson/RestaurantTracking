@@ -4,13 +4,14 @@ import ErrorCatchingMiddleware from "../../middleware/error-handling/ErrorCatchi
 import ValidationMiddleware from "../../middleware/validation/ValidationMiddleware"
 import PasswordRecoveryController from "../../controllers/User/PasswordRecovery/PasswordRecoveryController"
 import IPasswordRecoveryController from "../../controllers/User/PasswordRecovery/IPasswordRecoveryController"
+import IPasswordRecoveryService from "../../services/User/PasswordRecovery/IPasswordRecoveryService"
 
 export default class PasswordRecoveryRouteConfiguration extends RouterConfiguration {
     private controller : IPasswordRecoveryController;
 
-    constructor() {
+    constructor(passwordRecoveryService : IPasswordRecoveryService) {
         super()
-        this.controller = new PasswordRecoveryController();
+        this.controller = new PasswordRecoveryController(passwordRecoveryService);
     }
 
     configureRoutes() {

@@ -4,7 +4,7 @@ import IUser from "../../../models/user/IUser";
 import IToken from "../../../models/token/IToken";
 
 export default class UserVerificationEmailService extends VerificationEmailService {
-    buildEmail(user : IUser, token : IToken) {
+    async buildEmail(user : IUser, token : IToken) {
         const internalURLBuilder = new InternalURLBuilder();
         this.emailBuilder
             .setTo(user.email)

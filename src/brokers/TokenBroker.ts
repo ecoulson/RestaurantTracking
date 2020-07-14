@@ -18,4 +18,12 @@ export default class TokenBroker {
             throw new Error(`Failed to remove token ${token.id} from database`);
         }
     }
+
+    async save(token : IToken) {
+        try {
+            return await token.save();
+        } catch (error) {
+            throw new Error(`Failed to save token ${token.id} from database`);
+        }
+    }
 }

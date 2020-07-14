@@ -11,6 +11,17 @@ import OrganizationPINAuthenticationService from "../../services/Authentication/
 import OrganizationRegistrationRouteConfiguration from "./OrganizationRegistrationRouteConfiguration";
 import OrganizationRegistrationController from "../../controllers/Organization/Registration/OrganizationRegistrationController";
 import RegisterOrganizationService from "../../services/Organization/Registration/RegisterOrganizationService";
+import RegisterOrganizationAccountRouteConfiguration from "./RegisterOrganizationAccountRouteConfiguration";
+import RegisterOrganizationAccountController from "../../controllers/Organization/OrganizationAccount/RegisterOrganizationAccountController";
+import RegisterOrganizationAccountService from "../../services/Organization/OrganizationAccount/RegistrationOrganizationAccountService";
+import OrganizationBroker from "../../brokers/OrganizationBroker";
+import UserPermissionSetupService from "../../services/User/Registration/UserPermissionSetupService";
+import VerifyUserService from "../../services/User/Registration/VerifyUserService";
+import Scope from "../../services/Token/Scope";
+import UserBroker from "../../brokers/UserBroker";
+import OrganizationUserVerificationEmailService from "../../services/Organization/OrganizationAccount/OrganizationUserVerificationEmailService";
+import EncryptedTokenService from "../../services/Token/EncryptedTokenService";
+import TokenBroker from "../../brokers/TokenBroker";
 
 export default class OrganizationRouteConfiguration extends RouterConfiguration {
     private organizationController : IOrganizationController;
@@ -37,6 +48,22 @@ export default class OrganizationRouteConfiguration extends RouterConfiguration 
             new OrganizationAccountController(
                 new OrganizationAccountExistsService(),
                 new OrganizationPINAuthenticationService()
+            )
+        ).setup())
+
+        this.router.use("/account", new RegisterOrganizationAccountRouteConfiguration(
+            new RegisterOrganizationAccountController(
+                new RegisterOrganizationAccountService(
+                    new OrganizationBroker(),
+                    new UserPermissionSetupService(),
+                ),
+                new VerifyUserService(
+                    new EncryptedTokenService([Scope.VerifyEmail], 24, new TokenBroker()),
+                    new UserBroker(),
+                    new OrganizationUserVerificationEmailService(
+                        new EncryptedTokenService([Scope.VerifyEmail], 24, new TokenBroker())
+                    )
+                )
             )
         ).setup())
     }

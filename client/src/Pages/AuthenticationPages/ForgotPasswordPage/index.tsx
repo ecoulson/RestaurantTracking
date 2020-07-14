@@ -26,6 +26,7 @@ export default class ForgotPasswordPage extends React.Component<{}, IForgotPassw
         return (
             <AuthenticationLayout pageTitle="Forgot Password">
                 <RecoverPasswordRequest 
+                    url="/api/user/password_recovery/recover"
                     send={this.state.isRecovering}
                     email={this.state.email.value} 
                     onComplete={this.handleComplete} />

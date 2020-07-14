@@ -1,7 +1,8 @@
 import IFormValue from "../../../../Components/FormInput/IFormValue";
 
 export default interface IResetPINPageState {
-    PIN: IFormValue<string>;
+    password: IFormValue<string>;
+    passwordInputType: number;
     organizationName: string;
     send: boolean;
 }

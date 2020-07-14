@@ -25,6 +25,8 @@ import { ReactComponent as ChevronRight } from "./svgs/right-chevron.svg";
 import { ReactComponent as ChevronLeft } from "./svgs/left-chevron.svg";
 import { ReactComponent as ChevronDown } from "./svgs/chevron-down.svg";
 import { ReactComponent as HamburgerMenu } from "./svgs/hamburger-menu.svg";
+import { ReactComponent as SortAZ } from "./svgs/sort-az.svg";
+import { ReactComponent as AppsOutline } from "./svgs/apps-outline.svg";
 
 const IconMapping = new Map<IconType, any>();
 IconMapping.set(IconType.Mail, Mail);
@@ -53,5 +55,7 @@ IconMapping.set(IconType.ChevronLeft, ChevronLeft);
 IconMapping.set(IconType.ChevronRight, ChevronRight);
 IconMapping.set(IconType.HamburgerMenu, HamburgerMenu);
 IconMapping.set(IconType.ChevronDown, ChevronDown);
+IconMapping.set(IconType.SortAZ, SortAZ);
+IconMapping.set(IconType.AppsOutline, AppsOutline);
 
 export default IconMapping;

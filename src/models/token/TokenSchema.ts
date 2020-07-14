@@ -34,6 +34,9 @@ const TokenSchema = new Schema({
     scope: {
         type: [String],
         required: true
+    },
+    iv: {
+        type: String
     }
 });
 

@@ -17,10 +17,10 @@ export default abstract class VerificationEmailService implements IVerificationE
     }
 
     async sendVerificationEmail(user : IUser, token : IToken) {
-        this.buildEmail(user, token);
+        await this.buildEmail(user, token);
         const verificationEmail = new Email(this.emailBuilder);
         return await this.emailBroker.send(verificationEmail);
     }
 
-    abstract buildEmail(user : IUser, token : IToken) : void;
+    abstract async buildEmail(user : IUser, token : IToken) : Promise<void>;
 }

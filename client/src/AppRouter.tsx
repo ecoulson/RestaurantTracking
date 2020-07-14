@@ -34,6 +34,7 @@ import PINLoginPage from "./Pages/ContactLogPages/EducationCheckin/PINLoginPage"
 import SetPINPage from "./Pages/ContactLogPages/EducationCheckin/SetPINPage";
 import ResetPINPage from "./Pages/ContactLogPages/EducationCheckin/ResetPINPage";
 import VerifyPINAccountPage from "./Pages/ContactLogPages/EducationCheckin/VerifyPINAccountPage";
+import PINAccountVerificationPage from "./Pages/ContactLogPages/EducationCheckin/PINAccountVerificationPage";
 
 export default class AppRouter extends React.Component<{}, IAppRouterState> {
     constructor(props: {}) {
@@ -134,17 +135,17 @@ export default class AppRouter extends React.Component<{}, IAppRouterState> {
                             <PINEmailPage {...props} />
                         )
                     }/>
-                    <Route exact path="/check-in/:organizationId/login-PIN" render={
+                    <Route exact path="/check-in/:organizationId/login-password" render={
                         (props) => (
                             <PINLoginPage {...props} />
                         )
                     }/>
-                    <Route exact path="/check-in/:organizationId/set-PIN" render={
+                    <Route exact path="/check-in/:organizationId/setup" render={
                         (props) => (
                             <SetPINPage {...props} />
                         )
                     }/>
-                    <Route exact path="/check-in/:organizationId/reset-PIN" render={
+                    <Route exact path="/check-in/:organizationId/reset-password" render={
                         (props) => (
                             <ResetPINPage {...props} />
                         )
@@ -152,6 +153,11 @@ export default class AppRouter extends React.Component<{}, IAppRouterState> {
                     <Route exact path="/check-in/:organizationId/verify-account" render={
                         (props) => (
                             <VerifyPINAccountPage {...props} />
+                        )
+                    }/>
+                    <Route exact path="/check-in/:organizationId/verification" render ={
+                        (props) => (
+                            <PINAccountVerificationPage {...props} />
                         )
                     }/>
                     <Route exact path="/help">

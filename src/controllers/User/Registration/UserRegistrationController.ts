@@ -37,7 +37,7 @@ export default class UserRegistrationController implements IUserRegistrationCont
             const registration = req.body as IRegistrationBody;
             const user = await this.registrationService.register(registration);
             await this.permissionSetupService.setup(user);
-            await this.verifyService.verify(user.email);
+            await this.verifyService.verify(user.email, new Map<string, string>());
             return new JSONResponse(res).send(user);
         }
     }
@@ -47,7 +47,7 @@ export default class UserRegistrationController implements IUserRegistrationCont
             if (req.user.verified) {
                 throw new Error(`User ${req.user.username} is already verified`);
             }
-            const user = await this.verifyService.verify(req.user.email);
+            const user = await this.verifyService.verify(req.user.email, new Map<string, string>());
             return new JSONResponse(res).send(user);
         }
     }

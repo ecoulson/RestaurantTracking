@@ -1,5 +1,5 @@
 import IUser from "../../../models/user/IUser";
 
 export default interface IVerifyUserService {
-    verify(email : string) : Promise<IUser>
+    verify(email : string, values: Map<string, string>) : Promise<IUser>
 }

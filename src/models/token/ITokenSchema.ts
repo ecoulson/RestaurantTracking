@@ -4,6 +4,7 @@ import Scope from "../../services/Token/Scope";
 export default interface ITokenSchema extends IDocument {
     value: string;
     userId: string;
+    iv?: string;
     refreshToken?: string;
     createdAt: Date;
     expiresAt?: Date;

@@ -14,13 +14,13 @@ export default class VerifyUserService implements IVerifyUserService {
         this.emailService = emailService;
     }
 
-    async verify(email : string) {
+    async verify(email : string, values : Map<string, string>) {
         const user = await this.userBroker.findUserByEmail(email);
         if (user.verified) {
             throw new Error(`User with email ${user.email} is already verified`)
         }
         await this.tokenService.deleteExistingToken(user);
-        const token = await this.tokenService.generate(user);
+        const token = await this.tokenService.generate(user, values);
         await this.emailService.sendVerificationEmail(user, token);
         return user;
     }

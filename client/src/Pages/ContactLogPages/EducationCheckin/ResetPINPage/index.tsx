@@ -14,6 +14,13 @@ import GetOrganizationNameRequest from "../../../../API/GetOrganizationNameReque
 import LegalContainer from "../../LegalContainer";
 import FormValue from "../../../../Components/FormInput/FormValue";
 import IFormValue from "../../../../Components/FormInput/IFormValue";
+import PasswordInput from "../../../../Components/PasswordInput";
+import Cookie from "../../../../lib/Cookie";
+import SlideSwitch from "../../../../Components/SlideSwitch";
+import IconType from "../../../../Components/Icon/IconTypes";
+import Icon from "../../../../Components/Icon";
+import ResetPasswordRequest from "../../../../API/ResetPasswordRequest";
+import ConfirmPasswordRecoveryRequest from "../../../../API/ConfirmPasswordRecoveryRequest";
 
 export default class ResetPINPage extends React.Component<IResetPINPageProps, IResetPINPageState> {
     private urlParams : URLSearchParams;
@@ -21,20 +28,28 @@ export default class ResetPINPage extends React.Component<IResetPINPageProps, IR
     constructor(props : IResetPINPageProps) {
         super(props);
         this.state = {
-            PIN: new FormValue<string>("", false),
+            password: new FormValue<string>("", false),
             organizationName: "",
+            passwordInputType: 0,
             send: false
         }
         this.urlParams = new URLSearchParams(this.props.location.search);
 
         this.onOrganizationName = this.onOrganizationName.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
-        this.handlePINChange = this.handlePINChange.bind(this);
+        this.onComplete = this.onComplete.bind(this);
+        this.onError = this.onError.bind(this);
+        this.handlePasswordChange = this.handlePasswordChange.bind(this);
+        this.handlePasswordInputType = this.handlePasswordInputType.bind(this);
     }
 
     render() {
         return (
             <PageLayout pageTitle="Reset PIN">
+                <ConfirmPasswordRecoveryRequest 
+                    send
+                    email={this.urlParams.get("email") as string}
+                    token={this.urlParams.get("token") as string}/>
                 <GetOrganizationNameRequest
                     send
                     onComplete={this.onOrganizationName}
@@ -42,8 +57,18 @@ export default class ResetPINPage extends React.Component<IResetPINPageProps, IR
                 <Logo dark />
                 <OrganizationName>{this.state.organizationName}</OrganizationName>
                 <Form onSubmit={this.onSubmit}>
-                    <PINInput onChange={this.handlePINChange}/>
-                    <Instructions>Enter a 4 digit PIN to reset the PIN for <b>{this.urlParams.get("email")}</b></Instructions>
+                    <ResetPasswordRequest 
+                        send={this.state.send}
+                        onComplete={this.onComplete}
+                        onError={this.onError}
+                        email={this.urlParams.get("email") as string}
+                        token={this.urlParams.get("token") as string}
+                        password={this.state.password.value} />
+                    <SlideSwitch onChange={this.handlePasswordInputType}>
+                        <Icon width={25} height={25} icon={IconType.AppsOutline} color="white" />
+                        <Icon width={25} height={25} icon={IconType.SortAZ} color="white" />
+                    </SlideSwitch>
+                    {this.getInput()}
                     <Button submit>Submit</Button>
                 </Form>
                 <LegalContainer />
@@ -55,12 +80,28 @@ export default class ResetPINPage extends React.Component<IResetPINPageProps, IR
         this.setState({ organizationName : response.data.organizationName })
     }
 
-    handlePINChange(PIN : IFormValue<string>) {
-        this.setState({ PIN })
+    handlePasswordChange(PIN : IFormValue<string>) {
+        this.setState({ password: PIN })
+    }
+
+    getInput() {
+        return this.state.passwordInputType === 0 ?
+            <>
+                <PINInput onChange={this.handlePasswordChange}/>
+                <Instructions>Enter a 4 digit PIN for <b>{Cookie.getCookie("pin_email")}</b></Instructions>
+            </> :
+            <>
+                <PasswordInput dark iconColor="#707070" hoverColor="white" registering onChange={this.handlePasswordChange}/>
+                <Instructions>Enter a password for <b>{Cookie.getCookie("pin_email")}</b></Instructions>
+            </>
+    }
+
+    handlePasswordInputType(passwordInputType : number) {
+        this.setState({ passwordInputType });
     }
 
     onSubmit() {
-        if (this.state.PIN.valid) {
+        if (this.state.password.valid) {
             this.setState({
                 send: true
             })

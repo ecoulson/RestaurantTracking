@@ -12,13 +12,11 @@ export default class OrganizationRegistrationController implements IOrganization
 
     handleRegistration() {
         return async (request : Request, response : Response) => {
-            return async (request : Request, response : Response) => {
-                const organization = await this.registrationService.registerOrganization(
-                    request.body.organizationId, 
-                    request.body.organizationName
-                );
-                new JSONResponse(response).send({ organization });
-            }
+            const organization = await this.registrationService.registerOrganization(
+                request.body.organizationId, 
+                request.body.organizationName
+            );
+            new JSONResponse(response).send({ organization });
         }
     }
 }
