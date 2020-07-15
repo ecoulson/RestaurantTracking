@@ -33,6 +33,7 @@ export default class PINAccountVerificationPage extends React.Component<IPINAcco
     }
 
     onComplete() {
+        this.props.showSuccess("Verified account", 5000)
         AppHistory.push(`/check-in/${this.props.match.params.organizationId}/login`)
     }
 }
