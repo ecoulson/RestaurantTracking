@@ -5,6 +5,7 @@ import VerificationRequest from "../../../../API/VerificationRequest";
 import OrganizationName from "../../OrganizationName";
 import IPINAccountVerificationPageProps from "./IPINAccountVerificationPageProps";
 import AppHistory from "../../../../AppHistory";
+import LegalContainer from "../../LegalContainer";
 
 export default class PINAccountVerificationPage extends React.Component<IPINAccountVerificationPageProps> {
     private urlParams : URLSearchParams;
@@ -26,6 +27,7 @@ export default class PINAccountVerificationPage extends React.Component<IPINAcco
                     onComplete={this.onComplete} />
                 <Logo dark />
                 <OrganizationName>Verifying account...</OrganizationName>
+                <LegalContainer />
             </PageLayout>
         )
     }

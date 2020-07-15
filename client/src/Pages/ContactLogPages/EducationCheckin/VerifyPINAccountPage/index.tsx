@@ -14,6 +14,7 @@ import EmailInput from "../../../../Components/EmailInput";
 import IFormValue from "../../../../Components/FormInput/IFormValue";
 import FormValue from "../../../../Components/FormInput/FormValue";
 import SendPINVerificationRequest from "../../../../API/SendPINVerificationRequest";
+import LegalContainer from "../../LegalContainer";
 
 export default class VerifyPINAccountPage extends React.Component<IVerifyPINAccountPageProps, IVerifyPINAccountPageState> {
     constructor(props : IVerifyPINAccountPageProps) {
@@ -50,6 +51,7 @@ export default class VerifyPINAccountPage extends React.Component<IVerifyPINAcco
                     <Instructions>Enter the email associated with your PIN to resend your verification email</Instructions>
                     <Button submit>Resend</Button>
                 </Form>
+                <LegalContainer />
             </PageLayout>
         )
     }
