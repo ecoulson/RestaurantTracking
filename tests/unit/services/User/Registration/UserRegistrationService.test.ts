@@ -1,8 +1,9 @@
 import bcrypt from "bcrypt";
 import UserRegistrationService from "../../../../../src/services/User/Registration/UserRegistrationService";
 import IRegistrationBody from "../../../../../src/controllers/User/Registration/IRegistrationBody";
-import UserModel from "../../../../../src/models/user/UserModel";
 import RegistrationBodyGenerator from "../../../../mocks/Generators/RegistrationBodyGenerator";
+import UserBroker from "../../../../../src/brokers/UserBroker";
+jest.mock("../../../../../src/brokers/UserBroker");
 
 const hash = bcrypt.hash;
 
@@ -29,27 +30,10 @@ describe("User Registration Service Suite", () => {
             expect.assertions(1);
         })
 
-        test("An error occurs while saving a user to the database", async () => {
-            const service = new UserRegistrationService();
-            const registration : IRegistrationBody = registrationGenerator.generate();
-            UserModel.findByUsername = jest.fn().mockResolvedValue(null);
-            UserModel.findByEmail = jest.fn().mockResolvedValue(null);
-            UserModel.prototype.save = jest.fn().mockRejectedValue(new Error());
-
-            try {
-                await service.register(registration);
-            } catch (error) {
-                expect(error).toEqual(
-                    new Error(`Failed to save user with username ${registration.username} to the database`)
-                )
-            }
-            expect.assertions(1);
-        })
-
         test("Username has been taken", async () => {
-            const service = new UserRegistrationService();
             const registration : IRegistrationBody = registrationGenerator.generate();
-            UserModel.findByUsername = jest.fn().mockResolvedValue(registration);
+            UserBroker.prototype.findUserByUsername = jest.fn().mockResolvedValue(registration);
+            const service = new UserRegistrationService();
 
             try {
                 await service.register(registration);
@@ -59,26 +43,11 @@ describe("User Registration Service Suite", () => {
             expect.assertions(1);
         })
 
-        test("An error occurs while checking for unique username", async () => {
-            const service = new UserRegistrationService();
-            const registration : IRegistrationBody = registrationGenerator.generate();
-            UserModel.findByUsername = jest.fn().mockRejectedValue(new Error());
-
-            try {
-                await service.register(registration);
-            } catch (error) {
-                expect(error).toEqual(
-                    new Error(`Failed to check if username ${registration.username} already exists`)
-                )
-            }
-            expect.assertions(1);
-        })
-
         test("Account already associated with an email", async () => {
-            const service = new UserRegistrationService();
             const registration : IRegistrationBody = registrationGenerator.generate();
-            UserModel.findByUsername = jest.fn().mockResolvedValue(null);
-            UserModel.findByEmail = jest.fn().mockResolvedValue(registration);
+            UserBroker.prototype.findUserByUsername = jest.fn().mockResolvedValue(null);
+            UserBroker.prototype.findUserByEmail = jest.fn().mockResolvedValue(registration);
+            const service = new UserRegistrationService();
 
             try {
                 await service.register(registration);
@@ -90,28 +59,12 @@ describe("User Registration Service Suite", () => {
             expect.assertions(1);
         })
 
-        test("An error occurs while checking for unique email", async () => {
-            const service = new UserRegistrationService();
-            const registration : IRegistrationBody = registrationGenerator.generate();
-            UserModel.findByUsername = jest.fn().mockResolvedValue(null);
-            UserModel.findByEmail = jest.fn().mockRejectedValue(new Error());
-
-            try {
-                await service.register(registration);
-            } catch (error) {
-                expect(error).toEqual(
-                    new Error(`Failed to check if email ${registration.email} already exists`)
-                )
-            }
-            expect.assertions(1);
-        })
-
         test("Registers a user to the database", async () => {
-            const service = new UserRegistrationService();
             const registration : IRegistrationBody = registrationGenerator.generate();
-            UserModel.prototype.save = jest.fn();
-            UserModel.findByUsername = jest.fn().mockResolvedValue(null);
-            UserModel.findByEmail = jest.fn().mockResolvedValue(null);
+            UserBroker.prototype.save = jest.fn().mockResolvedValue(registration);
+            UserBroker.prototype.findUserByUsername = jest.fn().mockResolvedValue(null);
+            UserBroker.prototype.findUserByEmail = jest.fn().mockResolvedValue(null);
+            const service = new UserRegistrationService();
 
             const user = await service.register(registration);
 

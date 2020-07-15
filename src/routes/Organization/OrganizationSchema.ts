@@ -1,6 +1,6 @@
 import Joi from "@hapi/joi";
 
-const ExistsBodySchema = Joi.object({
+const EmailBodySchema = Joi.object({
     email: Joi.string().email().required()
 })
 
@@ -15,12 +15,18 @@ const RegisterOrganizationSchema = Joi.object({
 
 const OrganizationPINLoginSchema = Joi.object({
     email: Joi.string().email().required(),
-    PIN: Joi.string().regex(new RegExp("\\d{4}")).required()
+    password: Joi.string().required()
+})
+
+const OrganizationAccountRegistrationSchema = Joi.object({
+    email: Joi.string().email().required(),
+    password: Joi.string().required()
 })
 
 export {
-    ExistsBodySchema,
+    EmailBodySchema,
     OrganizationIdParametersSchema,
     RegisterOrganizationSchema,
-    OrganizationPINLoginSchema
+    OrganizationPINLoginSchema,
+    OrganizationAccountRegistrationSchema
 };

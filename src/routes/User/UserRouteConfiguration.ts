@@ -14,6 +14,9 @@ import ErrorCatchingMiddleware from "../../middleware/error-handling/ErrorCatchi
 import ValidationMiddleware from "../../middleware/validation/ValidationMiddleware";
 import { UpdatedProfileSchema } from "./UserSchema";
 import PasswordUpdateRouteConfiguration from "./PasswordUpdateRouteConfiguration";
+import TokenService from "../../services/Token/TokenService";
+import Scope from "../../services/Token/Scope";
+import UserPasswordRecoveryService from "../../services/User/PasswordRecovery/UserPasswordRecoveryService";
 
 export default class UserRouteConfiguration extends RouterConfiguration {
     private controller : IUserController;
@@ -26,7 +29,11 @@ export default class UserRouteConfiguration extends RouterConfiguration {
     configureRoutes() {
         this.router.use("/registration", new UserRegistrationRouteConfiguration().setup());
         this.router.use("/verification", new VerificationRouteConfiguration().setup());
-        this.router.use("/password_recovery", new PasswordRecoveryRouteConfiguration().setup());
+        this.router.use("/password_recovery", new PasswordRecoveryRouteConfiguration(
+            new UserPasswordRecoveryService(
+                new TokenService([Scope.ResetPassword], 1)
+            )
+        ).setup());
         this.router.use("/avatar", new ProfilePictureRouteConfiguration().setup())
         this.router.use("/password", new PasswordUpdateRouteConfiguration().setup());
         this.router.get(

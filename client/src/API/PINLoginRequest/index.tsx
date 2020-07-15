@@ -7,7 +7,7 @@ export default class PINLoginRequest extends RequestComponent<IPINLoginRequestPr
     async onLoad() {
         return (await Axios.post(`/api/organization/account/${this.props.organizationId}/login`, {
             email: this.props.email,
-            PIN: this.props.PIN
+            password: this.props.password
         })).data;
     }
 }

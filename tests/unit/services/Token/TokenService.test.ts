@@ -6,6 +6,7 @@ import TokenModel from "../../../../src/models/token/TokenModel";
 import Scope from "../../../../src/services/Token/Scope";
 import TokenGenerator from "../../../mocks/Generators/TokenGenerator";
 import UserGenerator from "../../../mocks/Generators/UserGenerator";
+import TokenBroker from "../../../../src/brokers/TokenBroker";
 
 const chance = new Chance();
 
@@ -22,38 +23,6 @@ beforeEach(() => {
 
 describe("Email Verification Token Service", () => {
     describe("generate", () => {
-        test("Fails to save token to database", async () => {
-            const tokenValue = chance.hash({ length: 38});
-            const user = userGenerator.generate();
-            const service = new TokenService(scope, hours);
-            (crypto.randomBytes as jest.Mock).mockImplementation(() => { return { toString: () => tokenValue } });
-            TokenModel.prototype.save = jest.fn().mockRejectedValue(new Error());
-
-            try {
-                await service.generate(user);
-            } catch (error) {
-                expect(error).toEqual(
-                    new Error(`Failed to save email verification token to database for ${user._id}`)
-                );
-            }
-            expect.assertions(1);
-        })
-
-        test("Fails to generate a token", async () => {
-            const user = userGenerator.generate();
-            const service = new TokenService(scope, hours);
-            (crypto.randomBytes as jest.Mock).mockImplementation(() => { throw new Error(); });
-
-            try {
-                await service.generate(user);
-            } catch (error) {
-                expect(error).toEqual(
-                    new Error(`Failed to generate email verification token for ${user._id}`)
-                );
-            }
-            expect.assertions(1);
-        })
-
         test("Successfully generates a token", async () => {
             const user = userGenerator.generate();
             const date = new Date();
@@ -66,7 +35,7 @@ describe("Email Verification Token Service", () => {
             const testToken = tokenGenerator.generate();
             const service = new TokenService(scope, hours);
             (crypto.randomBytes as jest.Mock).mockImplementation(() => { return { toString: () => testToken.value } });
-            TokenModel.prototype.save = jest.fn();
+            TokenBroker.prototype.save = jest.fn();
 
             const token = await service.generate(user);
 
@@ -78,21 +47,8 @@ describe("Email Verification Token Service", () => {
     });
 
     describe("Delete existing verification token", () => {
-        test("Fails to get tokens by userId", async () => {
-            const service = new TokenService(scope, hours);
-            const user = userGenerator.generate();
-            TokenModel.findByUserId = jest.fn().mockRejectedValue(new Error());
-
-            try {
-                await service.deleteExistingToken(user);
-            } catch (error) {
-                expect(error).toEqual(new Error(`Failed to find tokens associatied with user ${user._id}`))
-            }
-            expect.assertions(1);
-        });
-
-        test("No tokens associaited with user", async () => {
-            TokenModel.findByUserId = jest.fn().mockResolvedValue([]);
+        test("No tokens associated with user", async () => {
+            TokenBroker.prototype.getTokens = jest.fn().mockResolvedValue([]);
             const service = new TokenService(scope, hours);
             const user = userGenerator.generate();
 
@@ -106,7 +62,7 @@ describe("Email Verification Token Service", () => {
             const token = tokenGenerator.generate();
             const service = new TokenService(scope, hours);
             const user = userGenerator.generate();
-            TokenModel.findByUserId = jest.fn().mockResolvedValue([token]);
+            TokenBroker.prototype.getTokens = jest.fn().mockResolvedValue([token]);
 
             const verificationToken = await service.deleteExistingToken(user);
 
@@ -118,30 +74,11 @@ describe("Email Verification Token Service", () => {
             const token = tokenGenerator.generate();
             const service = new TokenService(scope, hours);
             const user = userGenerator.generate();
-            TokenModel.findByUserId = jest.fn().mockResolvedValue([token, token]);
+            TokenBroker.prototype.getTokens = jest.fn().mockResolvedValue([token, token]);
 
             const verificationToken = await service.deleteExistingToken(user);
 
             expect(verificationToken).toEqual(null);
-        })
-
-        
-        test("An error occured while deleting the token from the database", async () => {
-            const token = tokenGenerator.generate();
-            const service = new TokenService(scope, hours);
-            const user = userGenerator.generate();
-            TokenModel.findByUserId = jest.fn().mockResolvedValue([token]);
-            TokenModel.prototype.remove = jest.fn().mockRejectedValue(new Error())
-            
-            try {
-                await service.deleteExistingToken(user);
-            } catch (error) {
-                expect(error).toEqual(
-                    new Error(`Failed to remove token with id ${token._id}`)
-                    );
-                }
-                expect.assertions(1);
-            });
         })
 
         test("Token with email verification scope", async () => {
@@ -151,11 +88,12 @@ describe("Email Verification Token Service", () => {
             const expectedVerificationToken = tokenGenerator.generate();
             const service = new TokenService(scope, hours);
             const user = userGenerator.generate();
-            TokenModel.findByUserId = jest.fn().mockResolvedValue([forgotPasswordToken, expectedVerificationToken]);
+            TokenBroker.prototype.getTokens = jest.fn().mockResolvedValue([forgotPasswordToken, expectedVerificationToken]);
             TokenModel.prototype.remove = jest.fn();
             
             const verificationToken = await service.deleteExistingToken(user);
 
             expect(verificationToken).toEqual(expectedVerificationToken);
-        });
+        })
+    });
 })

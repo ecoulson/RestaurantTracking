@@ -1,33 +1,30 @@
 import IPasswordRecoveryService from "./IPasswordRecoveryService";
-import UserModel from "../../../models/user/UserModel";
 import ITokenService from "../../Token/ITokenService";
-import TokenService from "../../Token/TokenService";
-import Scope from "../../Token/Scope";
-import PasswordRecoveryEmail from "../../../lib/Email/PasswordRecoveryEmail"
+import UserBroker from "../../../brokers/UserBroker";
+import IUser from "../../../models/user/IUser";
+import IToken from "../../../models/token/IToken";
+import Email from "../../../lib/Email/Email";
+import IEmailMessageBuilder from "../../../lib/Email/IEmailMessageBuilder";
 
-export default class PasswordRecoveryService implements IPasswordRecoveryService {
-    private tokenService : ITokenService;
+export default abstract class PasswordRecoveryService implements IPasswordRecoveryService {
+    protected tokenService : ITokenService;
+    private userBroker : UserBroker;
 
-    constructor() {
-        this.tokenService = new TokenService([Scope.ResetPassword], 1);
+    constructor(tokenService : ITokenService) {
+        this.tokenService = tokenService;
+        this.userBroker = new UserBroker();
     }
 
-    async sendForgotPasswordEmail(email : string) {
-        const user = await this.getUser(email);
+    async sendForgotPasswordEmail(email : string, values : Map<string, string>) {
+        const user = await this.userBroker.findUserByEmail(email);
         if (!user) {
             throw new Error(`No user with email ${email}`)
         }
         await this.tokenService.deleteExistingToken(user);
-        const token = await this.tokenService.generate(user);
-        const recoveryMessage = new PasswordRecoveryEmail(user, token);
+        const token = await this.tokenService.generate(user, values);
+        const recoveryMessage = new Email(await this.buildEmailMessage(user, token));
         return await recoveryMessage.send();
     }
 
-    private async getUser(email : string) {
-        try {
-            return await UserModel.findByEmail(email);
-        } catch (error) {
-            throw new Error(`Failed to find user with email ${email}`)
-        }
-    }
+    async abstract buildEmailMessage(user : IUser, token : IToken) : Promise<IEmailMessageBuilder>
 }

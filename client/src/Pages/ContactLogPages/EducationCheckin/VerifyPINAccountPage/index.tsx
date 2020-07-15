@@ -13,18 +13,21 @@ import Instructions from "../../Instructions";
 import EmailInput from "../../../../Components/EmailInput";
 import IFormValue from "../../../../Components/FormInput/IFormValue";
 import FormValue from "../../../../Components/FormInput/FormValue";
+import SendPINVerificationRequest from "../../../../API/SendPINVerificationRequest";
+import LegalContainer from "../../LegalContainer";
 
 export default class VerifyPINAccountPage extends React.Component<IVerifyPINAccountPageProps, IVerifyPINAccountPageState> {
     constructor(props : IVerifyPINAccountPageProps) {
         super(props);
         this.state = {
             organizationName: "",
-            send: true,
+            send: false,
             email: new FormValue("", false)
         }
         this.onOrganizationName = this.onOrganizationName.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.onEmailChange = this.onEmailChange.bind(this);
+        this.onComplete = this.onComplete.bind(this);
     }
 
     render() {
@@ -34,13 +37,21 @@ export default class VerifyPINAccountPage extends React.Component<IVerifyPINAcco
                     organizationId={this.props.match.params.organizationId}
                     onComplete={this.onOrganizationName}
                     send />
+                <SendPINVerificationRequest 
+                    send={this.state.send}
+                    organizationId={this.props.match.params.organizationId}
+                    email={this.state.email.value}
+                    onComplete={this.onComplete}
+                    onError={this.onComplete} />
                 <Logo dark />
                 <OrganizationName>{this.state.organizationName}</OrganizationName>
-                <Form>
+                <Instructions>Check your email to verify your account</Instructions>
+                <Form onSubmit={this.onSubmit}>
                     <EmailInput dark onChange={this.onEmailChange} iconColor="#707070" hoverColor="white" />
                     <Instructions>Enter the email associated with your PIN to resend your verification email</Instructions>
                     <Button submit>Resend</Button>
                 </Form>
+                <LegalContainer />
             </PageLayout>
         )
     }
@@ -56,6 +67,16 @@ export default class VerifyPINAccountPage extends React.Component<IVerifyPINAcco
     }
 
     onSubmit() {
+        if (this.state.email.valid) {
+            this.setState({
+                send: true
+            })
+        }
+    }
 
+    onComplete() {
+        this.setState({
+            send: false
+        })
     }
 }

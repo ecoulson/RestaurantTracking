@@ -3,13 +3,15 @@ jest.mock("../../../../../src/services/Token/TokenService");
 import { mockRequest, mockResponse } from "mock-req-res";
 import UserGenerator from "../../../../mocks/Generators/UserGenerator";
 import VerificationEmailService from "../../../../../src/services/User/Registration/VerificationEmailService";
-import TokenGenerator from "../../../../mocks/Generators/TokenGenerator";
-import VerificationEmailData from "../../../../../src/lib/Email/VerificationEmailData";
-import VerificationEmailMessage from "../../../../../src/lib/Email/VerificationEmailMessage";
 import UserRegistrationController from "../../../../../src/controllers/User/Registration/UserRegistrationController";
+import EmailData from "../../../../../src/lib/Email/EmailData";
+import EmailMessageBuilder from "../../../../../src/lib/Email/EmailMessageBuilder";
+import Email from "../../../../../src/lib/Email/Email";
+import VerifyUserService from "../../../../../src/services/User/Registration/VerifyUserService";
 
 const userGenerator = new UserGenerator();
-const tokenGenerator = new TokenGenerator();
+
+Email.prototype.send = jest.fn();
 
 describe("User Controller Suite", () => {
     describe("handleResendVerificationEmail", () => {
@@ -31,40 +33,34 @@ describe("User Controller Suite", () => {
         test("Check that verification email was sent", async () => {
             const controller = new UserRegistrationController();
             const user = userGenerator.generate();
-            const token = tokenGenerator.generate();
             const request = mockRequest({ user });
             const response = mockResponse();
+            VerifyUserService.prototype.verify = jest.fn().mockResolvedValue(user);
             VerificationEmailService.prototype.sendVerificationEmail = jest.fn().mockResolvedValue(
-                new VerificationEmailData(
-                    user,
-                    new VerificationEmailMessage(user, token).getMessage(),
-                    token
-                )
+                new EmailData(new EmailMessageBuilder().build().getMessage())
             )
 
             await controller.handleResendVerificationEmail()(request, response);
             
-            expect(VerificationEmailService.prototype.sendVerificationEmail).toHaveBeenCalledWith(user.email)
+            expect(VerifyUserService.prototype.verify).toHaveBeenCalledWith(user.email, new Map())
         });
 
         test("Should send successful response", async () => {
             const controller = new UserRegistrationController();
             const user = userGenerator.generate();
-            const token = tokenGenerator.generate();
             const request = mockRequest({ user });
             const response = mockResponse();
-            const emailData = new VerificationEmailData(
-                user,
-                new VerificationEmailMessage(user, token).getMessage(),
-                token
-            )
-            VerificationEmailService.prototype.sendVerificationEmail = jest.fn().mockResolvedValue(emailData);
+            const emailData = new EmailData(new EmailMessageBuilder().build().getMessage());
+            VerifyUserService.prototype.verify = jest.fn().mockResolvedValue(user);
+            VerificationEmailService.prototype.sendVerificationEmail = jest.fn().mockResolvedValue(
+                emailData
+            );
 
             await controller.handleResendVerificationEmail()(request, response);
             
             expect(response.json).toHaveBeenCalledWith({
                 success: true,
-                data: emailData
+                data: user
             })
         })
     })

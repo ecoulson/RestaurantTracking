@@ -3,6 +3,6 @@ import IPINLoginResponse from "./IPINLoginResponse";
 
 export default interface IPINLoginRequestProps extends IRequestProps<IPINLoginResponse> {
     email: string;
-    PIN: string;
+    password: string;
     organizationId: string;
 }

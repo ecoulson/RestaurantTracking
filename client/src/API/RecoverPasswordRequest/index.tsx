@@ -12,7 +12,7 @@ export default class RecoverPasswordRequest extends RequestComponent<IRecoverPas
     }
 
     async onLoad() {
-        return (await Axios.post("/api/user/password_recovery/recover", { 
+        return (await Axios.post(this.props.url, { 
             email: this.props.email
         })).data;
     }

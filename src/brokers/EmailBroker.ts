@@ -1,10 +1,9 @@
 import IEmail from "../lib/Email/IEmail";
-import IEmailData from "../lib/Email/IEmailData";
 
-export default class EmailBroker<T extends IEmailData> {
+export default class EmailBroker {
     async send(email : IEmail) {
         try {
-            return await email.send() as T
+            return await email.send()
         } catch(error) {
             throw error;
         }

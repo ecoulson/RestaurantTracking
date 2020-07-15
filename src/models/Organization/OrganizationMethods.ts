@@ -9,9 +9,9 @@ export default class OrganizationMethods {
         const context = ModelMethods.getContext<IOrganization>(this);
         const organizationPermissionSets : IPermissionSet[] = await OrganizationMethods.queryPermissionSets(context);
         const studentPermissionSet = organizationPermissionSets.filter((permissionSet) => {
-            return permissionSet.name === "students";
+            return permissionSet.name === "student";
         })[0];
-        user.addPermissionSet(studentPermissionSet);
+        await user.addPermissionSet(studentPermissionSet);
         await user.save();
     }
 
