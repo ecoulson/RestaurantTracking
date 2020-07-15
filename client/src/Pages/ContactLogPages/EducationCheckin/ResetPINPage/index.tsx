@@ -21,6 +21,7 @@ import IconType from "../../../../Components/Icon/IconTypes";
 import Icon from "../../../../Components/Icon";
 import ResetPasswordRequest from "../../../../API/ResetPasswordRequest";
 import ConfirmPasswordRecoveryRequest from "../../../../API/ConfirmPasswordRecoveryRequest";
+import AppHistory from "../../../../AppHistory";
 
 export default class ResetPINPage extends React.Component<IResetPINPageProps, IResetPINPageState> {
     private urlParams : URLSearchParams;
@@ -109,9 +110,8 @@ export default class ResetPINPage extends React.Component<IResetPINPageProps, IR
     }
 
     onComplete() {
-        this.setState({
-            send: false
-        })
+        this.props.showSuccess("Succesfully reset password", 500);
+        AppHistory.push(`/check-in/${this.props.match.params.organizationId}/login`)
     }
 
     onError() {

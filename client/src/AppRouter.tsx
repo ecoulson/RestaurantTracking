@@ -149,7 +149,7 @@ export default class AppRouter extends React.Component<{}, IAppRouterState> {
                     }/>
                     <Route exact path="/check-in/:organizationId/reset-password" render={
                         (props) => (
-                            <ResetPINPage {...props} />
+                            <ResetPINPage showSuccess={this.showSuccess} {...props} />
                         )
                     }/>
                     <Route exact path="/check-in/:organizationId/verify-account" render={
@@ -159,7 +159,7 @@ export default class AppRouter extends React.Component<{}, IAppRouterState> {
                     }/>
                     <Route exact path="/check-in/:organizationId/verification" render ={
                         (props) => (
-                            <PINAccountVerificationPage {...props} />
+                            <PINAccountVerificationPage showSuccess={this.showSuccess} {...props} />
                         )
                     }/>
                     <Route exact path="/check-in/:organizationId/logout" render={
@@ -169,7 +169,7 @@ export default class AppRouter extends React.Component<{}, IAppRouterState> {
                     }/>
                     <Route exact path="/check-in/:organizationId/cancel-recover" render={
                         (props) => (
-                            <CancelPasswordResetPage {...props} />
+                            <CancelPasswordResetPage showSuccess={this.showSuccess} {...props} />
                         )
                     }/>
                     <Route exact path="/help">
