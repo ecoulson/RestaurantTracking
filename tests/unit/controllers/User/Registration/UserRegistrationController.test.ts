@@ -42,7 +42,7 @@ describe("User Controller Suite", () => {
 
             await controller.handleResendVerificationEmail()(request, response);
             
-            expect(VerifyUserService.prototype.verify).toHaveBeenCalledWith(user.email)
+            expect(VerifyUserService.prototype.verify).toHaveBeenCalledWith(user.email, new Map())
         });
 
         test("Should send successful response", async () => {
