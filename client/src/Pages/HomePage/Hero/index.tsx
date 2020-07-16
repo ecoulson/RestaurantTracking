@@ -13,7 +13,7 @@ export default class Hero extends React.Component {
             <div className="hero">
                 <HeroLogo />
                 <HeroTitle />
-                <HeroMenu />
+                {/* <HeroMenu /> */}
                 <div className="hero-container">
                     <HeroInfo />
                     <SimpleButton center to="/register">Create Account</SimpleButton>
