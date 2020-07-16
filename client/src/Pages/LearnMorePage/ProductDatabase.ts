@@ -43,6 +43,53 @@ ProductDatabase.set("restaurant", {
 ProductDatabase.set("contact-logs", {
     productName: "contact-logs",
     name: "Safer-at-school Contact Logs for Colleges and Universities",
+    description: "Prevention and intervention as a dual safety protection strategy against COVID-19.",
+    overview: {
+        title: "Returning responsibly during COVID-19",
+        about: "Adapt Solutions uses NFC chips, QR codes, and bit.ly links to check-in persons as they enter buildings, allowing colleges and universities to enforce a building capacity, monitor high-risk areas, and identify infected students.",
+        mediaPath: "https://www.hmc.edu/about-hmc/wp-content/uploads/sites/2/2015/01/Shanahan.jpg"
+    },
+    features: [
+        {
+            icon: IconType.QRCode,
+            name: "Safety",
+            description: "COVID-19 prevention with building capacity and activity metrics."
+        },
+        {
+            icon: IconType.ClipboardList,
+            name: "Simplicity",
+            description: "Touchless check-ins/check-outs employing NFC technology."
+        },
+        {
+            icon: IconType.Lock,
+            name: "Security",
+            description: "Know that your users data is safe and secure as we provide end-to-end encryption during the transfer of data."
+        }
+    ],
+    sections: [
+        {
+            title: "How it works",
+            mediaURL: "https://bestcellphonespyapps.com/wp-content/uploads/2016/03/o-CELL-PHONE-facebook.jpg",
+            description: "When entering a building, individuals hover, scan, or type a bit.ly link to check-in. If a building is under capacity, persons will reach a success page and be instructed to enter the building. If the building is at capacity, students will receive a notice not to enter."
+
+        },
+        {
+            title: "Smart, data informed decisions",
+            mediaURL: "https://securityintelligence.com/wp-content/uploads/2018/10/si-advanced-authentication-feature.jpg",
+            description: "By analyzing check-in and check-out timestamps, we can notify you of your “chokepoints,” so that you can decrease traffic in high-risk areas. With a simple query, institutions can determine what buildings an infected student has entered. The persons checked-in simultaneously could be encouraged to quarantine for 14 days, and the buildings they entered could be thoroughly sanitized."
+            
+        }
+    ],
+    pricingModel: {
+        description: "Use our price estimator to calculate your price. Upgrades such as college/university branded QR codes, integration with an identification system, and on-the-go check-in/check-out cards are not included.",
+        type: PricingModelType.ContactLog,
+        pricingStrategy: new ContactLogPricingStrategy()
+    }
+});
+
+ProductDatabase.set("contact-logs-business", {
+    productName: "contact-logs-business",
+    name: "Safer-at-business Contact Logs for Offices",
     description: "Students enter a contact log with the choice of a simple hover, scan, or link. Our data empowers schools to make smart, data informed decisions.",
     overview: {
         title: "Returning responsibly during COVID-19",
@@ -58,7 +105,7 @@ ProductDatabase.set("contact-logs", {
         {
             icon: IconType.ClipboardList,
             name: "Simplicity",
-            description: "Contact logs provide the ability to contact trace and make data-informed quarantine suggestions. "
+            description: ". "
         },
         {
             icon: IconType.Lock,
