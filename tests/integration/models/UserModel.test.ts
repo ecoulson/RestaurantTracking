@@ -1,4 +1,4 @@
-import UserModel from "../../../src/models/user/UserModel";
+import UserModel from "../../../src/models/User/UserModel";
 import * as TestDatabase from "../../helpers/database";
 import faker from "faker";
 import mongoose from "mongoose";

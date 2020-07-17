@@ -1,8 +1,8 @@
 import IPasswordResetService from "./IPasswordResetService";
-import UserModel from "../../../models/user/UserModel";
-import TokenModel from "../../../models/token/TokenModel";
-import IUser from "../../../models/user/IUser";
-import IToken from "../../../models/token/IToken";
+import UserModel from "../../../models/User/UserModel";
+import TokenModel from "../../../models/Token/TokenModel";
+import IUser from "../../../models/User/IUser";
+import IToken from "../../../models/Token/IToken";
 import Scope from "../../Token/Scope";
 import bcrypt from "bcrypt"
 

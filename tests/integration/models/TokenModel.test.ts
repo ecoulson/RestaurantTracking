@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import * as TestDatabase from "../../helpers/database";
-import TokenModel from "../../../src/models/token/TokenModel";
+import TokenModel from "../../../src/models/Token/TokenModel";
 import { generateObjectId } from "../../helpers/mongo";
 import crypto from "crypto";
 import Scope from "../../../src/services/Token/Scope";

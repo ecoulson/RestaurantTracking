@@ -1,5 +1,5 @@
 import IUsernameAvailabilityService from "./IUsernameAvailabilityService";
-import UserModel from "../../../models/user/UserModel";
+import UserModel from "../../../models/User/UserModel";
 
 export default class UsernameAvailabilityService implements IUsernameAvailabilityService {
     async check(username : string) {

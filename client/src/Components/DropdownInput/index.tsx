@@ -1,6 +1,5 @@
 import React from "react";
 import FormInput from "../FormInput";
-import IconType from "../Icon/IconTypes";
 import Menu from "./Menu";
 import IDropdownState from "./IDropdownState";
 import IDropdownProps from "./IDropdownProps";
@@ -12,7 +11,7 @@ export default class DropdownInput extends React.Component<IDropdownProps, IDrop
         this.state = {
             value: "",
             valid: false,
-            focused: false,
+            focused: false
         };
 
         this.onChange = this.onChange.bind(this);
@@ -56,10 +55,10 @@ export default class DropdownInput extends React.Component<IDropdownProps, IDrop
                     id={this.props.id}
                     iconColor={this.props.iconColor}
                     type="text" 
-                    label="Restaurant"
+                    label={this.props.label}
                     hoverColor={this.props.hoverColor}
-                    icon={IconType.Menu}
-                    placeHolder="Pick where you ate" />
+                    icon={this.props.icon}
+                    placeHolder={this.props.placeholder} />
                 <Menu 
                     handleMenuClick={this.handleMenuItemClick}
                     visible={this.isVisible()} 

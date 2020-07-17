@@ -1,4 +1,4 @@
-import UserModel from "../../../../../src/models/user/UserModel"
+import UserModel from "../../../../../src/models/User/UserModel"
 import UserPermissionSetupService from "../../../../../src/services/User/Registration/UserPermissionSetupService"
 import UserGenerator from "../../../../mocks/Generators/UserGenerator"
 import PermissionSetService from "../../../../../src/services/Permission/PermissionSetService";

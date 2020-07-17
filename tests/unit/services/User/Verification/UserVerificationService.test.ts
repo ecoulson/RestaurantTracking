@@ -1,5 +1,5 @@
-import UserModel from "../../../../../src/models/user/UserModel";
-import TokenModel from "../../../../../src/models/token/TokenModel";
+import UserModel from "../../../../../src/models/User/UserModel";
+import TokenModel from "../../../../../src/models/Token/TokenModel";
 import UserVerificationService from "../../../../../src/services/User/Verification/UserVerificationService";
 import Scope from "../../../../../src/services/Token/Scope";
 import UserGenerator from "../../../../mocks/Generators/UserGenerator";

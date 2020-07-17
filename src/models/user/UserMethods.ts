@@ -1,6 +1,8 @@
 import ModelMethods from "../ModelMethods";
 import IUser from "./IUser";
 import IPermissionSet from "../PermissionSet/IPermissionSet";
+import PermissionSetModel from "../PermissionSet/PermissionSetModel";
+import IPermission from "../Permission/IPermission";
 
 export default class UserMethods {
     public static serialize() {
@@ -19,5 +21,11 @@ export default class UserMethods {
         const context = ModelMethods.getContext<IUser>(this);
         context.permissionSets.push(permissionSet._id);
         await context.save();
+    }
+
+    public static async addPermission(permission : IPermission) {
+        const context = ModelMethods.getContext<IUser>(this);
+        const permissionSet = await PermissionSetModel.findPermissionSetByName(`User:${context._id}`);
+        await permissionSet.addPermission(permission);
     }
 }

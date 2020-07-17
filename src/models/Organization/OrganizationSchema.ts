@@ -16,6 +16,10 @@ const OrganizationSchema = new Schema({
     permissionSets: {
         type: [String],
         default: []
+    },
+    buildings: {
+        type: [String],
+        default: []
     }
 })
 

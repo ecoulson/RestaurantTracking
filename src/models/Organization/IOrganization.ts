@@ -1,5 +1,5 @@
 import IOrganizationSchema from "./IOrganizationSchema";
-import IUser from "../user/IUser";
+import IUser from "../User/IUser";
 import IPermissionSetSchema from "../PermissionSet/IPermissionSetSchema";
 import IPermissionSet from "../PermissionSet/IPermissionSet";
 

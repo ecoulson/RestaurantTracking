@@ -1,4 +1,4 @@
-import TokenModel from "../../models/token/TokenModel";
+import TokenModel from "../../models/Token/TokenModel";
 
 export default class TokenManager {
     run() {

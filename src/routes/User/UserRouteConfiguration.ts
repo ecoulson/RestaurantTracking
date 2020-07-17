@@ -39,7 +39,7 @@ export default class UserRouteConfiguration extends RouterConfiguration {
         this.router.get(
             "/session", 
             new JSONWebTokenAuthenticationStrategy().authenticate(),
-            new AuthorizationMiddleware().authorize(OperationType.Read, (request) => {
+            new AuthorizationMiddleware().authorize(OperationType.Read, async (request) => {
                 return [new ResourceRequest(request.user.id, ResourceType.User)]
             }),
             ErrorCatchingMiddleware.catchErrors(this.controller.handleGetSessionUser())
@@ -48,7 +48,7 @@ export default class UserRouteConfiguration extends RouterConfiguration {
             "/",
             new ValidationMiddleware(UpdatedProfileSchema).validateBody(),
             new JSONWebTokenAuthenticationStrategy().authenticate(),
-            new AuthorizationMiddleware().authorize(OperationType.Update, (request) => {
+            new AuthorizationMiddleware().authorize(OperationType.Update, async (request) => {
                 return [new ResourceRequest(request.user.id, ResourceType.User)]
             }),
             ErrorCatchingMiddleware.catchErrors(this.controller.handleUpdateSessionUserProfile())

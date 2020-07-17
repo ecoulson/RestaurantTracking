@@ -1,4 +1,4 @@
-import IUser from "../user/IUser";
+import IUser from "../User/IUser";
 import ModelMethods from "../ModelMethods";
 import IOrganization from "./IOrganization";
 import PermissionSetModel from "../PermissionSet/PermissionSetModel";

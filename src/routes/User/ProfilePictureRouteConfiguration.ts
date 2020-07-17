@@ -35,7 +35,7 @@ export default class ProfilePictureRouteConfiguration extends RouterConfiguratio
             "/link",
             new ValidationMiddleware(URLProfilePictureSchema).validateBody(),
             new JSONWebTokenAuthenticationStrategy().authenticate(),
-            new AuthorizationMiddleware().authorize(OperationType.Update, (request) => {
+            new AuthorizationMiddleware().authorize(OperationType.Update, async (request) => {
                 return [new ResourceRequest(request.user.id, ResourceType.User)]
             }),
             ErrorCatchingMiddleware.catchErrors(this.urlProfilePictureUploadController.handleUpload())
@@ -45,7 +45,7 @@ export default class ProfilePictureRouteConfiguration extends RouterConfiguratio
             "/file",
             profilePictureFileHandler.single("avatar"),
             new JSONWebTokenAuthenticationStrategy().authenticate(),
-            new AuthorizationMiddleware().authorize(OperationType.Update, (request) => {
+            new AuthorizationMiddleware().authorize(OperationType.Update, async (request) => {
                 return [new ResourceRequest(request.user.id, ResourceType.User)]
             }),
             ErrorCatchingMiddleware.catchErrors(this.fileProfilePictureUploadController.handleUpload())
@@ -55,7 +55,7 @@ export default class ProfilePictureRouteConfiguration extends RouterConfiguratio
             "/:userId",
             new ValidationMiddleware(ProfilePictureSchema).validateParams(),
             new JSONWebTokenAuthenticationStrategy().authenticate(),
-            new AuthorizationMiddleware().authorize(OperationType.Read, (request) => {
+            new AuthorizationMiddleware().authorize(OperationType.Read, async (request) => {
                 return [new ResourceRequest(request.params.userId, ResourceType.User)]
             }),
             ErrorCatchingMiddleware.catchErrors(this.profilePictureController.handleGetProfilePicture())

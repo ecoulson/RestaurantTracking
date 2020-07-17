@@ -22,6 +22,10 @@ import UserBroker from "../../brokers/UserBroker";
 import OrganizationUserVerificationEmailService from "../../services/Organization/OrganizationAccount/OrganizationUserVerificationEmailService";
 import EncryptedTokenService from "../../services/Token/EncryptedTokenService";
 import TokenBroker from "../../brokers/TokenBroker";
+import OrganizationBuildingRouteConfiguration from "./OrganizationBuildingRouteConfiguration";
+import OrganizationBuildingController from "../../controllers/Organization/Building/OrganizationBuildingController";
+import GetBuildingService from "../../services/Building/GetBuildingService";
+import BuildingBroker from "../../brokers/BuildingBroker";
 
 export default class OrganizationRouteConfiguration extends RouterConfiguration {
     private organizationController : IOrganizationController;
@@ -63,6 +67,14 @@ export default class OrganizationRouteConfiguration extends RouterConfiguration 
                     new OrganizationUserVerificationEmailService(
                         new EncryptedTokenService([Scope.VerifyEmail], 24, new TokenBroker())
                     )
+                )
+            )
+        ).setup())
+
+        this.router.use("/buildings", new OrganizationBuildingRouteConfiguration(
+            new OrganizationBuildingController(
+                new GetBuildingService(
+                    new BuildingBroker()
                 )
             )
         ).setup())

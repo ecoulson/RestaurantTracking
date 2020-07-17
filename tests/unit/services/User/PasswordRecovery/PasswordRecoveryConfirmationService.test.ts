@@ -1,8 +1,8 @@
 import PasswordRecoveryConfirmationService from "../../../../../src/services/User/PasswordRecovery/PasswordRecoveryConfirmationService"
 import UserGenerator from "../../../../mocks/Generators/UserGenerator"
 import TokenGenerator from "../../../../mocks/Generators/TokenGenerator";
-import UserModel from "../../../../../src/models/user/UserModel";
-import TokenModel from "../../../../../src/models/token/TokenModel";
+import UserModel from "../../../../../src/models/User/UserModel";
+import TokenModel from "../../../../../src/models/Token/TokenModel";
 import Scope from "../../../../../src/services/Token/Scope";
 
 const userGenerator = new UserGenerator();

@@ -1,9 +1,9 @@
 import ICancelPasswordRecoveryService from "./ICancelPasswordRecoveryService";
-import UserModel from "../../../models/user/UserModel";
-import TokenModel from "../../../models/token/TokenModel";
+import UserModel from "../../../models/User/UserModel";
+import TokenModel from "../../../models/Token/TokenModel";
 import Scope from "../../Token/Scope";
-import IToken from "../../../models/token/IToken";
-import IUser from "../../../models/user/IUser";
+import IToken from "../../../models/Token/IToken";
+import IUser from "../../../models/User/IUser";
 
 export default class CancelPasswordRecoveryService implements ICancelPasswordRecoveryService {
     async cancel(email : string, token : string) {

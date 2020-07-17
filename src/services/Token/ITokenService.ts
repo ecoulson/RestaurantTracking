@@ -1,5 +1,5 @@
-import IUser from "../../models/user/IUser";
-import IToken from "../../models/token/IToken";
+import IUser from "../../models/User/IUser";
+import IToken from "../../models/Token/IToken";
 
 export default interface ITokenService {
     generate(user : IUser, values : Map<string, string>): Promise<IToken>;

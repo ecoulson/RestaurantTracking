@@ -4,7 +4,7 @@ import { logger } from "../../lib/logging";
 import JSONWebToken from "jsonwebtoken";
 import { IncomingHttpHeaders } from "http";
 import IUserToken from "./IUserToken";
-import UserModel from "../../models/user/UserModel";
+import UserModel from "../../models/User/UserModel";
 import UnauthorizedResponse from "../../lib/HTTP/UnauthorizedResponse";
 
 export default class JSONWebTokenAuthenticationStrategy implements IAuthenticationStrategy {

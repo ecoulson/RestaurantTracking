@@ -1,89 +1,85 @@
-import RestaurantModel from "../../../../src/models/restaurant/RestaurantModel";
 import CheckInService from "../../../../src/services/CheckIn/CheckInService";
-import CheckInModel from "../../../../src/models/check-in/CheckInModel";
+import CheckInModel from "../../../../src/models/CheckIn/CheckInModel";
 import faker from "faker";
 import CSV from "../../../../src/lib/HTTP/CSV";
 import CheckInBodyGenerator from "../../../mocks/Generators/CheckInBodyGenerator";
-import RestaurantGenerator from "../../../mocks/Generators/RestaurantGenerator";
+import OrganizationGenerator from "../../../mocks/Generators/OrganizationGenerator";
 import CheckInGenerator from "../../../mocks/Generators/CheckInGenerator";
+import OrganizationBroker from "../../../../src/brokers/OrganizationBroker";
+import PermissionBuilder from "../../../../src/services/Permission/PermissionBuilder";
+import UserBroker from "../../../../src/brokers/UserBroker";
+import PermissionModel from "../../../../src/models/Permission/PermissionModel";
+import UserModel from "../../../../src/models/User/UserModel";
+import UserGenerator from "../../../mocks/Generators/UserGenerator";
+
+jest.mock("../../../../src/brokers/OrganizationBroker");
+jest.mock("../../../../src/brokers/UserBroker");
+jest.mock("../../../../src/models/Organization/OrganizationModel");
 
 const checkInBodyGenerator = new CheckInBodyGenerator();
+const userGenerator = new UserGenerator();
 const checkInGenerator = new CheckInGenerator();
-const restaurantGenerator = new RestaurantGenerator();
+const organizationGenerator = new OrganizationGenerator();
 
-describe("Checkin Service Test", () => {
+describe("Check In Service Test", () => {
     describe("checkIn", () => {
-        test("A an error when saving for restaurant with an id", async () => {
-            const service = new CheckInService();
-            const restaurant = restaurantGenerator.generate();
-            checkInBodyGenerator.setRestaurantId(restaurant._id)
-            const checkInBody = checkInBodyGenerator.generate();
-            const ip = faker.internet.ip()
-            CheckInModel.prototype.save = jest.fn().mockRejectedValue(checkInBody);
-            RestaurantModel.findById = jest.fn().mockResolvedValue(restaurant);
-
-            try {
-                await service.checkIn(checkInBody, ip);
-            } catch (error) {
-                expect(error).toEqual(
-                    new Error(`Error when saving checkin to restaurant with ${restaurant._id} from ${ip}`
-                ));
-            }
-            expect.assertions(1);
-        });
-
-        test("A an error when finding restaurant during checkin", async () => {
-            const service = new CheckInService();
-            const restaurant = restaurantGenerator.generate();
-            checkInBodyGenerator.setRestaurantId(restaurant._id)
-            const checkInBody = checkInBodyGenerator.generate();
-            CheckInModel.prototype.save = jest.fn().mockResolvedValue(checkInBody);
-            RestaurantModel.findById = jest.fn().mockRejectedValue(new Error());
-
-            try {
-                await service.checkIn(checkInBody, faker.internet.ip());
-            } catch (error) {
-                expect(error).toEqual(new Error(`Error when finding restaurant with ${restaurant._id}`));
-            }
-            expect.assertions(1);
-        });
-
-        test("A checkin to a restaurant that does not exist", async () => {
-            const service = new CheckInService();
+        test("A check in to a restaurant that does not exist", async () => {
             CheckInModel.prototype.save = jest.fn().mockResolvedValue(null);
-            RestaurantModel.findById = jest.fn().mockResolvedValue(null);
+            PermissionModel.prototype.save = jest.fn();
+            UserBroker.prototype.findById = jest.fn().mockResolvedValue(userGenerator.generate())
+            UserModel.prototype.addPermission = jest.fn()
+            OrganizationBroker.prototype.findOrganizationById = jest.fn().mockResolvedValue(null);
+            const service = new CheckInService(
+                new OrganizationBroker(),
+                new PermissionBuilder(),
+                new UserBroker()
+            );
             const checkInBody = checkInBodyGenerator.generate()
 
             try {
                 await service.checkIn(checkInBody, faker.internet.ip());
             } catch(error) {
                 expect(error).toEqual(
-                    new Error("Can not check in to a restaurant that does not exist")
+                    new Error("Can not check in to an organization that does not exist")
                 );
             }
             expect.assertions(1)
         });
 
-        test("A checkin with a provided timeCheckedIn", async () => {
-            const service = new CheckInService();
-            const checkInBody = checkInBodyGenerator.generate();
+        test("A check in with a provided timeCheckedIn", async () => {
             const checkIn = checkInGenerator.generate();
             CheckInModel.prototype.save = jest.fn().mockResolvedValue(checkIn);
-            RestaurantModel.findById = jest.fn().mockResolvedValue(restaurantGenerator.generate());
+            PermissionModel.prototype.save = jest.fn();
+            UserBroker.prototype.findById = jest.fn().mockResolvedValue(userGenerator.generate())
+            UserModel.prototype.addPermission = jest.fn()
+            OrganizationBroker.prototype.findOrganizationById = jest.fn().mockResolvedValue(organizationGenerator.generate());
+            const service = new CheckInService(
+                new OrganizationBroker(),
+                new PermissionBuilder(),
+                new UserBroker()
+            );
 
-            const checkInDocument = await service.checkIn(checkInBody, checkIn.ipAddress);
+            const checkInDocument = await service.checkIn(checkIn, checkIn.ipAddress);
 
-            expect(checkInDocument).toEqual(checkIn);
+            expect(checkInDocument.serialize()).toEqual(checkIn.serialize());
         })
 
         test("A successful check in", async () => {
-            const service = new CheckInService();
+            const organization = organizationGenerator.generate();
             const checkIn = checkInGenerator.generate();
-            const checkInBody = checkInBodyGenerator.generate();
+            UserBroker.prototype.findById = jest.fn().mockResolvedValue(userGenerator.generate())
+            UserModel.prototype.addPermission = jest.fn();
             CheckInModel.prototype.save = jest.fn().mockResolvedValue(checkIn);
-            RestaurantModel.findById = jest.fn().mockResolvedValue(restaurantGenerator.generate());
+            PermissionModel.prototype.save = jest.fn();
+            OrganizationBroker.prototype.findOrganizationById = jest.fn().mockResolvedValue(organization);
 
-            const checkInDocument = await service.checkIn(checkInBody, checkIn.ipAddress);
+            const service = new CheckInService(
+                new OrganizationBroker(),
+                new PermissionBuilder(),
+                new UserBroker()
+            );
+
+            const checkInDocument = await service.checkIn(checkIn, checkIn.ipAddress);
 
             expect(checkInDocument).toEqual(checkIn);
         })
@@ -91,32 +87,44 @@ describe("Checkin Service Test", () => {
 
     describe("getRestaurantReport", () => {
         test("A successful get check ins request with no entries", async () => {
-            const service = new CheckInService();
+            const service = new CheckInService(
+                new OrganizationBroker(),
+                new PermissionBuilder(),
+                new UserBroker()
+            );
             const checkIn = checkInGenerator.generate();
-            CheckInModel.findByRestaurantId = jest.fn().mockResolvedValue([]);
+            CheckInModel.findByOrganizationId = jest.fn().mockResolvedValue([]);
 
-            const report = await service.getRestaurantReport(checkIn._id);
+            const report = await service.getOrganizationReport(checkIn._id);
 
             expect(report).toEqual("");
         })
         
         test("A successful get check ins request", async () => {
-            const service = new CheckInService();
+            const service = new CheckInService(
+                new OrganizationBroker(),
+                new PermissionBuilder(),
+                new UserBroker()
+            );
             const checkIn = checkInGenerator.generate();
-            CheckInModel.findByRestaurantId = jest.fn().mockResolvedValue([ checkIn ]);
+            CheckInModel.findByOrganizationId = jest.fn().mockResolvedValue([ checkIn ]);
 
-            const report = await service.getRestaurantReport(checkIn._id);
+            const report = await service.getOrganizationReport(checkIn._id);
 
             expect(report).toEqual(CSV.JSONtoCSV([ checkIn.serialize() ]));
         })
 
         test("A successful get check ins request multiple rows", async () => {
-            const service = new CheckInService();
+            const service = new CheckInService(
+                new OrganizationBroker(),
+                new PermissionBuilder(),
+                new UserBroker()
+            );
             const checkIn = checkInGenerator.generate();
             const record = [ checkIn, checkIn, checkIn ];
-            CheckInModel.findByRestaurantId = jest.fn().mockResolvedValue(record);
+            CheckInModel.findByOrganizationId = jest.fn().mockResolvedValue(record);
 
-            const report = await service.getRestaurantReport(checkIn._id);
+            const report = await service.getOrganizationReport(checkIn._id);
 
             expect(report).toEqual(CSV.JSONtoCSV(record.map((entry) => entry.serialize())));
         })

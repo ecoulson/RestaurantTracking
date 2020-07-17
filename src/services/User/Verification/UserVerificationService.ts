@@ -1,9 +1,9 @@
 import IUserVerificationService from "./IUserVerificationService";
-import IUser from "../../../models/user/IUser";
-import TokenModel from "../../../models/token/TokenModel";
+import IUser from "../../../models/User/IUser";
+import TokenModel from "../../../models/Token/TokenModel";
 import Scope from "../../Token/Scope";
-import IToken from "../../../models/token/IToken";
-import UserModel from "../../../models/user/UserModel";
+import IToken from "../../../models/Token/IToken";
+import UserModel from "../../../models/User/UserModel";
 
 export default class UserVerificationService implements IUserVerificationService {
     async verify(token: string, email : string) {

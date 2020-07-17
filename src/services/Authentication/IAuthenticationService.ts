@@ -1,4 +1,4 @@
-import IUser from "../../models/user/IUser";
+import IUser from "../../models/User/IUser";
 import ILoginArguments from "./ILoginArguments";
 
 export default interface IAuthenticationService {

@@ -1,7 +1,7 @@
 import IProfilePictureService from "./IProfilePictureService";
-import UserModel from "../../../models/user/UserModel";
+import UserModel from "../../../models/User/UserModel";
 import AWS from "aws-sdk"
-import IUser from "../../../models/user/IUser";
+import IUser from "../../../models/User/IUser";
 
 export default class ProfilePictureService implements IProfilePictureService {
     private bucket : AWS.S3

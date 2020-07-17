@@ -1,31 +1,57 @@
 import { Request, Response } from "express";
 import ICheckInBody from "./ICheckInBody";
-import IGetCheckInsByRestaurantQuery from "./IGetCheckInsByRestaurantQuery";
+import IGetCheckInsByRestaurantQuery from "./IGetCheckInsByOrganizationQuery";
 import CheckInService from "../../services/CheckIn/CheckInService";
 import requestIp from "request-ip";
 import CSVResponse from "../../lib/HTTP/CSVResponse";
-import MessageResponse from "../../lib/HTTP/MessageResponse";
+import JSONResponse from "../../lib/HTTP/JSONResponse";
+import ICheckInController from "./ICheckInController";
+import IGetCheckInService from "../../services/CheckIn/IGetCheckInService";
+import ICheckoutService from "../../services/CheckIn/ICheckoutService";
 
-export default class CheckInController {
-    checkInService : CheckInService;
+export default class CheckInController implements ICheckInController {
+    private checkInService : CheckInService;
+    private getCheckInService : IGetCheckInService;
+    private checkOutService : ICheckoutService;
 
-    constructor() {
-        this.checkInService = new CheckInService();
-        this.handleCheckIn = this.handleCheckIn.bind(this);
-        this.handleGetReport = this.handleGetReport.bind(this);
+    constructor(checkInService : CheckInService, getCheckInService : IGetCheckInService, checkoutService : ICheckoutService) {
+        this.checkInService = checkInService;
+        this.getCheckInService = getCheckInService;
+        this.checkOutService = checkoutService;
     }
 
-    public async handleCheckIn(req : Request, res: Response) {
-        const checkIn = req.body as ICheckInBody;
-        await this.checkInService.checkIn(checkIn, requestIp.getClientIp(req));
-        return new MessageResponse(res).send("Successfully checked in");
+    handleCheckIn() {
+        return async (req : Request, res: Response) => {
+            const checkInBody = req.body as ICheckInBody;
+            checkInBody.userId = req.user._id
+            const checkIn = await this.checkInService.checkIn(checkInBody, requestIp.getClientIp(req));
+            return new JSONResponse(res).send(checkIn);
+        }
     }
 
-    public async handleGetReport(req : Request, res: Response) {
-        const getCheckInQuery = req.query as any as IGetCheckInsByRestaurantQuery;
-        const checkInReport = await this.checkInService.getRestaurantReport(
-            getCheckInQuery.restaurantId
-        );
-        return new CSVResponse(res).send(checkInReport);
+    handleCheckOut() {
+        return async (req : Request, res: Response) => {
+            const checkIn = await this.checkOutService.checkout(req.body.checkInId);
+            return new JSONResponse(res).send(checkIn);
+        }
+    }
+
+    handleGetReport() {
+        return async (req : Request, res: Response) => {
+            const getCheckInQuery = req.query as any as IGetCheckInsByRestaurantQuery;
+            const checkInReport = await this.checkInService.getOrganizationReport(
+                getCheckInQuery.restaurantId
+            );
+            return new CSVResponse(res).send(checkInReport);
+        }
+    }
+
+    handleGetCheckIn() {
+        return async (req : Request, res: Response) => {
+            const checkIn = await this.getCheckInService.getCheckIn(
+                req.params.checkInId
+            );
+            return new JSONResponse(res).send(checkIn);
+        }
     }
 }

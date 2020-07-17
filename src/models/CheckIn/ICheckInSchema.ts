@@ -1,8 +1,10 @@
 import IDocument from "../IDocument";
 
 export default interface ICheckInSchema extends IDocument {
-    email?: string;
-    number?: string;
+    checkedOut: boolean;
     timeCheckedIn: Date;
+    timeCheckedOut: Date;
     ipAddress: string;
+    building: string;
+    room?: string;
 }

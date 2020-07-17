@@ -1,8 +1,8 @@
 import IUserRegistrationService from "./IUserRegistrationService";
 import IRegistrationBody from "../../../controllers/User/Registration/IRegistrationBody";
-import UserModel from "../../../models/user/UserModel";
+import UserModel from "../../../models/User/UserModel";
 import bcrypt from "bcrypt";
-import IUser from "../../../models/user/IUser";
+import IUser from "../../../models/User/IUser";
 import UserBroker from "../../../brokers/UserBroker";
 
 export default class UserRegistrationService implements IUserRegistrationService {

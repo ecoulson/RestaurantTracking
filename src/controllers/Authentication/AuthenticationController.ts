@@ -4,7 +4,7 @@ import AuthenticationService from "../../services/Authentication/AuthenticationS
 import ILoginBody from "./ILoginBody";
 import JSONResponse from "../../lib/HTTP/JSONResponse";
 import jsonwebtoken from "jsonwebtoken";
-import UserModel from "../../models/user/UserModel";
+import UserModel from "../../models/User/UserModel";
 import LoginArguments from "../../services/Authentication/LoginArguments";
 
 export default class AuthenticationController {

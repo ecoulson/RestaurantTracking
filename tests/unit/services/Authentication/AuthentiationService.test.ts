@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import AuthenticationService from "../../../../src/services/Authentication/AuthenticationService";
-import UserModel from "../../../../src/models/user/UserModel";
+import UserModel from "../../../../src/models/User/UserModel";
 import jsonwebtoken from "jsonwebtoken";
 import UserGenerator from "../../../mocks/Generators/UserGenerator";
 import LoginArguments from "../../../../src/services/Authentication/LoginArguments";

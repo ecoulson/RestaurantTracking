@@ -1,5 +1,5 @@
 import IUserPermissionSetupService from "./IUserPermissionSetupService";
-import IUser from "../../../models/user/IUser";
+import IUser from "../../../models/User/IUser";
 import IPermissionSetService from "../../Permission/IPermissionSetService";
 import PermissionSetService from "../../Permission/PermissionSetService";
 import IPermissionBuilder from "../../Permission/IPermissionBuilder";

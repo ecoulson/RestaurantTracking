@@ -54,6 +54,7 @@ const UserSchema = new Schema({
 
 UserSchema.methods.serialize = UserMethods.serialize;
 UserSchema.methods.addPermissionSet = UserMethods.addPermissionSet;
+UserSchema.methods.addPermission = UserMethods.addPermission;
 
 UserSchema.statics.findByUsername = UserStatic.findByUsername;
 UserSchema.statics.findByEmail = UserStatic.findByEmail;

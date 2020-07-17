@@ -1,7 +1,7 @@
 import faker from "faker"
-import UserModel from "../../../src/models/user/UserModel"
+import UserModel from "../../../src/models/User/UserModel"
 import IGenerator from "./IGenerator"
-import IUser from "../../../src/models/user/IUser"
+import IUser from "../../../src/models/User/IUser"
 
 export default class UserGenerator implements IGenerator<IUser> {
     private verified : boolean;

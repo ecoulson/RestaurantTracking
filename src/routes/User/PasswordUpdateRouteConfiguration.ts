@@ -23,7 +23,7 @@ export default class PasswordUpdateRouteConfiguration extends RouterConfiguratio
             "/",
             new ValidationMiddleware(PasswordUpdateSchema).validateBody(),
             new JSONWebTokenAuthenticationStrategy().authenticate(),
-            new AuthorizationMiddleware().authorize(OperationType.Update, (request) => {
+            new AuthorizationMiddleware().authorize(OperationType.Update, async (request) => {
                 return [new ResourceRequest(request.user.id, ResourceType.User)]
             }),
             ErrorCatchingMiddleware.catchErrors(this.controller.handlePasswordUpdate())

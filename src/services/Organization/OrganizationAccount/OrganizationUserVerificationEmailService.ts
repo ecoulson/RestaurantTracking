@@ -1,6 +1,6 @@
 import InternalURLBuilder from "../../../lib/URL/InternalURLBuilder";
-import IUser from "../../../models/user/IUser";
-import IToken from "../../../models/token/IToken";
+import IUser from "../../../models/User/IUser";
+import IToken from "../../../models/Token/IToken";
 import VerificationEmailService from "../../User/Registration/VerificationEmailService";
 import ITokenService from "../../Token/ITokenService";
 

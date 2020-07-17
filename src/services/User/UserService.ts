@@ -1,5 +1,5 @@
 import IUserService from "./IUserService";
-import IUser from "../../models/user/IUser";
+import IUser from "../../models/User/IUser";
 import IUpdatedProfile from "../../controllers/User/IUpdatedProfile";
 
 export default class UserService implements IUserService {

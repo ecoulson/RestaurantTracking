@@ -15,5 +15,6 @@ IconFillSet.add(IconType.CreditCard);
 IconFillSet.add(IconType.Users);
 IconFillSet.add(IconType.QRCode);
 IconFillSet.add(IconType.SortAZ);
+IconFillSet.add(IconType.BuildingSolid);
 
 export default IconFillSet;

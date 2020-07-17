@@ -65,7 +65,7 @@ export default class PINLoginPage extends React.Component<IPinLoginPageProps, IP
                     </SlideSwitch>
                     {this.getInput()}
                     <ResetPINLink organizationId={this.props.match.params.organizationId} />
-                    <Button submit>Submit</Button>
+                    <Button dark submit>Submit</Button>
                 </Form>
                 <LegalContainer />
             </PageLayout>
