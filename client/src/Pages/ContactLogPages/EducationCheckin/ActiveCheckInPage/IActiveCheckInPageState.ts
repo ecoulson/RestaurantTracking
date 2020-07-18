@@ -1,4 +1,4 @@
 export default interface IActiveCheckInPageState {
-    organizationName: string;
+    building: string;
     send: boolean;
 }

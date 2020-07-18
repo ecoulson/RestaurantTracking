@@ -39,6 +39,7 @@ import CheckInLogoutPage from "./Pages/ContactLogPages/EducationCheckin/CheckInL
 import CancelPasswordResetPage from "./Pages/ContactLogPages/EducationCheckin/CancelPasswordResetPage";
 import OrganizationCheckInPage from "./Pages/ContactLogPages/EducationCheckin/OrganizationCheckInPage";
 import ActiveCheckInPage from "./Pages/ContactLogPages/EducationCheckin/ActiveCheckInPage";
+import CheckOutPage from "./Pages/ContactLogPages/EducationCheckin/CheckOutPage";
 
 export default class AppRouter extends React.Component<{}, IAppRouterState> {
     constructor(props: {}) {
@@ -182,6 +183,11 @@ export default class AppRouter extends React.Component<{}, IAppRouterState> {
                     <Route exact path="/check-in/:organizationId/active-check-in" render={
                         (props) => (
                             <ActiveCheckInPage showSuccess={this.showSuccess} {...props} />
+                        )
+                    }/>
+                    <Route exact path="/check-in/:organizationId/check-out" render={
+                        (props) => (
+                            <CheckOutPage showSuccess={this.showSuccess} {...props} />
                         )
                     }/>
                     <Route exact path="/help">

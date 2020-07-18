@@ -5,20 +5,20 @@ import CheckInTimer from "../../../../Components/CheckInTimer";
 import Cookie from "../../../../lib/Cookie";
 import LegalContainer from "../../LegalContainer";
 import Button from "../../../../Components/Button";
-import GetOrganizationNameRequest from "../../../../API/GetOrganizationNameRequest";
 import IActiveCheckInPageProps from "./IActiveCheckInPageProps";
 import IResponse from "../../../../API/IResponse";
-import IGetOrganizationNameResponse from "../../../../API/GetOrganizationNameRequest/IGetOrganizationNameResponse";
 import IActiveCheckInPageState from "./IActiveCheckInPageState";
 import OrganizationName from "../../OrganizationName";
 import CheckOutRequest from "../../../../API/CheckOutRequest";
 import AppHistory from "../../../../AppHistory";
+import GetCheckInRequest from "../../../../API/GetCheckInRequest";
+import ICheckInResponse from "../../../../API/CheckInRequest/ICheckInResponse";
 
 export default class ActiveCheckInPage extends React.Component<IActiveCheckInPageProps, IActiveCheckInPageState> {
     constructor(props : IActiveCheckInPageProps) {
         super(props);
         this.state = {
-            organizationName: "",
+            building: "",
             send: false
         }
 
@@ -26,6 +26,7 @@ export default class ActiveCheckInPage extends React.Component<IActiveCheckInPag
         this.onCheckOut = this.onCheckOut.bind(this);
         this.onError = this.onError.bind(this);
         this.onClick = this.onClick.bind(this);
+        this.onTick = this.onTick.bind(this);
     }
 
     render() {
@@ -37,17 +38,25 @@ export default class ActiveCheckInPage extends React.Component<IActiveCheckInPag
                     checkInId={Cookie.getCookie("checkInId") as string}
                     onComplete={this.onCheckOut}
                     onError={this.onError} />
-                <GetOrganizationNameRequest
+                <GetCheckInRequest
                     send
-                    organizationId={this.props.match.params.organizationId}
+                    checkInId={Cookie.getCookie("checkInId") as string}
                     onComplete={this.onOrganizationName} />
                 <Logo dark />
-                <OrganizationName>{`Currently at ${this.state.organizationName}`}</OrganizationName>
-                <CheckInTimer startTime={new Date(Cookie.getCookie("timeCheckedIn") as string)} />
+                <OrganizationName>{`Currently at ${this.state.building} for`}</OrganizationName>
+                <CheckInTimer onTick={this.onTick} startTime={new Date(Cookie.getCookie("timeCheckedIn") as string)} />
                 <Button onClick={this.onClick} dark>Check Out</Button>
                 <LegalContainer />
             </PageLayout>
         )
+    }
+
+    onTick(duration : moment.Duration) {
+        if (duration.asDays() > 1) {
+            this.setState({
+                send: true
+            })
+        }
     }
 
     onClick() {
@@ -56,8 +65,8 @@ export default class ActiveCheckInPage extends React.Component<IActiveCheckInPag
         })
     }
 
-    onOrganizationName(response : IResponse<IGetOrganizationNameResponse>) {
-        this.setState({ organizationName : response.data.organizationName })
+    onOrganizationName(response : IResponse<ICheckInResponse>) {
+        this.setState({ building : response.data.building })
     }
 
     onCheckOut() {
