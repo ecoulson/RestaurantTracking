@@ -1,6 +1,7 @@
 import IBuilding from "../../API/GetBuildingsRequest/IBuilding";
-import BuildingType from "./BuildingType";
+import IFormValue from "../FormInput/IFormValue";
 
 export default interface IBuildingDropdownState {
     buildings: IBuilding[],
+    value: string
 }

@@ -3,7 +3,7 @@ import IFormValue from "../FormInput/IFormValue";
 import IconType from "../Icon/IconTypes";
 
 export default interface IDropdownProps {
-    onChange: (restaurant : IFormValue<number>) => void;
+    onChange: (restaurant : IFormValue<number>, value?: string) => void;
     dark?: boolean;
     iconColor?: string;
     id?: string;

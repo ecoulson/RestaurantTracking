@@ -47,7 +47,6 @@ export default class DropdownInput extends React.Component<IDropdownProps, IDrop
         return (
             <div className="dropdown">
                 <FormInput
-                    disabled={this.props.values.length === 0}
                     isValid={this.state.valid}
                     value={this.state.value}
                     onChange={this.onChange}
@@ -75,15 +74,15 @@ export default class DropdownInput extends React.Component<IDropdownProps, IDrop
         return this.state.focused && !this.state.valid && !this.isDisabled();
     }
 
-    private onChange(restaurantName : IFormValue<string>) {
+    private onChange(dropdownValue : IFormValue<string>) {
         this.setState({
-            value: restaurantName.value,
-            valid: this.validateInput(restaurantName.value.toLowerCase())
+            value: dropdownValue.value,
+            valid: this.validateInput(dropdownValue.value.toLowerCase())
         }, () => {
             this.props.onChange({
                 value: 0,
                 valid: this.props.values.length === 1
-            });
+            }, dropdownValue.value);
         })
     }
 

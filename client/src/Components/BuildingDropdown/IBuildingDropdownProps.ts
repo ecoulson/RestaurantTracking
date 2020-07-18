@@ -7,5 +7,5 @@ export default interface IBuildingDropdownProps {
     dark? : boolean;
     iconColor? : string;
     hoverColor? : string;
-    onChange: (building : IBuilding) => void
+    onChange: (building : IBuilding, value?: string) => void
 }

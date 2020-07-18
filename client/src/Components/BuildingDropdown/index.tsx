@@ -12,7 +12,8 @@ export default class BuildingDropdown extends React.Component<IBuildingDropdownP
     constructor(props: IBuildingDropdownProps) {
         super(props);
         this.state = {
-            buildings: []
+            buildings: [],
+            value: ""
         }
         this.handleChange = this.handleChange.bind(this);
         this.onBuildings = this.onBuildings.bind(this);
@@ -46,16 +47,20 @@ export default class BuildingDropdown extends React.Component<IBuildingDropdownP
 
     private getBuildingNames() {
         return this.state.buildings
-            // .filter((building) => {
-            //     return building.type === this.props.type
-            // })
+            .filter((building) => {
+                return building.type === this.props.type
+            })
+            .filter((building) => {
+                return building.name.includes(this.state.value)
+            })
             .map((building) => {
                 return building.name
             })
-            // .sort()
+            .sort()
     }
 
-    private handleChange(dropdownValue : IFormValue<number>) {
+    private handleChange(dropdownValue : IFormValue<number>, value?: string) {
+        this.setState({ value : value ? value : "" })
         this.props.onChange(this.state.buildings[dropdownValue.value]);
     }
 }
