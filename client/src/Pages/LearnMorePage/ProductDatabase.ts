@@ -94,7 +94,7 @@ ProductDatabase.set("contact-logs-business", {
     overview: {
         title: "Returning responsibly during COVID-19",
         about: "Safer-at-School Contact Logs help you to track infected individuals, monitor building capacity, and identify choke points and high risk areas. Check-in and check-out displays at entrances and exits improve your ability to quarantine exposed individuals, reduce high density check-ins by identifying busy checkpoints, and to enforce a building capacity.",
-        mediaPath: "https://wesley.edu/wp-content/uploads/2020/01/South-1-900x500.jpg"
+        mediaPath: "https://images.unsplash.com/photo-1590579491624-f98f36d4c763?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3600&q=80"
     },
     features: [
         {
@@ -116,12 +116,12 @@ ProductDatabase.set("contact-logs-business", {
     sections: [
         {
             title: "Touchless check-ins/check-outs",
-            mediaURL: "https://bestcellphonespyapps.com/wp-content/uploads/2018/04/shutterstock_269190068.jpg",
+            mediaURL: "https://images.unsplash.com/photo-1526222344609-ca3e80ea3b06?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=4176&q=80",
             description: "Adapt Solutions offers touch-free check-ins for buildings and rooms. We are committed to working with you to provide quality displays and custom branding. Our displays employ NFC technology for streamlined check-in. Individuals hover over our poster and will be directed to a page indicating that they can enter the building. We also have QRs incorporated on our poster offer an alternative to NFC chip usage and Bit.ly urls that direct individuals to pages manually."
         },
         {
             title: "Simple Authentication",
-            mediaURL: "https://securityintelligence.com/wp-content/uploads/2018/10/si-advanced-authentication-feature.jpg",
+            mediaURL: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3450&q=80",
             description: "As default, individuals are directed to our site and prompted to provide their email address only once. Once logged in, individuals can seamlessly hover, scan, or enter bit.ly links and be directly connected to a success page allowing them to enter buildings. Pins are sent to emails to allow for individuals to log back into our system in the case they become logged out. For added cost, you can integrate your identification system with our contact log. When individuals are logged in to their institutional accounts, they can automatically begin hovering, scanning, and entering bit.ly urls without providing email addresses or receiving recovery pins. "
         }
     ],
