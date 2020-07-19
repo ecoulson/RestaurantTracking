@@ -1,6 +1,6 @@
 import IGenerator from "./IGenerator";
-import IToken from "../../../src/models/token/IToken";
-import TokenModel from "../../../src/models/token/TokenModel";
+import IToken from "../../../src/models/Token/IToken";
+import TokenModel from "../../../src/models/Token/TokenModel";
 import Scope from "../../../src/services/Token/Scope";
 import { generateObjectId } from "../../helpers/mongo";
 

@@ -1,6 +1,6 @@
 import IAuthenticationService from "./IAuthenticationService";
 import jsonwebtoken from "jsonwebtoken";
-import IUser from "../../models/user/IUser";
+import IUser from "../../models/User/IUser";
 import UserBroker from "../../brokers/UserBroker";
 import bcrypt from "bcrypt";
 import OrganizationPINLoginArguments from "./OrganizationPinLoginArguments";

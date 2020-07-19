@@ -1,6 +1,10 @@
 import * as TestDatabase from "../../helpers/database";
-import CheckInModel from "../../../src/models/check-in/CheckInModel";
+import CheckInModel from "../../../src/models/CheckIn/CheckInModel";
 import faker from 'faker';
+import { generateObjectId } from "../../helpers/mongo";
+import mongoose from "mongoose"
+
+mongoose.set('useCreateIndex', true);
 
 beforeAll(async () => await TestDatabase.connect());
 afterEach(async () => await TestDatabase.clearDatabase());
@@ -9,7 +13,7 @@ afterAll(async () => await TestDatabase.closeDatabase());
 describe('Check In Model Suite', () => {
     describe("Create Check In", () => {
         test("Successfully Create Check In By Email", async () => {
-            const expectedCheckIn = await createEmailCheckIn("1");
+            const expectedCheckIn = await createCheckIn("1");
     
             let foundCheckIn = await CheckInModel.findById(expectedCheckIn._id).exec();
     
@@ -17,7 +21,7 @@ describe('Check In Model Suite', () => {
         });
 
         test("Successfully Create Check In By Phone Number", async () => {
-            const expectedCheckIn = await createPhoneNumberCheckIn("1");
+            const expectedCheckIn = await createCheckIn("1");
     
             let foundCheckIn = await CheckInModel.findById(expectedCheckIn._id).exec();
     
@@ -25,7 +29,7 @@ describe('Check In Model Suite', () => {
         });
 
         test("Successfully Create Check In With Time Checked In", async () => {
-            const expectedCheckIn = await createPhoneNumberCheckIn("1");
+            const expectedCheckIn = await createCheckIn("1");
             expectedCheckIn.timeCheckedIn = faker.date.recent();
             await expectedCheckIn.save();
     
@@ -37,11 +41,11 @@ describe('Check In Model Suite', () => {
 
     describe("Find By Restaurant Id", () => {
         test("Finds All By Restaurant Id", async () => {
-            const checkInA = await createPhoneNumberCheckIn("1");
-            const checkInB = await createEmailCheckIn("1");
-            await createEmailCheckIn("2");
+            const checkInA = await createCheckIn("1");
+            const checkInB = await createCheckIn("1");
+            await createCheckIn("2");
 
-            let checkInEvents = await CheckInModel.findByRestaurantId("1");
+            let checkInEvents = await CheckInModel.findByOrganizationId("1");
             checkInEvents = checkInEvents.map((checkInEvent) => {
                 return checkInEvent.serialize();
             })
@@ -51,20 +55,13 @@ describe('Check In Model Suite', () => {
     })
 });
 
-async function createEmailCheckIn(id : string) {
+async function createCheckIn(id: string) {
     let doc = new CheckInModel({
-        email: faker.internet.email(),
-        restaurantId: id,
-        ipAddress: "::1"
-    });
-    return await doc.save();
-}
-
-async function createPhoneNumberCheckIn(id : string) {
-    let doc = new CheckInModel({
-        number: faker.phone.phoneNumber(),
-        restaurantId: id,
-        ipAddress: "::1"
-    });
+        building: faker.name.firstName(),
+        userId: generateObjectId(),
+        organizationId: id,
+        ipAddress: faker.internet.ip(),
+        timeCheckedIn: faker.date.recent()
+    })
     return await doc.save();
 }

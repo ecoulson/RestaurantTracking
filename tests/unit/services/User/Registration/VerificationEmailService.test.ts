@@ -1,5 +1,5 @@
 jest.mock( "@sendgrid/mail");
-import UserModel from "../../../../../src/models/user/UserModel";
+import UserModel from "../../../../../src/models/User/UserModel";
 import SendGridMail from "@sendgrid/mail";
 import UserGenerator from "../../../../mocks/Generators/UserGenerator";
 import TokenGenerator from "../../../../mocks/Generators/TokenGenerator";

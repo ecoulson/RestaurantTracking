@@ -1,5 +1,5 @@
 import IPasswordUpdateService from "./IPasswordUpdateService";
-import IUser from "../../../models/user/IUser";
+import IUser from "../../../models/User/IUser";
 import bcrypt from "bcrypt"
 
 export default class PasswordUpdateService implements IPasswordUpdateService {

@@ -1,5 +1,5 @@
 import IProfilePictureUploadService from "./IProfilePictureUploadService";
-import IUser from "../../../models/user/IUser";
+import IUser from "../../../models/User/IUser";
 import AWS from "aws-sdk";
 import { basename } from "path";
 

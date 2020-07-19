@@ -9,6 +9,7 @@ export default class Cookie {
         document.cookie = name + "=" + (value || "")  + expires + "; path=/";
     }
 
+
     static getCookie(name : string) {
         let nameEQ = name + "=";
         const cookies = document.cookie.split(';');
@@ -24,7 +25,11 @@ export default class Cookie {
         return null;
     }
 
+    static hasCookie(name: string) {
+        return Cookie.getCookie(name) !== null;
+    }
+
     static eraseCookie(name : string) {   
-        document.cookie = name + '=; Max-Age=-99999999;';  
+        Cookie.setCookie(name, "", 0)
     }
 }

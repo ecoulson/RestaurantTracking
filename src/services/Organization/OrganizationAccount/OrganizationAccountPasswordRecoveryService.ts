@@ -1,7 +1,7 @@
 import PasswordRecoveryService from "../../User/PasswordRecovery/PasswordRecoveryService";
 import InternalURLBuilder from "../../../lib/URL/InternalURLBuilder";
-import IUser from "../../../models/user/IUser";
-import IToken from "../../../models/token/IToken";
+import IUser from "../../../models/User/IUser";
+import IToken from "../../../models/Token/IToken";
 import EmailMessageBuilder from "../../../lib/Email/EmailMessageBuilder";
 
 export default class OrganizationAccountPasswordRecoverService extends PasswordRecoveryService {

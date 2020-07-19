@@ -1,8 +1,8 @@
-import RestaurantModel from "../../models/restaurant/RestaurantModel";
+import RestaurantModel from "../../models/Restaurant/RestaurantModel";
 import URLShortner from "../../lib/URL-shortener";
 import { logger } from "../../lib/logging";
 import IRestaurantRegistration from "../../controllers/Restaurant/IRestaurantRegistration";
-import IRestaurant from "../../models/restaurant/IRestaurant";
+import IRestaurant from "../../models/Restaurant/IRestaurant";
 
 export default class RestaurantService {
     async registerRestaurant(restaurantRegistration : IRestaurantRegistration) : Promise<void> {

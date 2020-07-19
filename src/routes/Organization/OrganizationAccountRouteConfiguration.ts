@@ -1,7 +1,7 @@
 import RouterConfiguration from "../RouterConfiguration";
 import IOrganizationAccountController from "../../controllers/Organization/OrganizationAccount/IOrganizationAccountController";
-import ValidationMiddleware from "../../middleware/validation/ValidationMiddleware";
-import ErrorCatchingMiddleware from "../../middleware/error-handling/ErrorCatchingMiddleware";
+import ValidationMiddleware from "../../middleware/Validation/ValidationMiddleware";
+import ErrorCatchingMiddleware from "../../middleware/ErrorHandling/ErrorCatchingMiddleware";
 import { EmailBodySchema, OrganizationIdParametersSchema, OrganizationPINLoginSchema } from "./OrganizationSchema";
 import PasswordRecoveryRouteConfiguration from "../User/PasswordRecoveryRouteConfiguration";
 import EncryptedTokenService from "../../services/Token/EncryptedTokenService";

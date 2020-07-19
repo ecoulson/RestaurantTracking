@@ -1,7 +1,15 @@
-import UserModel from "../models/user/UserModel";
-import IUser from "../models/user/IUser";
+import UserModel from "../models/User/UserModel";
+import IUser from "../models/User/IUser";
 
 export default class UserBroker {
+    async findById(id: string) {
+        try {
+            return await UserModel.findById(id);
+        } catch (error) {
+            throw error;
+        }
+    }
+
     async findUserByEmail(email : string) {
         try {
             return await UserModel.findByEmail(email);

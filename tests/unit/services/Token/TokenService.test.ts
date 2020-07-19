@@ -2,7 +2,7 @@ jest.mock("crypto");
 import TokenService from "../../../../src/services/Token/TokenService";
 import Chance from "chance";
 import crypto from "crypto"
-import TokenModel from "../../../../src/models/token/TokenModel";
+import TokenModel from "../../../../src/models/Token/TokenModel";
 import Scope from "../../../../src/services/Token/Scope";
 import TokenGenerator from "../../../mocks/Generators/TokenGenerator";
 import UserGenerator from "../../../mocks/Generators/UserGenerator";

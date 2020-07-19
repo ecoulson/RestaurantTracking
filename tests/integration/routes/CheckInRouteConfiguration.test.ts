@@ -1,176 +1,126 @@
-import { createModelMock } from "../../mocks/models";
-createModelMock("../../src/models/check-in/CheckInModel");
-createModelMock("../../src/models/restaurant/RestaurantModel");
-import RestaurantModel from "../../../src/models/restaurant/RestaurantModel";
-import faker from "faker";
 import { 
     expectErrorResponse, 
-    expectStatusCode, 
-    expectSuccessResponse
+    expectStatusCode
 } from "../../helpers/expect";
-import {
-    makeGetRequest,
-    makePostRequest
-} from "../../helpers/request";
-import Chance from 'chance';
-import { generateObjectId } from "../../helpers/mongo";
-import CheckInModel from "../../../src/models/check-in/CheckInModel";
+import UserGenerator from "../../mocks/Generators/UserGenerator";
+import request from "supertest";
+import app from "../../../src/app";
+import jsonwebtoken from "jsonwebtoken";
+import * as TestDatabase from "../../helpers/database"
+import OrganizationGenerator from "../../mocks/Generators/OrganizationGenerator";
+import PermissionBuilder from "../../../src/services/Permission/PermissionBuilder";
+import OperationType from "../../../src/lib/Authorization/OperationType";
+import ResourceType from "../../../src/lib/Authorization/ResourceType";
+import PermissionSetModel from "../../../src/models/PermissionSet/PermissionSetModel";
+import BuildingModel from "../../../src/models/Building/BuildingModel";
+import BuildingType from "../../../src/models/Building/BuildingType";
 
-const chance = new Chance();
+const userGenerator = new UserGenerator();
+const organizationGenerator = new OrganizationGenerator();
+userGenerator.setVerified();
+let user = userGenerator.generate();
+let organization = organizationGenerator.generate();
+let building = new BuildingModel({
+    name: "school",
+    type: BuildingType.Academic,
+    organizationId: organization.organizationId
+})
+let permission = new PermissionBuilder()
+    .setOperations([OperationType.Create])
+    .setResourceId(organization._id)
+    .setResourceType(ResourceType.Organization)
+    .setRestricted()
+    .build();
+let permissionSet = new PermissionSetModel({
+    name: `student`
+});
+let jwt : string = ""
 
-const CHECKIN_URL = "/api/check_in";
-
-const OLD_ENV = process.env;
-
-beforeAll(() => {
-    process.env.SERVER_SECRET = "token"
+beforeAll(async () => {
+    await TestDatabase.connect();
+    process.env.ACCESS_TOKEN_SECRET = "super_duper_secret"
 });
 
-afterEach(() => {
+beforeEach(async () => {
+    user = userGenerator.generate();
+    organization = organizationGenerator.generate();
+    building = new BuildingModel({
+        name: "school",
+        type: BuildingType.Academic,
+        organizationId: organization.organizationId
+    })
+    permission = new PermissionBuilder()
+        .setOperations([OperationType.Create])
+        .setResourceId(organization._id)
+        .setResourceType(ResourceType.Organization)
+        .setRestricted()
+        .build();
+    let userPermission = new PermissionBuilder()
+        .setOperations([OperationType.Any])
+        .setResourceId(user._id)
+        .setResourceType(ResourceType.User)
+        .setRestricted()
+        .build();
+    let userPermissionSet = new PermissionSetModel({
+        name: `User:${user._id}`
+    })
+    permissionSet = new PermissionSetModel({
+        name: `student`
+    });
+    await Promise.all([
+        permissionSet.addPermission(permission),
+        userPermissionSet.addPermission(userPermission),
+        organization.addPermissionSet(permissionSet),
+        user.addPermissionSet(permissionSet),
+    ])
+    await user.save()
+    await user.addPermissionSet(userPermissionSet)
+    await Promise.all([
+        user.save(),
+        permission.save(),
+        permissionSet.save(),
+        organization.save(),
+        building.save(),
+        userPermission.save(),
+        userPermissionSet.save()
+    ])
+    jwt = jsonwebtoken.sign({
+        _id: user._id
+    }, process.env.ACCESS_TOKEN_SECRET)
+})
+
+afterEach(async () => {
+    await TestDatabase.clearDatabase()
     jest.clearAllMocks();
-    process.env = OLD_ENV;
 });
+
+afterAll(async () => await TestDatabase.closeDatabase());
 
 describe("Check In Routes Suite", () => {
     describe("Create Check In Event Route", () => {
-        test("A checkin request with an empty body", async () => {
-            const response = await makeCheckInRequest({});
+        test("A check in request with a missing building field", async () => {
+            const response = await request(app).post("/api/check_in")
+                .set("Authorization", `Bearer ${jwt}`)
+                .send({
+                    organizationId: organization.organizationId,
+                });
 
             expectErrorResponse(response, [
-                "No email or number was provided"
+                "\"building\" is required"
             ]);
-            expectStatusCode(response, 400);
-        })
-
-        test("A checkin request with a mising restaurantId field", async () => {
-            const response = await makeCheckInRequest({
-                email: faker.internet.email(),
-                number: chance.phone({ country: 'us' }),
-            });
-
-            expectErrorResponse(response, [
-                "\"restaurantId\" is required"
-            ]);
-            expectStatusCode(response, 400);
-        });
-
-        test("A checkin request with a only a number field", async () => {
-            const response = await makeCheckInRequest({
-                number: chance.phone({ country: 'us' }),
-            });
-
-            expectErrorResponse(response, [
-                "\"restaurantId\" is required"
-            ]);
-            expectStatusCode(response, 400);
-        })
-
-        test("A checkin request with a only an email field", async () => {
-            const response = await makeCheckInRequest({
-                email: faker.internet.email()
-            });
-
-            expectErrorResponse(response, [
-                "\"restaurantId\" is required"
-            ]);
-            expectStatusCode(response, 400);
-        })
-
-        test("A checkin request with a only a restaurantId field", async () => {
-            const response = await makeCheckInRequest({
-                restaurantId: generateObjectId()
-            });
-
-            expectErrorResponse(response, [
-                "No email or number was provided"
-            ]);
-            expectStatusCode(response, 400);
-        })
-
-        test("Database error occurs", async () => {
-            CheckInModel.prototype.save.mockRejectedValue(new Error());
-            (RestaurantModel.findById as jest.Mock).mockResolvedValue({});
-            const id = generateObjectId();
-
-            const response = await makeCheckInRequest({
-                number: chance.phone({ country: 'us' }),
-                email: faker.internet.email(),
-                restaurantId: id
-            });
-    
-            expectErrorResponse(
-                response, 
-                `Error when saving checkin to restaurant with ${id} from ::ffff:127.0.0.1`
-            );
             expectStatusCode(response, 400);
         });
 
         test("A successful check in", async () => {
-            CheckInModel.prototype.save.mockResolvedValue({});
-            (RestaurantModel.findById as jest.Mock).mockResolvedValue({});
-            
-            const response = await makeCheckInRequest({
-                number: chance.phone({ country: 'us' }),
-                email: faker.internet.email(),
-                restaurantId: generateObjectId()
-            });
+            const response = await request(app).post("/api/check_in")
+                .set("Authorization", `Bearer ${jwt}`)
+                .send({
+                    organizationId: organization.organizationId,
+                    building: building.name
+                });
 
-            expectSuccessResponse(response, {
-                message: "Successfully checked in"
-            });
+            expect(response.body.data.organizationId).toEqual(organization.organizationId)
             expectStatusCode(response, 200);
         })
     });
-
-    describe("Gets all check-ins at a specific restaurant", () => {
-        test("A get check ins request with no query", async () => {
-            const response = await getCheckinsAtRestaurantRequest({});
-
-            expectErrorResponse(response, [
-                "\"restaurantId\" is required",
-            ]);
-            expectStatusCode(response, 400);
-        });
-
-        test("A get check ins request with duplicate query parameters", async () => {
-            const response = await getDuplicateCheckinsAtRestaurantRequest({
-                restaurantId: generateObjectId()
-            });
-
-            expectErrorResponse(response, [
-                "\"restaurantId\" must be a string",
-            ]);
-            expectStatusCode(response, 400);
-        })
-
-        test("Database error occurs", async () => {
-            (CheckInModel.findByRestaurantId as jest.Mock).mockRejectedValue(
-                new Error("Database error")
-            );
-    
-            const response = await getCheckinsAtRestaurantRequest({
-                restaurantId: generateObjectId()
-            });
-    
-            expectErrorResponse(response, "Database error");
-            expectStatusCode(response, 400);
-        });
-    });
 });
-
-async function makeCheckInRequest(body : any) {
-    return await makePostRequest(CHECKIN_URL, body);
-}
-
-async function getCheckinsAtRestaurantRequest(query : any) {
-    if (query && query.restaurantId) {
-        return await makeGetRequest(`${CHECKIN_URL}?restaurantId=${query.restaurantId}`)
-    }
-    return await makeGetRequest(CHECKIN_URL)
-}
-
-async function getDuplicateCheckinsAtRestaurantRequest(query : any) {
-    return await makeGetRequest(
-        `${CHECKIN_URL}?restaurantId=${query.restaurantId}&restaurantId=${query.restaurantId}`
-    );
-}

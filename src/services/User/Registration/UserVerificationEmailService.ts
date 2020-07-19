@@ -1,7 +1,7 @@
 import VerificationEmailService from "./VerificationEmailService";
 import InternalURLBuilder from "../../../lib/URL/InternalURLBuilder";
-import IUser from "../../../models/user/IUser";
-import IToken from "../../../models/token/IToken";
+import IUser from "../../../models/User/IUser";
+import IToken from "../../../models/Token/IToken";
 
 export default class UserVerificationEmailService extends VerificationEmailService {
     async buildEmail(user : IUser, token : IToken) {

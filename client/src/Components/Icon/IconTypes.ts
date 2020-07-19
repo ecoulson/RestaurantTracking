@@ -25,8 +25,10 @@ enum IconType {
     ChevronRight,
     ChevronDown,
     HamburgerMenu,
+    Home,
     SortAZ,
-    AppsOutline
+    AppsOutline,
+    BuildingSolid
 }
 
 export default IconType;

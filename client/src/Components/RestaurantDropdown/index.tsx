@@ -7,6 +7,7 @@ import IRestaurantDropdownStateProps from "./IRestaurantDropdownStateProps";
 import Toast from "../Toast";
 import ToastType from "../Toast/ToastType";
 import { getAllRestaurants } from "../../API";
+import IconType from "../Icon/IconTypes";
 
 export default class RestaurantDropdown extends React.Component<IRestaurantDropdownProps, IRestaurantDropdownStateProps> {
     constructor(props: IRestaurantDropdownProps) {
@@ -55,6 +56,9 @@ export default class RestaurantDropdown extends React.Component<IRestaurantDropd
                     values={this.state.filteredValues.map((restaurant) => {
                         return restaurant.name
                     })}
+                    icon={IconType.Menu}
+                    label="Restaurant"
+                    placeholder="Enter restaurant to check in to"
                     hoverColor={this.props.hoverColor}
                     iconColor={this.props.iconColor}
                     onChange={this.handleChange} />

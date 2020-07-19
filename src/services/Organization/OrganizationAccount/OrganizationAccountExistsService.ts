@@ -1,6 +1,6 @@
 import IOrganizationAccountExistsService from "./IOrganizationAccountExistsService";
 import OrganizationBroker from "../../../brokers/OrganizationBroker";
-import UserModel from "../../../models/user/UserModel";
+import UserModel from "../../../models/User/UserModel";
 
 export default class OrganizationAccountExistsService implements IOrganizationAccountExistsService {
     private organizationBroker : OrganizationBroker;

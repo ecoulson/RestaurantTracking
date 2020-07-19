@@ -70,7 +70,7 @@ export default class ResetPINPage extends React.Component<IResetPINPageProps, IR
                         <Icon width={25} height={25} icon={IconType.SortAZ} color="white" />
                     </SlideSwitch>
                     {this.getInput()}
-                    <Button submit>Submit</Button>
+                    <Button dark submit>Submit</Button>
                 </Form>
                 <LegalContainer />
             </PageLayout>

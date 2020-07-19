@@ -1,5 +1,5 @@
 import { Response } from "express";
-import IRestaurant from "../../models/restaurant/IRestaurant";
+import IRestaurant from "../../models/Restaurant/IRestaurant";
 import qrcode from "qrcode";
 
 function streamQRCode(res : Response, restaurant : IRestaurant) {

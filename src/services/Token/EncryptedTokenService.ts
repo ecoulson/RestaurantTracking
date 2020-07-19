@@ -1,9 +1,9 @@
 import ITokenService from "./ITokenService";
-import IToken from "../../models/token/IToken";
-import IUser from "../../models/user/IUser";
+import IToken from "../../models/Token/IToken";
+import IUser from "../../models/User/IUser";
 import crypto from "crypto";
 import TokenBroker from "../../brokers/TokenBroker";
-import TokenModel from "../../models/token/TokenModel";
+import TokenModel from "../../models/Token/TokenModel";
 import Scope from "./Scope";
 
 export default class EncryptedTokenService implements ITokenService {

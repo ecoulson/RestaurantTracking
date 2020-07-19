@@ -1,5 +1,6 @@
 import { Schema } from "mongoose";
 import PermissionSetMethods from "./PermissionSetMethods";
+import PermissionSetStatics from "./PermissionSetStatics";
 
 const PermissionSetSchema = new Schema({
     name: {
@@ -21,5 +22,7 @@ const PermissionSetSchema = new Schema({
 })
 
 PermissionSetSchema.methods.addPermission = PermissionSetMethods.addPermission;
+
+PermissionSetSchema.statics.findPermissionSetByName = PermissionSetStatics.findPermissionSetByName;
 
 export default PermissionSetSchema;

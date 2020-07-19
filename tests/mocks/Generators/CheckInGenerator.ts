@@ -1,20 +1,27 @@
 import IGenerator from "./IGenerator";
 import ICheckInBody from "../../../src/controllers/CheckIn/ICheckInBody";
-import CheckInModel from "../../../src/models/check-in/CheckInModel";
+import CheckInModel from "../../../src/models/CheckIn/CheckInModel";
 import faker from 'faker';
-import Chance from "chance";
 import { generateObjectId } from "../../helpers/mongo";
 
-const chance = new Chance();
-
 export default class CheckInGenerator implements IGenerator<ICheckInBody> {
+    private userId : string | null;
+
+    constructor() {
+        this.userId = this.userId;
+    }
+
     generate() {
         return new CheckInModel({
-            number: chance.phone({ country: 'us' }),
-            email: faker.internet.email(),
-            restaurantId: generateObjectId(),
+            building: faker.name.firstName(),
+            userId: this.userId ? this.userId : generateObjectId(),
+            organizationId: faker.company.bsNoun(),
             ipAddress: faker.internet.ip(),
             timeCheckedIn: faker.date.recent()
         })
+    }
+
+    setUserId(userId: string) {
+        this.userId = userId;
     }
 }

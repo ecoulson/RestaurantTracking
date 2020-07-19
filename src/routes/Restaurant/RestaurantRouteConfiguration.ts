@@ -5,9 +5,9 @@ import {
 } from "./RestaurantRouteSchemas";
 import RouterConfiguration from "../RouterConfiguration";
 import RestaurantController from "../../controllers/Restaurant/RestaurantController";
-import BasicAuthenticationStrategy from "../../middleware/authentication/BasicAuthenticationStrategy";
-import ErrorCatchingMiddleware from "../../middleware/error-handling/ErrorCatchingMiddleware";
-import ValidationMiddleware from "../../middleware/validation/ValidationMiddleware";
+import BasicAuthenticationStrategy from "../../middleware/Authentication/BasicAuthenticationStrategy";
+import ErrorCatchingMiddleware from "../../middleware/ErrorHandling/ErrorCatchingMiddleware";
+import ValidationMiddleware from "../../middleware/Validation/ValidationMiddleware";
 
 export default class RestaurantRouteConfiguration extends RouterConfiguration {
     private controller : RestaurantController;

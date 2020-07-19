@@ -1,6 +1,7 @@
 export default interface ICheckInBody {
-    restaurantId: string;
-    email?: string;
-    number?: string;
+    organizationId: string;
+    userId: string;
     timeCheckedIn?: Date;
+    building: string;
+    room?: string;
 }

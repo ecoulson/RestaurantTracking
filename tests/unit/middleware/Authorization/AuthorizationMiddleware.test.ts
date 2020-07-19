@@ -23,7 +23,7 @@ describe("Authorization Middleware Suite", () => {
             PermissionSetModel.find = jest.fn().mockRejectedValue(new Error())
 
             try {
-                await middleware.authorize(OperationType.Any, () => [])(request, response, () => {})
+                await middleware.authorize(OperationType.Any, async () => [])(request, response, () => {})
             } catch (error) {
                 expect(error).toEqual(
                     new Error(`Failed to find permission sets for user ${user.id}`)
@@ -48,7 +48,7 @@ describe("Authorization Middleware Suite", () => {
                 permission
             ])
 
-            await middleware.authorize(OperationType.Create, () => [
+            await middleware.authorize(OperationType.Create, async () => [
                 new ResourceRequest("test", ResourceType.User)
             ])(request, response, () => {})
 
@@ -71,7 +71,7 @@ describe("Authorization Middleware Suite", () => {
                 permission
             ])
 
-            await middleware.authorize(OperationType.Create, () => [
+            await middleware.authorize(OperationType.Create, async () => [
                 new ResourceRequest("", ResourceType.User)
             ])(request, response, () => {})
 
@@ -94,7 +94,7 @@ describe("Authorization Middleware Suite", () => {
                 permission
             ])
 
-            await middleware.authorize(OperationType.Create, () => [
+            await middleware.authorize(OperationType.Create, async () => [
                 new ResourceRequest("", ResourceType.User)
             ])(request, response, () => {
                 done()
@@ -117,7 +117,7 @@ describe("Authorization Middleware Suite", () => {
                 permission
             ])
 
-            await middleware.authorize(OperationType.Create, () => [
+            await middleware.authorize(OperationType.Create, async () => [
                 new ResourceRequest("test", ResourceType.User)
             ])(request, response, () => {})
 
@@ -140,7 +140,7 @@ describe("Authorization Middleware Suite", () => {
                 permission
             ])
 
-            await middleware.authorize(OperationType.Create, () => [
+            await middleware.authorize(OperationType.Create, async () => [
                 new ResourceRequest("test", ResourceType.User)
             ])(request, response, () => {})
 
@@ -163,7 +163,7 @@ describe("Authorization Middleware Suite", () => {
                 permission
             ])
 
-            await middleware.authorize(OperationType.Create, () => [
+            await middleware.authorize(OperationType.Create, async () => [
                 new ResourceRequest("test", ResourceType.User)
             ])(request, response, () => {})
 
@@ -186,7 +186,7 @@ describe("Authorization Middleware Suite", () => {
                 permission
             ])
 
-            await middleware.authorize(OperationType.Create, () => [
+            await middleware.authorize(OperationType.Create, async () => [
                 new ResourceRequest("test", ResourceType.User)
             ])(request, response, () => {
                 done()

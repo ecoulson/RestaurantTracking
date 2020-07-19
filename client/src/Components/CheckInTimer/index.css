@@ -1,0 +1,30 @@
+.check-in-timer {
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+}
+
+.check-in-timer-field {
+    font-family: 'myriad-pro';
+    font-size: 52px;
+    line-height: 72px;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    width: 40px;
+    display: block;
+    border-bottom: 1px solid #707070;
+    margin: 7px;
+}
+
+.check-in-timer-colon {
+    font-family: 'myriad-pro';
+    font-size: 52px;
+    line-height: 72px;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    width: 40px;
+    display: inline-block;
+    margin: 7px -7px 0px;
+}

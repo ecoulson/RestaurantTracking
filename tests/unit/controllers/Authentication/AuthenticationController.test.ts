@@ -2,7 +2,7 @@ import AuthenticationController from "../../../../src/controllers/Authentication
 import { mockRequest, mockResponse } from "mock-req-res";
 import AuthenticationService from "../../../../src/services/Authentication/AuthenticationService";
 import faker from "faker";
-import UserModel from "../../../../src/models/user/UserModel";
+import UserModel from "../../../../src/models/User/UserModel";
 import bcrypt from "bcrypt";
 
 beforeEach(() => {

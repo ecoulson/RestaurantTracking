@@ -1,8 +1,8 @@
 import IPasswordRecoveryService from "./IPasswordRecoveryService";
 import ITokenService from "../../Token/ITokenService";
 import UserBroker from "../../../brokers/UserBroker";
-import IUser from "../../../models/user/IUser";
-import IToken from "../../../models/token/IToken";
+import IUser from "../../../models/User/IUser";
+import IToken from "../../../models/Token/IToken";
 import Email from "../../../lib/Email/Email";
 import IEmailMessageBuilder from "../../../lib/Email/IEmailMessageBuilder";
 

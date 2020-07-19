@@ -1,6 +1,6 @@
-import IUser from "../models/user/IUser";
-import TokenModel from "../models/token/TokenModel";
-import IToken from "../models/token/IToken";
+import IUser from "../models/User/IUser";
+import TokenModel from "../models/Token/TokenModel";
+import IToken from "../models/Token/IToken";
 
 export default class TokenBroker {
     async getTokens(user : IUser) {

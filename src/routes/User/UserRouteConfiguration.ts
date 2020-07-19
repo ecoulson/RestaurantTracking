@@ -3,15 +3,15 @@ import VerificationRouteConfiguration from "./VerificationRouteConfiguration";
 import UserRegistrationRouteConfiguration from "./UserRegistrationRouteConfiguration";
 import PasswordRecoveryRouteConfiguration from "./PasswordRecoveryRouteConfiguration";
 import UserController from "../../controllers/User/UserController";
-import JSONWebTokenAuthenticationStrategy from "../../middleware/authentication/JSONWebTokenAuthenticationStrategy";
+import JSONWebTokenAuthenticationStrategy from "../../middleware/Authentication/JSONWebTokenAuthenticationStrategy";
 import IUserController from "../../controllers/User/IUserController";
 import ProfilePictureRouteConfiguration from "./ProfilePictureRouteConfiguration";
 import AuthorizationMiddleware from "../../middleware/Authorization/AuthorizationMiddleware";
 import OperationType from "../../lib/Authorization/OperationType";
 import ResourceRequest from "../../lib/Authorization/ResourceRequest";
 import ResourceType from "../../lib/Authorization/ResourceType";
-import ErrorCatchingMiddleware from "../../middleware/error-handling/ErrorCatchingMiddleware";
-import ValidationMiddleware from "../../middleware/validation/ValidationMiddleware";
+import ErrorCatchingMiddleware from "../../middleware/ErrorHandling/ErrorCatchingMiddleware";
+import ValidationMiddleware from "../../middleware/Validation/ValidationMiddleware";
 import { UpdatedProfileSchema } from "./UserSchema";
 import PasswordUpdateRouteConfiguration from "./PasswordUpdateRouteConfiguration";
 import TokenService from "../../services/Token/TokenService";
@@ -39,7 +39,7 @@ export default class UserRouteConfiguration extends RouterConfiguration {
         this.router.get(
             "/session", 
             new JSONWebTokenAuthenticationStrategy().authenticate(),
-            new AuthorizationMiddleware().authorize(OperationType.Read, (request) => {
+            new AuthorizationMiddleware().authorize(OperationType.Read, async (request) => {
                 return [new ResourceRequest(request.user.id, ResourceType.User)]
             }),
             ErrorCatchingMiddleware.catchErrors(this.controller.handleGetSessionUser())
@@ -48,7 +48,7 @@ export default class UserRouteConfiguration extends RouterConfiguration {
             "/",
             new ValidationMiddleware(UpdatedProfileSchema).validateBody(),
             new JSONWebTokenAuthenticationStrategy().authenticate(),
-            new AuthorizationMiddleware().authorize(OperationType.Update, (request) => {
+            new AuthorizationMiddleware().authorize(OperationType.Update, async (request) => {
                 return [new ResourceRequest(request.user.id, ResourceType.User)]
             }),
             ErrorCatchingMiddleware.catchErrors(this.controller.handleUpdateSessionUserProfile())

@@ -49,7 +49,7 @@ export default class VerifyPINAccountPage extends React.Component<IVerifyPINAcco
                 <Form onSubmit={this.onSubmit}>
                     <EmailInput dark onChange={this.onEmailChange} iconColor="#707070" hoverColor="white" />
                     <Instructions>Enter the email associated with your PIN to resend your verification email</Instructions>
-                    <Button submit>Resend</Button>
+                    <Button dark submit>Resend</Button>
                 </Form>
                 <LegalContainer />
             </PageLayout>

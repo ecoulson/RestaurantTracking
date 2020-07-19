@@ -1,6 +1,5 @@
 import React from "react";
 import FormInput from "../FormInput";
-import IconType from "../Icon/IconTypes";
 import Menu from "./Menu";
 import IDropdownState from "./IDropdownState";
 import IDropdownProps from "./IDropdownProps";
@@ -12,7 +11,7 @@ export default class DropdownInput extends React.Component<IDropdownProps, IDrop
         this.state = {
             value: "",
             valid: false,
-            focused: false,
+            focused: false
         };
 
         this.onChange = this.onChange.bind(this);
@@ -48,7 +47,6 @@ export default class DropdownInput extends React.Component<IDropdownProps, IDrop
         return (
             <div className="dropdown">
                 <FormInput
-                    disabled={this.props.values.length === 0}
                     isValid={this.state.valid}
                     value={this.state.value}
                     onChange={this.onChange}
@@ -56,10 +54,10 @@ export default class DropdownInput extends React.Component<IDropdownProps, IDrop
                     id={this.props.id}
                     iconColor={this.props.iconColor}
                     type="text" 
-                    label="Restaurant"
+                    label={this.props.label}
                     hoverColor={this.props.hoverColor}
-                    icon={IconType.Menu}
-                    placeHolder="Pick where you ate" />
+                    icon={this.props.icon}
+                    placeHolder={this.props.placeholder} />
                 <Menu 
                     handleMenuClick={this.handleMenuItemClick}
                     visible={this.isVisible()} 
@@ -76,15 +74,15 @@ export default class DropdownInput extends React.Component<IDropdownProps, IDrop
         return this.state.focused && !this.state.valid && !this.isDisabled();
     }
 
-    private onChange(restaurantName : IFormValue<string>) {
+    private onChange(dropdownValue : IFormValue<string>) {
         this.setState({
-            value: restaurantName.value,
-            valid: this.validateInput(restaurantName.value.toLowerCase())
+            value: dropdownValue.value,
+            valid: this.validateInput(dropdownValue.value.toLowerCase())
         }, () => {
             this.props.onChange({
                 value: 0,
                 valid: this.props.values.length === 1
-            });
+            }, dropdownValue.value);
         })
     }
 

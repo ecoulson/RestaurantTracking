@@ -1,8 +1,8 @@
 import RouterConfiguration from "../RouterConfiguration";
 import IOrganizationRegistrationController from "../../controllers/Organization/Registration/IOrganizationRegistrationController";
 import { RegisterOrganizationSchema } from "./OrganizationSchema";
-import ValidationMiddleware from "../../middleware/validation/ValidationMiddleware";
-import ErrorCatchingMiddleware from "../../middleware/error-handling/ErrorCatchingMiddleware";
+import ValidationMiddleware from "../../middleware/Validation/ValidationMiddleware";
+import ErrorCatchingMiddleware from "../../middleware/ErrorHandling/ErrorCatchingMiddleware";
 
 export default class OrganizationRegistrationRouteConfiguration extends RouterConfiguration {
     private controller : IOrganizationRegistrationController;

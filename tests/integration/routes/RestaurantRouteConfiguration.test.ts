@@ -1,5 +1,5 @@
 jest.mock("../../../src/lib/URL-shortener");
-import RestaurantModel from "../../../src/models/restaurant/RestaurantModel";
+import RestaurantModel from "../../../src/models/Restaurant/RestaurantModel";
 import URLShortener from "../../../src/lib/URL-shortener";
 import { 
     expectErrorResponse, 

@@ -1,54 +1,70 @@
-import CheckIn from "../../models/check-in/CheckInModel";
-import RestaurantModel from "../../models/restaurant/RestaurantModel";
+import CheckIn from "../../models/CheckIn/CheckInModel";
 import ICheckInRequestBody from "../../controllers/CheckIn/ICheckInBody";
 import CSV from "../../lib/HTTP/CSV";
-import ICheckInBody from "../../controllers/CheckIn/ICheckInBody";
-import ICheckIn from "../../models/check-in/ICheckIn";
+import ICheckIn from "../../models/CheckIn/ICheckIn";
+import OrganizationBroker from "../../brokers/OrganizationBroker";
+import IPermissionBuilder from "../Permission/IPermissionBuilder";
+import OperationType from "../../lib/Authorization/OperationType";
+import ResourceType from "../../lib/Authorization/ResourceType";
+import UserBroker from "../../brokers/UserBroker";
 
 export default class CheckInService {
-    async checkIn(checkIn : ICheckInRequestBody, ipAddress : string) : Promise<ICheckInBody> {
-        await this.ensureRestaurantExists(checkIn);
-        return await this.saveCheckInToDB(checkIn, ipAddress);
+    private organizationBroker : OrganizationBroker;
+    private permissionBuilder : IPermissionBuilder;
+    private userBroker : UserBroker;
+
+    constructor(organizationBroker : OrganizationBroker, permissionBuilder : IPermissionBuilder, userBroker : UserBroker) {
+        this.organizationBroker = organizationBroker;
+        this.permissionBuilder = permissionBuilder;
+        this.userBroker = userBroker;
+    }
+
+    async checkIn(checkInBody : ICheckInRequestBody, ipAddress : string) : Promise<ICheckIn> {
+        await this.ensureRestaurantExists(checkInBody);
+        const checkIn = await this.saveCheckInToDB(checkInBody, ipAddress);
+        const permission = this.permissionBuilder
+            .setOperations([OperationType.Read, OperationType.Update])
+            .setResourceId(checkIn._id)
+            .setResourceType(ResourceType.CheckIn)
+            .setRestricted()
+            .build();
+        await permission.save();
+        const user = await this.userBroker.findById(checkIn.userId);
+        await user.addPermission(permission);
+        return checkIn
     }
 
     private async ensureRestaurantExists(checkIn : ICheckInRequestBody) {
-        if (!await this.restaurantExists(checkIn.restaurantId)) {
-            throw new Error("Can not check in to a restaurant that does not exist")
+        if (!await this.organizationExists(checkIn.organizationId)) {
+            throw new Error("Can not check in to an organization that does not exist")
         }
     }
 
-    private async restaurantExists(restaurantId : string) {
-        try {
-            const restaurant = await RestaurantModel.findById(restaurantId);
-            if (!restaurant) {
-                return false;
-            }
-            return true;
-        } catch (error) { 
-            throw new Error(`Error when finding restaurant with ${restaurantId}`);
-        }
+    private async organizationExists(organizationId : string) {
+        return await this.organizationBroker.findOrganizationById(organizationId) !== null
     }
 
-    private async saveCheckInToDB(checkIn : ICheckInRequestBody, ipAddress: string) : Promise<ICheckInBody> {
+    private async saveCheckInToDB(checkIn : ICheckInRequestBody, ipAddress: string) : Promise<ICheckIn> {
         try {
             const checkInDocument = new CheckIn({
-                number: checkIn.number,
-                email: checkIn.email,
-                restaurantId: checkIn.restaurantId,
+                userId: checkIn.userId,
+                organizationId: checkIn.organizationId,
                 timeCheckedIn: checkIn.timeCheckedIn ? checkIn.timeCheckedIn : undefined,
+                building: checkIn.building,
+                room: checkIn.room,
                 ipAddress: ipAddress
             });
             return await checkInDocument.save();
         } catch (error) {
-            throw new Error(`Error when saving checkin to restaurant with ${checkIn.restaurantId} from ${ipAddress}`)
+            throw new Error(`Error when saving check in to organization with ${checkIn.organizationId} from ${ipAddress}`)
         }
     }
 
-    async getRestaurantReport(restaurantId : string) : Promise<string> {
-        if (!await this.restaurantExists(restaurantId)) {
-            throw new Error(`Could not generate report for ${restaurantId} because it does not exist`);
+    async getOrganizationReport(organizationId : string) : Promise<string> {
+        if (!await this.organizationExists(organizationId)) {
+            throw new Error(`Could not generate report for ${organizationId} because it does not exist`);
         }
-        const checkIns = await CheckIn.findByRestaurantId(restaurantId);
+        const checkIns = await CheckIn.findByOrganizationId(organizationId);
         return CSV.JSONtoCSV(this.getSerializedCheckIns(checkIns));
     }
 

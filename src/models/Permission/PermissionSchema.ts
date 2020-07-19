@@ -6,7 +6,7 @@ const PermissionSchema = new Schema({
         enum: [
             "Create",
             "Read",
-            "Updated",
+            "Update",
             "Delete",
             "Any"
         ]
@@ -17,7 +17,8 @@ const PermissionSchema = new Schema({
         enum: [
             "Restaurant",
             "User",
-            "Organization"
+            "Organization",
+            "CheckIn"
         ],
         required: true
     },

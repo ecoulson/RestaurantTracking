@@ -1,5 +1,5 @@
 import IProfilePictureUploadService from "./IProfilePictureUploadService";
-import IUser from "../../../models/user/IUser";
+import IUser from "../../../models/User/IUser";
 import path from "path"
 import { createWriteStream, access, mkdir, createReadStream, unlink } from "fs";
 import Axios, { AxiosResponse } from "axios";

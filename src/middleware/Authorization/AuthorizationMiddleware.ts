@@ -2,7 +2,7 @@ import IAuthorizationMiddleware from "./IAuthorizationMiddleware";
 import { Request, Response, NextFunction } from "express";
 import GetResourceRequestsFunction from "../../lib/Authorization/GetResourceRequestsFunction";
 import OperationType from "../../lib/Authorization/OperationType";
-import IUser from "../../models/user/IUser";
+import IUser from "../../models/User/IUser";
 import PermissionSetModel from "../../models/PermissionSet/PermissionSetModel";
 import IPermissionSet from "../../models/PermissionSet/IPermissionSet";
 import PermissionModel from "../../models/Permission/PermissionModel";
@@ -13,7 +13,7 @@ import IPermission from "../../models/Permission/IPermission";
 export default class AuthorizationMiddleware implements IAuthorizationMiddleware {
     authorize(operation : OperationType, getResourceRequests : GetResourceRequestsFunction) {
         return async (request : Request, response : Response, next : NextFunction) => {
-            const resourceRequests = getResourceRequests(request);
+            const resourceRequests = await getResourceRequests(request);
             const userPermissionSets = await this.getPermissionSets(request.user);
             const userPermissionIds = this.getAllPermissions(userPermissionSets);
             for (const resourceRequest of resourceRequests) {
@@ -74,7 +74,7 @@ export default class AuthorizationMiddleware implements IAuthorizationMiddleware
 
     private hasRestrictedAccess(permission : IPermission, operation : OperationType, resourceRequest : IResourceRequest) {
         return permission.restricted && 
-                permission.resourceId === resourceRequest.id && 
+                permission.resourceId.toString() === resourceRequest.id.toString() && 
                 permission.resourceType === resourceRequest.type &&
                 (permission.operations.includes(OperationType.Any) || 
                 permission.operations.includes(operation))

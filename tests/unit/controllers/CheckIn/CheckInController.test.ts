@@ -5,8 +5,17 @@ import { mockRequest, mockResponse } from "mock-req-res";
 import faker from "faker";
 import Chance from "chance";
 import { generateObjectId } from "../../../helpers/mongo";
+import OrganizationBroker from "../../../../src/brokers/OrganizationBroker";
+import PermissionBuilder from "../../../../src/services/Permission/PermissionBuilder";
+import UserBroker from "../../../../src/brokers/UserBroker";
+import GetCheckInService from "../../../../src/services/CheckIn/GetCheckInService";
+import CheckoutService from "../../../../src/services/CheckIn/CheckoutService";
+import CheckInBroker from "../../../../src/brokers/CheckInBroker";
+import CheckInGenerator from "../../../mocks/Generators/CheckInGenerator";
+import SimpleCheckInQRService from "../../../../src/services/CheckIn/SimpleCheckInQRService";
 
 const chance = new Chance();
+const checkInGenerator = new CheckInGenerator();
 
 beforeEach(() => {
     jest.resetAllMocks();
@@ -14,57 +23,37 @@ beforeEach(() => {
 
 describe("Check In Controller Suite", () => {
     describe("handleCheckIn", () => {
-        test("Failed to check in", async () => {
-            CheckInService.prototype.checkIn = jest.fn().mockRejectedValue(new Error());
-            const controller = new CheckInController();
-            const id = generateObjectId();
+        test("Successful check in", async () => {
+            const checkIn = checkInGenerator.generate()
+            CheckInService.prototype.checkIn = jest.fn().mockResolvedValue(checkIn)
+            const controller = new CheckInController(
+                new CheckInService(
+                    new OrganizationBroker(),
+                    new PermissionBuilder(),
+                    new UserBroker()
+                ),
+                new GetCheckInService(new CheckInBroker()),
+                new CheckoutService(new CheckInBroker()),
+                new SimpleCheckInQRService()
+            );
             const request = mockRequest({
-                body: {
-                    restaurantId: id
+                user: {
+                    _id: generateObjectId()
                 }
             });
             const response = mockResponse();
 
-            try {
-                await controller.handleCheckIn(request, response);
-            } catch (error) {
-                expect(error).toEqual(new Error())
-            }
-            expect.assertions(1);
-        });
-
-        test("Successful check in", async () => {
-            const controller = new CheckInController();
-            const request = mockRequest();
-            const response = mockResponse();
-
-            await controller.handleCheckIn(request, response);
+            await controller.handleCheckIn()(request, response);
 
             expect(response.status).toHaveBeenCalledWith(200);
             expect(response.json).toHaveBeenCalledWith({
                 success: true,
-                data: {
-                    message: "Successfully checked in"
-                }
+                data: checkIn
             })
         })
     })
 
     describe("handleGetReport", () => {
-        test("Tries to get a report for a restaurant that does not exisit", async () => {
-            CheckInService.prototype.getRestaurantReport = jest.fn().mockRejectedValue(new Error());
-            const controller = new CheckInController();
-            const request = mockRequest();
-            const response = mockResponse();
-
-            try {
-                await controller.handleGetReport(request, response);
-            } catch (error) {
-                expect(error).toEqual(new Error())
-            }
-            expect.assertions(1);
-        })
-        
         test("Gets a report", async () => {
             const entry = {
                 id : generateObjectId(),
@@ -74,14 +63,23 @@ describe("Check In Controller Suite", () => {
                 timeCheckedIn : new Date().toUTCString(),
             }
             const record = [entry]
-            CheckInService.prototype.getRestaurantReport = jest.fn().mockResolvedValue(
+            CheckInService.prototype.getOrganizationReport = jest.fn().mockResolvedValue(
                 record
             );
-            const controller = new CheckInController();
+            const controller = new CheckInController(
+                new CheckInService(
+                    new OrganizationBroker(),
+                    new PermissionBuilder(),
+                    new UserBroker()
+                ),
+                new GetCheckInService(new CheckInBroker()),
+                new CheckoutService(new CheckInBroker()),
+                new SimpleCheckInQRService()
+            );
             const request = mockRequest();
             const response = mockResponse();
 
-            await controller.handleGetReport(request, response);
+            await controller.handleGetReport()(request, response);
 
             expect(response.status).toHaveBeenCalledWith(200);
             expect(response.send).toHaveBeenCalledWith(record);
