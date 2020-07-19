@@ -4,20 +4,30 @@ import IOrganizationAccountExistsService from "../../../services/Organization/Or
 import IAuthenticationService from "../../../services/Authentication/IAuthenticationService";
 import JSONResponse from "../../../lib/HTTP/JSONResponse";
 import OrganizationPINLoginArguments from "../../../services/Authentication/OrganizationPinLoginArguments";
+import IUserVerificationService from "../../../services/User/Verification/IUserVerificationService";
+import OrganizationAccountVerificationStrategy from "../../../services/Organization/OrganizationAccount/OrganizationAccountVerificationStrategy";
+import UserBroker from "../../../brokers/UserBroker";
 
 export default class OrganizationAccountController implements IOrganizationAccountController {
     private accountExistsService : IOrganizationAccountExistsService;
     private authenticationService : IAuthenticationService;
+    private userVerificationService : IUserVerificationService;
 
-    constructor(accountService : IOrganizationAccountExistsService, authenticationService : IAuthenticationService) {
+    constructor(
+        accountService : IOrganizationAccountExistsService, 
+        authenticationService : IAuthenticationService, 
+        userVerificationService : IUserVerificationService
+    ) {
         this.accountExistsService = accountService;
         this.authenticationService = authenticationService;
+        this.userVerificationService = userVerificationService;
     }
 
     handleAccountExists() {
         return async (request : Request, response : Response) => {
             const isRegistered = await this.accountExistsService.hasAccount(request.params.organizationId, request.body.email);
-            new JSONResponse(response).send({ isRegistered })
+            const isVerified = await this.accountExistsService.isVerified(request.params.organizationId, request.body.email);
+            new JSONResponse(response).send({ isRegistered, isVerified })
         }
     }
 
@@ -39,6 +49,17 @@ export default class OrganizationAccountController implements IOrganizationAccou
                 verified: true,
                 token 
             });
+        }
+    }
+
+    handleVerification() {
+        return async (request : Request, response : Response) => {
+            const user = await this.userVerificationService.verify(new OrganizationAccountVerificationStrategy(
+                new UserBroker(),
+                request.body.email,
+                request.body.password
+            ))
+            return new JSONResponse(response).send({ user })
         }
     }
 }

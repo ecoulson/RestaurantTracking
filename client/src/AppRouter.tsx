@@ -31,10 +31,8 @@ import AuthenticationLayout from "./Layouts/AuthenticationLayout";
 import HomePage from "./Pages/HomePage";
 import PINEmailPage from "./Pages/ContactLogPages/EducationCheckin/PINEmailPage";
 import PINLoginPage from "./Pages/ContactLogPages/EducationCheckin/PINLoginPage";
-import SetPINPage from "./Pages/ContactLogPages/EducationCheckin/SetPINPage";
+import VerifyPINPage from "./Pages/ContactLogPages/EducationCheckin/VerifyPINPage";
 import ResetPINPage from "./Pages/ContactLogPages/EducationCheckin/ResetPINPage";
-import VerifyPINAccountPage from "./Pages/ContactLogPages/EducationCheckin/VerifyPINAccountPage";
-import PINAccountVerificationPage from "./Pages/ContactLogPages/EducationCheckin/PINAccountVerificationPage";
 import CheckInLogoutPage from "./Pages/ContactLogPages/EducationCheckin/CheckInLogoutPage";
 import CancelPasswordResetPage from "./Pages/ContactLogPages/EducationCheckin/CancelPasswordResetPage";
 import OrganizationCheckInPage from "./Pages/ContactLogPages/EducationCheckin/OrganizationCheckInPage";
@@ -76,12 +74,12 @@ export default class AppRouter extends React.Component<{}, IAppRouterState> {
                         </UnauthenticatedAccessWrapper>
                     </Route>
                     <Route exact path="/dashboard">
-                        <AuthenticateActiveSession showError={this.showError}>
+                        <AuthenticateActiveSession to="/login" showError={this.showError}>
                             <DashboardPage />
                         </AuthenticateActiveSession>
                     </Route>
                     <Route exact path="/marketplace">
-                        <AuthenticateActiveSession showError={this.showError}>
+                        <AuthenticateActiveSession to="/login" showError={this.showError}>
                             <MarketplacePage />
                         </AuthenticateActiveSession>
                     </Route>
@@ -91,7 +89,7 @@ export default class AppRouter extends React.Component<{}, IAppRouterState> {
                         </UnauthenticatedAccessWrapper>
                     </Route>
                     <Route exact path="/settings">
-                        <AuthenticateActiveSession showError={this.showError}>
+                        <AuthenticateActiveSession to="/login" showError={this.showError}>
                             <UserProfilePage />
                         </AuthenticateActiveSession>
                     </Route>
@@ -138,66 +136,76 @@ export default class AppRouter extends React.Component<{}, IAppRouterState> {
                     </Route>
                     <Route exact path="/check-in/:organizationId/login" render={
                         (props) => (
-                            <PINEmailPage {...props} />
+                            <UnauthenticatedAccessWrapper to={`/check-in/${props.match.params.organizationId}`} showError={this.showError}>
+                                <PINEmailPage {...props} />
+                            </UnauthenticatedAccessWrapper>
                         )
                     }/>
                     <Route exact path="/check-in/:organizationId/login-password" render={
                         (props) => (
-                            <PINLoginPage {...props} />
-                        )
-                    }/>
-                    <Route exact path="/check-in/:organizationId/setup" render={
-                        (props) => (
-                            <SetPINPage {...props} />
-                        )
-                    }/>
-                    <Route exact path="/check-in/:organizationId/reset-password" render={
-                        (props) => (
-                            <ResetPINPage showSuccess={this.showSuccess} {...props} />
+                            <UnauthenticatedAccessWrapper to={`/check-in/${props.match.params.organizationId}`} showError={this.showError}>
+                                <PINLoginPage {...props} />
+                            </UnauthenticatedAccessWrapper>
                         )
                     }/>
                     <Route exact path="/check-in/:organizationId/verify-account" render={
                         (props) => (
-                            <VerifyPINAccountPage showSuccess={this.showSuccess} {...props} />
+                            <UnauthenticatedAccessWrapper to={`/check-in/${props.match.params.organizationId}`} showError={this.showError}>
+                                <VerifyPINPage showSuccess={this.showSuccess} {...props} />
+                            </UnauthenticatedAccessWrapper>
                         )
                     }/>
-                    <Route exact path="/check-in/:organizationId/verification" render ={
+                    <Route exact path="/check-in/:organizationId/reset-password" render={
                         (props) => (
-                            <PINAccountVerificationPage showSuccess={this.showSuccess} {...props} />
+                            <UnauthenticatedAccessWrapper to={`/check-in/${props.match.params.organizationId}`} showError={this.showError}>
+                                <ResetPINPage showSuccess={this.showSuccess} {...props} />
+                            </UnauthenticatedAccessWrapper>
                         )
                     }/>
                     <Route exact path="/check-in/:organizationId/logout" render={
                         (props) => (
-                            <CheckInLogoutPage showSuccess={this.showSuccess} {...props} />
+                            <AuthenticateActiveSession to={`/check-in/${props.match.params.organizationId}/login`} showError={this.showError}>
+                                <CheckInLogoutPage showSuccess={this.showSuccess} {...props} />
+                            </AuthenticateActiveSession>
                         )
                     }/>
                     <Route exact path="/check-in/:organizationId/cancel-recover" render={
                         (props) => (
-                            <CancelPasswordResetPage showSuccess={this.showSuccess} {...props} />
-                        )
-                    }/>
-                    <Route exact path="/check-in/:organizationId/" render={
-                        (props) => (
-                            <OrganizationCheckInPage showSuccess={this.showSuccess} {...props} />
+                            <UnauthenticatedAccessWrapper to={`/check-in/${props.match.params.organizationId}`} showError={this.showError}>
+                                <CancelPasswordResetPage showSuccess={this.showSuccess} {...props} />
+                            </UnauthenticatedAccessWrapper>
                         )
                     }/>
                     <Route exact path="/check-in/:organizationId/active-check-in" render={
                         (props) => (
-                            <ActiveCheckInPage showSuccess={this.showSuccess} {...props} />
+                            <AuthenticateActiveSession showError={this.showError} to={`/check-in/${props.match.params.organizationId}/login`}>
+                                <ActiveCheckInPage showSuccess={this.showSuccess} {...props} />
+                            </AuthenticateActiveSession>
                         )
                     }/>
                     <Route exact path="/check-in/:organizationId/check-out" render={
                         (props) => (
-                            <CheckOutPage showSuccess={this.showSuccess} {...props} />
+                            <AuthenticateActiveSession showError={this.showError} to={`/check-in/${props.match.params.organizationId}/login`}>
+                                <CheckOutPage showSuccess={this.showSuccess} {...props} />
+                            </AuthenticateActiveSession>
                         )
                     }/>
                     <Route path="/check-in/:organizationId/scan/:building" render={
                         (props) => (
-                            <ScanPage showError={this.showError} showSuccess={this.showSuccess} {...props} />
+                            <AuthenticateActiveSession showError={this.showError} to={`/check-in/${props.match.params.organizationId}/login`}>
+                                <ScanPage showError={this.showError} showSuccess={this.showSuccess} {...props} />
+                            </AuthenticateActiveSession>
+                        )
+                    }/>
+                    <Route exact path="/check-in/:organizationId/" render={
+                        (props) => (
+                            <AuthenticateActiveSession showError={this.showError} to={`/check-in/${props.match.params.organizationId}/login`}>
+                                <OrganizationCheckInPage showSuccess={this.showSuccess} {...props} />
+                            </AuthenticateActiveSession>
                         )
                     }/>
                     <Route exact path="/help">
-                        <AuthenticateActiveSession showError={this.showError}>
+                        <AuthenticateActiveSession to="/login" showError={this.showError}>
                             <HelpPage />
                         </AuthenticateActiveSession>
                     </Route>

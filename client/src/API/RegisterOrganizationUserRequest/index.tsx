@@ -13,8 +13,7 @@ export default class RegisterOrganizationUserRequest extends RequestComponent<IR
 
     async onLoad() {
         return (await Axios.post(`/api/organization/account/${this.props.organizationId}/register`, {
-            email: this.props.email,
-            password: this.props.password
+            email: this.props.email
         })).data
     }
 }

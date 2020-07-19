@@ -1,7 +1,7 @@
 import { RouteComponentProps } from "react-router-dom";
 
-export default interface IPINAccountVerificationPageProps extends RouteComponentProps<{
-    organizationId: string;
+export default interface IVerifyPINPageProps extends RouteComponentProps<{
+    organizationId: string
 }> {
     showSuccess: (message: string, delay: number) => void;
 }

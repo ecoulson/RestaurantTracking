@@ -6,7 +6,7 @@ import TokenModel from "../../../../../src/models/Token/TokenModel";
 import Scope from "../../../../../src/services/Token/Scope";
 import EmailData from "../../../../../src/lib/Email/EmailData";
 import EmailMessageBuilder from "../../../../../src/lib/Email/EmailMessageBuilder";
-import Email from "../../../../../src/lib/Email/Email";
+import Email from "../../../../../src/services/Email/Email";
 
 const userGenerator = new UserGenerator();
 const tokenGenerator = new TokenGenerator();

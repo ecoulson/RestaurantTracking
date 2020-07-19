@@ -4,22 +4,38 @@ import ITokenCallbackQuery from "../ITokenCallback";
 import JSONResponse from "../../../lib/HTTP/JSONResponse";
 import IUserVerificationService from "../../../services/User/Verification/IUserVerificationService";
 import ISpamVerificationService from "../../../services/User/Verification/ISpamVerificationService";
-import UserVerificationService from "../../../services/User/Verification/UserVerificationService";
-import SpamVerificationService from "../../../services/User/Verification/SpamVerificationService";
+import UserVerificationStrategy from "../../../services/User/Verification/UserVerificationStrategy";
+import UserBroker from "../../../brokers/UserBroker";
+import TokenBroker from "../../../brokers/TokenBroker";
 
 export default class VerificationController implements IVerificationController {
     private userVerificationService : IUserVerificationService;
     private spamVerificationService : ISpamVerificationService;
+    private userBroker : UserBroker;
+    private tokenBroker : TokenBroker;
 
-    constructor() {
-        this.userVerificationService = new UserVerificationService();
-        this.spamVerificationService = new SpamVerificationService();
+    constructor(
+        userBroker : UserBroker, 
+        tokenBroker : TokenBroker, 
+        userVerificationService : IUserVerificationService, 
+        spamVerificationService : ISpamVerificationService
+    ) {
+        this.userVerificationService = userVerificationService;
+        this.spamVerificationService = spamVerificationService
+        this.userBroker = userBroker;
+        this.tokenBroker = tokenBroker;
     }
 
     handleVerification() : RequestHandler {
         return async (req : Request, res : Response) => {
             const verificationQuery = req.query as unknown as ITokenCallbackQuery;
-            await this.userVerificationService.verify(verificationQuery.token, verificationQuery.email);
+            const verificationStrategy = new UserVerificationStrategy(
+                this.userBroker, 
+                this.tokenBroker, 
+                verificationQuery.token,
+                verificationQuery.email 
+            );
+            await this.userVerificationService.verify(verificationStrategy);
             return new JSONResponse(res).send({});
         }
     }

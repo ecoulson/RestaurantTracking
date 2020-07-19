@@ -1,10 +1,10 @@
 import InternalURLBuilder from "../../../lib/URL/InternalURLBuilder";
 import IUser from "../../../models/User/IUser";
 import IToken from "../../../models/Token/IToken";
-import VerificationEmailService from "../../User/Registration/VerificationEmailService";
+import EmailService from "../../Email/EmailService";
 import ITokenService from "../../Token/ITokenService";
 
-export default class OrganizationUserVerificationEmailService extends VerificationEmailService {
+export default class OrganizationUserVerificationEmailService extends EmailService {
     private tokenService : ITokenService;
 
     constructor(tokenService : ITokenService) {

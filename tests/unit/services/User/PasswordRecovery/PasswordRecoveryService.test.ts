@@ -4,7 +4,7 @@ import UserModel from "../../../../../src/models/User/UserModel";
 import TokenService from "../../../../../src/services/Token/TokenService";
 import EmailData from "../../../../../src/lib/Email/EmailData";
 import EmailMessageBuilder from "../../../../../src/lib/Email/EmailMessageBuilder";
-import Email from "../../../../../src/lib/Email/Email";
+import Email from "../../../../../src/services/Email/Email";
 import TokenGenerator from "../../../../mocks/Generators/TokenGenerator";
 import Scope from "../../../../../src/services/Token/Scope";
 import UserPasswordRecoveryService from "../../../../../src/services/User/PasswordRecovery/UserPasswordRecoveryService";

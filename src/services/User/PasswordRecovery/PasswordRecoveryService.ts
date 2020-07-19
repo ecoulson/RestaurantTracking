@@ -3,8 +3,8 @@ import ITokenService from "../../Token/ITokenService";
 import UserBroker from "../../../brokers/UserBroker";
 import IUser from "../../../models/User/IUser";
 import IToken from "../../../models/Token/IToken";
-import Email from "../../../lib/Email/Email";
-import IEmailMessageBuilder from "../../../lib/Email/IEmailMessageBuilder";
+import Email from "../../Email/Email";
+import IEmailMessage from "../../Email/IEmailMessage";
 
 export default abstract class PasswordRecoveryService implements IPasswordRecoveryService {
     protected tokenService : ITokenService;
@@ -26,5 +26,5 @@ export default abstract class PasswordRecoveryService implements IPasswordRecove
         return await recoveryMessage.send();
     }
 
-    async abstract buildEmailMessage(user : IUser, token : IToken) : Promise<IEmailMessageBuilder>
+    async abstract buildEmailMessage(user : IUser, token : IToken) : Promise<IEmailMessage>
 }

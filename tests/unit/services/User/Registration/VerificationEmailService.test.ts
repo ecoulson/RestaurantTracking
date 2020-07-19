@@ -3,7 +3,7 @@ import UserModel from "../../../../../src/models/User/UserModel";
 import SendGridMail from "@sendgrid/mail";
 import UserGenerator from "../../../../mocks/Generators/UserGenerator";
 import TokenGenerator from "../../../../mocks/Generators/TokenGenerator";
-import UserVerificationEmailService from "../../../../../src/services/User/Registration/UserVerificationEmailService";
+import UserVerificationEmailStrategy from "../../../../../src/services/User/Registration/UserVerificationEmailStrategy";
 import EmailData from "../../../../../src/lib/Email/EmailData";
 import EmailMessageBuilder from "../../../../../src/lib/Email/EmailMessageBuilder";
 import InternalURLBuilder from "../../../../../src/lib/URL/InternalURLBuilder";
@@ -20,14 +20,14 @@ describe("Verification Email Service Suite", () => {
     describe("Send verification email", () => {
         test("Sends verification email", async () => {
             tokenGenerator.setValue("token");
-            const service = new UserVerificationEmailService();
+            const service = new UserVerificationEmailStrategy();
             const user = userGenerator.generate();
             const token = tokenGenerator.generate();
             UserModel.findByEmail = jest.fn().mockResolvedValue(user);
             SendGridMail.setApiKey = jest.fn();
             SendGridMail.send = jest.fn();
             
-            const verificationEmail = await service.sendVerificationEmail(user, token);
+            const verificationEmail = await service.sendEmail(user, token);
             const internalURLBuilder = new InternalURLBuilder();
             const emailBuilder = new EmailMessageBuilder()
                     .setTo(user.email)

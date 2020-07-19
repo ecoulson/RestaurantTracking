@@ -17,15 +17,11 @@ import RegisterOrganizationAccountService from "../../services/Organization/Orga
 import OrganizationBroker from "../../brokers/OrganizationBroker";
 import UserPermissionSetupService from "../../services/User/Registration/UserPermissionSetupService";
 import VerifyUserService from "../../services/User/Registration/VerifyUserService";
-import Scope from "../../services/Token/Scope";
-import UserBroker from "../../brokers/UserBroker";
-import OrganizationUserVerificationEmailService from "../../services/Organization/OrganizationAccount/OrganizationUserVerificationEmailService";
-import EncryptedTokenService from "../../services/Token/EncryptedTokenService";
-import TokenBroker from "../../brokers/TokenBroker";
 import OrganizationBuildingRouteConfiguration from "./OrganizationBuildingRouteConfiguration";
 import OrganizationBuildingController from "../../controllers/Organization/Building/OrganizationBuildingController";
 import GetBuildingService from "../../services/Building/GetBuildingService";
 import BuildingBroker from "../../brokers/BuildingBroker";
+import UserVerificationService from "../../services/User/Verification/UserVerificationService";
 
 export default class OrganizationRouteConfiguration extends RouterConfiguration {
     private organizationController : IOrganizationController;
@@ -51,7 +47,8 @@ export default class OrganizationRouteConfiguration extends RouterConfiguration 
         this.router.use("/account", new OrganizationAccountRouteConfiguration(
             new OrganizationAccountController(
                 new OrganizationAccountExistsService(),
-                new OrganizationPINAuthenticationService()
+                new OrganizationPINAuthenticationService(),
+                new UserVerificationService()
             )
         ).setup())
 
@@ -61,13 +58,7 @@ export default class OrganizationRouteConfiguration extends RouterConfiguration 
                     new OrganizationBroker(),
                     new UserPermissionSetupService(),
                 ),
-                new VerifyUserService(
-                    new EncryptedTokenService([Scope.VerifyEmail], 24, new TokenBroker()),
-                    new UserBroker(),
-                    new OrganizationUserVerificationEmailService(
-                        new EncryptedTokenService([Scope.VerifyEmail], 24, new TokenBroker())
-                    )
-                )
+                new VerifyUserService()
             )
         ).setup())
 

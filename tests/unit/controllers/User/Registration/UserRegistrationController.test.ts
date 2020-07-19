@@ -2,11 +2,11 @@ jest.mock("@sendgrid/mail");
 jest.mock("../../../../../src/services/Token/TokenService");
 import { mockRequest, mockResponse } from "mock-req-res";
 import UserGenerator from "../../../../mocks/Generators/UserGenerator";
-import VerificationEmailService from "../../../../../src/services/User/Registration/VerificationEmailService";
+import EmailService from "../../../../../src/services/Email/EmailService";
 import UserRegistrationController from "../../../../../src/controllers/User/Registration/UserRegistrationController";
 import EmailData from "../../../../../src/lib/Email/EmailData";
 import EmailMessageBuilder from "../../../../../src/lib/Email/EmailMessageBuilder";
-import Email from "../../../../../src/lib/Email/Email";
+import Email from "../../../../../src/services/Email/Email";
 import VerifyUserService from "../../../../../src/services/User/Registration/VerifyUserService";
 
 const userGenerator = new UserGenerator();
@@ -36,7 +36,7 @@ describe("User Controller Suite", () => {
             const request = mockRequest({ user });
             const response = mockResponse();
             VerifyUserService.prototype.verify = jest.fn().mockResolvedValue(user);
-            VerificationEmailService.prototype.sendVerificationEmail = jest.fn().mockResolvedValue(
+            EmailService.prototype.sendEmail = jest.fn().mockResolvedValue(
                 new EmailData(new EmailMessageBuilder().build().getMessage())
             )
 
@@ -52,7 +52,7 @@ describe("User Controller Suite", () => {
             const response = mockResponse();
             const emailData = new EmailData(new EmailMessageBuilder().build().getMessage());
             VerifyUserService.prototype.verify = jest.fn().mockResolvedValue(user);
-            VerificationEmailService.prototype.sendVerificationEmail = jest.fn().mockResolvedValue(
+            EmailService.prototype.sendEmail = jest.fn().mockResolvedValue(
                 emailData
             );
 

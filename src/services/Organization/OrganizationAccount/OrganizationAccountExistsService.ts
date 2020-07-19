@@ -23,4 +23,20 @@ export default class OrganizationAccountExistsService implements IOrganizationAc
         });
         return users.length === 1;
     }
+
+    async isVerified(organizationId: string, email: string) {
+        const organization = await this.organizationBroker.findOrganizationById(organizationId);
+        const permissionSets = await organization.getPermissionSets();
+        const studentPermissionSet = permissionSets.filter((permissionSet) => {
+            return permissionSet.name === "student";
+        })[0];
+        const users = await UserModel.find({
+            $and: [
+                { permissionSets: studentPermissionSet._id },
+                { email: email }
+            ]
+        });
+        return users.length === 1 && users[0].verified;
+    }
+
 }

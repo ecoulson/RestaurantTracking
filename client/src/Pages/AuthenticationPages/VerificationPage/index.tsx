@@ -4,12 +4,16 @@ import LoginContainer from "../../../Layouts/AuthenticationLayout/LoginContainer
 import IVerificationPageProps from "./IVerificationPageProps";
 import AuthenticationLayout from "../../../Layouts/AuthenticationLayout";
 import VerificationRequest from "../../../API/VerificationRequest";
+import IVerificationPageState from "./IVerificationPageState";
 
-export default class VerificationPage extends React.Component<IVerificationPageProps> {
+export default class VerificationPage extends React.Component<IVerificationPageProps, IVerificationPageState> {
     private urlParams : URLSearchParams;
 
     constructor(props: IVerificationPageProps) {
         super(props);
+        this.state = {
+            shouldLogin: false
+        }
 
         this.urlParams = new URLSearchParams(window.location.search);
         this.onComplete = this.onComplete.bind(this);
@@ -17,7 +21,7 @@ export default class VerificationPage extends React.Component<IVerificationPageP
 
     render() {
         return (
-            <AuthenticationLayout pageTitle="Verifying Acount...">
+            <AuthenticationLayout pageTitle="Verifying Account...">
                 <VerificationRequest
                     redirect
                     send 
