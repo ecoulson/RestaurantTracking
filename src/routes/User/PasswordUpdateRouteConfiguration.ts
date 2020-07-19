@@ -1,10 +1,10 @@
 import RouterConfiguration from "../RouterConfiguration";
-import ValidationMiddleware from "../../middleware/validation/ValidationMiddleware";
+import ValidationMiddleware from "../../middleware/Validation/ValidationMiddleware";
 import { PasswordUpdateSchema } from "./UserSchema";
 import JSONWebTokenAuthenticationStrategy from "../../middleware/authentication/JSONWebTokenAuthenticationStrategy";
 import AuthorizationMiddleware from "../../middleware/Authorization/AuthorizationMiddleware";
 import OperationType from "../../lib/Authorization/OperationType";
-import ErrorCatchingMiddleware from "../../middleware/error-handling/ErrorCatchingMiddleware";
+import ErrorCatchingMiddleware from "../../middleware/ErrorHandling/ErrorCatchingMiddleware";
 import IPasswordUpdateController from "../../controllers/User/PasswordUpdate/IPasswordUpdateController";
 import PasswordUpdateController from "../../controllers/User/PasswordUpdate/PasswordUpdateController";
 import ResourceRequest from "../../lib/Authorization/ResourceRequest";

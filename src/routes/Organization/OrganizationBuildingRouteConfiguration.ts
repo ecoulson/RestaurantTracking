@@ -1,7 +1,7 @@
 import RouterConfiguration from "../RouterConfiguration";
-import ValidationMiddleware from "../../middleware/validation/ValidationMiddleware";
+import ValidationMiddleware from "../../middleware/Validation/ValidationMiddleware";
 import JSONWebTokenAuthenticationStrategy from "../../middleware/authentication/JSONWebTokenAuthenticationStrategy";
-import ErrorCatchingMiddleware from "../../middleware/error-handling/ErrorCatchingMiddleware";
+import ErrorCatchingMiddleware from "../../middleware/ErrorHandling/ErrorCatchingMiddleware";
 import IOrganizationBuildingController from "../../controllers/Organization/Building/IOrganizationBuildingController";
 import { OrganizationBuildingsSchema } from "./OrganizationSchema";
 

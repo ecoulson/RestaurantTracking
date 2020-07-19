@@ -9,7 +9,7 @@ import MongoStore from "rate-limit-mongo";
 import session from "express-session";
 import { requestLogger, logger } from "./lib/logging";
 import APIRouterConfiguration from "./routes";
-import ErrorHandlingMiddleware from "./middleware/error-handling/ErrorHandlingMiddleware";
+import ErrorHandlingMiddleware from "./middleware/ErrorHandling/ErrorHandlingMiddleware";
 import mongoose from "mongoose";
 import TokenManager from "./services/Token/TokenManger";
 import mongoSanitize from "express-mongo-sanitize"

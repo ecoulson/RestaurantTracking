@@ -10,8 +10,8 @@ import AuthorizationMiddleware from "../../middleware/Authorization/Authorizatio
 import OperationType from "../../lib/Authorization/OperationType";
 import ResourceRequest from "../../lib/Authorization/ResourceRequest";
 import ResourceType from "../../lib/Authorization/ResourceType";
-import ErrorCatchingMiddleware from "../../middleware/error-handling/ErrorCatchingMiddleware";
-import ValidationMiddleware from "../../middleware/validation/ValidationMiddleware";
+import ErrorCatchingMiddleware from "../../middleware/ErrorHandling/ErrorCatchingMiddleware";
+import ValidationMiddleware from "../../middleware/Validation/ValidationMiddleware";
 import { UpdatedProfileSchema } from "./UserSchema";
 import PasswordUpdateRouteConfiguration from "./PasswordUpdateRouteConfiguration";
 import TokenService from "../../services/Token/TokenService";

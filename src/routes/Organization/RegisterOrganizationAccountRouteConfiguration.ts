@@ -1,8 +1,8 @@
 import RouterConfiguration from "../RouterConfiguration";
 import IRegisterOrganizationAccountController from "../../controllers/Organization/OrganizationAccount/IRegisterOrganizationAccountController";
-import ValidationMiddleware from "../../middleware/validation/ValidationMiddleware";
+import ValidationMiddleware from "../../middleware/Validation/ValidationMiddleware";
 import { OrganizationIdParametersSchema, OrganizationAccountRegistrationSchema, EmailBodySchema } from "./OrganizationSchema";
-import ErrorCatchingMiddleware from "../../middleware/error-handling/ErrorCatchingMiddleware";
+import ErrorCatchingMiddleware from "../../middleware/ErrorHandling/ErrorCatchingMiddleware";
 import JSONWebTokenAuthenticationStrategy from "../../middleware/authentication/JSONWebTokenAuthenticationStrategy";
 
 export default class RegisterOrganizationAccountRouteConfiguration extends RouterConfiguration {

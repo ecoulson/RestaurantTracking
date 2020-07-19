@@ -1,6 +1,6 @@
 import IGenerator from "./IGenerator";
-import IRestaurant from "../../../src/models/restaurant/IRestaurant";
-import RestaurantModel from "../../../src/models/restaurant/RestaurantModel";
+import IRestaurant from "../../../src/models/Restaurant/IRestaurant";
+import RestaurantModel from "../../../src/models/Restaurant/RestaurantModel";
 import faker from "faker";
 import Chance from "chance";
 

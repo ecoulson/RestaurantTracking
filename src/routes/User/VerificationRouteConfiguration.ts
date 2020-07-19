@@ -1,8 +1,8 @@
 import RouterConfiguration from "../RouterConfiguration"
 import VerificationController from "../../controllers/User/Verification/VerificationController"
 import { TokenCallbackSchema } from "./UserSchema"
-import ErrorCatchingMiddleware from "../../middleware/error-handling/ErrorCatchingMiddleware"
-import ValidationMiddleware from "../../middleware/validation/ValidationMiddleware"
+import ErrorCatchingMiddleware from "../../middleware/ErrorHandling/ErrorCatchingMiddleware"
+import ValidationMiddleware from "../../middleware/Validation/ValidationMiddleware"
 import IVerificationController from "../../controllers/User/Verification/IVerificationController"
 
 export default class VerificationRouteConfiguration extends RouterConfiguration {

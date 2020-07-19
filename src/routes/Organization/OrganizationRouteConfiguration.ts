@@ -1,7 +1,7 @@
 import RouterConfiguration from "../RouterConfiguration";
-import ValidationMiddleware from "../../middleware/validation/ValidationMiddleware";
+import ValidationMiddleware from "../../middleware/Validation/ValidationMiddleware";
 import { OrganizationIdParametersSchema } from "./OrganizationSchema";
-import ErrorCatchingMiddleware from "../../middleware/error-handling/ErrorCatchingMiddleware";
+import ErrorCatchingMiddleware from "../../middleware/ErrorHandling/ErrorCatchingMiddleware";
 import IOrganizationController from "../../controllers/Organization/IOrganizationController";
 import OrganizationController from "../../controllers/Organization/OrganizationController";
 import OrganizationAccountRouteConfiguration from "./OrganizationAccountRouteConfiguration";

@@ -1,12 +1,12 @@
 import RouterConfiguration from "../RouterConfiguration";
-import ValidationMiddleware from "../../middleware/validation/ValidationMiddleware";
+import ValidationMiddleware from "../../middleware/Validation/ValidationMiddleware";
 import { URLProfilePictureSchema, ProfilePictureSchema } from "./UserSchema";
 import JSONWebTokenAuthenticationStrategy from "../../middleware/authentication/JSONWebTokenAuthenticationStrategy";
 import AuthorizationMiddleware from "../../middleware/Authorization/AuthorizationMiddleware";
 import OperationType from "../../lib/Authorization/OperationType";
 import ResourceRequest from "../../lib/Authorization/ResourceRequest";
 import ResourceType from "../../lib/Authorization/ResourceType";
-import ErrorCatchingMiddleware from "../../middleware/error-handling/ErrorCatchingMiddleware";
+import ErrorCatchingMiddleware from "../../middleware/ErrorHandling/ErrorCatchingMiddleware";
 import IProfilePictureUploadController from "../../controllers/User/ProfilePicture/IProfilePictureUploadController";
 import URLProfilePictureUploadController from "../../controllers/User/ProfilePicture/URLProfilePictureController";
 import IProfilePictureController from "../../controllers/User/ProfilePicture/IProfilePictureController";
