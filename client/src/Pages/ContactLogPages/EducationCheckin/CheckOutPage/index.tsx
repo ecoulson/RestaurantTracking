@@ -14,6 +14,12 @@ export default class CheckOutPage extends React.Component<ICheckOutPageProps> {
         this.onCheckOut = this.onCheckOut.bind(this);
     }
 
+    componentWillMount() {
+        if (!Cookie.hasCookie("checkInId")) {
+            AppHistory.push(`/check-in/${this.props.match.params.organizationId}/`);
+        }
+    }
+
     render() {
         return (
             <PageLayout pageTitle="Check Out Page">
@@ -30,8 +36,8 @@ export default class CheckOutPage extends React.Component<ICheckOutPageProps> {
 
     onCheckOut() {
         this.props.showSuccess("Successfully checked out", 3000)
-        Cookie.eraseCookie("checkInId")
         Cookie.eraseCookie("timeCheckedIn")
+        Cookie.eraseCookie("checkInId")
         AppHistory.push(`/check-in/${this.props.match.params.organizationId}/`)
     }
 }

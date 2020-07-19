@@ -47,16 +47,16 @@ export default class BuildingDropdown extends React.Component<IBuildingDropdownP
 
     private getBuildingNames() {
         return this.state.buildings
-            .filter((building) => {
-                return building.type === this.props.type
-            })
-            .filter((building) => {
-                return building.name.includes(this.state.value)
-            })
+            // .filter((building) => {
+            //     return building.type === this.props.type
+            // })
+            // .filter((building) => {
+            //     return building.name.includes(this.state.value)
+            // })
             .map((building) => {
                 return building.name
             })
-            .sort()
+            // .sort()
     }
 
     private handleChange(dropdownValue : IFormValue<number>, value?: string) {
