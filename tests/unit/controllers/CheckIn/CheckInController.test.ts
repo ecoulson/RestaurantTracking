@@ -12,6 +12,7 @@ import GetCheckInService from "../../../../src/services/CheckIn/GetCheckInServic
 import CheckoutService from "../../../../src/services/CheckIn/CheckoutService";
 import CheckInBroker from "../../../../src/brokers/CheckInBroker";
 import CheckInGenerator from "../../../mocks/Generators/CheckInGenerator";
+import SimpleCheckInQRService from "../../../../src/services/CheckIn/SimpleCheckInQRService";
 
 const chance = new Chance();
 const checkInGenerator = new CheckInGenerator();
@@ -32,7 +33,8 @@ describe("Check In Controller Suite", () => {
                     new UserBroker()
                 ),
                 new GetCheckInService(new CheckInBroker()),
-                new CheckoutService(new CheckInBroker())
+                new CheckoutService(new CheckInBroker()),
+                new SimpleCheckInQRService()
             );
             const request = mockRequest({
                 user: {
@@ -71,7 +73,8 @@ describe("Check In Controller Suite", () => {
                     new UserBroker()
                 ),
                 new GetCheckInService(new CheckInBroker()),
-                new CheckoutService(new CheckInBroker())
+                new CheckoutService(new CheckInBroker()),
+                new SimpleCheckInQRService()
             );
             const request = mockRequest();
             const response = mockResponse();
