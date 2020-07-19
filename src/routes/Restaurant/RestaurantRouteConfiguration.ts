@@ -5,7 +5,7 @@ import {
 } from "./RestaurantRouteSchemas";
 import RouterConfiguration from "../RouterConfiguration";
 import RestaurantController from "../../controllers/Restaurant/RestaurantController";
-import BasicAuthenticationStrategy from "../../middleware/authentication/BasicAuthenticationStrategy";
+import BasicAuthenticationStrategy from "../../middleware/Authentication/BasicAuthenticationStrategy";
 import ErrorCatchingMiddleware from "../../middleware/ErrorHandling/ErrorCatchingMiddleware";
 import ValidationMiddleware from "../../middleware/Validation/ValidationMiddleware";
 
