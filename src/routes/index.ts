@@ -12,6 +12,7 @@ import CheckInBroker from "../brokers/CheckInBroker";
 import PermissionBuilder from "../services/Permission/PermissionBuilder";
 import UserBroker from "../brokers/UserBroker";
 import CheckoutService from "../services/CheckIn/CheckoutService";
+import SimpleCheckInQRService from "../services/CheckIn/SimpleCheckInQRService";
 
 export default class APIRouteConfiguration extends RouterConfiguration {
     configureRoutes() {
@@ -28,7 +29,8 @@ export default class APIRouteConfiguration extends RouterConfiguration {
                 ),
                 new CheckoutService(
                     new CheckInBroker()
-                )
+                ),
+                new SimpleCheckInQRService()
             ),
             new OrganizationBroker()
         ).setup());

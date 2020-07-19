@@ -1,5 +1,5 @@
 import { Request } from "express";
-import { CheckingInUserSchema, GetOrganizationCheckInsSchema, GetCheckInSchema } from "./CheckInRouteSchemas";
+import { CheckingInUserSchema, GetOrganizationCheckInsSchema, GetCheckInSchema, GetCheckInQRCode } from "./CheckInRouteSchemas";
 import RouterConfiguration from "../RouterConfiguration";
 import CheckInController from "../../controllers/CheckIn/CheckInController";
 import ErrorCatchingMiddleware from "../../middleware/error-handling/ErrorCatchingMiddleware";
@@ -71,6 +71,21 @@ export default class CheckInRouteConfiguration extends RouterConfiguration {
             ),
             new ValidationMiddleware(GetCheckInSchema).validateBody(),
             ErrorCatchingMiddleware.catchErrors(this.controller.handleCheckOut())
+        )
+
+        this.router.post(
+            "/qr-code",
+            new JSONWebTokenAuthenticationStrategy().authenticate(),
+            new AuthorizationMiddleware().authorize(OperationType.Create, async (request) => 
+                [
+                    new ResourceRequest(
+                        (await this.organizationBroker.findOrganizationById(request.body.organizationId))._id,
+                        ResourceType.Organization
+                    )
+                ]
+            ),
+            new ValidationMiddleware(GetCheckInQRCode).validateBody(),
+            ErrorCatchingMiddleware.catchErrors(this.controller.handleGetQRCode())
         )
     }
 }

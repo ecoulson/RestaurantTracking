@@ -15,8 +15,14 @@ const GetCheckInSchema = Joi.object({
     checkInId: Joi.string().required()
 })
 
+const GetCheckInQRCode = Joi.object({
+    organizationId: Joi.string().required(),
+    building: Joi.string().required()
+})
+
 export {
     CheckingInUserSchema,
     GetOrganizationCheckInsSchema,
-    GetCheckInSchema
+    GetCheckInSchema,
+    GetCheckInQRCode
 };

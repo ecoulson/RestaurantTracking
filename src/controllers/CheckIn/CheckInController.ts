@@ -8,16 +8,19 @@ import JSONResponse from "../../lib/HTTP/JSONResponse";
 import ICheckInController from "./ICheckInController";
 import IGetCheckInService from "../../services/CheckIn/IGetCheckInService";
 import ICheckoutService from "../../services/CheckIn/ICheckoutService";
+import ICheckInQRService from "../../services/CheckIn/ICheckInQRService";
 
 export default class CheckInController implements ICheckInController {
     private checkInService : CheckInService;
     private getCheckInService : IGetCheckInService;
     private checkOutService : ICheckoutService;
+    private qrCodeService : ICheckInQRService;
 
-    constructor(checkInService : CheckInService, getCheckInService : IGetCheckInService, checkoutService : ICheckoutService) {
+    constructor(checkInService : CheckInService, getCheckInService : IGetCheckInService, checkoutService : ICheckoutService, qrCodeService : ICheckInQRService) {
         this.checkInService = checkInService;
         this.getCheckInService = getCheckInService;
         this.checkOutService = checkoutService;
+        this.qrCodeService = qrCodeService;
     }
 
     handleCheckIn() {
@@ -52,6 +55,12 @@ export default class CheckInController implements ICheckInController {
                 req.params.checkInId
             );
             return new JSONResponse(res).send(checkIn);
+        }
+    }
+
+    handleGetQRCode() {
+        return async (req : Request, res: Response) => {
+            return this.qrCodeService.getQRStream(req.body.organizationId, req.body.building)(res);
         }
     }
 }

@@ -111,8 +111,10 @@ export default class ScanPage extends React.Component<IScanPageProps, IScanPageS
         }
     }
 
-    onCheckIn() {
+    onCheckIn(response : IResponse<ICheckInResponse>) {
         this.props.showSuccess(`Successfully checked in to ${this.getBuildingName()}`, 5000)
+        Cookie.setCookie("checkInId", response.data._id);
+        Cookie.setCookie("timeCheckedIn", response.data.timeCheckedIn);
         AppHistory.push(`/check-in/${this.props.match.params.organizationId}/active-check-in`)
     }
 
