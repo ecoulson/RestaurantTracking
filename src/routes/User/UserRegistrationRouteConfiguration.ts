@@ -3,7 +3,7 @@ import { TokenCallbackSchema, RegistrationBodySchema, UsernameCheckSchema } from
 import ErrorCatchingMiddleware from "../../middleware/ErrorHandling/ErrorCatchingMiddleware"
 import ValidationMiddleware from "../../middleware/Validation/ValidationMiddleware"
 import UserRegistrationController from "../../controllers/User/Registration/UserRegistrationController"
-import JSONWebTokenAuthenticationStrategy from "../../middleware/authentication/JSONWebTokenAuthenticationStrategy"
+import JSONWebTokenAuthenticationStrategy from "../../middleware/Authentication/JSONWebTokenAuthenticationStrategy"
 import IUserRegistrationController from "../../controllers/User/Registration/IUserRegistrationController"
 
 export default class UserRegistrationRouteConfiguration extends RouterConfiguration {

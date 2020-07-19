@@ -3,7 +3,7 @@ import VerificationRouteConfiguration from "./VerificationRouteConfiguration";
 import UserRegistrationRouteConfiguration from "./UserRegistrationRouteConfiguration";
 import PasswordRecoveryRouteConfiguration from "./PasswordRecoveryRouteConfiguration";
 import UserController from "../../controllers/User/UserController";
-import JSONWebTokenAuthenticationStrategy from "../../middleware/authentication/JSONWebTokenAuthenticationStrategy";
+import JSONWebTokenAuthenticationStrategy from "../../middleware/Authentication/JSONWebTokenAuthenticationStrategy";
 import IUserController from "../../controllers/User/IUserController";
 import ProfilePictureRouteConfiguration from "./ProfilePictureRouteConfiguration";
 import AuthorizationMiddleware from "../../middleware/Authorization/AuthorizationMiddleware";

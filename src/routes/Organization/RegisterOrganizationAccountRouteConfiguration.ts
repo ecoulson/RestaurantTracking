@@ -3,7 +3,7 @@ import IRegisterOrganizationAccountController from "../../controllers/Organizati
 import ValidationMiddleware from "../../middleware/Validation/ValidationMiddleware";
 import { OrganizationIdParametersSchema, OrganizationAccountRegistrationSchema, EmailBodySchema } from "./OrganizationSchema";
 import ErrorCatchingMiddleware from "../../middleware/ErrorHandling/ErrorCatchingMiddleware";
-import JSONWebTokenAuthenticationStrategy from "../../middleware/authentication/JSONWebTokenAuthenticationStrategy";
+import JSONWebTokenAuthenticationStrategy from "../../middleware/Authentication/JSONWebTokenAuthenticationStrategy";
 
 export default class RegisterOrganizationAccountRouteConfiguration extends RouterConfiguration {
     private controller : IRegisterOrganizationAccountController;
