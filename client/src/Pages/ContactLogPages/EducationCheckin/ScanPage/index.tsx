@@ -15,6 +15,7 @@ import ICheckInResponse from "../../../../API/CheckInRequest/ICheckInResponse";
 import AppHistory from "../../../../AppHistory";
 import CheckOutRequest from "../../../../API/CheckOutRequest";
 import CheckInRequest from "../../../../API/CheckInRequest";
+import { response } from "express";
 
 export default class ScanPage extends React.Component<IScanPageProps, IScanPageState> {
     constructor(props : IScanPageProps) {
@@ -103,7 +104,7 @@ export default class ScanPage extends React.Component<IScanPageProps, IScanPageS
     }
 
     onGetCheckIn(response : IResponse<ICheckInResponse>) {
-        if (response.data.building.toLowerCase() === this.props.match.params.building.toLowerCase()) {
+        if (this.shouldCheckOut(response)) {
             this.setState({
                 checkOut: true
             })
@@ -111,6 +112,11 @@ export default class ScanPage extends React.Component<IScanPageProps, IScanPageS
             this.props.showError("Please check out before signing in elsewhere", 5000);
             AppHistory.push(`/check-in/${this.props.match.params.organizationId}/active-check-in`)
         }
+    }
+
+    shouldCheckOut(response : IResponse<ICheckInResponse>) {
+        return response.data.building.trim().toLowerCase() === 
+            this.props.match.params.building.toLowerCase().split("-").join(" ").trim()
     }
 
     onCheckIn(response : IResponse<ICheckInResponse>) {
