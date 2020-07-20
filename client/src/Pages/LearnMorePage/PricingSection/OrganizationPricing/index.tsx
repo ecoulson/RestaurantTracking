@@ -1,14 +1,14 @@
 import React from "react";
 import IPricingModel from "../Model/IPricingModel";
-import RestaurantPricingParameters from "./IRestaurantPricingParameters";
+import RestaurantPricingParameters from "./IOrganizationPricingParameters";
 import LearnMoreSectionParagraph from "../../LearnMoreSectionParagraph";
 import LearnMoreSubtitle from "../../LearnMoreSubtitle";
-import IRestaurantPricingState from "./IRestaurantPricingState";
-import RestaurantPricingStrategy from "./RestaurantPricingStrategy";
+import IOrganizationPricingState from "./IOrganizationPricingState";
+import OrganizationPricingStrategy from "./OrganizationPricingStrategy";
 import NumberInput from "../../../../Components/NumberInput";
 import IconType from "../../../../Components/Icon/IconTypes";
 
-export default class RestaurantPricing extends React.Component<IPricingModel, IRestaurantPricingState> {
+export default class OrganizationPricing extends React.Component<IPricingModel, IOrganizationPricingState> {
     constructor(pricingModel : IPricingModel) {
         super(pricingModel);
         this.state = {
@@ -55,7 +55,7 @@ export default class RestaurantPricing extends React.Component<IPricingModel, IR
             return "$10 / Month"
         }
         const parameters = new RestaurantPricingParameters(this.state.users);
-        const strategy = (this.props.pricingStrategy as RestaurantPricingStrategy);
+        const strategy = (this.props.pricingStrategy as OrganizationPricingStrategy);
         return `$${strategy.calculatePrice(parameters).monthly} / Month`
     }
 
@@ -64,7 +64,7 @@ export default class RestaurantPricing extends React.Component<IPricingModel, IR
             return "$0 / After 0 Months"
         }
         const parameters = new RestaurantPricingParameters(this.state.users);
-        const strategy = (this.props.pricingStrategy as RestaurantPricingStrategy);
+        const strategy = (this.props.pricingStrategy as OrganizationPricingStrategy);
         return `$${strategy.calculatePrice(parameters).monthly * this.state.months} / After ${this.state.months} Months`
     }
 }

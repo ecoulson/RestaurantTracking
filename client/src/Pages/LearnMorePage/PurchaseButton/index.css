@@ -1,0 +1,12 @@
+.button:hover > .purchase-icon {
+    fill: #3B3A39;
+}
+
+.button > .purchase-icon {
+    height: 25px;
+}
+
+.purchase-text {
+    padding-right: 15px;
+    display: inline-block;
+}
