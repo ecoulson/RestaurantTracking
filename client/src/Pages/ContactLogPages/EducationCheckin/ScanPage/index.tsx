@@ -79,8 +79,11 @@ export default class ScanPage extends React.Component<IScanPageProps, IScanPageS
     }
 
     getBuildingName() {
-        const building = this.props.match.params.building
-        return building.substring(0, 1).toUpperCase() + building.substring(1, building.length).toLowerCase()
+        let words = this.props.match.params.building.split("-");
+        words = words.map((word) => {
+            return `${word.substring(0, 1).toUpperCase()}${word.substring(1, word.length).toLowerCase()}`; 
+        })
+        return words.join(" ")
     }
 
     onOrganizationName(response : IResponse<IGetOrganizationNameResponse>) {

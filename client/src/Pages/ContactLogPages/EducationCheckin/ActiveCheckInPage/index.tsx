@@ -43,12 +43,20 @@ export default class ActiveCheckInPage extends React.Component<IActiveCheckInPag
                     checkInId={Cookie.getCookie("checkInId") as string}
                     onComplete={this.onOrganizationName} />
                 <Logo dark />
-                <OrganizationName>{`Currently at ${this.state.building} for`}</OrganizationName>
+                <OrganizationName>{`Currently at ${this.getBuildingName()} for`}</OrganizationName>
                 <CheckInTimer onTick={this.onTick} startTime={new Date(Cookie.getCookie("timeCheckedIn") as string)} />
                 <Button onClick={this.onClick} dark>Check Out</Button>
                 <LegalContainer />
             </PageLayout>
         )
+    }
+
+    getBuildingName() {
+        let words = this.state.building.split(" ");
+        words = words.map((word) => {
+            return `${word.substring(0, 1).toUpperCase()}${word.substring(1, word.length).toLowerCase()}`; 
+        });
+        return words.join(" ")
     }
 
     onTick(duration : moment.Duration) {
