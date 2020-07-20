@@ -1,9 +1,10 @@
-import UserModel from "../../../../../src/models/User/UserModel";
-import TokenModel from "../../../../../src/models/Token/TokenModel";
-import UserVerificationService from "../../../../../src/services/User/Verification/UserVerificationStrategy";
+import UserVerificationStrategy from "../../../../../src/services/User/Verification/UserVerificationStrategy";
 import Scope from "../../../../../src/services/Token/Scope";
 import UserGenerator from "../../../../mocks/Generators/UserGenerator";
 import TokenGenerator from "../../../../mocks/Generators/TokenGenerator";
+import UserVerificationService from "../../../../../src/services/User/Verification/UserVerificationService";
+import UserBroker from "../../../../../src/brokers/UserBroker";
+import TokenBroker from "../../../../../src/brokers/TokenBroker";
 
 const userGenerator = new UserGenerator();
 const tokenGenerator = new TokenGenerator();
@@ -14,28 +15,19 @@ beforeEach(() => {
 
 describe("User Verification Service Suite", () => {
     describe("verify", () => {
-        test("Error occured while finding user by email", async () => {
-            const user = userGenerator.generate();
-            const token = tokenGenerator.generate();
-            const service = new UserVerificationService();
-            UserModel.findByEmail = jest.fn().mockRejectedValue(new Error());
-
-            try {
-                await service.verify(token.value, user.email);
-            } catch (error) {
-                expect(error).toEqual(new Error(`Failed to find user with email ${user.email}`))
-            }
-            expect.assertions(1);
-        });
-
         test("No user with email", async () => {
             const user = userGenerator.generate();
             const token = tokenGenerator.generate();
             const service = new UserVerificationService();
-            UserModel.findByEmail = jest.fn().mockResolvedValue(null);
+            UserBroker.prototype.findUserByEmail = jest.fn().mockResolvedValue(null);
 
             try {
-                await service.verify(token.value, user.email);
+                await service.verify(new UserVerificationStrategy(
+                    new UserBroker(),
+                    new TokenBroker(),
+                    token.value,
+                    user.email
+                ))
             } catch (error) {
                 expect(error).toEqual(new Error(`No user with email ${user.email}`))
             }
@@ -47,43 +39,17 @@ describe("User Verification Service Suite", () => {
             const user = userGenerator.generate();
             const token = tokenGenerator.generate();
             const service = new UserVerificationService();
-            UserModel.findByEmail = jest.fn().mockResolvedValue(user);
+            UserBroker.prototype.findUserByEmail = jest.fn().mockResolvedValue(user);
 
             try {
-                await service.verify(token.value, user.email);
+                await service.verify(new UserVerificationStrategy(
+                    new UserBroker(),
+                    new TokenBroker(),
+                    token.value,
+                    user.email
+                ))
             } catch (error) {
                 expect(error).toEqual(new Error(`User with email ${user.email} is already verified`))
-            }
-            expect.assertions(1);
-        });
-
-        test("Error occured while finding email verification token", async () => {
-            const user = userGenerator.generate();
-            const token = tokenGenerator.generate();
-            const service = new UserVerificationService();
-            UserModel.findByEmail = jest.fn().mockResolvedValue(user);
-            TokenModel.findByUserId = jest.fn().mockRejectedValue(new Error());
-
-            try {
-                await service.verify(token.value, user.email);
-            } catch (error) {
-                expect(error).toEqual(new Error(`Failed to find tokens associated with user ${user._id}`));
-            }
-            expect.assertions(1);
-        });
-
-        test("No verification tokens associated with the user", async () => {
-            const user = userGenerator.generate();
-            tokenGenerator.setScope([Scope.ResetPassword]);
-            const token = tokenGenerator.generate();
-            const service = new UserVerificationService();
-            UserModel.findByEmail = jest.fn().mockResolvedValue(user);
-            TokenModel.findByUserId = jest.fn().mockResolvedValue([token]);
-
-            try {
-                await service.verify(token.value, user.email);
-            } catch (error) {
-                expect(error).toEqual(new Error(`User ${user._id} has no active email verification tokens`));
             }
             expect.assertions(1);
         });
@@ -92,46 +58,20 @@ describe("User Verification Service Suite", () => {
             const user = userGenerator.generate();
             const token = tokenGenerator.generate();
             const service = new UserVerificationService();
-            UserModel.findByEmail = jest.fn().mockResolvedValue(user);
-            TokenModel.findByUserId = jest.fn().mockResolvedValue([token]);
+            UserBroker.prototype.findUserByEmail = jest.fn().mockResolvedValue(user);
+            TokenBroker.prototype.getTokens = jest.fn().mockResolvedValue([token]);
+            UserBroker.prototype.save = jest.fn().mockResolvedValue(user);
+            TokenBroker.prototype.remove = jest.fn();
 
             try {
-                await service.verify("fake token", user.email);
+                await service.verify(new UserVerificationStrategy(
+                    new UserBroker(),
+                    new TokenBroker(),
+                    "fake",
+                    user.email
+                ))
             } catch (error) {
                 expect(error).toEqual(new Error("Incorrect verification token provided"));
-            }
-            expect.assertions(1);
-        });
-
-        test("Fails to verify user in database", async () => {
-            const user = userGenerator.generate();
-            const token = tokenGenerator.generate();
-            const service = new UserVerificationService();
-            UserModel.findByEmail = jest.fn().mockResolvedValue(user);
-            TokenModel.findByUserId = jest.fn().mockResolvedValue([token]);
-            UserModel.prototype.save = jest.fn().mockRejectedValue(new Error());
-
-            try {
-                await service.verify(token.value, user.email);
-            } catch (error) {
-                expect(error).toEqual(new Error(`Failed to update verification status of user ${user._id}`));
-            }
-            expect.assertions(1);
-        });
-
-        test("Fails to delete email verification token", async () => {
-            const user = userGenerator.generate();
-            const token = tokenGenerator.generate();
-            const service = new UserVerificationService();
-            UserModel.findByEmail = jest.fn().mockResolvedValue(user);
-            TokenModel.findByUserId = jest.fn().mockResolvedValue([token]);
-            UserModel.prototype.save = jest.fn();
-            TokenModel.prototype.remove = jest.fn().mockRejectedValue(new Error())
-
-            try {
-                await service.verify(token.value, user.email);
-            } catch (error) {
-                expect(error).toEqual(new Error(`Failed to delete verification token for user ${user._id}`));
             }
             expect.assertions(1);
         });
@@ -140,12 +80,17 @@ describe("User Verification Service Suite", () => {
             const user = userGenerator.generate();
             const token = tokenGenerator.generate();
             const service = new UserVerificationService();
-            UserModel.findByEmail = jest.fn().mockResolvedValue(user);
-            TokenModel.findByUserId = jest.fn().mockResolvedValue([token]);
-            UserModel.prototype.save = jest.fn();
-            TokenModel.prototype.remove = jest.fn()
+            UserBroker.prototype.findUserByEmail = jest.fn().mockResolvedValue(user);
+            TokenBroker.prototype.getTokens = jest.fn().mockResolvedValue([token]);
+            UserBroker.prototype.save = jest.fn().mockResolvedValue(user);
+            TokenBroker.prototype.remove = jest.fn();
 
-            const verifiedUser = await service.verify(token.value, user.email);
+            const verifiedUser = await service.verify(new UserVerificationStrategy(
+                new UserBroker(),
+                new TokenBroker(),
+                token.value,
+                user.email
+            ))
 
             // update the expected user to be verified
             user.verified = true;

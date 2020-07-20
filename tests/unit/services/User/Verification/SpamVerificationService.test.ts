@@ -4,8 +4,8 @@ import UserGenerator from "../../../../mocks/Generators/UserGenerator";
 import TokenGenerator from "../../../../mocks/Generators/TokenGenerator";
 import TokenModel from "../../../../../src/models/Token/TokenModel";
 import Scope from "../../../../../src/services/Token/Scope";
-import EmailData from "../../../../../src/lib/Email/EmailData";
-import EmailMessageBuilder from "../../../../../src/lib/Email/EmailMessageBuilder";
+import EmailData from "../../../../../src/services/Email/EmailData";
+import EmailMessageBuilder from "../../../../../src/services/Email/EmailMessageBuilder";
 import Email from "../../../../../src/services/Email/Email";
 
 const userGenerator = new UserGenerator();

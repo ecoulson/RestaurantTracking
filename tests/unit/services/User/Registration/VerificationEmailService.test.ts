@@ -1,12 +1,12 @@
 jest.mock( "@sendgrid/mail");
-import UserModel from "../../../../../src/models/User/UserModel";
 import SendGridMail from "@sendgrid/mail";
 import UserGenerator from "../../../../mocks/Generators/UserGenerator";
 import TokenGenerator from "../../../../mocks/Generators/TokenGenerator";
-import UserVerificationEmailStrategy from "../../../../../src/services/User/Registration/UserVerificationEmailStrategy";
-import EmailData from "../../../../../src/lib/Email/EmailData";
-import EmailMessageBuilder from "../../../../../src/lib/Email/EmailMessageBuilder";
-import InternalURLBuilder from "../../../../../src/lib/URL/InternalURLBuilder";
+import UserVerificationService from "../../../../../src/services/User/Verification/UserVerificationService";
+import UserVerificationStrategy from "../../../../../src/services/User/Verification/UserVerificationStrategy";
+import TokenBroker from "../../../../../src/brokers/TokenBroker";
+import UserBroker from "../../../../../src/brokers/UserBroker";
+import Scope from "../../../../../src/services/Token/Scope";
 
 beforeAll(() => {
     process.env.HOST_NAME = "localhost"
@@ -19,29 +19,26 @@ const tokenGenerator = new TokenGenerator();
 describe("Verification Email Service Suite", () => {
     describe("Send verification email", () => {
         test("Sends verification email", async () => {
-            tokenGenerator.setValue("token");
-            const service = new UserVerificationEmailStrategy();
             const user = userGenerator.generate();
+            tokenGenerator.setValue("token");
+            tokenGenerator.setScope([Scope.VerifyEmail])
             const token = tokenGenerator.generate();
-            UserModel.findByEmail = jest.fn().mockResolvedValue(user);
+            UserBroker.prototype.findUserByEmail = jest.fn().mockResolvedValue(user);
+            UserBroker.prototype.save = jest.fn().mockResolvedValue(user);
+            TokenBroker.prototype.getTokens = jest.fn().mockResolvedValue([token]);
+            TokenBroker.prototype.remove = jest.fn()
             SendGridMail.setApiKey = jest.fn();
             SendGridMail.send = jest.fn();
+            const service = new UserVerificationService();
             
-            const verificationEmail = await service.sendEmail(user, token);
-            const internalURLBuilder = new InternalURLBuilder();
-            const emailBuilder = new EmailMessageBuilder()
-                    .setTo(user.email)
-                    .setFrom("support@adaptsolutions.tech")
-                    .setSubject("Verify Your Adapt Account")
-                    .setTemplateId("d-987392a0267440c7a4d329a84d5d39ff")
-                    .setData({
-                        verificationLink: internalURLBuilder.build(`verification?email=${user.email}&token=${token.value}`),
-                        spamLink: internalURLBuilder.build(`spam?email=${user.email}&token=${token.value}`)
-                    })
-            
-            expect(verificationEmail).toEqual(
-                new EmailData(emailBuilder.build().getMessage()),
-            );
+            const verificationEmail = await service.verify(new UserVerificationStrategy(
+                new UserBroker(),
+                new TokenBroker(),
+                token.value,
+                user.email
+            ));
+    
+            expect(verificationEmail).toEqual(user);
         })
     });
 })

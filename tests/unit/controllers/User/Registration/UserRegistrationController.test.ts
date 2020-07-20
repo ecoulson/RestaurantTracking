@@ -4,8 +4,8 @@ import { mockRequest, mockResponse } from "mock-req-res";
 import UserGenerator from "../../../../mocks/Generators/UserGenerator";
 import EmailService from "../../../../../src/services/Email/EmailService";
 import UserRegistrationController from "../../../../../src/controllers/User/Registration/UserRegistrationController";
-import EmailData from "../../../../../src/lib/Email/EmailData";
-import EmailMessageBuilder from "../../../../../src/lib/Email/EmailMessageBuilder";
+import EmailData from "../../../../../src/services/Email/EmailData";
+import EmailMessageBuilder from "../../../../../src/services/Email/EmailMessageBuilder";
 import Email from "../../../../../src/services/Email/Email";
 import VerifyUserService from "../../../../../src/services/User/Registration/VerifyUserService";
 
@@ -42,7 +42,7 @@ describe("User Controller Suite", () => {
 
             await controller.handleResendVerificationEmail()(request, response);
             
-            expect(VerifyUserService.prototype.verify).toHaveBeenCalledWith(user.email, new Map())
+            expect(VerifyUserService.prototype.verify).toHaveBeenCalled()
         });
 
         test("Should send successful response", async () => {
