@@ -50,7 +50,7 @@ export default class CheckInService {
                 userId: checkIn.userId,
                 organizationId: checkIn.organizationId,
                 timeCheckedIn: checkIn.timeCheckedIn ? checkIn.timeCheckedIn : undefined,
-                building: checkIn.building,
+                building: checkIn.building.toLowerCase().split("-").join(" "),
                 room: checkIn.room,
                 ipAddress: ipAddress
             });
