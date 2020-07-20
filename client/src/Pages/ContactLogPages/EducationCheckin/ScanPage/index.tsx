@@ -98,9 +98,8 @@ export default class ScanPage extends React.Component<IScanPageProps, IScanPageS
     }
 
     onCheckOut() {
-        this.setState({
-            shouldCheckIn: true
-        })
+        this.props.showSuccess(`Successfully checked out of ${this.getBuildingName()}`, 5000)
+        AppHistory.push(`/check-in/${this.props.match.params.organizationId}/`)
     }
 
     onGetCheckIn(response : IResponse<ICheckInResponse>) {
