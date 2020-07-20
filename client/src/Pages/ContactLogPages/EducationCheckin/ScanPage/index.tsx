@@ -15,7 +15,6 @@ import ICheckInResponse from "../../../../API/CheckInRequest/ICheckInResponse";
 import AppHistory from "../../../../AppHistory";
 import CheckOutRequest from "../../../../API/CheckOutRequest";
 import CheckInRequest from "../../../../API/CheckInRequest";
-import { response } from "express";
 
 export default class ScanPage extends React.Component<IScanPageProps, IScanPageState> {
     constructor(props : IScanPageProps) {
@@ -39,10 +38,6 @@ export default class ScanPage extends React.Component<IScanPageProps, IScanPageS
             this.setState({
                 isCheckedIn: true
             })
-        } else {
-            this.setState({
-                shouldCheckIn: true
-            })
         }
     }
 
@@ -64,7 +59,7 @@ export default class ScanPage extends React.Component<IScanPageProps, IScanPageS
                     organizationId={this.props.match.params.organizationId}
                     onComplete={this.onOrganizationName} />
                 <CheckInRequest
-                    send 
+                    send={this.state.shouldCheckIn}
                     organizationId={this.props.match.params.organizationId}
                     building={this.props.match.params.building}
                     timeCheckedIn={new Date()}
@@ -89,7 +84,8 @@ export default class ScanPage extends React.Component<IScanPageProps, IScanPageS
 
     onOrganizationName(response : IResponse<IGetOrganizationNameResponse>) {
         this.setState({
-            organizationName: response.data.organizationName
+            organizationName: response.data.organizationName,
+            shouldCheckIn: !this.state.isCheckedIn
         })
     }
 
