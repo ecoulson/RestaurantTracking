@@ -33,6 +33,12 @@ export default class OrganizationAccountRouteConfiguration extends RouterConfigu
             ErrorCatchingMiddleware.catchErrors(this.controller.handleLogin())
         )
 
+        this.router.post(
+            "/:organizationId/verify",
+            new ValidationMiddleware(OrganizationPINLoginSchema).validateBody(),
+            ErrorCatchingMiddleware.catchErrors(this.controller.handleVerification())
+        )
+
         this.router.use(
             "/:organizationId", 
             (request : Request, response, next) => {

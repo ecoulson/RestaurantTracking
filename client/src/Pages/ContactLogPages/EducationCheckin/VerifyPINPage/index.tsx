@@ -1,13 +1,13 @@
 import React from "react";
 import PageLayout from "../../../../Layouts/PageLayout";
-import ISetPINPageProps from "./ISetPINPageProps";
+import IVerifyPINPageProps from "./IVerifyPINPageProps";
 import Logo from "../../../../Components/Logo";
 import OrganizationName from "../../OrganizationName";
 import Form from "../../../../Components/Form";
 import Instructions from "../../Instructions";
 import Button from "../../../../Components/Button";
 import PINInput from "../../../../Components/PINInput";
-import ISetPINPageState from "./ISetPINPageState";
+import IVerifyPINPageState from "./IVerifyPINPageState";
 import IResponse from "../../../../API/IResponse";
 import IGetOrganizationNameResponse from "../../../../API/GetOrganizationNameRequest/IGetOrganizationNameResponse";
 import GetOrganizationNameRequest from "../../../../API/GetOrganizationNameRequest";
@@ -15,20 +15,19 @@ import Cookie from "../../../../lib/Cookie";
 import LegalContainer from "../../LegalContainer";
 import FormValue from "../../../../Components/FormInput/FormValue";
 import IFormValue from "../../../../Components/FormInput/IFormValue";
-import SlideSwitch from "../../../../Components/SlideSwitch";
-import Icon from "../../../../Components/Icon";
-import IconType from "../../../../Components/Icon/IconTypes";
-import PasswordInput from "../../../../Components/PasswordInput";
-import RegisterOrganizationUserRequest from "../../../../API/RegisterOrganizationUserRequest";
+import OrganizationAccountVerificationRequest from "../../../../API/OrganizationAccountVerificationRequest";
+import AppHistory from "../../../../AppHistory";
+import PINLoginRequest from "../../../../API/PINLoginRequest";
+import ILoginResponse from "../../../../API/LoginRequest/ILoginResponse";
 
-export default class SetPINPage extends React.Component<ISetPINPageProps, ISetPINPageState> {
-    constructor(props : ISetPINPageProps) {
+export default class VerifyPINPage extends React.Component<IVerifyPINPageProps, IVerifyPINPageState> {
+    constructor(props : IVerifyPINPageProps) {
         super(props);
         this.state = {
             password: new FormValue<string>("", false),
             organizationName: "",
             send: false,
-            passwordInputType: 0
+            shouldLogin: false
         }
 
         this.onOrganizationName = this.onOrganizationName.bind(this);
@@ -36,52 +35,41 @@ export default class SetPINPage extends React.Component<ISetPINPageProps, ISetPI
         this.onComplete = this.onComplete.bind(this);
         this.onError = this.onError.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
-        this.handlePasswordInputType = this.handlePasswordInputType.bind(this);
+        this.onLogin = this.onLogin.bind(this);
     }
 
     render() {
         return (
-            <PageLayout pageTitle="Set PIN">
+            <PageLayout pageTitle="Verify Account">
                 <GetOrganizationNameRequest
                     send
                     onComplete={this.onOrganizationName}
                     organizationId={this.props.match.params.organizationId}/>
-                <RegisterOrganizationUserRequest 
+                <OrganizationAccountVerificationRequest
                     send={this.state.send}
-                    onComplete={this.onComplete}
-                    onError={this.onError}
+                    redirect
                     organizationId={this.props.match.params.organizationId}
                     email={Cookie.getCookie("pin_email") as string}
+                    onComplete={this.onComplete}
+                    onError={this.onError}
                     password={this.state.password.value} />
+                <PINLoginRequest
+                    send={this.state.shouldLogin}
+                    organizationId={this.props.match.params.organizationId}
+                    email={Cookie.getCookie("pin_email") as string}
+                    password={this.state.password.value}
+                    onError={this.onError}
+                    onComplete={this.onLogin} />
                 <Logo dark />
                 <OrganizationName>{this.state.organizationName}</OrganizationName>
                 <Form onSubmit={this.onSubmit}>
-                    <SlideSwitch onChange={this.handlePasswordInputType}>
-                        <Icon width={25} height={25} icon={IconType.AppsOutline} color="white" />
-                        <Icon width={25} height={25} icon={IconType.SortAZ} color="white" />
-                    </SlideSwitch>
-                    {this.getInput()}
+                    <PINInput onChange={this.handlePasswordChange}/>
+                    <Instructions>Enter the 4 digit PIN from the verification email sent to <b>{Cookie.getCookie("pin_email")}</b></Instructions>
                     <Button dark submit>Submit</Button>
                 </Form>
                 <LegalContainer />
             </PageLayout>
         )
-    }
-
-    handlePasswordInputType(passwordInputType : number) {
-        this.setState({ passwordInputType })
-    }
-
-    getInput() {
-        return this.state.passwordInputType === 0 ?
-            <>
-                <PINInput onChange={this.handlePasswordChange}/>
-                <Instructions>Enter a 4 digit PIN for <b>{Cookie.getCookie("pin_email")}</b></Instructions>
-            </> :
-            <>
-                <PasswordInput dark iconColor="#707070" hoverColor="white" registering onChange={this.handlePasswordChange}/>
-                <Instructions>Enter a password for <b>{Cookie.getCookie("pin_email")}</b></Instructions>
-            </>
     }
 
     onOrganizationName(response : IResponse<IGetOrganizationNameResponse>) {
@@ -102,13 +90,20 @@ export default class SetPINPage extends React.Component<ISetPINPageProps, ISetPI
 
     onComplete() {
         this.setState({
-            send: false
+            shouldLogin: true
         })
+    }
+
+    onLogin(response : IResponse<ILoginResponse>) {
+        Cookie.setCookie("token", response.data.token);
+        this.props.showSuccess("Successfully verified user", 5000)
+        AppHistory.push(`/check-in/${this.props.match.params.organizationId}/`)
     }
 
     onError() {
         this.setState({
-            send: false
+            send: false,
+            shouldLogin: false
         })
     }
 }

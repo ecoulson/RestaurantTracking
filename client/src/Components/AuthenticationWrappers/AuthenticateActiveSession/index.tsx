@@ -9,11 +9,11 @@ export default class AuthenticateActiveSession extends React.Component<IAuthenti
         const token = Cookie.getCookie("token");
         if (!token) {
             this.props.showError("You must login", 5000)
-            return AppHistory.push("/login")
+            return AppHistory.push(this.props.to)
         }
         if (!await isSessionActive()) {
             this.props.showError("Session has expired", 5000)
-            return AppHistory.push("/login")
+            return AppHistory.push(this.props.to)
         }
     }
 

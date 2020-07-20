@@ -1,8 +1,8 @@
 import IFormValue from "../../../../Components/FormInput/IFormValue";
 
-export default interface ISetPINPageState {
+export default interface IVerifyPINPageState {
     password: IFormValue<string>;
     organizationName: string;
     send: boolean;
-    passwordInputType: number;
+    shouldLogin: boolean;
 }

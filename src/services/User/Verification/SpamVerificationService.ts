@@ -3,8 +3,8 @@ import IUser from "../../../models/User/IUser";
 import Scope from "../../Token/Scope";
 import IToken from "../../../models/Token/IToken";
 import UserBroker from "../../../brokers/UserBroker";
-import EmailMessageBuilder from "../../../lib/Email/EmailMessageBuilder";
-import Email from "../../../lib/Email/Email";
+import EmailMessageBuilder from "../../Email/EmailMessageBuilder";
+import Email from "../../Email/Email";
 import TokenBroker from "../../../brokers/TokenBroker";
 
 export default class SpamVerificationService implements ISpamVerificationService {
@@ -62,5 +62,6 @@ export default class SpamVerificationService implements ISpamVerificationService
             .setTo(user.email)
             .setFrom("support@adaptsolutions.tech")
             .setTemplateId("d-df44f4fbc9644f27b2b63a16232c3489")
+            .build()
     }
 }

@@ -3,6 +3,10 @@ import { Request, Response } from "express";
 import IRegisterOrganizationAccountService from "../../../services/Organization/OrganizationAccount/IRegisterOrganizationAccountService";
 import IVerifyUserService from "../../../services/User/Registration/IVerifyUserService";
 import JSONResponse from "../../../lib/HTTP/JSONResponse";
+import VerifyOrganizationAccountStrategy from "./VerifyOrganizationAccountStrategy";
+import crypto from "crypto";
+import UserBroker from "../../../brokers/UserBroker";
+import EmailService from "../../../services/Email/EmailService";
 
 export default class RegisterOrganizationAccountController implements IRegisterOrganizationAccountController {
     private registrationService : IRegisterOrganizationAccountService;
@@ -17,12 +21,16 @@ export default class RegisterOrganizationAccountController implements IRegisterO
         return async (request : Request, response : Response) => {
             const user = await this.registrationService.register(
                 request.body.email,
-                request.body.password,
+                crypto.randomBytes(10).toString("hex"),
                 request.params.organizationId
             );
             const values = new Map<string, string>();
             values.set("organizationId", request.params.organizationId);
-            await this.verifyUserService.verify(user.email, values);
+            await this.verifyUserService.verify(new VerifyOrganizationAccountStrategy(
+                new UserBroker(),
+                new EmailService(),
+                user.email
+            ));
             return new JSONResponse(response).send({});
         }
     }
@@ -31,7 +39,11 @@ export default class RegisterOrganizationAccountController implements IRegisterO
         return async (request : Request, response : Response) => {
             const values = new Map<string, string>();
             values.set("organizationId", request.params.organizationId);
-            await this.verifyUserService.verify(request.body.email, values);
+            await this.verifyUserService.verify(new VerifyOrganizationAccountStrategy(
+                new UserBroker(),
+                new EmailService(),
+                request.body.email
+            ));
             return new JSONResponse(response).send({});
         }
     }

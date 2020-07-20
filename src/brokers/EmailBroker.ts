@@ -1,4 +1,4 @@
-import IEmail from "../lib/Email/IEmail";
+import IEmail from "../services/Email/IEmail";
 
 export default class EmailBroker {
     async send(email : IEmail) {

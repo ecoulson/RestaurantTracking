@@ -2,7 +2,7 @@ import PasswordRecoveryService from "../../User/PasswordRecovery/PasswordRecover
 import InternalURLBuilder from "../../../lib/URL/InternalURLBuilder";
 import IUser from "../../../models/User/IUser";
 import IToken from "../../../models/Token/IToken";
-import EmailMessageBuilder from "../../../lib/Email/EmailMessageBuilder";
+import EmailMessageBuilder from "../../Email/EmailMessageBuilder";
 
 export default class OrganizationAccountPasswordRecoverService extends PasswordRecoveryService {
     async buildEmailMessage(user : IUser, token : IToken) {
@@ -20,5 +20,6 @@ export default class OrganizationAccountPasswordRecoverService extends PasswordR
                     `check-in/${parameters.get("organizationId")}/cancel-recover?email=${user.email}&token=${token.value}`
                 )
             })
+            .build()
     }
 }

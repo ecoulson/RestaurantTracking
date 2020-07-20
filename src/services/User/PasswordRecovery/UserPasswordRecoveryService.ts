@@ -1,6 +1,6 @@
 import PasswordRecoveryService from "./PasswordRecoveryService";
 import InternalURLBuilder from "../../../lib/URL/InternalURLBuilder";
-import EmailMessageBuilder from "../../../lib/Email/EmailMessageBuilder";
+import EmailMessageBuilder from "../../Email/EmailMessageBuilder";
 import IUser from "../../../models/User/IUser";
 import IToken from "../../../models/Token/IToken";
 
@@ -15,5 +15,6 @@ export default class UserPasswordRecoveryService extends PasswordRecoveryService
                 resetPasswordUrl: internalURLBuilder.build(`confirm-recover?email=${user.email}&token=${token.value}`),
                 alertUrl: internalURLBuilder.build(`cancel-recover?email=${user.email}&token=${token.value}`)
             })
+            .build()
     }
 }
