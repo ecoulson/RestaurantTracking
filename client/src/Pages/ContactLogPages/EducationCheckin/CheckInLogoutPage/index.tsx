@@ -8,6 +8,8 @@ import OrganizationName from "../../OrganizationName";
 
 export default class CheckInLogoutPage extends React.Component<ICheckInLogoutPageProps> {
     componentDidMount() {
+        Cookie.eraseCookie("checkInId");
+        Cookie.eraseCookie("timeCheckedIn");
         Cookie.eraseCookie("token");
         Cookie.eraseCookie("pin_email");
         this.props.showSuccess("Successfully logged out", 3000);
