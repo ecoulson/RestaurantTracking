@@ -105,6 +105,8 @@ export default class PINLoginPage extends React.Component<IPinLoginPageProps, IP
     }
 
     onLogin(response : IResponse<IPINLoginResponse>) {
+        Cookie.eraseCookie("checkInId");
+        Cookie.eraseCookie("timeCheckedIn");
         Cookie.setCookie("token", response.data.token);
         if (response.data.verified) {
             AppHistory.push(`/check-in/${this.props.match.params.organizationId}/${this.props.location.search}`)
