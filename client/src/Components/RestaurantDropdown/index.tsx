@@ -52,6 +52,7 @@ export default class RestaurantDropdown extends React.Component<IRestaurantDropd
             <>
                 <Toast type={ToastType.Error} message={this.state.message} />
                 <DropdownInput
+                    id={this.props.id}
                     dark={this.props.dark}
                     values={this.state.filteredValues.map((restaurant) => {
                         return restaurant.name

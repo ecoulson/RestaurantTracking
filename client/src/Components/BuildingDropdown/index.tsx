@@ -7,7 +7,6 @@ import IFormValue from "../FormInput/IFormValue";
 import IconType from "../Icon/IconTypes";
 import IGetBuildingResponse from "../../API/GetBuildingsRequest/IGetBuildingsResponse";
 import IResponse from "../../API/IResponse";
-import e from "express";
 
 export default class BuildingDropdown extends React.Component<IBuildingDropdownProps, IBuildingDropdownState> {
     constructor(props: IBuildingDropdownProps) {
@@ -29,6 +28,7 @@ export default class BuildingDropdown extends React.Component<IBuildingDropdownP
                     organizationId={this.props.organizationId}
                     onComplete={this.onBuildings} />
                 <DropdownInput
+                    id={this.props.id}
                     label={`${this.props.type} Buildings`}
                     placeholder="Enter building name"
                     icon={IconType.BuildingSolid}

@@ -6,4 +6,6 @@ export default interface IURLInputProps {
     iconColor?: string; 
     hoverColor?: string;
     value? : string;
+    photo? : boolean;
+    id: string;
 }

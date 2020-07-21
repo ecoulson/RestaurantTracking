@@ -83,7 +83,7 @@ export default class PINLoginPage extends React.Component<IPinLoginPageProps, IP
                 <Instructions>Enter PIN for <b>{Cookie.getCookie("pin_email")}</b></Instructions>
             </> :
             <>
-                <PasswordInput dark iconColor="#707070" hoverColor="white" onChange={this.handlePasswordChange}/>
+                <PasswordInput id="password" dark iconColor="#707070" hoverColor="white" onChange={this.handlePasswordChange}/>
                 <Instructions>Enter password for <b>{Cookie.getCookie("pin_email")}</b></Instructions>
             </>
     }

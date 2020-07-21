@@ -5,5 +5,5 @@ export default interface ITimeInputProps {
     dark?: boolean;
     iconColor?: string;
     hoverColor?: string;
-    id?: string;
+    id: string;
 }

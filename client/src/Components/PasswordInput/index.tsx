@@ -33,6 +33,8 @@ export default class PasswordInput extends React.Component<IPasswordProps, IPass
                     value={this.state.password}
                     type="password"
                     label={this.props.label ? this.props.label : "Password"} 
+                    name="password"
+                    autocomplete={this.props.registering ? "new-password" : "current-password"}
                     iconColor={this.props.iconColor}
                     isValid={this.state.valid}
                     id={this.props.id}

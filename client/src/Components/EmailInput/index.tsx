@@ -33,6 +33,8 @@ export default class EmailInput extends React.Component<IEmailProps, IEmailState
                 dark={this.props.dark}
                 hoverColor={this.props.hoverColor}
                 id={this.props.id}
+                name="email"
+                autocomplete="email"
                 icon={IconType.Mail} 
                 label="email" 
                 placeHolder="Enter email here" 

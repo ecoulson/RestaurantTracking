@@ -1,4 +1,4 @@
 .organization-registration-page > .form {
-    max-width: 33.333%;
-    margin: 25px 0;
+    max-width: 1000px;
+    margin: 25px auto;
 }

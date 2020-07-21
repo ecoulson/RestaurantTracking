@@ -39,6 +39,7 @@ export default class ResetPasswordPage extends React.Component<{}, IResetPasswor
                         onComplete={this.onComplete}
                         />
                     <PasswordInput 
+                        id="password"
                         registering 
                         iconColor="#AAAAAA" 
                         hoverColor="#1B2D42"

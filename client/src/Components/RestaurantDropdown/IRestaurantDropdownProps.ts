@@ -5,5 +5,6 @@ export default interface IRestaurantDropdownProps {
     dark?: boolean;
     hoverColor?: string;
     iconColor?: string;
+    id: string;
     onChange: (restaurant : IFormValue<IRestaurant>) => void;
 }

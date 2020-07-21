@@ -5,6 +5,9 @@ export default interface ITextInputProps {
     icon: IconType;
     iconColor: string;
     hoverColor: string;
+    name: string;
+    autocomplete?: string;
+    id: string;
     isValid?: boolean;
     dark?: boolean;
     placeholder: string;

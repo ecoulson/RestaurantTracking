@@ -86,8 +86,8 @@ export default class RestaurantPage extends React.Component<IPageProps, IRestaur
                     </SlideSwitch>
                     {
                         this.state.selected === CheckInType.Phone ?
-                            <PhoneInput hoverColor="white" iconColor="#707070" dark onChange={this.handlePhoneChange} /> :
-                            <EmailInput hoverColor="white" iconColor="#707070" dark onChange={this.handleEmailChange} />
+                            <PhoneInput id="phone" hoverColor="white" iconColor="#707070" dark onChange={this.handlePhoneChange} /> :
+                            <EmailInput id="email" hoverColor="white" iconColor="#707070" dark onChange={this.handleEmailChange} />
 
                     }
                     <Button 

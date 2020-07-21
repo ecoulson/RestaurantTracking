@@ -4,7 +4,9 @@ import IFormValue from "./IFormValue";
 
 export default interface IFormInputProps {
     iconColor?: string;
-    id?: string;
+    id: string;
+    name: string;
+    autocomplete?: string;
     value: string;
     disabled?: boolean
     isValid?: boolean;

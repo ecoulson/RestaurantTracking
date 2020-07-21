@@ -51,6 +51,8 @@ export default class UsernameInput extends React.Component<IUsernameInputProps, 
                     hoverColor={this.props.hoverColor}
                     type="text"
                     label="Username"
+                    name="username"
+                    autocomplete="username"
                     icon={IconType.User}
                     placeHolder="Enter your username"
                     onChange={this.onChange}

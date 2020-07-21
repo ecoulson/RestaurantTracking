@@ -18,6 +18,9 @@ export default class TextInput extends React.Component<ITextInputProps, ITextInp
         return (
             <FormInput 
                 value={this.state.text.value}
+                id={this.props.id}
+                name={this.props.name}
+                autocomplete={this.props.autocomplete}
                 placeHolder={this.props.placeholder} 
                 label={this.props.label}
                 icon={this.props.icon}

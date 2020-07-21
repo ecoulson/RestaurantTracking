@@ -81,6 +81,8 @@ export default class ProfilePictureSection extends React.Component<IProfilePictu
                         onImageUpload={this.handleImageUpload}/>;
         } else {
             return <URLInput 
+                        photo
+                        id="photo"
                         value={this.getURL()} 
                         iconColor="#AAAAAA" 
                         hoverColor="#1B2D42"

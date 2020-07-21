@@ -34,6 +34,7 @@ export default class UserPasswordChangeSection extends React.Component<any, IUse
                 <BasicSectionTitle>Change Password</BasicSectionTitle>
                 <Form onSubmit={this.handlePasswordUpdate}>
                     <PasswordInput 
+                        id="current-password"
                         iconColor="#AAAAAA" 
                         label="Current Password"
                         placeholder="Enter your current password" 
@@ -42,6 +43,7 @@ export default class UserPasswordChangeSection extends React.Component<any, IUse
                     <PasswordInput 
                         iconColor="#AAAAAA" 
                         registering 
+                        id="new-password"
                         label="New Password"
                         hoverColor="#1B2D42"
                         placeholder="Enter your new password" 

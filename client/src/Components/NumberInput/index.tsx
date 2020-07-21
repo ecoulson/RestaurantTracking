@@ -16,7 +16,9 @@ export default class NumberInput extends React.Component<INumberInputProps, INum
     render() {
         return (
             <FormInput 
-                iconColor="#AAAAAA" 
+                iconColor="#AAAAAA"
+                name="number"
+                id={this.props.id}
                 icon={this.props.icon} 
                 placeHolder={this.props.placeHolder}
                 value={this.state.number} 

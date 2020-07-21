@@ -5,6 +5,7 @@ import "./index.css";
 import TextInput from "../../../Components/TextInput";
 import IconType from "../../../Components/Icon/IconTypes";
 import Button from "../../../Components/Button";
+import AddressInput from "../../../Components/AddressInput";
 
 export default class OrganizationRegistrationPage extends React.Component {
     constructor(props : {}) {
@@ -19,6 +20,9 @@ export default class OrganizationRegistrationPage extends React.Component {
                 <BasicSectionTitle>Organization Information</BasicSectionTitle>
                 <Form>
                     <TextInput
+                        id="organization"
+                        autocomplete="organization"
+                        name="organization"
                         icon={IconType.Users}
                         iconColor="#AAAAAA"
                         hoverColor="#232C47"
@@ -27,12 +31,18 @@ export default class OrganizationRegistrationPage extends React.Component {
                         label="Organization Name"
                         onChange={this.onOrganizationName} />
                     <TextInput
+                        id="organization-id"
+                        name="organization-id"
                         icon={IconType.Link}
                         iconColor="#AAAAAA"
                         hoverColor="#232C47"
                         placeholder="Enter organization ID..."
                         label="Organization ID"
                         onChange={this.onOrganizationId} />
+                    <AddressInput
+                        iconColor="#AAAAAA"
+                        hoverColor="#232C47"
+                        onChange={() => {}} />
                 </Form>
                 <Button submit>Continue</Button>
             </div>

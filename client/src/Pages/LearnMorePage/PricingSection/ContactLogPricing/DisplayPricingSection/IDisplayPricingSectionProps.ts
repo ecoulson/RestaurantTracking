@@ -3,4 +3,5 @@ export default interface IDisplayPricingSectionProps {
     label: string;
     placeHolder: string;
     image: string;
+    id: string;
 }

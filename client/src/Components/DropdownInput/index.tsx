@@ -53,7 +53,8 @@ export default class DropdownInput extends React.Component<IDropdownProps, IDrop
                     dark={this.props.dark}
                     id={this.props.id}
                     iconColor={this.props.iconColor}
-                    type="text" 
+                    type="text"
+                    name="dropdown"
                     label={this.props.label}
                     hoverColor={this.props.hoverColor}
                     icon={this.props.icon}

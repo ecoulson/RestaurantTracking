@@ -16,5 +16,7 @@ IconFillSet.add(IconType.Users);
 IconFillSet.add(IconType.QRCode);
 IconFillSet.add(IconType.SortAZ);
 IconFillSet.add(IconType.BuildingSolid);
+IconFillSet.add(IconType.CitySolid);
+IconFillSet.add(IconType.AddressCardSolid);
 
 export default IconFillSet;

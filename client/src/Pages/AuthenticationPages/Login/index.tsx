@@ -47,10 +47,12 @@ export default class Login extends React.Component<{}, ILoginState> {
                         redirect
                         />
                     <UsernameInput 
+                        id="username"
                         iconColor="#AAAAAA" 
                         hoverColor="#1B2D42"
                         onChange={this.onUsernameChange} />
                     <PasswordInput 
+                        id="password"
                         iconColor="#AAAAAA"
                         hoverColor="#1B2D42"
                         onChange={this.onPasswordChange} />

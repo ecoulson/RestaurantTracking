@@ -6,7 +6,7 @@ export default interface IDropdownProps {
     onChange: (restaurant : IFormValue<number>, value?: string) => void;
     dark?: boolean;
     iconColor?: string;
-    id?: string;
+    id: string;
     hoverColor?: string;
     values: string[]
     icon: IconType;

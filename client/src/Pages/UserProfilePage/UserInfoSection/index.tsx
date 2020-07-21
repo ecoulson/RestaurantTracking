@@ -50,15 +50,18 @@ export default class UserInfoSection extends React.Component<IUserInfoSectionPro
                         whitelist={[this.props.username]}
                         iconColor="#AAAAAA" 
                         hoverColor="#1B2D42"
+                        id="username"
                         registering
                         onChange={this.handleUsernameChange} />
                     <EmailInput 
                         value={this.state.email.value}
+                        id="email"
                         iconColor="#AAAAAA" 
                         hoverColor="#1B2D42"
                         onChange={this.handleEmailChange} />
                     <FullNameInput 
                         value={this.state.fullName.value}
+                        id="name"
                         iconColor="#AAAAAA" 
                         hoverColor="#1B2D42"
                         onChange={this.handleFullNameChange} />

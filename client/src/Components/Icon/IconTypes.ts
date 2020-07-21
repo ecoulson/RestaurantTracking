@@ -28,7 +28,9 @@ enum IconType {
     Home,
     SortAZ,
     AppsOutline,
-    BuildingSolid
+    BuildingSolid,
+    CitySolid,
+    AddressCardSolid
 }
 
 export default IconType;

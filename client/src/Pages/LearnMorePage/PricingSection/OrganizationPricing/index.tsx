@@ -25,6 +25,7 @@ export default class OrganizationPricing extends React.Component<IPricingModel, 
                 <LearnMoreSectionParagraph>{this.props.description}</LearnMoreSectionParagraph>
                 <LearnMoreSubtitle>Explore the cost per month</LearnMoreSubtitle>
                 <NumberInput 
+                    id="number-1"
                     onChange={this.handleUsersInput} 
                     label="Estimated Users"
                     placeHolder="Enter estimated users"
@@ -32,6 +33,7 @@ export default class OrganizationPricing extends React.Component<IPricingModel, 
                 <LearnMoreSectionParagraph>{this.getPriceString()}</LearnMoreSectionParagraph>
                 <LearnMoreSubtitle>Explore the cost over time</LearnMoreSubtitle>
                 <NumberInput 
+                    id="number-2"
                     onChange={this.handleMonthInput} 
                     label="Months"
                     placeHolder="Enter months"

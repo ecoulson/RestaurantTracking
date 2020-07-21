@@ -27,16 +27,19 @@ export default class ContactLogPricing extends React.Component<IPricingModel, IC
                 <LearnMoreSubtitle>Price Estimator</LearnMoreSubtitle>
                 <div style={{display: "flex", flexWrap: "wrap"}}>
                     <DisplayPricingSection
+                        id="number-1"
                         onChange={this.handleTabletopDisplays}
                         label="Tabletop Displays"
                         placeHolder="Enter number of tabletop display(s)"
                         image="/table-display.png"/>
                     <DisplayPricingSection 
+                        id="number-2"
                         onChange={this.handleWallDisplays} 
                         label="Wall Displays"
                         placeHolder="Enter number of wall display(s)"
                         image="/wall-display.png" />
                     <DisplayPricingSection 
+                        id="number-3"
                         onChange={this.handleStandingDisplays} 
                         label="Standing Displays"
                         placeHolder="Enter number of standing display(s)"

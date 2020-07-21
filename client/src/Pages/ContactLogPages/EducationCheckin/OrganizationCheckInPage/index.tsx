@@ -79,6 +79,7 @@ export default class OrganizationCheckInPage extends React.Component<IOrganizati
     private getDropdown() {
         return this.state.dropdownInputType === 0 ?
             <BuildingDropdown 
+                id="academic-dropdown"
                 organizationId={this.props.match.params.organizationId}
                 type={BuildingType.Academic}
                 dark
@@ -86,6 +87,7 @@ export default class OrganizationCheckInPage extends React.Component<IOrganizati
                 hoverColor="white"
                 onChange={this.handleBuildingChange} /> :
             <BuildingDropdown 
+                id="residential-dropdown"
                 organizationId={this.props.match.params.organizationId}
                 dark
                 iconColor="#707070"
