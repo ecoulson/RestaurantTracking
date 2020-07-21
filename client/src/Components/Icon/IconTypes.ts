@@ -30,7 +30,9 @@ enum IconType {
     AppsOutline,
     BuildingSolid,
     CitySolid,
-    AddressCardSolid
+    AddressCardSolid,
+    FlagRegular,
+    GlobeAmericasSolid
 }
 
 export default IconType;

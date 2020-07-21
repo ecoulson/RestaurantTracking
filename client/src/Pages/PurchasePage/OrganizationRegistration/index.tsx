@@ -6,6 +6,7 @@ import TextInput from "../../../Components/TextInput";
 import IconType from "../../../Components/Icon/IconTypes";
 import Button from "../../../Components/Button";
 import AddressInput from "../../../Components/AddressInput";
+import IAddress from "../../../Components/AddressInput/IAddress";
 
 export default class OrganizationRegistrationPage extends React.Component {
     constructor(props : {}) {
@@ -42,7 +43,7 @@ export default class OrganizationRegistrationPage extends React.Component {
                     <AddressInput
                         iconColor="#AAAAAA"
                         hoverColor="#232C47"
-                        onChange={() => {}} />
+                        onChange={this.onAddress} />
                 </Form>
                 <Button submit>Continue</Button>
             </div>
@@ -55,5 +56,9 @@ export default class OrganizationRegistrationPage extends React.Component {
 
     onOrganizationId(organizationId : string) {
         console.log(organizationId);
+    }
+
+    onAddress(address: IAddress) {
+        console.log(address);
     }
 }

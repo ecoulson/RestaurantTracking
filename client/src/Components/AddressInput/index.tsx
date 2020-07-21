@@ -3,6 +3,8 @@ import TextInput from "../TextInput"
 import IconType from "../Icon/IconTypes"
 import IAddressInputProps from "./IAddressInputProps"
 import IAddressInputState from "./IAddressInputState"
+import USStatesDropdown from "../USStatesDropdown"
+import CountryDropdown from "../CountryDropdown.ts"
 
 export default class AddressInput extends React.Component<IAddressInputProps, IAddressInputState> {
     constructor(props : IAddressInputProps) {
@@ -73,31 +75,43 @@ export default class AddressInput extends React.Component<IAddressInputProps, IA
                             hoverColor={this.props.hoverColor} />
                     </div>
                 </div>
+                <div style={{display: "flex"}}>
+                    <div style={{width: "40%", marginRight: "10%"}}>
+                        <USStatesDropdown onChange={this.onState} />
+                    </div>
+                    <div style={{width: "40%", marginLeft: "10%"}}>
+                        <CountryDropdown onChange={this.onCountry} />
+                    </div>
+                </div>
             </>
         )
     }
 
     private onAddressLine1(addressLine1: string) {
-        this.setState({ addressLine1 })
+        this.setState({ addressLine1 }, this.update)
     }
 
     private onAddressLine2(addressLine2: string) {
-        this.setState({ addressLine2 })
+        this.setState({ addressLine2 }, this.update)
     }
 
     private onCity(city: string) {
-        this.setState({ city })
+        this.setState({ city }, this.update)
     }
 
     private onZip(zip: string) {
-        this.setState({ zip })
+        this.setState({ zip }, this.update)
     }
 
     private onState(state: string) {
-        this.setState({ state })
+        this.setState({ state }, this.update)
     }
 
     private onCountry(country: string) {
-        this.setState({ country })
+        this.setState({ country }, this.update)
+    }
+
+    private update() {
+        this.props.onChange(this.state);
     }
 }

@@ -36,7 +36,7 @@ export default class DropdownInput extends React.Component<IDropdownProps, IDrop
     private containedInDropdown(element : HTMLElement | null) : boolean {
         if (!element) {
             return false;
-        }else if (element.classList.contains("dropdown")) {
+        }else if (element.id === `form-input-${this.props.id}`) {
             return true;
         } else {
             return this.containedInDropdown(element.parentElement);
@@ -55,6 +55,7 @@ export default class DropdownInput extends React.Component<IDropdownProps, IDrop
                     iconColor={this.props.iconColor}
                     type="text"
                     name="dropdown"
+                    autocomplete="off"
                     label={this.props.label}
                     hoverColor={this.props.hoverColor}
                     icon={this.props.icon}

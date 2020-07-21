@@ -34,6 +34,7 @@ export default class TextInput extends React.Component<ITextInputProps, ITextInp
     }
 
     onChange(text: IFormValue<string>) {
+        this.props.onChange(text.value)
         this.setState({ text })
     }
 }
