@@ -6,8 +6,8 @@ import ContactLogPricingStrategy from "./PricingSection/ContactLogPricing/Contac
 
 const ProductDatabase : Map<string, IProductData> = new Map<string, IProductData>();
 
-ProductDatabase.set("organization", {
-    productName: "organization-registration",
+ProductDatabase.set("organization-setup", {
+    productName: "organization-setup",
     name: "Organization Setup",
     description: "Take the first steps into bringing your organization online by creating your online workspace",
     overview: {

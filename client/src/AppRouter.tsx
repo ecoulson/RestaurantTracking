@@ -39,6 +39,7 @@ import OrganizationCheckInPage from "./Pages/ContactLogPages/EducationCheckin/Or
 import ActiveCheckInPage from "./Pages/ContactLogPages/EducationCheckin/ActiveCheckInPage";
 import CheckOutPage from "./Pages/ContactLogPages/EducationCheckin/CheckOutPage";
 import ScanPage from "./Pages/ContactLogPages/EducationCheckin/ScanPage";
+import PurchasePage from "./Pages/PurchasePage";
 
 export default class AppRouter extends React.Component<{}, IAppRouterState> {
     constructor(props: {}) {
@@ -56,6 +57,11 @@ export default class AppRouter extends React.Component<{}, IAppRouterState> {
             <Router history={AppHistory}>
                 <Toast type={this.state.type} message={this.state.message} />
                 <Switch>
+                    <Route path="/purchase/:product" render={
+                        (props) => (
+                            <PurchasePage {...props} />
+                        )
+                    }/>
                     <Route path="/learn-more/:product" render={
                         (props) => (
                             <LearnMoreLayout {...props} />

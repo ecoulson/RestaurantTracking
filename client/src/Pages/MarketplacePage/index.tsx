@@ -10,7 +10,7 @@ export default class MarketplacePage extends React.Component {
                 <MarketPlaceItem 
                     icon={IconType.Shop}
                     desc="By registering your organization with us you can start to customize your organization by purchasing additional addons."
-                    to="/learn-more/organization" 
+                    to="/learn-more/organization-setup" 
                     name="Organization Setup" />
                 <MarketPlaceItem 
                     icon={IconType.ClipboardList} 

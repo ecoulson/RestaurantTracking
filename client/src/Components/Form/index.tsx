@@ -17,7 +17,7 @@ export default class Form extends React.Component<IFormProps> {
             )
         } else {
             return (
-                <form 
+                <form   
                     onClick={this.props.onClick ? this.props.onClick : () => null} 
                     onSubmit={this.onSubmit}
                     className="form">
