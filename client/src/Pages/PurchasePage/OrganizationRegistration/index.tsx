@@ -8,15 +8,14 @@ import Button from "../../../Components/Button";
 import AddressInput from "../../../Components/AddressInput";
 import IAddress from "../../../Components/AddressInput/IAddress";
 import IOrganizationRegistrationState from "./IOrganizationRegistrationState";
-import FormInput from "../../../Components/FormInput";
 import IFormValue from "../../../Components/FormInput/IFormValue";
-import Instructions from "../../ContactLogPages/Instructions";
 import OrganizationIdInput from "../../../Components/OrganizationIdInput";
 import RegisterOrganizationRequest from "../../../API/RegisterOrganizationRequest";
 import AppHistory from "../../../AppHistory";
+import IOrganizationRegistrationProps from "./IOrganizationRegistrationProps";
 
-export default class OrganizationRegistrationPage extends React.Component<{}, IOrganizationRegistrationState> {
-    constructor(props : {}) {
+export default class OrganizationRegistrationPage extends React.Component<IOrganizationRegistrationProps, IOrganizationRegistrationState> {
+    constructor(props : IOrganizationRegistrationProps) {
         super(props);
         this.state = {
             address: {
@@ -104,8 +103,7 @@ export default class OrganizationRegistrationPage extends React.Component<{}, IO
     }
 
     onComplete() {
-        setTimeout(() => {
-            AppHistory.push(`/${this.state.organizationId}`);
-        }, 4000)
+        this.props.showSuccess("Successfully registered organization", 5000);
+        AppHistory.push(`/${this.state.organizationId}`);
     }
 }

@@ -59,7 +59,7 @@ export default class AppRouter extends React.Component<{}, IAppRouterState> {
                 <Switch>
                     <Route path="/purchase/:product" render={
                         (props) => (
-                            <PurchasePage {...props} />
+                            <PurchasePage showSuccess={this.showSuccess} {...props} />
                         )
                     }/>
                     <Route path="/learn-more/:product" render={
