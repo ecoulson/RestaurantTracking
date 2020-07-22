@@ -19,6 +19,7 @@ export default class RegisterOrganizationService implements IRegisterOrganizatio
 
     async registerOrganization(organizationId: string, organizationName: string, user : IUser): Promise<IOrganization> {
         const organization = new OrganizationModel({ organizationId, organizationName });
+        user.organizations.push(organization.organizationId);
         const studentPermissionSet = await this.permissionSetService.create("student");
         const adminPermissionSet = await this.permissionSetService.create("admin");
         await organization.addPermissionSet(studentPermissionSet);

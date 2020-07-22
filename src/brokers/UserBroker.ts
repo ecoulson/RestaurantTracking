@@ -34,6 +34,8 @@ export default class UserBroker {
         }
     }
 
+    async find
+
     async save(user : IUser) {
         try {
             return await user.save();

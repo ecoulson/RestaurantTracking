@@ -48,7 +48,7 @@ export default class OrganizationRouteConfiguration extends RouterConfiguration 
 
         this.router.use("/account", new OrganizationAccountRouteConfiguration(
             new OrganizationAccountController(
-                new OrganizationAccountExistsService(),
+                new OrganizationAccountExistsService(new OrganizationBroker()),
                 new OrganizationPINAuthenticationService(),
                 new UserVerificationService()
             )
