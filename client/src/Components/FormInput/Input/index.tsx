@@ -5,7 +5,6 @@ import IInputProps from "./IInputProps";
 export default class Input extends React.Component<IInputProps> {
     constructor(props : IInputProps) {
         super(props);
-
         this.handleChange = this.handleChange.bind(this);
     }
 

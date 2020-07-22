@@ -22,7 +22,7 @@ export default class USStatesDropdown extends React.Component<IUSStatesDropdownP
                 id="state-dropdown"
                 onChange={this.onChange}
                 icon={IconType.FlagRegular}
-                placeholder="Enter state..."
+                placeholder="State..."
                 label="State"/>
         )
     }

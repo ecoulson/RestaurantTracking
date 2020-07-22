@@ -22,6 +22,7 @@ import OrganizationBuildingController from "../../controllers/Organization/Build
 import GetBuildingService from "../../services/Building/GetBuildingService";
 import BuildingBroker from "../../brokers/BuildingBroker";
 import UserVerificationService from "../../services/User/Verification/UserVerificationService";
+import OrganizationExistsService from "../../services/Organization/Registration/OrganizationExsitsService";
 
 export default class OrganizationRouteConfiguration extends RouterConfiguration {
     private organizationController : IOrganizationController;
@@ -34,7 +35,8 @@ export default class OrganizationRouteConfiguration extends RouterConfiguration 
     public configureRoutes(): void {
         this.router.use("/register", new OrganizationRegistrationRouteConfiguration(
             new OrganizationRegistrationController(
-                new RegisterOrganizationService()
+                new RegisterOrganizationService(),
+                new OrganizationExistsService(new OrganizationBroker())
             )
         ).setup())
 

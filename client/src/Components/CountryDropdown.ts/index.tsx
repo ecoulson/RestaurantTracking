@@ -522,7 +522,7 @@ export default class CountryDropdown extends React.Component<ICountryDropdownPro
                 id="country-dropdown"
                 onChange={this.onChange}
                 icon={IconType.GlobeAmericasSolid}
-                placeholder="Enter country..."
+                placeholder="Country..."
                 label="Country"/>
         )
     }

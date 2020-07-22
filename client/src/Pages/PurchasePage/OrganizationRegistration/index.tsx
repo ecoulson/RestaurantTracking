@@ -7,12 +7,30 @@ import IconType from "../../../Components/Icon/IconTypes";
 import Button from "../../../Components/Button";
 import AddressInput from "../../../Components/AddressInput";
 import IAddress from "../../../Components/AddressInput/IAddress";
+import IOrganizationRegistrationState from "./IOrganizationRegistrationState";
+import FormInput from "../../../Components/FormInput";
+import IFormValue from "../../../Components/FormInput/IFormValue";
+import Instructions from "../../ContactLogPages/Instructions";
+import OrganizationIdInput from "../../../Components/OrganizationIdInput";
 
-export default class OrganizationRegistrationPage extends React.Component {
+export default class OrganizationRegistrationPage extends React.Component<{}, IOrganizationRegistrationState> {
     constructor(props : {}) {
         super(props);
+        this.state = {
+            address: {
+                addressLine1: "",
+                addressLine2: "",
+                city: "",
+                zip: "",
+                country: "",
+                state: ""
+            },
+            organizationName: "",
+            organizationId: ""
+        }
         this.onOrganizationName = this.onOrganizationName.bind(this);
         this.onOrganizationId = this.onOrganizationId.bind(this);
+        this.onAddress = this.onAddress.bind(this);
     }
 
     render() {
@@ -22,43 +40,41 @@ export default class OrganizationRegistrationPage extends React.Component {
                 <Form>
                     <TextInput
                         id="organization"
+                        isValid={true}
                         autocomplete="organization"
                         name="organization"
                         icon={IconType.Users}
                         iconColor="#AAAAAA"
                         hoverColor="#232C47"
-                        isValid={true}
-                        placeholder="Enter organization name..."
+                        placeholder="Organization name..."
                         label="Organization Name"
                         onChange={this.onOrganizationName} />
-                    <TextInput
-                        id="organization-id"
-                        name="organization-id"
-                        icon={IconType.Link}
-                        iconColor="#AAAAAA"
-                        hoverColor="#232C47"
-                        placeholder="Enter organization ID..."
-                        label="Organization ID"
-                        onChange={this.onOrganizationId} />
+                    <OrganizationIdInput
+                        value={this.state.organizationId}
+                        onChange={this.onOrganizationId}
+                        id="organization-id" />
                     <AddressInput
                         iconColor="#AAAAAA"
                         hoverColor="#232C47"
                         onChange={this.onAddress} />
                 </Form>
-                <Button submit>Continue</Button>
+                <Button submit>Create</Button>
             </div>
         )
     }
 
     onOrganizationName(organizationName : string) {
-        console.log(organizationName);
+        this.setState({ 
+            organizationName,
+            organizationId: organizationName.toLowerCase().split(" ").map((word) => word.substring(0, 1)).join("")
+        })
     }
 
-    onOrganizationId(organizationId : string) {
-        console.log(organizationId);
+    onOrganizationId(organizationId : IFormValue<string>) {
+        this.setState({ organizationId: organizationId.value })
     }
 
     onAddress(address: IAddress) {
-        console.log(address);
+        this.setState({ address })
     }
 }

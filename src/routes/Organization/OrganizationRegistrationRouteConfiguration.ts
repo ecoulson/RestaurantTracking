@@ -1,6 +1,6 @@
 import RouterConfiguration from "../RouterConfiguration";
 import IOrganizationRegistrationController from "../../controllers/Organization/Registration/IOrganizationRegistrationController";
-import { RegisterOrganizationSchema } from "./OrganizationSchema";
+import { RegisterOrganizationSchema, OrganizationIdParametersSchema } from "./OrganizationSchema";
 import ValidationMiddleware from "../../middleware/Validation/ValidationMiddleware";
 import ErrorCatchingMiddleware from "../../middleware/ErrorHandling/ErrorCatchingMiddleware";
 import JSONWebTokenAuthenticationStrategy from "../../middleware/Authentication/JSONWebTokenAuthenticationStrategy";
@@ -26,6 +26,13 @@ export default class OrganizationRegistrationRouteConfiguration extends RouterCo
             ]),
             new ValidationMiddleware(RegisterOrganizationSchema).validateBody(),
             ErrorCatchingMiddleware.catchErrors(this.controller.handleRegistration())
+        )
+
+        this.router.get(
+            '/exists/:organizationId',
+            new JSONWebTokenAuthenticationStrategy().authenticate(),
+            new ValidationMiddleware(OrganizationIdParametersSchema).validateParams(),
+            ErrorCatchingMiddleware.catchErrors(this.controller.handleOrganizationExists())
         )
     }
 }

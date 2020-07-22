@@ -34,17 +34,19 @@ export default class AddressInput extends React.Component<IAddressInputProps, IA
                     autocomplete="address-line1"
                     id="address-line1"
                     name="address-line1"
-                    placeholder="Enter address line 1..." 
+                    placeholder="Address line 1..." 
                     icon={IconType.Home}
                     iconColor={this.props.iconColor} 
                     onChange={this.onAddressLine1}
+                    isValid={true}
                     hoverColor={this.props.hoverColor} />
                 <TextInput 
                     label="Address Line 2" 
                     id="address-line2"
                     autocomplete="address-line2"
+                    isValid={true}
                     name="address-line2"
-                    placeholder="Enter address line 2..." 
+                    placeholder="Address line 2..." 
                     icon={IconType.BuildingSolid}
                     iconColor={this.props.iconColor} 
                     onChange={this.onAddressLine2}
@@ -56,10 +58,11 @@ export default class AddressInput extends React.Component<IAddressInputProps, IA
                             name="address-city"
                             label="City" 
                             id="address-city"
-                            placeholder="Enter city name..." 
+                            placeholder="City name..." 
                             icon={IconType.CitySolid}
                             iconColor={this.props.iconColor} 
                             onChange={this.onCity}
+                            isValid={true}
                             hoverColor={this.props.hoverColor} />
                     </div>
                     <div style={{width: "30%", marginLeft: "5%"}}>
@@ -68,7 +71,8 @@ export default class AddressInput extends React.Component<IAddressInputProps, IA
                             name="address-zip"
                             autocomplete="postal-code"
                             label="Zip Code" 
-                            placeholder="Enter zip code..." 
+                            isValid={true}
+                            placeholder="Zip code..." 
                             icon={IconType.AddressCardSolid}
                             iconColor={this.props.iconColor} 
                             onChange={this.onZip}
