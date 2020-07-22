@@ -12,6 +12,8 @@ import FormInput from "../../../Components/FormInput";
 import IFormValue from "../../../Components/FormInput/IFormValue";
 import Instructions from "../../ContactLogPages/Instructions";
 import OrganizationIdInput from "../../../Components/OrganizationIdInput";
+import RegisterOrganizationRequest from "../../../API/RegisterOrganizationRequest";
+import AppHistory from "../../../AppHistory";
 
 export default class OrganizationRegistrationPage extends React.Component<{}, IOrganizationRegistrationState> {
     constructor(props : {}) {
@@ -26,18 +28,29 @@ export default class OrganizationRegistrationPage extends React.Component<{}, IO
                 state: ""
             },
             organizationName: "",
-            organizationId: ""
+            organizationId: "",
+            send: false
         }
         this.onOrganizationName = this.onOrganizationName.bind(this);
         this.onOrganizationId = this.onOrganizationId.bind(this);
         this.onAddress = this.onAddress.bind(this);
+        this.onError = this.onError.bind(this);
+        this.onComplete = this.onComplete.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
     }
 
     render() {
         return (
             <div className="organization-registration-page">
+                <RegisterOrganizationRequest
+                    organizationId={this.state.organizationId}
+                    address={this.state.address}
+                    onError={this.onError}
+                    onComplete={this.onComplete}
+                    organizationName={this.state.organizationName}
+                    send={this.state.send} />
                 <BasicSectionTitle>Organization Information</BasicSectionTitle>
-                <Form>
+                <Form onSubmit={this.onSubmit}>
                     <TextInput
                         id="organization"
                         isValid={true}
@@ -57,10 +70,16 @@ export default class OrganizationRegistrationPage extends React.Component<{}, IO
                         iconColor="#AAAAAA"
                         hoverColor="#232C47"
                         onChange={this.onAddress} />
+                    <Button submit>Create</Button>
                 </Form>
-                <Button submit>Create</Button>
             </div>
         )
+    }
+
+    onSubmit() {
+        this.setState({
+            send: true
+        })
     }
 
     onOrganizationName(organizationName : string) {
@@ -76,5 +95,17 @@ export default class OrganizationRegistrationPage extends React.Component<{}, IO
 
     onAddress(address: IAddress) {
         this.setState({ address })
+    }
+
+    onError() {
+        this.setState({
+            send: false
+        })
+    }
+
+    onComplete() {
+        setTimeout(() => {
+            AppHistory.push(`/${this.state.organizationId}`);
+        }, 4000)
     }
 }
