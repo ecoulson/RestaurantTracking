@@ -11,7 +11,6 @@ export default class PINDigitInput extends React.Component<IPINDigitProps, IPIND
         this.digitRegex = new RegExp("[0-9]")
         this.state = {
             digit: "",
-            mask: "*",
             focused: false
         }
 
@@ -27,7 +26,7 @@ export default class PINDigitInput extends React.Component<IPINDigitProps, IPIND
                     onBlur={this.onBlur}
                     ref={this.props.inputRef}
                     onChange={this.onChange}
-                    value={this.getValue()}
+                    value={this.state.digit}
                     type="tel" />;
     }
 
@@ -62,9 +61,5 @@ export default class PINDigitInput extends React.Component<IPINDigitProps, IPIND
 
     private isDigit(element : HTMLInputElement) {
         return element.value.match(this.digitRegex) && element.value.length === 1
-    }
-
-    private getValue() {
-        return this.state.digit !== "" ? this.state.mask : "";
     }
 }
