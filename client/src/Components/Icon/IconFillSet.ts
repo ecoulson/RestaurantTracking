@@ -19,5 +19,6 @@ IconFillSet.add(IconType.BuildingSolid);
 IconFillSet.add(IconType.CitySolid);
 IconFillSet.add(IconType.AddressCardSolid);
 IconFillSet.add(IconType.GlobeAmericasSolid);
+IconFillSet.add(IconType.BreifcaseSolid);
 
 export default IconFillSet;

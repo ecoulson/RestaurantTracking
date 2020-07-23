@@ -84,7 +84,8 @@ const mapDispatch = {
         profilePicture: user.profilePicture,
         firstName: user.firstName,
         lastName: user.lastName,
-        email: user.email
+        email: user.email,
+        organizations: user.organizations
     })
 }
 

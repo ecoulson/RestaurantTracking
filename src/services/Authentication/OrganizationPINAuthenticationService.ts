@@ -6,6 +6,7 @@ import bcrypt from "bcrypt";
 import OrganizationPINLoginArguments from "./OrganizationPinLoginArguments";
 import IOrganizationAccountExistsService from "../Organization/OrganizationAccount/IOrganizationAccountExistsService";
 import OrganizationAccountExistsService from "../Organization/OrganizationAccount/OrganizationAccountExistsService";
+import OrganizationBroker from "../../brokers/OrganizationBroker";
 
 export default class OrganizationPINAuthenticationService implements IAuthenticationService {
     private userBroker : UserBroker;
@@ -13,7 +14,7 @@ export default class OrganizationPINAuthenticationService implements IAuthentica
 
     constructor() {
         this.userBroker = new UserBroker();
-        this.organizationAccountService = new OrganizationAccountExistsService();
+        this.organizationAccountService = new OrganizationAccountExistsService(new OrganizationBroker());
     }
 
     public async login(parameters : OrganizationPINLoginArguments) {

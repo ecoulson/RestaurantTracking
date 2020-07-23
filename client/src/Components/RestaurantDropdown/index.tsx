@@ -1,6 +1,6 @@
 import React from "react";
 import IRestaurantDropdownProps from "./IRestaurantDropdownProps";
-import DropdownInput from "../DropdownInput";
+import SearchableDropdownInput from "../SearchableDropdownInput";
 import IFormValue from "../FormInput/IFormValue";
 import IRestaurant from "../../lib/IRestaurant";
 import IRestaurantDropdownStateProps from "./IRestaurantDropdownStateProps";
@@ -51,7 +51,7 @@ export default class RestaurantDropdown extends React.Component<IRestaurantDropd
         return (
             <>
                 <Toast type={ToastType.Error} message={this.state.message} />
-                <DropdownInput
+                <SearchableDropdownInput
                     id={this.props.id}
                     dark={this.props.dark}
                     values={this.state.filteredValues.map((restaurant) => {

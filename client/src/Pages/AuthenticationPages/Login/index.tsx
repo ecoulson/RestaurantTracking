@@ -84,7 +84,7 @@ export default class Login extends React.Component<{}, ILoginState> {
 
     private setTokenCookie(token: string) {
         if (this.state.rememberMe) {
-            Cookie.setCookie("token", token)
+            Cookie.setCookie("token", token, 365)
         } else {
             Cookie.setCookie("token", token, SessionDurationDays)
         }

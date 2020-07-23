@@ -40,6 +40,7 @@ import ActiveCheckInPage from "./Pages/ContactLogPages/EducationCheckin/ActiveCh
 import CheckOutPage from "./Pages/ContactLogPages/EducationCheckin/CheckOutPage";
 import ScanPage from "./Pages/ContactLogPages/EducationCheckin/ScanPage";
 import PurchasePage from "./Pages/PurchasePage";
+import OrganizationPage from "./Pages/OrganizationPages";
 
 export default class AppRouter extends React.Component<{}, IAppRouterState> {
     constructor(props: {}) {
@@ -139,6 +140,9 @@ export default class AppRouter extends React.Component<{}, IAppRouterState> {
                     </Route>
                     <Route exact path="/check-in">
                         <App />
+                    </Route>
+                    <Route exact path="/organizations">
+                        <OrganizationPage />
                     </Route>
                     <Route exact path="/check-in/:organizationId/login" render={
                         (props) => (

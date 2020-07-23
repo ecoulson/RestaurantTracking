@@ -1,5 +1,5 @@
 import React from "react";
-import DropdownInput from "../DropdownInput";
+import SearchableDropdownInput from "../SearchableDropdownInput";
 import GetBuildingsRequest from "../../API/GetBuildingsRequest";
 import IBuildingDropdownProps from "./IBuildingDropdownProps";
 import IBuildingDropdownState from "./IBuildingDropdownState";
@@ -27,7 +27,7 @@ export default class BuildingDropdown extends React.Component<IBuildingDropdownP
                     send
                     organizationId={this.props.organizationId}
                     onComplete={this.onBuildings} />
-                <DropdownInput
+                <SearchableDropdownInput
                     id={this.props.id}
                     label={`${this.props.type} Buildings`}
                     placeholder="Enter building name"

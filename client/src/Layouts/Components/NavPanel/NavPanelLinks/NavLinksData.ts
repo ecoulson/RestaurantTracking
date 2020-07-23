@@ -15,6 +15,13 @@ const NavLinksData : INavLinkData[] = [
         text: "Marketplace",
         to: "/marketplace",
         hoverColor: "white"
+    },
+    {
+        icon: IconType.BreifcaseSolid,
+        iconColor: "#b1b1b3",
+        text: "Organizations",
+        to: "/organizations",
+        hoverColor: "white"
     }
 ]
 

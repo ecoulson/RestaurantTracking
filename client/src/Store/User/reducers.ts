@@ -5,7 +5,8 @@ const initialState : IUserState = {
     isFetching: false,
     email: "",
     lastName: "",
-    firstName: ""
+    firstName: "",
+    organizations: []
 }
 
 export function getUserReducer(state = initialState, action : UserActionTypes) {
@@ -21,7 +22,8 @@ export function getUserReducer(state = initialState, action : UserActionTypes) {
                 profilePicture: action.profilePicture,
                 email: action.email,
                 firstName: action.firstName,
-                lastName: action.lastName
+                lastName: action.lastName,
+                organizations: action.organizations
             }
         default:
             return state;

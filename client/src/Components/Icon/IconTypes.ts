@@ -32,7 +32,8 @@ enum IconType {
     CitySolid,
     AddressCardSolid,
     FlagRegular,
-    GlobeAmericasSolid
+    GlobeAmericasSolid,
+    BreifcaseSolid
 }
 
 export default IconType;

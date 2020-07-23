@@ -1,5 +1,5 @@
 import React from "react";
-import DropdownInput from "../DropdownInput";
+import SearchableDropdownInput from "../SearchableDropdownInput";
 import IUSStatesDropdownState from "./IUSStatesDropdownState";
 import IconType from "../Icon/IconTypes";
 import IFormValue from "../FormInput/IFormValue";
@@ -17,7 +17,7 @@ export default class USStatesDropdown extends React.Component<IUSStatesDropdownP
 
     render() {
         return (
-            <DropdownInput 
+            <SearchableDropdownInput 
                 values={this.state.filteredStates}
                 id="state-dropdown"
                 onChange={this.onChange}

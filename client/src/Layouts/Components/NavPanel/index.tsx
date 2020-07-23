@@ -13,6 +13,7 @@ import { toggleNavPanelCollapseAction, toggleNavPanelHideAction } from "../../..
 
 class NavPanel extends React.Component<Props> {
     render() {
+        console.log(this.props.user.organizations)
         return (
             <div className={`dashboard-nav-panel ${this.getCollapsedClass()} ${this.getHiddenClass()}`}>
                 <div onClick={this.props.toggleHidden}>
@@ -49,6 +50,7 @@ class NavPanel extends React.Component<Props> {
 
 const mapState = (state : IState) => {
     return {
+        user: state.user,
         collapsed: state.navPanel.collapsed,
         hidden: state.navPanel.hidden
     }

@@ -14,7 +14,7 @@ import Instructions from "../../Instructions";
 import SlideSwitch from "../../../../Components/SlideSwitch";
 import Icon from "../../../../Components/Icon";
 import IconType from "../../../../Components/Icon/IconTypes";
-import DropdownInput from "../../../../Components/DropdownInput";
+import SearchableDropdownInput from "../../../../Components/SearchableDropdownInput";
 import BuildingDropdown from "../../../../Components/BuildingDropdown";
 import IBuilding from "../../../../API/GetBuildingsRequest/IBuilding";
 import BuildingType from "../../../../Components/BuildingDropdown/BuildingType";

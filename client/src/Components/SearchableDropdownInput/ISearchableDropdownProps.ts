@@ -1,8 +1,7 @@
-import IRestaurantInput from "./IRestaurantInput";
 import IFormValue from "../FormInput/IFormValue";
 import IconType from "../Icon/IconTypes";
 
-export default interface IDropdownProps {
+export default interface ISearchableDropdownProps {
     onChange: (restaurant : IFormValue<number>, value?: string) => void;
     dark?: boolean;
     iconColor?: string;
@@ -12,4 +11,5 @@ export default interface IDropdownProps {
     icon: IconType;
     placeholder: string;
     label: string;
+    initialValue?: string;
 }

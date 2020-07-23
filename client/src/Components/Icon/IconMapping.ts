@@ -33,6 +33,7 @@ import { ReactComponent as CitySolid } from "./svgs/city-solid.svg";
 import { ReactComponent as AddressCardSolid } from "./svgs/address-card-solid.svg";
 import { ReactComponent as GlobeAmericasSolid } from "./svgs/globe-americas-solid.svg";
 import { ReactComponent as FlagRegular } from "./svgs/flag-regular.svg";
+import { ReactComponent as BriefcaseSolid } from "./svgs/briefcase-solid.svg";
 
 const IconMapping = new Map<IconType, any>();
 IconMapping.set(IconType.Mail, Mail);
@@ -69,5 +70,6 @@ IconMapping.set(IconType.AddressCardSolid, AddressCardSolid);
 IconMapping.set(IconType.CitySolid, CitySolid);
 IconMapping.set(IconType.GlobeAmericasSolid, GlobeAmericasSolid);
 IconMapping.set(IconType.FlagRegular, FlagRegular);
+IconMapping.set(IconType.BreifcaseSolid, BriefcaseSolid);
 
 export default IconMapping;

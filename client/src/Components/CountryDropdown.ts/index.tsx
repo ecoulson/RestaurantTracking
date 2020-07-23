@@ -1,5 +1,5 @@
 import React from "react";
-import DropdownInput from "../DropdownInput";
+import SearchableDropdownInput from "../SearchableDropdownInput";
 import ICountryDropdownProps from "./ICountryDropdownProps";
 import ICountryDropdownState from "./ICountryDropdownState";
 import IconType from "../Icon/IconTypes";
@@ -517,7 +517,7 @@ export default class CountryDropdown extends React.Component<ICountryDropdownPro
 
     render() {
         return (
-            <DropdownInput 
+            <SearchableDropdownInput 
                 values={this.state.filteredCountries}
                 id="country-dropdown"
                 onChange={this.onChange}

@@ -1,15 +1,15 @@
 import React from "react";
 import FormInput from "../FormInput";
 import Menu from "./Menu";
-import IDropdownState from "./IDropdownState";
-import IDropdownProps from "./IDropdownProps";
+import ISearchableDropdownState from "./ISearchableDropdownState";
+import ISearchableDropdownProps from "./ISearchableDropdownProps";
 import IFormValue from "../FormInput/IFormValue";
 
-export default class DropdownInput extends React.Component<IDropdownProps, IDropdownState> {
-    constructor(props: IDropdownProps) {
+export default class SearchableDropdownInput extends React.Component<ISearchableDropdownProps, ISearchableDropdownState> {
+    constructor(props: ISearchableDropdownProps) {
         super(props);
         this.state = {
-            value: "",
+            value: props.initialValue ? props.initialValue : "",
             valid: false,
             focused: false
         };
