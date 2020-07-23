@@ -13,4 +13,12 @@ export default class AppBroker {
             throw error;
         }
     }
+
+    async findById(appId: string) {
+        try {
+            return await AppModel.findById(appId);
+        } catch (error) {
+            throw error;
+        }
+    }
 }

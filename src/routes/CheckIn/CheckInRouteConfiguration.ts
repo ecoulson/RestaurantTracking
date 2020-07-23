@@ -10,15 +10,19 @@ import OperationType from "../../lib/Authorization/OperationType";
 import ResourceRequest from "../../lib/Authorization/ResourceRequest";
 import ResourceType from "../../lib/Authorization/ResourceType";
 import OrganizationBroker from "../../brokers/OrganizationBroker";
+import AppBroker from "../../brokers/AppBroker";
+import AppType from "../../models/App/AppType";
 
 export default class CheckInRouteConfiguration extends RouterConfiguration {
     private controller : CheckInController;
     private organizationBroker : OrganizationBroker
+    private appBroker : AppBroker;
 
-    constructor(checkInController : CheckInController, organizationBroker : OrganizationBroker) {
+    constructor(checkInController : CheckInController, organizationBroker : OrganizationBroker, appBroker : AppBroker) {
         super();
         this.controller = checkInController
         this.organizationBroker = organizationBroker
+        this.appBroker = appBroker;
     }
 
     configureRoutes() {
@@ -28,7 +32,7 @@ export default class CheckInRouteConfiguration extends RouterConfiguration {
             new AuthorizationMiddleware().authorize(OperationType.Create, async (request : Request) => 
                 [
                     new ResourceRequest(
-                        (await this.organizationBroker.findOrganizationById(request.body.organizationId))._id, 
+                        await this.findContactLogsAppId(request),
                         ResourceType.Organization
                     )
                 ]
@@ -79,7 +83,7 @@ export default class CheckInRouteConfiguration extends RouterConfiguration {
             new AuthorizationMiddleware().authorize(OperationType.Create, async (request) => 
                 [
                     new ResourceRequest(
-                        (await this.organizationBroker.findOrganizationById(request.body.organizationId))._id,
+                        await this.findContactLogsAppId(request),
                         ResourceType.Organization
                     )
                 ]
@@ -87,5 +91,16 @@ export default class CheckInRouteConfiguration extends RouterConfiguration {
             new ValidationMiddleware(GetCheckInQRCode).validateBody(),
             ErrorCatchingMiddleware.catchErrors(this.controller.handleGetQRCode())
         )
+    }
+
+    async findContactLogsAppId(request : Request) {
+        const organization = await this.organizationBroker.findOrganizationById(request.body.organizationId);
+        const apps = await Promise.all(organization.apps.map((id) => {
+            return this.appBroker.findById(id);
+        }));
+        apps.filter((app) => {
+            return app.type === AppType.ContactLogs
+        })
+        return apps[0].id
     }
 }
