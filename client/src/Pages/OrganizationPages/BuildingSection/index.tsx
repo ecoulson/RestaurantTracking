@@ -10,7 +10,7 @@ export default class BuildingSection extends React.Component<IBuildingSectionPro
         return (
             <div>
                 <BasicSectionTitle>Buildings</BasicSectionTitle>
-                <AddBuildingForm />
+                <AddBuildingForm organizationId={this.props.organizationId} />
                 <BuildingList organizationId={this.props.organizationId} />
             </div>
         )

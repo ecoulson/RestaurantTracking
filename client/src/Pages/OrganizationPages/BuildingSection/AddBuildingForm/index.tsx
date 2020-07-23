@@ -7,9 +7,11 @@ import CheckboxInput from "../../../../Components/CheckboxInput";
 import Button from "../../../../Components/Button";
 import IAddBuildingFormState from "./IAddBuildingFormState";
 import BuildingType from "../../../../Components/BuildingDropdown/BuildingType";
+import CreateBuildingRequest from "../../../../API/CreateBuildingRequest";
+import IAddBuildingFormProps from "./IAddBuildingFormProps";
 
-export default class AddBuildingForm extends React.Component<{}, IAddBuildingFormState> {
-    constructor(props : {}) {
+export default class AddBuildingForm extends React.Component<IAddBuildingFormProps, IAddBuildingFormState> {
+    constructor(props : IAddBuildingFormProps) {
         super(props);
         this.state = {
             buildingName: "",
@@ -26,6 +28,14 @@ export default class AddBuildingForm extends React.Component<{}, IAddBuildingFor
     render() {
         return (
             <Form onSubmit={this.onSubmit}>
+                <CreateBuildingRequest 
+                    send={this.state.send}
+                    buildingName={this.state.buildingName}
+                    buildingType={this.state.buildingType}
+                    organizationId={this.props.organizationId}
+                    onComplete={this.onFinish}
+                    onError={this.onFinish}
+                    />
                 <LearnMoreSubtitle>Add Building</LearnMoreSubtitle>
                 <TextInput 
                     label="Building Name"

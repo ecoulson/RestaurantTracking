@@ -13,6 +13,7 @@ import OrganizationIdInput from "../../../Components/OrganizationIdInput";
 import RegisterOrganizationRequest from "../../../API/RegisterOrganizationRequest";
 import AppHistory from "../../../AppHistory";
 import IOrganizationRegistrationProps from "./IOrganizationRegistrationProps";
+import BasicLayout from "../../../Layouts/BasicLayout";
 
 export default class OrganizationRegistrationPage extends React.Component<IOrganizationRegistrationProps, IOrganizationRegistrationState> {
     constructor(props : IOrganizationRegistrationProps) {
@@ -40,38 +41,40 @@ export default class OrganizationRegistrationPage extends React.Component<IOrgan
 
     render() {
         return (
-            <div className="organization-registration-page">
-                <RegisterOrganizationRequest
-                    organizationId={this.state.organizationId}
-                    address={this.state.address}
-                    onError={this.onError}
-                    onComplete={this.onComplete}
-                    organizationName={this.state.organizationName}
-                    send={this.state.send} />
-                <BasicSectionTitle>Organization Information</BasicSectionTitle>
-                <Form onSubmit={this.onSubmit}>
-                    <TextInput
-                        id="organization"
-                        isValid={true}
-                        autocomplete="organization"
-                        name="organization"
-                        icon={IconType.Users}
-                        iconColor="#AAAAAA"
-                        hoverColor="#232C47"
-                        placeholder="Organization name..."
-                        label="Organization Name"
-                        onChange={this.onOrganizationName} />
-                    <OrganizationIdInput
-                        value={this.state.organizationId}
-                        onChange={this.onOrganizationId}
-                        id="organization-id" />
-                    <AddressInput
-                        iconColor="#AAAAAA"
-                        hoverColor="#232C47"
-                        onChange={this.onAddress} />
-                    <Button submit>Create</Button>
-                </Form>
-            </div>
+            <BasicLayout title="Organization Setup">
+                <div className="organization-registration-page">
+                    <RegisterOrganizationRequest
+                        organizationId={this.state.organizationId}
+                        address={this.state.address}
+                        onError={this.onError}
+                        onComplete={this.onComplete}
+                        organizationName={this.state.organizationName}
+                        send={this.state.send} />
+                    <BasicSectionTitle>Organization Information</BasicSectionTitle>
+                    <Form onSubmit={this.onSubmit}>
+                        <TextInput
+                            id="organization"
+                            isValid={true}
+                            autocomplete="organization"
+                            name="organization"
+                            icon={IconType.Users}
+                            iconColor="#AAAAAA"
+                            hoverColor="#232C47"
+                            placeholder="Organization name..."
+                            label="Organization Name"
+                            onChange={this.onOrganizationName} />
+                        <OrganizationIdInput
+                            value={this.state.organizationId}
+                            onChange={this.onOrganizationId}
+                            id="organization-id" />
+                        <AddressInput
+                            iconColor="#AAAAAA"
+                            hoverColor="#232C47"
+                            onChange={this.onAddress} />
+                        <Button submit>Create</Button>
+                    </Form>
+                </div>
+            </BasicLayout>
         )
     }
 

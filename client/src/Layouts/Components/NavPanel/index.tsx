@@ -13,7 +13,6 @@ import { toggleNavPanelCollapseAction, toggleNavPanelHideAction } from "../../..
 
 class NavPanel extends React.Component<Props> {
     render() {
-        console.log(this.props.user.organizations)
         return (
             <div className={`dashboard-nav-panel ${this.getCollapsedClass()} ${this.getHiddenClass()}`}>
                 <div onClick={this.props.toggleHidden}>

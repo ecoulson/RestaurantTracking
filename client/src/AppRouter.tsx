@@ -60,7 +60,9 @@ export default class AppRouter extends React.Component<{}, IAppRouterState> {
                 <Switch>
                     <Route path="/purchase/:product" render={
                         (props) => (
-                            <PurchasePage showSuccess={this.showSuccess} {...props} />
+                            <AuthenticateActiveSession to="/login" showError={this.showError}>
+                                <PurchasePage showSuccess={this.showSuccess} {...props} />
+                            </AuthenticateActiveSession>
                         )
                     }/>
                     <Route path="/learn-more/:product" render={
@@ -142,7 +144,9 @@ export default class AppRouter extends React.Component<{}, IAppRouterState> {
                         <App />
                     </Route>
                     <Route exact path="/organizations">
-                        <OrganizationPage />
+                        <AuthenticateActiveSession to="/login" showError={this.showError}>
+                            <OrganizationPage />
+                        </AuthenticateActiveSession>
                     </Route>
                     <Route exact path="/check-in/:organizationId/login" render={
                         (props) => (

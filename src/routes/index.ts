@@ -13,6 +13,10 @@ import PermissionBuilder from "../services/Permission/PermissionBuilder";
 import UserBroker from "../brokers/UserBroker";
 import CheckoutService from "../services/CheckIn/CheckoutService";
 import SimpleCheckInQRService from "../services/CheckIn/SimpleCheckInQRService";
+import BuildingRouterController from "./Building/BuildingRouteConfiguration";
+import BuildingController from "../controllers/Building/BuildingController";
+import CreateBuildingService from "../services/Building/CreateBuildingService";
+import BuildingBroker from "../brokers/BuildingBroker";
 
 export default class APIRouteConfiguration extends RouterConfiguration {
     configureRoutes() {
@@ -37,5 +41,9 @@ export default class APIRouteConfiguration extends RouterConfiguration {
         this.router.use("/authentication", new AuthenticationRouteConfiguration().setup());
         this.router.use("/user", new UserRouteConfiguration().setup());
         this.router.use("/organization", new OrganizationRouteConfiguration().setup());
+        this.router.use("/building", new BuildingRouterController(
+            new BuildingController(new CreateBuildingService(new BuildingBroker())),
+            new OrganizationBroker()
+        ).setup())
     }
 }
