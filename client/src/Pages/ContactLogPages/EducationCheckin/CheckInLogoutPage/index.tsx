@@ -2,9 +2,8 @@ import React from "react";
 import Cookie from "../../../../lib/Cookie";
 import AppHistory from "../../../../AppHistory";
 import ICheckInLogoutPageProps from "./ICheckInLogoutPageProps";
-import PageLayout from "../../../../Layouts/PageLayout";
-import Logo from "../../../../Components/Logo";
 import OrganizationName from "../../OrganizationName";
+import CheckInLayout from "../../../../Layouts/CheckInLayout";
 
 export default class CheckInLogoutPage extends React.Component<ICheckInLogoutPageProps> {
     componentDidMount() {
@@ -18,10 +17,9 @@ export default class CheckInLogoutPage extends React.Component<ICheckInLogoutPag
 
     render() {
         return (
-            <PageLayout pageTitle="Logout">
-                <Logo dark />
+            <CheckInLayout pageTitle="Logout">
                 <OrganizationName>Logging Out</OrganizationName>
-            </PageLayout>
+            </CheckInLayout>
         )
     }
 }

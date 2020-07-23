@@ -1,6 +1,4 @@
 import React from "react";
-import PageLayout from "../../../../Layouts/PageLayout";
-import Logo from "../../../../Components/Logo";
 import IVerifyPINAccountPageProps from "./IVerifyPINAccountPageProps";
 import OrganizationName from "../../OrganizationName";
 import IVerifyPINAccountPageState from "./IVerifyPINAccountPageState";
@@ -14,7 +12,7 @@ import EmailInput from "../../../../Components/EmailInput";
 import IFormValue from "../../../../Components/FormInput/IFormValue";
 import FormValue from "../../../../Components/FormInput/FormValue";
 import SendPINVerificationRequest from "../../../../API/SendPINVerificationRequest";
-import LegalContainer from "../../LegalContainer";
+import CheckInLayout from "../../../../Layouts/CheckInLayout";
 
 export default class VerifyPINAccountPage extends React.Component<IVerifyPINAccountPageProps, IVerifyPINAccountPageState> {
     constructor(props : IVerifyPINAccountPageProps) {
@@ -32,7 +30,7 @@ export default class VerifyPINAccountPage extends React.Component<IVerifyPINAcco
 
     render() {
         return (
-            <PageLayout pageTitle="Verify PIN Account">
+            <CheckInLayout pageTitle="Verify PIN Account">
                 <GetOrganizationNameRequest
                     organizationId={this.props.match.params.organizationId}
                     onComplete={this.onOrganizationName}
@@ -43,7 +41,6 @@ export default class VerifyPINAccountPage extends React.Component<IVerifyPINAcco
                     email={this.state.email.value}
                     onComplete={this.onComplete}
                     onError={this.onComplete} />
-                <Logo dark />
                 <OrganizationName>{this.state.organizationName}</OrganizationName>
                 <Instructions>Check your email to verify your account</Instructions>
                 <Form onSubmit={this.onSubmit}>
@@ -51,8 +48,7 @@ export default class VerifyPINAccountPage extends React.Component<IVerifyPINAcco
                     <Instructions>Enter the email associated with your PIN to resend your verification email</Instructions>
                     <Button dark submit>Resend</Button>
                 </Form>
-                <LegalContainer />
-            </PageLayout>
+            </CheckInLayout>
         )
     }
 
