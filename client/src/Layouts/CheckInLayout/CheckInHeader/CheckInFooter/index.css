@@ -1,0 +1,18 @@
+.check-in-footer {
+    color: white;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 21px;
+    letter-spacing: 0px;
+    text-align: center;
+    width: 300px;
+    left: 50%;
+    margin-left: -150px;
+    position: absolute;
+    bottom: 50px;
+}
+
+.check-in-footer-link {
+    color: #22336C;
+    text-decoration: none;
+}

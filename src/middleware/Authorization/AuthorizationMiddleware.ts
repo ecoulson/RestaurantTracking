@@ -46,6 +46,7 @@ export default class AuthorizationMiddleware implements IAuthorizationMiddleware
         resourceRequest : IResourceRequest
     ) {
         const permissions = await this.getPermissions(permissionIds);
+        console.log(permissions, resourceRequest)
         for (const permission of permissions) {
             if (this.hasUnrestrictedAccess(permission, operation, resourceRequest)) {
                 return true;

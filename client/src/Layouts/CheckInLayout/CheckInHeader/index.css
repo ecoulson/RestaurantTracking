@@ -1,0 +1,28 @@
+.check-in-header {
+    width: 100%;
+    height: auto;
+    display: flex;
+    margin-top: 30px;
+}
+
+.check-in-header-element {
+    width: 33.333%;
+}
+
+
+.check-in-header-element > .logo-horizontal-container {
+    width: 30px;
+    height: 30px;
+    margin: 4px auto;
+}
+
+.check-in-header-element > .logo-horizontal-container > .company-name {
+    width: 30px;
+    height: 30px;
+    margin: 0;
+}
+
+.check-in-header-element > .icon {
+    display: block;
+    margin: 0 auto;
+}
