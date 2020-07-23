@@ -45,9 +45,7 @@ class OrganizationPage extends React.Component<Props, IOrganizationPageState> {
                 {
                     this.state.currentOrganizationName === "Organization" ?
                         <BasicSectionTitle>Please Select An Organization</BasicSectionTitle> :
-                        <> 
-                            <BuildingSection />
-                        </>
+                        <BuildingSection organizationId={this.state.currentOrganizationId} />
                 }
             </BasicLayout>
         )

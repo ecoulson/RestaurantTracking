@@ -3,16 +3,15 @@ import BasicSectionTitle from "../../../Layouts/BasicLayout/BasicSectionTitle";
 import "./index.css";
 import BuildingList from "./BuildingList";
 import AddBuildingForm from "./AddBuildingForm";
+import IBuildingSectionProps from "./IBuildingSectionProps";
 
-export default class BuildingSection extends React.Component {
+export default class BuildingSection extends React.Component<IBuildingSectionProps> {
     render() {
         return (
             <div>
                 <BasicSectionTitle>Buildings</BasicSectionTitle>
-                <div className="building-container">
-                    <AddBuildingForm />
-                    <BuildingList />
-                </div>
+                <AddBuildingForm />
+                <BuildingList organizationId={this.props.organizationId} />
             </div>
         )
     }
