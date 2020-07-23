@@ -43,6 +43,8 @@ export default class Toast extends React.Component<IToastProps, IToastState> {
         switch(this.props.type) {
             case ToastType.Success:
                 return "toast-success";
+            case ToastType.Info:
+                return "toast-info"
             case ToastType.Error:
             default:
                 return "toast-error";

@@ -14,7 +14,7 @@ import Instructions from "../../Instructions";
 import SlideSwitch from "../../../../Components/SlideSwitch";
 import Icon from "../../../../Components/Icon";
 import IconType from "../../../../Components/Icon/IconTypes";
-import DropdownInput from "../../../../Components/DropdownInput";
+import SearchableDropdownInput from "../../../../Components/SearchableDropdownInput";
 import BuildingDropdown from "../../../../Components/BuildingDropdown";
 import IBuilding from "../../../../API/GetBuildingsRequest/IBuilding";
 import BuildingType from "../../../../Components/BuildingDropdown/BuildingType";
@@ -79,6 +79,7 @@ export default class OrganizationCheckInPage extends React.Component<IOrganizati
     private getDropdown() {
         return this.state.dropdownInputType === 0 ?
             <BuildingDropdown 
+                id="academic-dropdown"
                 organizationId={this.props.match.params.organizationId}
                 type={BuildingType.Academic}
                 dark
@@ -86,6 +87,7 @@ export default class OrganizationCheckInPage extends React.Component<IOrganizati
                 hoverColor="white"
                 onChange={this.handleBuildingChange} /> :
             <BuildingDropdown 
+                id="residential-dropdown"
                 organizationId={this.props.match.params.organizationId}
                 dark
                 iconColor="#707070"

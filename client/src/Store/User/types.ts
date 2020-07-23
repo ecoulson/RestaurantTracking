@@ -5,6 +5,7 @@ export interface IUserState {
     email: string;
     lastName: string;
     firstName: string;
+    organizations: string[]
 }
 
 export enum UserActions {
@@ -21,7 +22,8 @@ interface ISetUserAction {
     profilePicture?: string,
     lastName: string,
     firstName: string,
-    email: string
+    email: string,
+    organizations: string[]
 }
 
 export type UserActionTypes = IGetUserAction | ISetUserAction;

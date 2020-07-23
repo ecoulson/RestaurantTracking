@@ -47,10 +47,12 @@ export default class Login extends React.Component<{}, ILoginState> {
                         redirect
                         />
                     <UsernameInput 
+                        id="username"
                         iconColor="#AAAAAA" 
                         hoverColor="#1B2D42"
                         onChange={this.onUsernameChange} />
                     <PasswordInput 
+                        id="password"
                         iconColor="#AAAAAA"
                         hoverColor="#1B2D42"
                         onChange={this.onPasswordChange} />
@@ -82,7 +84,7 @@ export default class Login extends React.Component<{}, ILoginState> {
 
     private setTokenCookie(token: string) {
         if (this.state.rememberMe) {
-            Cookie.setCookie("token", token)
+            Cookie.setCookie("token", token, 365)
         } else {
             Cookie.setCookie("token", token, SessionDurationDays)
         }

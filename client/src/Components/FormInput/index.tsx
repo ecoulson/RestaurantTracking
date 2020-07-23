@@ -31,7 +31,7 @@ export default class FormInput extends React.Component<IFormInputProps, IFormInp
                 onMouseLeave={this.toggleHover}
                 style={this.getBackgroundColor()} 
                 className={`form-input ${this.getActiveClass()}`}>
-                <Label dark={this.props.dark}>{this.props.label}</Label>
+                <Label id={`form-input-${this.props.id}`} dark={this.props.dark}>{this.props.label}</Label>
                 <div className="input-line">
                     <Icon 
                         hovered={this.state.focused || this.state.hovered} 
@@ -58,6 +58,8 @@ export default class FormInput extends React.Component<IFormInputProps, IFormInp
                 value={this.props.value}
                 onFocus={this.onFocus}
                 onBlur={this.onBlur}
+                name={this.props.name}
+                autocomplete={this.props.autocomplete}
                 placeholder={this.props.placeHolder}
                 dark={this.props.dark}
                 type={this.props.type} 
@@ -66,7 +68,9 @@ export default class FormInput extends React.Component<IFormInputProps, IFormInp
             return <CustomDateInput
                 disabled={this.props.disabled}
                 value={this.props.value}
+                name={this.props.name}
                 onFocus={this.onFocus}
+                autocomplete={this.props.autocomplete}
                 onBlur={this.onBlur}
                 dark={this.props.dark}
                 placeholder={this.props.placeHolder}
@@ -75,7 +79,9 @@ export default class FormInput extends React.Component<IFormInputProps, IFormInp
         } else {
             return <Input
                 dark={this.props.dark}
+                name={this.props.name}
                 disabled={this.props.disabled}
+                autocomplete={this.props.autocomplete}
                 value={this.props.value}
                 onFocus={this.onFocus}
                 onBlur={this.onBlur}

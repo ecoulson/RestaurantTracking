@@ -19,7 +19,8 @@ export default class OrganizationController implements IOrganizationController {
         return async (request : Request, response : Response) => {
             const organization = await this.registerOrganizationService.registerOrganization(
                 request.body.organizationId, 
-                request.body.organizationName
+                request.body.organizationName,
+                request.user
             );
             new JSONResponse(response).send({ organization });
         }

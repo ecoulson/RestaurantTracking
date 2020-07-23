@@ -49,6 +49,7 @@ class NavPanel extends React.Component<Props> {
 
 const mapState = (state : IState) => {
     return {
+        user: state.user,
         collapsed: state.navPanel.collapsed,
         hidden: state.navPanel.hidden
     }

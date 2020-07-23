@@ -26,10 +26,13 @@ export default class URLInput extends React.Component<IURLInputProps, IURLInputS
                 dark={this.props.dark}
                 onChange={this.handleChange}
                 icon={IconType.Link}
+                id={this.props.id}
                 hoverColor={this.props.hoverColor}
                 iconColor={this.props.iconColor}
                 isValid={this.state.url.valid}
                 placeHolder="Enter URL"
+                autocomplete={this.props.photo ? "photo": "url"}
+                name="url"
                 type="url"
                 label="URL"
                 />

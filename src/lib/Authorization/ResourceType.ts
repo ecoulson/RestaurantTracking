@@ -3,7 +3,9 @@ enum ResourceType {
     User = "User",
     Organization = "Organization",
     CheckIn = "CheckIn",
-    Unknown = "Unknown"
+    Unknown = "Unknown",
+    ContactLogApp = "ContactLogApp",
+    Building = "Building"
 }
 
 export default ResourceType;

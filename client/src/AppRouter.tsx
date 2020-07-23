@@ -39,6 +39,8 @@ import OrganizationCheckInPage from "./Pages/ContactLogPages/EducationCheckin/Or
 import ActiveCheckInPage from "./Pages/ContactLogPages/EducationCheckin/ActiveCheckInPage";
 import CheckOutPage from "./Pages/ContactLogPages/EducationCheckin/CheckOutPage";
 import ScanPage from "./Pages/ContactLogPages/EducationCheckin/ScanPage";
+import PurchasePage from "./Pages/PurchasePage";
+import OrganizationPage from "./Pages/OrganizationPages";
 
 export default class AppRouter extends React.Component<{}, IAppRouterState> {
     constructor(props: {}) {
@@ -56,6 +58,13 @@ export default class AppRouter extends React.Component<{}, IAppRouterState> {
             <Router history={AppHistory}>
                 <Toast type={this.state.type} message={this.state.message} />
                 <Switch>
+                    <Route path="/purchase/:product" render={
+                        (props) => (
+                            <AuthenticateActiveSession to="/login" showError={this.showError}>
+                                <PurchasePage showSuccess={this.showSuccess} {...props} />
+                            </AuthenticateActiveSession>
+                        )
+                    }/>
                     <Route path="/learn-more/:product" render={
                         (props) => (
                             <LearnMoreLayout {...props} />
@@ -133,6 +142,11 @@ export default class AppRouter extends React.Component<{}, IAppRouterState> {
                     </Route>
                     <Route exact path="/check-in">
                         <App />
+                    </Route>
+                    <Route exact path="/organizations">
+                        <AuthenticateActiveSession to="/login" showError={this.showError}>
+                            <OrganizationPage />
+                        </AuthenticateActiveSession>
                     </Route>
                     <Route exact path="/check-in/:organizationId/login" render={
                         (props) => (

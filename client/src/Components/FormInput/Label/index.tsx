@@ -5,7 +5,7 @@ import ILabelProps from "./ILabelProps";
 export default class Label extends React.Component<ILabelProps> {
     render() {
         return (
-            <label className={`form-label ${this.getThemeClass()}`}>{this.props.children}</label>
+            <label htmlFor={this.props.id} className={`form-label ${this.getThemeClass()}`}>{this.props.children}</label>
         )
     }
 

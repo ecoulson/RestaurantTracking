@@ -23,6 +23,8 @@ export default class PhoneInput extends React.Component<IPhoneInputProps, IPhone
                 value={this.state.number}
                 isValid={this.state.isValid}
                 dark={this.props.dark}
+                name="tel"
+                autocomplete="tel"
                 id={this.props.id}
                 iconColor={this.props.iconColor}
                 hoverColor={this.props.hoverColor}

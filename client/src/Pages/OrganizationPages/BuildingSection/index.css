@@ -1,0 +1,9 @@
+.building-container {
+    display: flex;
+    width: 100%;
+}
+
+.building-container > .form {
+    width: 45%;
+    margin: 0 2.5%;
+}

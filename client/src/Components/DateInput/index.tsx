@@ -26,6 +26,7 @@ export default class DateInput extends React.Component<IDateInputProps, IDateInp
                 iconColor={this.props.iconColor}
                 hoverColor={this.props.hoverColor}
                 id={this.props.id}
+                name="date"
                 onChange={this.handleTimeChange}
                 icon={IconType.Calendar} 
                 label="Date of Entry" 

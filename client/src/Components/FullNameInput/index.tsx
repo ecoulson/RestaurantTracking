@@ -27,6 +27,8 @@ export default class FullNameInput extends React.Component<IFullNameInputProps, 
                 iconColor={this.props.iconColor}
                 isValid={this.state.name !== "" && this.state.name.trim() !== ""}
                 id={this.props.id}
+                name="name"
+                autocomplete="name"
                 type="text"
                 hoverColor={this.props.hoverColor}
                 label="Full name"

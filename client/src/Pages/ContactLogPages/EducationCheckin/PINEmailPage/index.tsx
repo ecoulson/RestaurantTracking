@@ -60,7 +60,7 @@ export default class PINEmailPage extends React.Component<IPINEmailPageProps, IP
                 <Logo dark />
                 <OrganizationName>{this.state.organizationName}</OrganizationName>
                 <Form onSubmit={this.onSubmit}>
-                    <EmailInput dark iconColor="#707070" hoverColor="#FFFFFF" onChange={this.handleEmailChange}/>
+                    <EmailInput dark id="email" iconColor="#707070" hoverColor="#FFFFFF" onChange={this.handleEmailChange}/>
                     <Instructions>First time here or got logged out? Please enter your school email address.</Instructions>
                     <Button dark submit>Submit</Button>
                 </Form>

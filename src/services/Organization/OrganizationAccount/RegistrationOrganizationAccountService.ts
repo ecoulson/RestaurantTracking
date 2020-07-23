@@ -25,6 +25,7 @@ export default class RegisterOrganizationAccountService implements IRegisterOrga
             password
         });
         await this.setupUserPermissionService.setup(user);
+        user.organizations.push(organization.organizationId);
         await organization.addStudent(user);
         return await user.save();
     } 

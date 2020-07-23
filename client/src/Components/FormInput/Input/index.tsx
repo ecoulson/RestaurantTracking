@@ -5,7 +5,6 @@ import IInputProps from "./IInputProps";
 export default class Input extends React.Component<IInputProps> {
     constructor(props : IInputProps) {
         super(props);
-
         this.handleChange = this.handleChange.bind(this);
     }
 
@@ -13,7 +12,8 @@ export default class Input extends React.Component<IInputProps> {
         return (
             <input
                 value={this.props.value}
-                autoComplete=""
+                autoComplete={this.props.autocomplete ? this.props.autocomplete : "off"}
+                name={this.props.name}
                 disabled={this.props.disabled}
                 className={`form-raw-input ${this.getThemeClass()}`}
                 placeholder={this.props.placeholder}

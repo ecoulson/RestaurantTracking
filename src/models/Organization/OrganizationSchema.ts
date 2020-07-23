@@ -20,6 +20,10 @@ const OrganizationSchema = new Schema({
     buildings: {
         type: [String],
         default: []
+    },
+    apps: {
+        type: [String],
+        default: []
     }
 })
 

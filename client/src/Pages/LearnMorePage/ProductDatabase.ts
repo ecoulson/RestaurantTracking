@@ -1,19 +1,19 @@
 import IProductData from "./IProductData";
 import IconType from "../../Components/Icon/IconTypes";
 import PricingModelType from "./PricingSection/Model/PricingModelType";
-import RestaurantPricingStrategy from "./PricingSection/RestaurantPricing/RestaurantPricingStrategy";
+import OrganizationPricingStrategy from "./PricingSection/OrganizationPricing/OrganizationPricingStrategy";
 import ContactLogPricingStrategy from "./PricingSection/ContactLogPricing/ContactLogPricingStrategy";
 
 const ProductDatabase : Map<string, IProductData> = new Map<string, IProductData>();
 
-ProductDatabase.set("restaurant", {
-    productName: "restaurant-registration",
-    name: "Restaurant Registration and Setup",
-    description: "Take the first steps into bringing your restaurant online by creating your online workspace",
+ProductDatabase.set("organization-setup", {
+    productName: "organization-setup",
+    name: "Organization Setup",
+    description: "Take the first steps into bringing your organization online by creating your online workspace",
     overview: {
-        title: "Manage your restaurant online",
-        about: "Registering your restaurant helps you start the process of transitioning your business online. Provide your restaurant's information and then browse the market place to configure your restaurant and see the power of our other solutions.",
-        mediaPath: "https://media.architecturaldigest.com/photos/5e5e78b26fb065000842ba95/4:3/w_3200,h_2400,c_limit/Main-Dining-Room-2.jpg"
+        title: "Manage your organization online",
+        about: "Registering your organization helps you start the process of transitioning your business online. Provide your organization's information and then browse the market place to configure your organization and see the power of our other solutions.",
+        mediaPath: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2301&q=80"
     },
     features: [
         {
@@ -23,20 +23,20 @@ ProductDatabase.set("restaurant", {
         },
         {
             icon: IconType.ClipboardList,
-            name: "Restaurant Information",
-            description: "Provide your restaurant's basic information for a customized experience"
+            name: "organization Information",
+            description: "Provide your organization's basic information for a customized experience"
         },
         {
             icon: IconType.CreditCard,
             name: "Payment Method",
-            description: "By adding a credit card to your restaurant you gain access to adding our solutions to your restaurant with the click of a button."
+            description: "By adding a credit card to your organization you gain access to adding our solutions to your organization with the click of a button."
         }
     ],
     sections: [],
     pricingModel: {
-        description: "Explore the cost of bring your restaurant into the next era using our business services.",
-        type: PricingModelType.RestaurantRegistration,
-        pricingStrategy: new RestaurantPricingStrategy()
+        description: "Explore the cost of bring your organization into the next era using our business services.",
+        type: PricingModelType.OrganizationRegistration,
+        pricingStrategy: new OrganizationPricingStrategy()
     }
 });
 

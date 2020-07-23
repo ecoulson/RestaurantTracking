@@ -9,6 +9,8 @@ export default interface IUserSchema extends IDocument {
     lastName?: string;
     verified: boolean;
     passwordResetDate: Date;
+    permissionSets: string[];
+    organizations: string[];
     dateCreated: Date;
     updatedAt: Date;
 }

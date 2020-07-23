@@ -62,23 +62,26 @@ export default class GeneralPage extends React.Component<IPageProps, IGeneralPag
                     {
                         this.state.selected === CheckInType.Phone ?
                             <PhoneInput 
+                                id="phone"
                                 hoverColor="white" 
                                 iconColor="#707070" 
                                 dark 
                                 onChange={this.handlePhone} /> :
                             <EmailInput 
+                                id="email"
                                 hoverColor="white" 
                                 iconColor="#707070" 
                                 dark 
                                 onChange={this.handleEmail} />
                     }
                     <RestaurantDropdown 
+                        id="restaurant"
                         hoverColor="white" 
                         iconColor="#707070" 
                         dark 
                         onChange={this.handleRestaurant} />
-                    <DateInput hoverColor="white" iconColor="#707070" dark onChange={this.handleDate} />
-                    <TimeInput hoverColor="white" iconColor="#707070" dark onChange={this.handleTime} />
+                    <DateInput id="date" hoverColor="white" iconColor="#707070" dark onChange={this.handleDate} />
+                    <TimeInput id="time" hoverColor="white" iconColor="#707070" dark onChange={this.handleTime} />
                     <Instructions>Please enter one of the following:</Instructions>
                     <Button 
                         dark 

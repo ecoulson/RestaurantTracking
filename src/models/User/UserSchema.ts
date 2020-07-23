@@ -49,6 +49,10 @@ const UserSchema = new Schema({
     permissionSets: {
         type: [String],
         default: []
+    },
+    organizations: {
+        type: [String],
+        default: []
     }
 });
 

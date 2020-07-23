@@ -3,5 +3,6 @@ export default interface IUser {
     email: string;
     firstName: string;
     lastName: string;
+    organizations: string[];
     _id: string;
 }

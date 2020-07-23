@@ -11,14 +11,19 @@ const PermissionSchema = new Schema({
             "Any"
         ]
     },
-    resourceId: String,
+    resourceId: {
+        type: String,
+        index: true
+    },
     resourceType: {
         type: String,
         enum: [
             "Restaurant",
             "User",
             "Organization",
-            "CheckIn"
+            "CheckIn",
+            "ContactLogApp",
+            "Building"
         ],
         required: true
     },

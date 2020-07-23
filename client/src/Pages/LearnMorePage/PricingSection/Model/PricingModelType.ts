@@ -1,5 +1,5 @@
 enum PricingModelType {
-    RestaurantRegistration,
+    OrganizationRegistration,
     ContactLog
 }
 

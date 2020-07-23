@@ -92,7 +92,7 @@ export default class ResetPINPage extends React.Component<IResetPINPageProps, IR
                 <Instructions>Enter a 4 digit PIN for <b>{Cookie.getCookie("pin_email")}</b></Instructions>
             </> :
             <>
-                <PasswordInput dark iconColor="#707070" hoverColor="white" registering onChange={this.handlePasswordChange}/>
+                <PasswordInput id="password" dark iconColor="#707070" hoverColor="white" registering onChange={this.handlePasswordChange}/>
                 <Instructions>Enter a password for <b>{Cookie.getCookie("pin_email")}</b></Instructions>
             </>
     }

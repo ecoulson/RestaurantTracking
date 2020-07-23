@@ -29,6 +29,11 @@ import { ReactComponent as SortAZ } from "./svgs/sort-az.svg";
 import { ReactComponent as AppsOutline } from "./svgs/apps-outline.svg";
 import { ReactComponent as Home } from "./svgs/home.svg";
 import { ReactComponent as BuildingSolid } from "./svgs/building-solid.svg";
+import { ReactComponent as CitySolid } from "./svgs/city-solid.svg";
+import { ReactComponent as AddressCardSolid } from "./svgs/address-card-solid.svg";
+import { ReactComponent as GlobeAmericasSolid } from "./svgs/globe-americas-solid.svg";
+import { ReactComponent as FlagRegular } from "./svgs/flag-regular.svg";
+import { ReactComponent as BriefcaseSolid } from "./svgs/briefcase-solid.svg";
 
 const IconMapping = new Map<IconType, any>();
 IconMapping.set(IconType.Mail, Mail);
@@ -61,5 +66,10 @@ IconMapping.set(IconType.SortAZ, SortAZ);
 IconMapping.set(IconType.AppsOutline, AppsOutline);
 IconMapping.set(IconType.Home, Home);
 IconMapping.set(IconType.BuildingSolid, BuildingSolid);
+IconMapping.set(IconType.AddressCardSolid, AddressCardSolid);
+IconMapping.set(IconType.CitySolid, CitySolid);
+IconMapping.set(IconType.GlobeAmericasSolid, GlobeAmericasSolid);
+IconMapping.set(IconType.FlagRegular, FlagRegular);
+IconMapping.set(IconType.BreifcaseSolid, BriefcaseSolid);
 
 export default IconMapping;
