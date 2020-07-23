@@ -17,6 +17,11 @@ import BuildingRouterController from "./Building/BuildingRouteConfiguration";
 import BuildingController from "../controllers/Building/BuildingController";
 import CreateBuildingService from "../services/Building/CreateBuildingService";
 import BuildingBroker from "../brokers/BuildingBroker";
+import AppRouteConfiguration from "./App/AppRouteConfiguration";
+import AppController from "../controllers/App/AppController";
+import RegisterAppService from "../services/App/RegisterAppService";
+import AppBroker from "../brokers/AppBroker";
+import PermissionSetBroker from "../brokers/PermissionSetBroker";
 
 export default class APIRouteConfiguration extends RouterConfiguration {
     configureRoutes() {
@@ -44,6 +49,17 @@ export default class APIRouteConfiguration extends RouterConfiguration {
         this.router.use("/building", new BuildingRouterController(
             new BuildingController(new CreateBuildingService(new BuildingBroker())),
             new OrganizationBroker()
+        ).setup())
+        this.router.use("/app", new AppRouteConfiguration(
+            new OrganizationBroker(),
+            new AppController(
+                new RegisterAppService(
+                    new OrganizationBroker(),
+                    new AppBroker(),
+                    new PermissionBuilder(),
+                    new PermissionSetBroker()
+                )
+            )
         ).setup())
     }
 }

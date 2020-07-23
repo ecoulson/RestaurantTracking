@@ -1,23 +1,21 @@
 import RouterConfiguration from "../RouterConfiguration";
-import IBuildingController from "../../controllers/Building/IBuildingController";
 import JSONWebTokenAuthenticationStrategy from "../../middleware/Authentication/JSONWebTokenAuthenticationStrategy";
 import AuthorizationMiddleware from "../../middleware/Authorization/AuthorizationMiddleware";
 import OperationType from "../../lib/Authorization/OperationType";
-import ErrorCatchingMiddleware from "../../middleware/ErrorHandling/ErrorCatchingMiddleware";
 import ResourceRequest from "../../lib/Authorization/ResourceRequest";
 import ResourceType from "../../lib/Authorization/ResourceType";
 import OrganizationBroker from "../../brokers/OrganizationBroker";
-import ValidationMiddleware from "../../middleware/Validation/ValidationMiddleware";
-import { CreateBuildingSchema } from "./BuildingRouteSchema";
+import ErrorCatchingMiddleware from "../../middleware/ErrorHandling/ErrorCatchingMiddleware";
+import IAppController from "../../controllers/App/IAppController";
 
-export default class BuildingRouterController extends RouterConfiguration {
-    private buildingController : IBuildingController;
+export default class AppRouteConfiguration extends RouterConfiguration {
     private organizationBroker : OrganizationBroker;
+    private appController : IAppController;
 
-    constructor(buildingController : IBuildingController, organizationBroker : OrganizationBroker) {
+    constructor(organizationBroker : OrganizationBroker, appController : IAppController) {
         super();
-        this.buildingController = buildingController;
         this.organizationBroker = organizationBroker;
+        this.appController = appController
     }
 
     configureRoutes() {
@@ -26,12 +24,11 @@ export default class BuildingRouterController extends RouterConfiguration {
             new JSONWebTokenAuthenticationStrategy().authenticate(),
             new AuthorizationMiddleware().authorize(OperationType.Create, async (request) => [
                 new ResourceRequest(
-                    (await this.organizationBroker.findOrganizationById(request.body.organizationId))._id,
+                    (await this.organizationBroker.findOrganizationById(request.body.organizationId)).id,
                     ResourceType.Organization
                 )
             ]),
-            new ValidationMiddleware(CreateBuildingSchema).validateBody(),
-            ErrorCatchingMiddleware.catchErrors(this.buildingController.handleCreate())
-        );
+            ErrorCatchingMiddleware.catchErrors(this.appController.handleRegisterApp())
+        )
     }
 }

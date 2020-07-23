@@ -5,4 +5,5 @@ export default interface IOrganizationSchema extends IDocument {
     organizationName: string;
     permissionSets: string[];
     buildings: string[];
+    apps: string[];
 }

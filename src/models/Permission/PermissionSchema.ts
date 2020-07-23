@@ -21,7 +21,9 @@ const PermissionSchema = new Schema({
             "Restaurant",
             "User",
             "Organization",
-            "CheckIn"
+            "CheckIn",
+            "ContactLogApp",
+            "Building"
         ],
         required: true
     },
