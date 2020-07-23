@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, KeyboardEvent } from "react";
 import "./index.css";
 import IPINDigitState from "./IPINDigitState";
 import IPINDigitProps from "./IPINDigitProps";
@@ -17,6 +17,7 @@ export default class PINDigitInput extends React.Component<IPINDigitProps, IPIND
         this.onChange = this.onChange.bind(this);
         this.onBlur = this.onBlur.bind(this);
         this.onFocus = this.onFocus.bind(this);
+        this.onKeyPress = this.onKeyPress.bind(this);
     }
 
     render() {
@@ -25,6 +26,7 @@ export default class PINDigitInput extends React.Component<IPINDigitProps, IPIND
                     onFocus={this.onFocus}
                     onBlur={this.onBlur}
                     ref={this.props.inputRef}
+                    onKeyDown={this.onKeyPress}
                     onChange={this.onChange}
                     value={this.state.digit}
                     type="tel" />;
@@ -46,6 +48,17 @@ export default class PINDigitInput extends React.Component<IPINDigitProps, IPIND
         return (this.props.complete || this.state.focused) ?
             "pin-digit-input-complete" :
             ""
+    }
+
+    onKeyPress(event: KeyboardEvent) {
+        if (event.keyCode === 8) {
+            event.preventDefault();
+            this.setState({
+                digit: ""
+            }, () => {
+                this.props.onChange(this.state.digit, true)
+            })
+        }
     }
 
     onChange(event : ChangeEvent) {
