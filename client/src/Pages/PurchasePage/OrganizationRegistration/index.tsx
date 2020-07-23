@@ -107,6 +107,6 @@ export default class OrganizationRegistrationPage extends React.Component<IOrgan
 
     onComplete() {
         this.props.showSuccess("Successfully registered organization", 5000);
-        AppHistory.push(`/${this.state.organizationId}`);
+        AppHistory.push(`/organizations`);
     }
 }

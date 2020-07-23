@@ -41,7 +41,8 @@ export default class APIRouteConfiguration extends RouterConfiguration {
                 ),
                 new SimpleCheckInQRService()
             ),
-            new OrganizationBroker()
+            new OrganizationBroker(),
+            new AppBroker()
         ).setup());
         this.router.use("/authentication", new AuthenticationRouteConfiguration().setup());
         this.router.use("/user", new UserRouteConfiguration().setup());
