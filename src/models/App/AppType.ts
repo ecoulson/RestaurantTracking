@@ -1,5 +1,5 @@
 enum AppType {
-    CheckIn = "CheckIn"
+    ContactLogs = "ContactLogs"
 }
 
 export default AppType;

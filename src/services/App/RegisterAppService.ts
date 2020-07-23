@@ -25,6 +25,7 @@ export default class RegisterAppService implements IRegisterAppService {
         this.organizationBroker = organizationBroker;
         this.appBroker = appBroker;
         this.permissionBuilder = permissionBuilder;
+        this.permissionSetBroker = permissionSetBroker
     }
 
     async register(organizationId: string, type: AppType) {

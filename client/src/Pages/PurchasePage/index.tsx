@@ -13,7 +13,7 @@ export default class PurchasePage extends React.Component<IPurchasePageProps> {
                 )
             case "contact-logs":
                 return (
-                    <ContactLogsPurchase />
+                    <ContactLogsPurchase showSuccess={this.props.showSuccess} />
                 )
             default:
                 return (

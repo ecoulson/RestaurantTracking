@@ -88,6 +88,10 @@ export default abstract class RequestComponent<P extends IRequestProps<T>, T = {
         return "Success";
     }
 
+    getFetchingMessage() {
+        return "Fetching...";
+    }
+
     private async handleError(error : AxiosError) {
         if (this.isMappedError(error)) {
             this.displayError(this.getErrorStatusMessage().get(error.response!.status) as string);
@@ -102,6 +106,10 @@ export default abstract class RequestComponent<P extends IRequestProps<T>, T = {
 
     private async displayError(message: string) {
         await this.displayMessage(message, ToastType.Error);
+    }
+
+    private async displayInfo(message: string) {
+        await this.displayMessage(message, ToastType.Info);
     }
 
     private async displayMessage(message: string, type: ToastType) {
