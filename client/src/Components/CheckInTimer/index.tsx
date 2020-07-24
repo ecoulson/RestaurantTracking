@@ -42,13 +42,8 @@ export default class CheckInTimer extends React.Component<ICheckInTimerProps, IC
                     </> : null
                 }
                 {this.renderField(this.state.timerDuration.minutes())}
-                
-                {this.state.timerDuration.asHours() < 1 ?
-                    <> 
-                        <span className="check-in-timer-colon">:</span>
-                        {this.renderField(this.state.timerDuration.seconds())}
-                    </> : null
-                }
+                <span className="check-in-timer-colon">:</span>
+                {this.renderField(this.state.timerDuration.seconds())}
             </div>
         )
     }
