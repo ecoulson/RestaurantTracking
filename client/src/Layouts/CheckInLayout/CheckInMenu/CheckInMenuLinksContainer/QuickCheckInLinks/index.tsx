@@ -2,8 +2,11 @@ import React from "react";
 import IQuickCheckInLinksProps from "./IQuickCheckInLinksProps";
 import { Link } from "react-router-dom";
 import "./index.css"
+import IState from "../../../../../Store/IState";
+import { connect, ConnectedProps } from "react-redux";
+import { toggleCheckInMenuHideAction } from "../../../../../Store/CheckInMenu/actions";
 
-export default class QuickCheckInLinks extends React.Component<IQuickCheckInLinksProps> {
+class QuickCheckInLinks extends React.Component<Props> {
     render() {
         return (
             <>
@@ -16,10 +19,28 @@ export default class QuickCheckInLinks extends React.Component<IQuickCheckInLink
     renderQuickLinks() {
         return this.props.buildings.map((building) => {
             return (
-                <Link className="quick-link check-in-menu-link" to={`/check-in/${this.props.organizationId}/scan/${building.name.split(" ").join("-")}`}>
+                <Link onClick={this.props.hide} className="quick-link check-in-menu-link" to={`/check-in/${this.props.organizationId}/scan/${building.name.split(" ").join("-")}`}>
                     {building.name}
                 </Link>
             )
         })
     }
 }
+
+const mapState = (state : IState) => {
+    return {
+        hidden: state.checkInMenu.hidden
+    }
+}
+
+const mapDispatch = {
+    hide: () => toggleCheckInMenuHideAction()
+}
+
+const connector = connect(mapState, mapDispatch);
+
+type PropsFromRedux = ConnectedProps<typeof connector>
+
+type Props = PropsFromRedux & IQuickCheckInLinksProps;
+
+export default connector(QuickCheckInLinks)

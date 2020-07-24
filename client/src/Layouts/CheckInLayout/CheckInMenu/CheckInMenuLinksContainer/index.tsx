@@ -8,9 +8,12 @@ import IGetBuildingResponse from '../../../../API/GetBuildingsRequest/IGetBuildi
 import QuickCheckInLinks from './QuickCheckInLinks';
 import ICheckInMenuLinksContainerProps from './ICheckInMenuLinksContainerProps';
 import ICheckInMenuLinksContainerState from './ICheckInMenuLinksContainerState';
+import IState from '../../../../Store/IState';
+import { toggleCheckInMenuHideAction } from '../../../../Store/CheckInMenu/actions';
+import { connect, ConnectedProps } from 'react-redux';
 
-export default class CheckInMenuLinksContainer extends React.Component<ICheckInMenuLinksContainerProps, ICheckInMenuLinksContainerState> {
-    constructor(props : ICheckInMenuLinksContainerProps) {
+class CheckInMenuLinksContainer extends React.Component<Props, ICheckInMenuLinksContainerState> {
+    constructor(props : Props) {
         super(props);
         this.state = {
             buildings: []
@@ -40,10 +43,10 @@ export default class CheckInMenuLinksContainer extends React.Component<ICheckInM
     renderActiveLinks() {
         return (
             <>
-                <Link className="check-in-menu-link" to={`/check-in/${this.props.organizationId}/active-check-in`}>
+                <Link onClick={this.props.hide} className="check-in-menu-link" to={`/check-in/${this.props.organizationId}/active-check-in`}>
                     Active Check In
                 </Link>
-                <Link className="check-in-menu-link" to={`/check-in/${this.props.organizationId}/check-out`}>
+                <Link onClick={this.props.hide} className="check-in-menu-link" to={`/check-in/${this.props.organizationId}/check-out`}>
                     Check Out
                 </Link>
             </>
@@ -53,10 +56,10 @@ export default class CheckInMenuLinksContainer extends React.Component<ICheckInM
     renderInactiveLinks() {
         return (
             <>
-                <Link className="check-in-menu-link" to={`/check-in/${this.props.organizationId}/`}>
+                <Link onClick={this.props.hide} className="check-in-menu-link" to={`/check-in/${this.props.organizationId}/`}>
                     Home
                 </Link>
-                <Link className="check-in-menu-link" to={`/check-in/${this.props.organizationId}/manual-check-in`}>
+                <Link onClick={this.props.hide} className="check-in-menu-link" to={`/check-in/${this.props.organizationId}/manual-check-in`}>
                     Manual Check In / Check Out
                 </Link>
                 <QuickCheckInLinks organizationId={this.props.organizationId} buildings={this.state.buildings} />
@@ -70,3 +73,22 @@ export default class CheckInMenuLinksContainer extends React.Component<ICheckInM
         })
     }
 }
+
+
+const mapState = (state : IState) => {
+    return {
+        hidden: state.checkInMenu.hidden
+    }
+}
+
+const mapDispatch = {
+    hide: () => toggleCheckInMenuHideAction()
+}
+
+const connector = connect(mapState, mapDispatch);
+
+type PropsFromRedux = ConnectedProps<typeof connector>
+
+type Props = PropsFromRedux & ICheckInMenuLinksContainerProps;
+
+export default connector(CheckInMenuLinksContainer)

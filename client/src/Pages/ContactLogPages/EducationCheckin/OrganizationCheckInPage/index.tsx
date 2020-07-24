@@ -19,6 +19,7 @@ import AppHistory from "../../../../AppHistory";
 import ICheckInResponse from "../../../../API/CheckInRequest/ICheckInResponse";
 import Cookie from "../../../../lib/Cookie";
 import CheckInLayout from "../../../../Layouts/CheckInLayout";
+import DropdownInput from "../../../../Components/DropdownInput";
 
 export default class OrganizationCheckInPage extends React.Component<IOrganizationCheckInPageProps, IOrganizationCheckInState> {
     constructor(props: IOrganizationCheckInPageProps) {
@@ -74,20 +75,12 @@ export default class OrganizationCheckInPage extends React.Component<IOrganizati
     private getDropdown() {
         return this.state.dropdownInputType === 0 ?
             <BuildingDropdown 
-                id="academic-dropdown"
+                type={BuildingType.Academic} 
                 organizationId={this.props.match.params.organizationId}
-                type={BuildingType.Academic}
-                dark
-                iconColor="#707070"
-                hoverColor="white"
                 onChange={this.handleBuildingChange} /> :
             <BuildingDropdown 
-                id="residential-dropdown"
-                organizationId={this.props.match.params.organizationId}
-                dark
-                iconColor="#707070"
-                hoverColor="white"
                 type={BuildingType.Residential}
+                organizationId={this.props.match.params.organizationId}
                 onChange={this.handleBuildingChange} />
     }
 
