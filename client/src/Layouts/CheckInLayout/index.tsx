@@ -3,7 +3,7 @@ import ICheckInLayoutProps from "./ICheckInLayoutProps";
 import PageLayout from "../PageLayout";
 import CheckInBackground from "./CheckInBackground";
 import CheckInHeader from "./CheckInHeader";
-import CheckInFooter from "./CheckInHeader/CheckInFooter";
+import CheckInFooter from "./CheckInFooter";
 import CheckInMenu from "./CheckInMenu";
 
 export default class CheckInLayout extends React.Component<ICheckInLayoutProps> {
