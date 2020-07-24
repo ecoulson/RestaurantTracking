@@ -21,6 +21,13 @@
     display: block;
 }
 
+.button:focus {
+    animation-name: show;
+    animation-duration: 0.25s;
+    animation-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+    animation-fill-mode: both;
+}
+
 .show-dark {
     box-shadow: 4px 4px 4px #00000080;
 }
@@ -42,96 +49,56 @@
 .show {
     background: -webkit-linear-gradient(-225,#45DFC2, #41D4C0, #3DC9BE, #2488B3);
     background: linear-gradient(315deg,#45DFC2, #41D4C0, #3DC9BE, #2488B3);
-    animation-name: show;
-    animation-duration: 1s;
-    animation-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
-    animation-fill-mode: both;
 }
 
 .hide {
     background-color: gray;
-    animation-name: hide;
-    animation-duration: 1s;
-    animation-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
-    animation-fill-mode: both;
 }
 
 @keyframes show {
     0% {
-        background-color: gray;
+        transform: scale(1.00);
+    }
+    50% {
+        transform: scale(0.95);
     }
     100% {
-        background: -webkit-linear-gradient(-225,#45DFC2, #41D4C0, #3DC9BE, #2488B3);
-        background: linear-gradient(315deg,#45DFC2, #41D4C0, #3DC9BE, #2488B3);
+        transform: scale(1.00);
     }
 }
 
 @-webkit-keyframes show {
     0% {
-        background-color: gray;
+        transform: scale(1.00);
+    }
+    50% {
+        transform: scale(0.95);
     }
     100% {
-        background: -webkit-linear-gradient(-225,#45DFC2, #41D4C0, #3DC9BE, #2488B3);
-        background: linear-gradient(315deg,#45DFC2, #41D4C0, #3DC9BE, #2488B3);
+        transform: scale(1.00);
     }
 }
 
 @-moz-keyframes show {
     0% {
-        background-color: gray;
+        transform: scale(1.00);
+    }
+    50% {
+        transform: scale(1.05);
     }
     100% {
-        background: -webkit-linear-gradient(-225,#45DFC2, #41D4C0, #3DC9BE, #2488B3);
-        background: linear-gradient(315deg,#45DFC2, #41D4C0, #3DC9BE, #2488B3);
+        transform: scale(1.00);
     }
 }
 
 @-o-keyframes show {
     0% {
-        background-color: gray;
+        transform: scale(1.00);
+    }
+    50% {
+        transform: scale(1.05);
     }
     100% {
-        background: -webkit-linear-gradient(-225,#45DFC2, #41D4C0, #3DC9BE, #2488B3);
-        background: linear-gradient(315deg,#45DFC2, #41D4C0, #3DC9BE, #2488B3);
-    }
-}
-
-@keyframes hide {
-    0% {
-        background: -webkit-linear-gradient(-225,#45DFC2, #41D4C0, #3DC9BE, #2488B3);
-        background: linear-gradient(315deg,#45DFC2, #41D4C0, #3DC9BE, #2488B3);
-    }
-    100% {
-        background-color: gray;
-    }
-}
-
-@-webkit-keyframes hide {
-    0% {
-        background: -webkit-linear-gradient(-225,#45DFC2, #41D4C0, #3DC9BE, #2488B3);
-        background: linear-gradient(315deg,#45DFC2, #41D4C0, #3DC9BE, #2488B3);
-    }
-    100% {
-        background-color: gray;
-    }
-}
-
-@-moz-keyframes hide {
-    0% {
-        background: -webkit-linear-gradient(-225,#45DFC2, #41D4C0, #3DC9BE, #2488B3);
-        background: linear-gradient(315deg,#45DFC2, #41D4C0, #3DC9BE, #2488B3);
-    }
-    100% {
-        background-color: gray;
-    }
-}
-
-@-o-keyframes hide {
-    0% {
-        background: -webkit-linear-gradient(-225,#45DFC2, #41D4C0, #3DC9BE, #2488B3);
-        background: linear-gradient(315deg,#45DFC2, #41D4C0, #3DC9BE, #2488B3);
-    }
-    100% {
-        background-color: gray;
+        transform: scale(1.00);
     }
 }

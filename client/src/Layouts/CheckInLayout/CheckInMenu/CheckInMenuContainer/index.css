@@ -1,15 +1,18 @@
 .check-in-menu-container {
-    width: 300px;
+    width: 100%;
     position: absolute;
     height: 100%;
-    background-color: white;
+    background: transparent linear-gradient(180deg, #00152D 0%, #010D1B 100%) 0% 0% no-repeat padding-box;
     box-shadow: 0px 3px 6px #000000AA;
-    right: -310px;
+    opacity: 0;
     top: 0;
-    z-index: 5;
+    left: 0;
+    display: none;
 }
 
 .check-in-menu-container-show {
+    display: block;
+    z-index: 10;
     animation-name: ShowCheckInMenu;
     animation-timing-function: linear;
     animation-duration: 0.25s;
@@ -17,26 +20,125 @@
 }
 
 .check-in-menu-container-hide {
+    display: block;
     animation-name: HideCheckInMenu;
     animation-timing-function: linear;
     animation-duration: 0.25s;
     animation-fill-mode: forwards;
 }
 
-@keyframes HideCheckInMenu {
+#ham-bar-1 {
+    transform-origin: center center;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+}
+
+#ham-bar-2 {
+    transform-origin: center center;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+}
+
+#ham-bar-3 {
+    transform-origin: center center;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+}
+
+.check-in-menu-icon-hide > * > #ham-bar-1 {
+    animation-name: HamburgerMenuBar1OpenAnimation;
+}
+
+.check-in-menu-icon-hide > * > #ham-bar-2 {
+    animation-name: HamburgerMenuBar2OpenAnimation;
+}
+
+.check-in-menu-icon-hide > * > #ham-bar-3 {
+    animation-name: HamburgerMenuBar3OpenAnimation;
+}
+
+.check-in-menu-icon-show > * > #ham-bar-1 {
+    animation-name: HamburgerMenuBar1CloseAnimation;
+    
+}
+
+.check-in-menu-icon-show > * > #ham-bar-2 {
+    animation-name: HamburgerMenuBar2CloseAnimation;
+}
+
+.check-in-menu-icon-show > * > #ham-bar-3 {
+    animation-name: HamburgerMenuBar3CloseAnimation;
+}
+
+@keyframes HamburgerMenuBar1CloseAnimation {
     0% {
-        right: 0px
+        transform: none;
     }
     100% {
-        right: -310px;
+        transform: translateY(6px) rotate(-45deg);
+    }
+}
+
+@keyframes HamburgerMenuBar2CloseAnimation {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes HamburgerMenuBar3CloseAnimation {
+    0% {
+        transform: none;
+    }
+    100% {
+        transform: translateY(-7px) translateX(-8px) rotate(45deg); 
+    }
+}
+
+@keyframes HamburgerMenuBar1OpenAnimation {
+    0% {
+        transform: translateY(6px) rotate(-45deg);
+    }
+    100% {
+        transform: translateY(-10px) translateX(-4.5px);
+    }
+}
+
+@keyframes HamburgerMenuBar2OpenAnimation {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes HamburgerMenuBar3OpenAnimation {
+    0% {
+        transform: translateY(-7px) translateX(-2px) rotate(45deg); 
+    }
+    100% {
+        transform: translateY(20px) translateX(-4.5px);
+    }
+}
+
+@keyframes HideCheckInMenu {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        z-index: -1;
     }
 }
 
 @keyframes ShowCheckInMenu {
     0% {
-        right: -310px;
+        opacity: 0;
     }
     100% {
-        right: 0px
+        opacity: 1;
     }
 }

@@ -6,9 +6,17 @@ import Icon from "../../../Components/Icon";
 import IconType from "../../../Components/Icon/IconTypes";
 import { ConnectedProps, connect } from "react-redux";
 import IState from "../../../Store/IState";
-import { toggleCheckInMenuShowAction } from "../../../Store/CheckInMenu/actions";
+import { toggleCheckInMenuShowAction, toggleCheckInMenuHideAction } from "../../../Store/CheckInMenu/actions";
+import ICheckInHeaderState from "./ICheckInHeaderState";
 
-class CheckInHeader extends React.Component<Props> {
+class CheckInHeader extends React.Component<Props, ICheckInHeaderState> {
+    constructor(props : Props) {
+        super(props);
+        this.state = {
+            hasRendered: false
+        }
+    }
+
     render() {
         return (
             <header className="check-in-header">
@@ -19,10 +27,37 @@ class CheckInHeader extends React.Component<Props> {
                     <CheckInHeaderTitle />
                 </div>
                 <div className="check-in-header-element">
-                    <Icon onClick={this.props.show} icon={IconType.HamburgerMenu} width={30} color="white" height={30} />
+                    <Icon 
+                        className={this.getClassName()} 
+                        onClick={this.onClick.bind(this)} 
+                        icon={IconType.HamburgerMenu} 
+                        width={26} 
+                        color="white" 
+                        height={26} />
                 </div>
             </header>
         )
+    }
+
+    getClassName() {
+        if (this.state.hasRendered) {
+            return this.props.hidden ? "check-in-menu-icon-hide" : "check-in-menu-icon-show"
+        }
+        return ""
+    }
+
+    componentDidUpdate() {
+        if (this.state.hasRendered || !this.props.hidden) {
+            if (!this.state.hasRendered) {
+                this.setState({
+                    hasRendered: true
+                })
+            }
+        }
+    }
+
+    onClick() {
+        this.props.hidden ? this.props.show() : this.props.hide()
     }
 }
 
@@ -33,7 +68,8 @@ const mapState = (state : IState) => {
 }
 
 const mapDispatch = {
-    show: () => toggleCheckInMenuShowAction()
+    show: () => toggleCheckInMenuShowAction(),
+    hide: () => toggleCheckInMenuHideAction()
 }
 
 const connector = connect(mapState, mapDispatch);

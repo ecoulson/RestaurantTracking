@@ -27,8 +27,7 @@ class CheckInMenuLinksContainer extends React.Component<Props, ICheckInMenuLinks
                 <GetBuildingsRequest
                     send={!Cookie.hasCookie("checkInId")}
                     organizationId={this.props.organizationId}
-                    onComplete={this.onComplete.bind(this)}
-                    />
+                    onComplete={this.onComplete.bind(this)} />
                 {this.getActiveCheckInLinks()}
             </div>
         )
@@ -62,7 +61,12 @@ class CheckInMenuLinksContainer extends React.Component<Props, ICheckInMenuLinks
                 <Link onClick={this.props.hide} className="check-in-menu-link" to={`/check-in/${this.props.organizationId}/manual-check-in`}>
                     Manual Check In / Check Out
                 </Link>
-                <QuickCheckInLinks organizationId={this.props.organizationId} buildings={this.state.buildings} />
+                <Link onClick={this.props.hide} className="check-in-menu-link" to={`/settings`}>
+                    My Profile
+                </Link>
+                <Link onClick={this.props.hide} className="check-in-menu-link" to={`/`}>
+                    About Us
+                </Link>
             </>
         )
     }

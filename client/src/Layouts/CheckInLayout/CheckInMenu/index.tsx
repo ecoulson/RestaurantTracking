@@ -31,7 +31,6 @@ export default class CheckInMenu extends React.Component<ICheckInMenuProps, IChe
                     organizationId={this.props.organizationId} />
                 <CheckInMenuTitle>{this.state.organizationName}</CheckInMenuTitle>
                 <CheckInMenuLinksContainer organizationId={this.props.organizationId} />
-                <CheckInMenuClose />
                 <CheckInMenuLogoutContainer organizationId={this.props.organizationId} />
             </CheckInMenuContainer>
         )
