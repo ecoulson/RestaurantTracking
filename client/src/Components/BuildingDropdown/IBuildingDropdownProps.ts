@@ -2,11 +2,10 @@ import BuildingType from "./BuildingType";
 import IBuilding from "../../API/GetBuildingsRequest/IBuilding";
 
 export default interface IBuildingDropdownProps {
-    type: BuildingType,
+    type: BuildingType;
     organizationId: string;
     dark? : boolean;
     iconColor? : string;
     hoverColor? : string;
-    id: string;
-    onChange: (building : IBuilding, value?: string) => void
+    onChange: (building : IBuilding) => void
 }

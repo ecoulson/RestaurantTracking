@@ -1,0 +1,15 @@
+.check-in-menu-logout-container {
+    position: absolute;
+    bottom: 25px;
+    text-align: center;
+    width: 100%;
+}
+
+.check-in-menu-link {
+    text-decoration: none;
+    color: #22336C;
+    text-align: center;
+    display: block;
+    margin: 10px 5px;
+    font-size: 16px;
+}

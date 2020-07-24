@@ -1,7 +1,5 @@
 import React from "react";
-import PageLayout from "../../../../Layouts/PageLayout";
 import IVerifyPINPageProps from "./IVerifyPINPageProps";
-import Logo from "../../../../Components/Logo";
 import OrganizationName from "../../OrganizationName";
 import Form from "../../../../Components/Form";
 import Instructions from "../../Instructions";
@@ -12,13 +10,13 @@ import IResponse from "../../../../API/IResponse";
 import IGetOrganizationNameResponse from "../../../../API/GetOrganizationNameRequest/IGetOrganizationNameResponse";
 import GetOrganizationNameRequest from "../../../../API/GetOrganizationNameRequest";
 import Cookie from "../../../../lib/Cookie";
-import LegalContainer from "../../LegalContainer";
 import FormValue from "../../../../Components/FormInput/FormValue";
 import IFormValue from "../../../../Components/FormInput/IFormValue";
 import OrganizationAccountVerificationRequest from "../../../../API/OrganizationAccountVerificationRequest";
 import AppHistory from "../../../../AppHistory";
 import PINLoginRequest from "../../../../API/PINLoginRequest";
 import ILoginResponse from "../../../../API/LoginRequest/ILoginResponse";
+import CheckInLayout from "../../../../Layouts/CheckInLayout";
 
 export default class VerifyPINPage extends React.Component<IVerifyPINPageProps, IVerifyPINPageState> {
     constructor(props : IVerifyPINPageProps) {
@@ -40,7 +38,7 @@ export default class VerifyPINPage extends React.Component<IVerifyPINPageProps, 
 
     render() {
         return (
-            <PageLayout pageTitle="Verify Account">
+            <CheckInLayout organizationId={this.props.match.params.organizationId} pageTitle="Verify Account">
                 <GetOrganizationNameRequest
                     send
                     onComplete={this.onOrganizationName}
@@ -60,15 +58,13 @@ export default class VerifyPINPage extends React.Component<IVerifyPINPageProps, 
                     password={this.state.password.value}
                     onError={this.onError}
                     onComplete={this.onLogin} />
-                <Logo dark />
                 <OrganizationName>{this.state.organizationName}</OrganizationName>
                 <Form onSubmit={this.onSubmit}>
                     <PINInput onChange={this.handlePasswordChange}/>
                     <Instructions>Enter the 4 digit PIN from the verification email sent to <b>{Cookie.getCookie("pin_email")}</b></Instructions>
                     <Button dark submit>Submit</Button>
                 </Form>
-                <LegalContainer />
-            </PageLayout>
+            </CheckInLayout>
         )
     }
 

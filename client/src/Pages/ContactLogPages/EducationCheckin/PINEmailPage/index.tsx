@@ -1,6 +1,4 @@
 import React from "react";
-import PageLayout from "../../../../Layouts/PageLayout";
-import Logo from "../../../../Components/Logo";
 import IPINEmailPageProps from "./IPINEmailPageProps";
 import Form from "../../../../Components/Form";
 import EmailInput from "../../../../Components/EmailInput";
@@ -9,7 +7,6 @@ import FormValue from "../../../../Components/FormInput/FormValue";
 import IFormValue from "../../../../Components/FormInput/IFormValue";
 import Button from "../../../../Components/Button";
 import OrganizationAccountExistsRequest from "../../../../API/OrganizationAccountExistsRequest";
-import LegalContainer from "../../LegalContainer";
 import Instructions from "../../Instructions";
 import IOrganizationAccountExistsResponse from "../../../../API/OrganizationAccountExistsRequest/IOrganizationAccountExistsResponse";
 import AppHistory from "../../../../AppHistory";
@@ -19,6 +16,7 @@ import GetOrganizationNameRequest from "../../../../API/GetOrganizationNameReque
 import IGetOrganizationNameResponse from "../../../../API/GetOrganizationNameRequest/IGetOrganizationNameResponse";
 import Cookie from "../../../../lib/Cookie";
 import RegisterOrganizationUserRequest from "../../../../API/RegisterOrganizationUserRequest";
+import CheckInLayout from "../../../../Layouts/CheckInLayout";
 
 export default class PINEmailPage extends React.Component<IPINEmailPageProps, IPINEmailPageState> {
     constructor(props : IPINEmailPageProps) {
@@ -39,7 +37,7 @@ export default class PINEmailPage extends React.Component<IPINEmailPageProps, IP
 
     render() {
         return (
-            <PageLayout pageTitle="Login">
+            <CheckInLayout organizationId={this.props.match.params.organizationId} pageTitle="Login">
                 <OrganizationAccountExistsRequest 
                     send={this.state.send}
                     onComplete={this.onSignOn}
@@ -57,15 +55,13 @@ export default class PINEmailPage extends React.Component<IPINEmailPageProps, IP
                     send
                     organizationId={this.props.match.params.organizationId} 
                     onComplete={this.onOrganizationName}/>
-                <Logo dark />
                 <OrganizationName>{this.state.organizationName}</OrganizationName>
                 <Form onSubmit={this.onSubmit}>
                     <EmailInput dark id="email" iconColor="#707070" hoverColor="#FFFFFF" onChange={this.handleEmailChange}/>
                     <Instructions>First time here or got logged out? Please enter your school email address.</Instructions>
                     <Button dark submit>Submit</Button>
                 </Form>
-                <LegalContainer />
-            </PageLayout>
+            </CheckInLayout>
         )
     }
 

@@ -1,9 +1,6 @@
 import React from "react";
-import PageLayout from "../../../../Layouts/PageLayout";
-import Logo from "../../../../Components/Logo";
 import CheckInTimer from "../../../../Components/CheckInTimer";
 import Cookie from "../../../../lib/Cookie";
-import LegalContainer from "../../LegalContainer";
 import Button from "../../../../Components/Button";
 import IActiveCheckInPageProps from "./IActiveCheckInPageProps";
 import IResponse from "../../../../API/IResponse";
@@ -13,6 +10,7 @@ import CheckOutRequest from "../../../../API/CheckOutRequest";
 import AppHistory from "../../../../AppHistory";
 import GetCheckInRequest from "../../../../API/GetCheckInRequest";
 import ICheckInResponse from "../../../../API/CheckInRequest/ICheckInResponse";
+import CheckInLayout from "../../../../Layouts/CheckInLayout";
 
 export default class ActiveCheckInPage extends React.Component<IActiveCheckInPageProps, IActiveCheckInPageState> {
     constructor(props : IActiveCheckInPageProps) {
@@ -31,7 +29,7 @@ export default class ActiveCheckInPage extends React.Component<IActiveCheckInPag
 
     render() {
         return (
-            <PageLayout pageTitle="Active Check In">
+            <CheckInLayout organizationId={this.props.match.params.organizationId} pageTitle="Active Check In">
                 <CheckOutRequest
                     send={this.state.send}
                     redirect
@@ -42,12 +40,10 @@ export default class ActiveCheckInPage extends React.Component<IActiveCheckInPag
                     send
                     checkInId={Cookie.getCookie("checkInId") as string}
                     onComplete={this.onOrganizationName} />
-                <Logo dark />
                 <OrganizationName>{`Currently at ${this.getBuildingName()} for`}</OrganizationName>
                 <CheckInTimer onTick={this.onTick} startTime={new Date(Cookie.getCookie("timeCheckedIn") as string)} />
                 <Button onClick={this.onClick} dark>Check Out</Button>
-                <LegalContainer />
-            </PageLayout>
+            </CheckInLayout>
         )
     }
 

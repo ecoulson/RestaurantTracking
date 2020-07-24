@@ -1,0 +1,11 @@
+.check-in-header-title {
+    font-weight: 300;
+    font-family: 'sweet-sans-pro';
+    font-size: 20px;
+    line-height: 28px;
+    margin: 0;
+    text-align: center;
+    color: #98989C;
+    text-transform: uppercase;
+    letter-spacing: 2.4px;
+}

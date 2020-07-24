@@ -41,6 +41,7 @@ import CheckOutPage from "./Pages/ContactLogPages/EducationCheckin/CheckOutPage"
 import ScanPage from "./Pages/ContactLogPages/EducationCheckin/ScanPage";
 import PurchasePage from "./Pages/PurchasePage";
 import OrganizationPage from "./Pages/OrganizationPages";
+import CheckInLayout from "./Layouts/CheckInLayout";
 
 export default class AppRouter extends React.Component<{}, IAppRouterState> {
     constructor(props: {}) {

@@ -1,11 +1,8 @@
 import React from "react";
-import PageLayout from "../../../../Layouts/PageLayout";
-import Logo from "../../../../Components/Logo";
 import IScanPageProps from "./IScanPageProps";
 import IScanPageState from "./IScanPageState";
 import OrganizationName from "../../OrganizationName";
 import Instructions from "../../Instructions";
-import LegalContainer from "../../LegalContainer";
 import Cookie from "../../../../lib/Cookie";
 import GetOrganizationNameRequest from "../../../../API/GetOrganizationNameRequest";
 import IResponse from "../../../../API/IResponse";
@@ -15,6 +12,7 @@ import ICheckInResponse from "../../../../API/CheckInRequest/ICheckInResponse";
 import AppHistory from "../../../../AppHistory";
 import CheckOutRequest from "../../../../API/CheckOutRequest";
 import CheckInRequest from "../../../../API/CheckInRequest";
+import CheckInLayout from "../../../../Layouts/CheckInLayout";
 
 export default class ScanPage extends React.Component<IScanPageProps, IScanPageState> {
     constructor(props : IScanPageProps) {
@@ -43,7 +41,7 @@ export default class ScanPage extends React.Component<IScanPageProps, IScanPageS
 
     render() {
         return (
-            <PageLayout pageTitle="Checking In...">
+            <CheckInLayout organizationId={this.props.match.params.organizationId} pageTitle="Checking In...">
                 <CheckOutRequest
                     send={this.state.checkOut}
                     redirect
@@ -66,11 +64,9 @@ export default class ScanPage extends React.Component<IScanPageProps, IScanPageS
                     onComplete={this.onCheckIn}
                     onError={this.onCheckInError}
                     />
-                <Logo dark />
                 <OrganizationName>{this.state.organizationName}</OrganizationName>
                 <Instructions>Checking into <b>{this.getBuildingName()}</b>...</Instructions>
-                <LegalContainer />
-            </PageLayout>
+            </CheckInLayout>
         )
     }
 

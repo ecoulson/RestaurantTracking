@@ -1,8 +1,6 @@
 import React from "react";
 import IPinLoginPageProps from "./IPINLoginPageProps";
 import IPINLoginPageState from "./IPINLoginPageState";
-import PageLayout from "../../../../Layouts/PageLayout";
-import Logo from "../../../../Components/Logo";
 import GetOrganizationNameRequest from "../../../../API/GetOrganizationNameRequest";
 import IGetOrganizationNameResponse from "../../../../API/GetOrganizationNameRequest/IGetOrganizationNameResponse";
 import IResponse from "../../../../API/IResponse";
@@ -15,13 +13,13 @@ import Cookie from "../../../../lib/Cookie";
 import AppHistory from "../../../../AppHistory";
 import PINLoginRequest from "../../../../API/PINLoginRequest";
 import IPINLoginResponse from "../../../../API/PINLoginRequest/IPINLoginResponse";
-import LegalContainer from "../../LegalContainer";
 import FormValue from "../../../../Components/FormInput/FormValue";
 import ResetPINLink from "./ResetPINLink";
 import PasswordInput from "../../../../Components/PasswordInput";
 import SlideSwitch from "../../../../Components/SlideSwitch";
 import Icon from "../../../../Components/Icon";
 import IconType from "../../../../Components/Icon/IconTypes";
+import CheckInLayout from "../../../../Layouts/CheckInLayout";
 
 export default class PINLoginPage extends React.Component<IPinLoginPageProps, IPINLoginPageState> {
     constructor(props : IPinLoginPageProps) {
@@ -43,7 +41,7 @@ export default class PINLoginPage extends React.Component<IPinLoginPageProps, IP
 
     render() {
         return (
-            <PageLayout pageTitle="Set Pin">
+            <CheckInLayout organizationId={this.props.match.params.organizationId} pageTitle="Set Pin">
                 <GetOrganizationNameRequest 
                     send 
                     onComplete={this.onOrganizationName}
@@ -56,7 +54,6 @@ export default class PINLoginPage extends React.Component<IPinLoginPageProps, IP
                     onComplete={this.onLogin}
                     onError={this.onError}
                     password={this.state.password.value} />
-                <Logo dark />
                 <OrganizationName>{this.state.organizationName}</OrganizationName>
                 <Form onSubmit={this.onSubmit}>
                     <SlideSwitch onChange={this.handlePasswordInputType}>
@@ -67,8 +64,7 @@ export default class PINLoginPage extends React.Component<IPinLoginPageProps, IP
                     <ResetPINLink organizationId={this.props.match.params.organizationId} />
                     <Button dark submit>Submit</Button>
                 </Form>
-                <LegalContainer />
-            </PageLayout>
+            </CheckInLayout>
         )
     }
 

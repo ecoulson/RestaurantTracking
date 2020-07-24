@@ -1,0 +1,6 @@
+.check-in-menu-links-container {
+    top: 200px;
+    width: 100%;
+    height: 400px;
+    overflow-y: scroll;
+}

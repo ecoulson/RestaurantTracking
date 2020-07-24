@@ -1,11 +1,9 @@
 import React from "react";
-import PageLayout from "../../../../Layouts/PageLayout";
-import Logo from "../../../../Components/Logo";
 import OrganizationName from "../../OrganizationName";
-import LegalContainer from "../../LegalContainer";
 import CancelPasswordRecoveryRequest from "../../../../API/CancelPasswordRecoveryRequest";
 import ICancelPasswordResetPageProps from "./ICancelPasswordResetPageProps";
 import AppHistory from "../../../../AppHistory";
+import CheckInLayout from "../../../../Layouts/CheckInLayout";
 
 export default class CancelPasswordResetPage extends React.Component<ICancelPasswordResetPageProps> {
     private urlParams : URLSearchParams
@@ -18,17 +16,15 @@ export default class CancelPasswordResetPage extends React.Component<ICancelPass
 
     render() {
         return (
-            <PageLayout pageTitle="Cancel Password Reset">
+            <CheckInLayout organizationId={this.props.match.params.organizationId} pageTitle="Cancel Password Reset">
                 <CancelPasswordRecoveryRequest 
                     send
                     redirect
                     email={this.urlParams.get("email") as string}
                     token={this.urlParams.get("token") as string}
                     />
-                <Logo dark />
                 <OrganizationName>Cancel Password Reset</OrganizationName>
-                <LegalContainer />
-            </PageLayout>
+            </CheckInLayout>
         )
     }
 

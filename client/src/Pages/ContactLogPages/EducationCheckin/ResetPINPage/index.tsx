@@ -1,7 +1,5 @@
 import React from "react";
-import PageLayout from "../../../../Layouts/PageLayout";
 import IResetPINPageProps from "./IResetPINPageProps";
-import Logo from "../../../../Components/Logo";
 import OrganizationName from "../../OrganizationName";
 import Form from "../../../../Components/Form";
 import Instructions from "../../Instructions";
@@ -11,7 +9,6 @@ import IResetPINPageState from "./IResetPINPageState";
 import IResponse from "../../../../API/IResponse";
 import IGetOrganizationNameResponse from "../../../../API/GetOrganizationNameRequest/IGetOrganizationNameResponse";
 import GetOrganizationNameRequest from "../../../../API/GetOrganizationNameRequest";
-import LegalContainer from "../../LegalContainer";
 import FormValue from "../../../../Components/FormInput/FormValue";
 import IFormValue from "../../../../Components/FormInput/IFormValue";
 import PasswordInput from "../../../../Components/PasswordInput";
@@ -22,6 +19,7 @@ import Icon from "../../../../Components/Icon";
 import ResetPasswordRequest from "../../../../API/ResetPasswordRequest";
 import ConfirmPasswordRecoveryRequest from "../../../../API/ConfirmPasswordRecoveryRequest";
 import AppHistory from "../../../../AppHistory";
+import CheckInLayout from "../../../../Layouts/CheckInLayout";
 
 export default class ResetPINPage extends React.Component<IResetPINPageProps, IResetPINPageState> {
     private urlParams : URLSearchParams;
@@ -46,7 +44,7 @@ export default class ResetPINPage extends React.Component<IResetPINPageProps, IR
 
     render() {
         return (
-            <PageLayout pageTitle="Reset PIN">
+            <CheckInLayout organizationId={this.props.match.params.organizationId} pageTitle="Reset PIN">
                 <ConfirmPasswordRecoveryRequest 
                     send
                     email={this.urlParams.get("email") as string}
@@ -55,7 +53,6 @@ export default class ResetPINPage extends React.Component<IResetPINPageProps, IR
                     send
                     onComplete={this.onOrganizationName}
                     organizationId={this.props.match.params.organizationId}/>
-                <Logo dark />
                 <OrganizationName>{this.state.organizationName}</OrganizationName>
                 <Form onSubmit={this.onSubmit}>
                     <ResetPasswordRequest 
@@ -72,8 +69,7 @@ export default class ResetPINPage extends React.Component<IResetPINPageProps, IR
                     {this.getInput()}
                     <Button dark submit>Submit</Button>
                 </Form>
-                <LegalContainer />
-            </PageLayout>
+            </CheckInLayout>
         )
     }
 

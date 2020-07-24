@@ -1,9 +1,6 @@
 import React from "react";
-import PageLayout from "../../../../Layouts/PageLayout";
 import IOrganizationCheckInPageProps from "./IOrganizationCheckInPageProps";
 import IOrganizationCheckInState from "./IOrganizationCheckInState";
-import Logo from "../../../../Components/Logo";
-import LegalContainer from "../../LegalContainer";
 import OrganizationName from "../../OrganizationName";
 import GetOrganizationNameRequest from "../../../../API/GetOrganizationNameRequest";
 import IResponse from "../../../../API/IResponse";
@@ -14,7 +11,6 @@ import Instructions from "../../Instructions";
 import SlideSwitch from "../../../../Components/SlideSwitch";
 import Icon from "../../../../Components/Icon";
 import IconType from "../../../../Components/Icon/IconTypes";
-import SearchableDropdownInput from "../../../../Components/SearchableDropdownInput";
 import BuildingDropdown from "../../../../Components/BuildingDropdown";
 import IBuilding from "../../../../API/GetBuildingsRequest/IBuilding";
 import BuildingType from "../../../../Components/BuildingDropdown/BuildingType";
@@ -22,6 +18,8 @@ import CheckInRequest from "../../../../API/CheckInRequest";
 import AppHistory from "../../../../AppHistory";
 import ICheckInResponse from "../../../../API/CheckInRequest/ICheckInResponse";
 import Cookie from "../../../../lib/Cookie";
+import CheckInLayout from "../../../../Layouts/CheckInLayout";
+import DropdownInput from "../../../../Components/DropdownInput";
 
 export default class OrganizationCheckInPage extends React.Component<IOrganizationCheckInPageProps, IOrganizationCheckInState> {
     constructor(props: IOrganizationCheckInPageProps) {
@@ -42,7 +40,7 @@ export default class OrganizationCheckInPage extends React.Component<IOrganizati
 
     render() {
         return (
-            <PageLayout pageTitle={`${this.state.organizationName} Check In`}>
+            <CheckInLayout organizationId={this.props.match.params.organizationId} pageTitle={`${this.state.organizationName} Check In`}>
                 <CheckInRequest 
                     send={this.state.send}
                     redirect
@@ -56,7 +54,6 @@ export default class OrganizationCheckInPage extends React.Component<IOrganizati
                     send 
                     onComplete={this.onOrganizationName}
                     organizationId={this.props.match.params.organizationId}/>
-                <Logo dark />
                 <OrganizationName>{this.state.organizationName}</OrganizationName>
                 <Form onSubmit={this.onSubmit}>
                     <SlideSwitch onChange={this.handleChange}>
@@ -67,8 +64,7 @@ export default class OrganizationCheckInPage extends React.Component<IOrganizati
                     <Instructions>Find a building and check in.</Instructions>
                     <Button dark submit>Check In</Button>
                 </Form>
-                <LegalContainer />
-            </PageLayout>
+            </CheckInLayout>
         )
     }
 
@@ -79,20 +75,12 @@ export default class OrganizationCheckInPage extends React.Component<IOrganizati
     private getDropdown() {
         return this.state.dropdownInputType === 0 ?
             <BuildingDropdown 
-                id="academic-dropdown"
+                type={BuildingType.Academic} 
                 organizationId={this.props.match.params.organizationId}
-                type={BuildingType.Academic}
-                dark
-                iconColor="#707070"
-                hoverColor="white"
                 onChange={this.handleBuildingChange} /> :
             <BuildingDropdown 
-                id="residential-dropdown"
-                organizationId={this.props.match.params.organizationId}
-                dark
-                iconColor="#707070"
-                hoverColor="white"
                 type={BuildingType.Residential}
+                organizationId={this.props.match.params.organizationId}
                 onChange={this.handleBuildingChange} />
     }
 

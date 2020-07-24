@@ -1,0 +1,42 @@
+.check-in-menu-container {
+    width: 300px;
+    position: absolute;
+    height: 100%;
+    background-color: white;
+    box-shadow: 0px 3px 6px #000000AA;
+    right: -310px;
+    top: 0;
+    z-index: 5;
+}
+
+.check-in-menu-container-show {
+    animation-name: ShowCheckInMenu;
+    animation-timing-function: linear;
+    animation-duration: 0.25s;
+    animation-fill-mode: forwards;
+}
+
+.check-in-menu-container-hide {
+    animation-name: HideCheckInMenu;
+    animation-timing-function: linear;
+    animation-duration: 0.25s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes HideCheckInMenu {
+    0% {
+        right: 0px
+    }
+    100% {
+        right: -310px;
+    }
+}
+
+@keyframes ShowCheckInMenu {
+    0% {
+        right: -310px;
+    }
+    100% {
+        right: 0px
+    }
+}

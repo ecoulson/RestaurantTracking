@@ -33,7 +33,7 @@ export default class CheckInRouteConfiguration extends RouterConfiguration {
                 [
                     new ResourceRequest(
                         await this.findContactLogsAppId(request),
-                        ResourceType.Organization
+                        ResourceType.ContactLogApp
                     )
                 ]
             ),
@@ -84,7 +84,7 @@ export default class CheckInRouteConfiguration extends RouterConfiguration {
                 [
                     new ResourceRequest(
                         await this.findContactLogsAppId(request),
-                        ResourceType.Organization
+                        ResourceType.ContactLogApp
                     )
                 ]
             ),
