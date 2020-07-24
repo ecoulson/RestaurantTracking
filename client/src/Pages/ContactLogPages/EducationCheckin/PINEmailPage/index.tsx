@@ -82,7 +82,7 @@ export default class PINEmailPage extends React.Component<IPINEmailPageProps, IP
     }
 
     onSignOn(response : IResponse<IOrganizationAccountExistsResponse>) {
-        Cookie.setCookie("pin_email", this.state.email.value)
+        Cookie.setCookie("pin_email", this.state.email.value, 365)
         if (!response.data.isRegistered) {
             this.setState({
                 register: true

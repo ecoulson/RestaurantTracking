@@ -19,6 +19,7 @@ export default class CheckInTimer extends React.Component<ICheckInTimerProps, IC
                 this.setState({
                     timerDuration: this.getDuration(this.props.startTime)
                 }, () => {
+                    console.log(this.state.timerDuration.hours())
                     if (this.props.onTick) {
                         this.props.onTick(this.state.timerDuration)
                     }
