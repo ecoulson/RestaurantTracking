@@ -37,7 +37,7 @@ export default class PINEmailPage extends React.Component<IPINEmailPageProps, IP
 
     render() {
         return (
-            <CheckInLayout pageTitle="Login">
+            <CheckInLayout organizationId={this.props.match.params.organizationId} pageTitle="Login">
                 <OrganizationAccountExistsRequest 
                     send={this.state.send}
                     onComplete={this.onSignOn}

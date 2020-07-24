@@ -41,7 +41,7 @@ export default class ScanPage extends React.Component<IScanPageProps, IScanPageS
 
     render() {
         return (
-            <CheckInLayout pageTitle="Checking In...">
+            <CheckInLayout organizationId={this.props.match.params.organizationId} pageTitle="Checking In...">
                 <CheckOutRequest
                     send={this.state.checkOut}
                     redirect

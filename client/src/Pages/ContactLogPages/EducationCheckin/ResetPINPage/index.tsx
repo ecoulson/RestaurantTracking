@@ -44,7 +44,7 @@ export default class ResetPINPage extends React.Component<IResetPINPageProps, IR
 
     render() {
         return (
-            <CheckInLayout pageTitle="Reset PIN">
+            <CheckInLayout organizationId={this.props.match.params.organizationId} pageTitle="Reset PIN">
                 <ConfirmPasswordRecoveryRequest 
                     send
                     email={this.urlParams.get("email") as string}

@@ -16,7 +16,7 @@ export default class CancelPasswordResetPage extends React.Component<ICancelPass
 
     render() {
         return (
-            <CheckInLayout pageTitle="Cancel Password Reset">
+            <CheckInLayout organizationId={this.props.match.params.organizationId} pageTitle="Cancel Password Reset">
                 <CancelPasswordRecoveryRequest 
                     send
                     redirect

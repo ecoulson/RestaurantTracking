@@ -38,7 +38,7 @@ export default class VerifyPINPage extends React.Component<IVerifyPINPageProps, 
 
     render() {
         return (
-            <CheckInLayout pageTitle="Verify Account">
+            <CheckInLayout organizationId={this.props.match.params.organizationId} pageTitle="Verify Account">
                 <GetOrganizationNameRequest
                     send
                     onComplete={this.onOrganizationName}

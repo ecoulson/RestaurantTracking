@@ -4,12 +4,14 @@ import PageLayout from "../PageLayout";
 import CheckInBackground from "./CheckInBackground";
 import CheckInHeader from "./CheckInHeader";
 import CheckInFooter from "./CheckInHeader/CheckInFooter";
+import CheckInMenu from "./CheckInMenu";
 
 export default class CheckInLayout extends React.Component<ICheckInLayoutProps> {
     render() {
         return (
             <PageLayout pageTitle={this.props.pageTitle}>
                 <CheckInBackground>
+                    <CheckInMenu organizationId={this.props.organizationId} />
                     <CheckInHeader />
                     {this.props.children}
                     <CheckInFooter />

@@ -41,7 +41,7 @@ export default class PINLoginPage extends React.Component<IPinLoginPageProps, IP
 
     render() {
         return (
-            <CheckInLayout pageTitle="Set Pin">
+            <CheckInLayout organizationId={this.props.match.params.organizationId} pageTitle="Set Pin">
                 <GetOrganizationNameRequest 
                     send 
                     onComplete={this.onOrganizationName}

@@ -20,7 +20,7 @@ export default class CheckOutPage extends React.Component<ICheckOutPageProps> {
 
     render() {
         return (
-            <CheckInLayout pageTitle="Check Out Page">
+            <CheckInLayout organizationId={this.props.match.params.organizationId} pageTitle="Check Out Page">
                 <CheckOutRequest
                     send
                     checkInId={Cookie.getCookie("checkInId") as string}

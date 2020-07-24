@@ -29,7 +29,7 @@ export default class ActiveCheckInPage extends React.Component<IActiveCheckInPag
 
     render() {
         return (
-            <CheckInLayout pageTitle="Active Check In">
+            <CheckInLayout organizationId={this.props.match.params.organizationId} pageTitle="Active Check In">
                 <CheckOutRequest
                     send={this.state.send}
                     redirect

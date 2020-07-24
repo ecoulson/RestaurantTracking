@@ -7,4 +7,5 @@ export default interface IIconProps {
     height?: number;
     hoverColor?: string;
     hovered?: boolean;
+    onClick?: () => void
 }
