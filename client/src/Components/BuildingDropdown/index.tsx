@@ -26,17 +26,23 @@ export default class BuildingDropdown extends React.Component<IBuildingDropdownP
                 <DropdownInput
                     values={this.state.buildings
                         .filter((building) => building.type === this.props.type)
-                        .map((building) => building.name)
+                        .map((building) => this.capitalize(building.name))
                         .sort()}
                     onChange={(value, index) => {
                         this.props.onChange(this.state.buildings[
                             this.state.buildings
-                                .map(building => building.name)
-                                .indexOf(value)
+                                .map(building => building.name.toLowerCase())
+                                .indexOf(value.toLowerCase())
                             ])
                     }} />
             </>
         )
+    }
+
+    private capitalize(str : string) {
+        return str.split(" ").map((word) => {
+            return word.substring(0, 1).toUpperCase() + word.substring(1, word.length).toLowerCase()
+        }).join(" ");
     }
 
     private onBuildings(response : IResponse<IGetBuildingResponse>) {

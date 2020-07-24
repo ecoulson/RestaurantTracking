@@ -9,11 +9,12 @@
     width: 33.333%;
 }
 
-
 .check-in-header-element > .logo-horizontal-container {
     width: 30px;
     height: 30px;
     margin: 4px auto;
+    position: relative;
+    z-index: 50;
 }
 
 .check-in-header-element > .logo-horizontal-container > .company-name {
@@ -25,4 +26,6 @@
 .check-in-header-element > .icon {
     display: block;
     margin: 0 auto;
+    z-index: 50;
+    position: relative;
 }

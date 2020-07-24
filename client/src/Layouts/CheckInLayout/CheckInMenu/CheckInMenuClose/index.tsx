@@ -9,7 +9,7 @@ class CheckInMenuClose extends React.Component<Props> {
     render() {
         return (
             <div onClick={this.props.hide} className="check-in-menu-close">
-                <FontAwesomeIcon icon="times" color="black" size="2x"/>
+                <FontAwesomeIcon icon="times" color="white" size="2x"/>
             </div>
         )
     }

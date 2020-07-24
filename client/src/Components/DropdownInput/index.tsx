@@ -11,7 +11,8 @@ export default class DropdownInput extends React.Component<IDropdownInputProps, 
     constructor(props: IDropdownInputProps) {
         super(props);
         this.state = {
-            showing: false
+            showing: false,
+            hasRendered: false,
         }
         this.selectRef = createRef();
         this.onClick = this.onClick.bind(this);
@@ -38,6 +39,16 @@ export default class DropdownInput extends React.Component<IDropdownInputProps, 
                 </select>
             </>
         )
+    }
+
+    componentDidUpdate() {
+        if (this.state.hasRendered || this.state.showing) {
+            if (!this.state.hasRendered) {
+                this.setState({
+                    hasRendered: true
+                })
+            }
+        }
     }
 
     renderOptions() {
@@ -67,9 +78,12 @@ export default class DropdownInput extends React.Component<IDropdownInputProps, 
     }
 
     getVisibleClass() {
-        return this.state.showing ?
-            "dropdown-input-menu-show" :
-            "dropdown-input-menu-hide"
+        if (this.state.hasRendered) {
+            return this.state.showing ?
+                "dropdown-input-menu-show" :
+                "dropdown-input-menu-hide"
+        }
+        return ""
     }
 
     onTouch(event : TouchEvent) {

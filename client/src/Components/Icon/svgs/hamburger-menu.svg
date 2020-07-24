@@ -3,8 +3,8 @@
         <style>.a{stroke-linecap:round;stroke-linejoin:round;stroke-width:5px;}</style>
     </defs>
     <g transform="translate(2.5 2.5)">
-        <path class="a" d="M4.5,18H72.924" transform="translate(-4.5 4.808)"/>
-        <path class="a" d="M4.5,9H72.924" transform="translate(-4.5 -9)"/>
-        <path class="a" d="M4.5,27H72.924" transform="translate(-4.5 18.616)"/>
+        <path id="ham-bar-1" class="a" d="M4.5,9H72.924" transform="translate(-4.5 -9)"/>
+        <path id="ham-bar-2" class="a" d="M4.5,18H72.924" transform="translate(-4.5 4.808)"/>
+        <path id="ham-bar-3" class="a" d="M4.5,27H72.924" transform="translate(-4.5 18.616)"/>
     </g>
 </svg>

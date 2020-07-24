@@ -14,13 +14,19 @@ export default class Icon extends React.Component<IFormIconProps> {
         const SelectedIcon = IconMapping.get(this.props.icon)
         if (IconFillSet.has(this.props.icon)) {
             return (
-                <SelectedIcon onClick={this.props.onClick} style={this.getStyle()} fill={color} stroke="none" className="icon"/>
+                <SelectedIcon onClick={this.props.onClick} style={this.getStyle()} fill={color} stroke="none" className={this.getClassName()}/>
             )
         } else {
             return (
-                <SelectedIcon onClick={this.props.onClick} style={this.getStyle()} fill="none" stroke={color} className="icon"/>
+                <SelectedIcon onClick={this.props.onClick} style={this.getStyle()} fill="none" stroke={color} className={this.getClassName()}/>
             )
         }
+    }
+
+    private getClassName() {
+        return this.props.className ? 
+            `icon ${this.props.className}` :
+            "icon"
     }
 
     private getStyle() {
