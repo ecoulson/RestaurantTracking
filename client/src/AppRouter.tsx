@@ -207,7 +207,7 @@ export default class AppRouter extends React.Component<{}, IAppRouterState> {
                     }/>
                     <Route path="/check-in/:organizationId/scan/:building" render={
                         (props) => (
-                            <AuthenticateActiveSession showError={this.showError} to={`/check-in/${props.match.params.organizationId}/login`}>
+                            <AuthenticateActiveSession showError={this.showError} to={`/check-in/${props.match.params.organizationId}/login?building=${props.match.params.building}`}>
                                 <ScanPage showError={this.showError} showSuccess={this.showSuccess} {...props} />
                             </AuthenticateActiveSession>
                         )

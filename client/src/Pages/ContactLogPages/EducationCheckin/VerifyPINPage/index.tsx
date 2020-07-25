@@ -93,7 +93,12 @@ export default class VerifyPINPage extends React.Component<IVerifyPINPageProps, 
     onLogin(response : IResponse<ILoginResponse>) {
         Cookie.setCookie("token", response.data.token, 365);
         this.props.showSuccess("Successfully verified user", 5000)
-        AppHistory.push(`/check-in/${this.props.match.params.organizationId}/`)
+        const urlParams = new URLSearchParams(this.props.location.search as string)
+        if (urlParams.has("building")) {
+            AppHistory.push(`/check-in/${this.props.match.params.organizationId}/scan/${urlParams.get("building")}`)
+        } else {
+            AppHistory.push(`/check-in/${this.props.match.params.organizationId}/`)
+        }
     }
 
     onError() {

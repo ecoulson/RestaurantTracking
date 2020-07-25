@@ -13,6 +13,7 @@ import IFormValue from "../../../../Components/FormInput/IFormValue";
 import FormValue from "../../../../Components/FormInput/FormValue";
 import SendPINVerificationRequest from "../../../../API/SendPINVerificationRequest";
 import CheckInLayout from "../../../../Layouts/CheckInLayout";
+import AppHistory from "../../../../AppHistory";
 
 export default class VerifyPINAccountPage extends React.Component<IVerifyPINAccountPageProps, IVerifyPINAccountPageState> {
     constructor(props : IVerifyPINAccountPageProps) {
@@ -71,8 +72,11 @@ export default class VerifyPINAccountPage extends React.Component<IVerifyPINAcco
     }
 
     onComplete() {
-        this.setState({
-            send: false
-        })
+        const urlParams = new URLSearchParams(this.props.location.search as string)
+        if (urlParams.has("building")) {
+            AppHistory.push(`/check-in/${this.props.match.params.organizationId}/verify-account/${urlParams.get("building")}`)
+        } else {
+            AppHistory.push(`/check-in/${this.props.match.params.organizationId}/verify-account/`)
+        }
     }
 }
