@@ -105,7 +105,12 @@ export default class PINLoginPage extends React.Component<IPinLoginPageProps, IP
         Cookie.eraseCookie("timeCheckedIn");
         Cookie.setCookie("token", response.data.token, 365);
         if (response.data.verified) {
-            AppHistory.push(`/check-in/${this.props.match.params.organizationId}/${this.props.location.search}`)
+            const urlParams = new URLSearchParams(this.props.location.search as string)
+            if (urlParams.has("building")) {
+                AppHistory.push(`/check-in/${this.props.match.params.organizationId}/scan/${urlParams.get("building")}`)
+            } else {
+                AppHistory.push(`/check-in/${this.props.match.params.organizationId}/`)
+            }
         } else {
             AppHistory.push(`/check-in/${this.props.match.params.organizationId}/verify-account/${this.props.location.search}`)
         }

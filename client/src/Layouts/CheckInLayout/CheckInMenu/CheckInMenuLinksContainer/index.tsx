@@ -78,7 +78,6 @@ class CheckInMenuLinksContainer extends React.Component<Props, ICheckInMenuLinks
     }
 }
 
-
 const mapState = (state : IState) => {
     return {
         hidden: state.checkInMenu.hidden
