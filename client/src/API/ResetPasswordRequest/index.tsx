@@ -1,8 +1,11 @@
 import RequestComponent from "../RequestComponent";
 import IResetPasswordRequestProps from "./IResetPasswordRequestProps";
 import Axios from "axios";
+import IState from "../../Store/IState";
+import { addToast, removeToast } from "../../Store/Toast/actions";
+import { connect } from "react-redux";
 
-export default class ResetPasswordRequest extends RequestComponent<IResetPasswordRequestProps> {
+class ResetPasswordRequest extends RequestComponent<IResetPasswordRequestProps> {
     getFailureMessage() {
         return "Failed to reset password"
     }
@@ -19,3 +22,16 @@ export default class ResetPasswordRequest extends RequestComponent<IResetPasswor
         })).data
     }
 }
+
+const mapState = (state : IState) => {
+    return {}
+}
+
+const mapDispatch = {
+    addToast: addToast,
+    removeToast: removeToast
+}
+
+const connector = connect(mapState, mapDispatch);
+
+export default connector(ResetPasswordRequest);

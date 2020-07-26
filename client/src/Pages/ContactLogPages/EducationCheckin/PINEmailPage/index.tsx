@@ -43,7 +43,6 @@ export default class PINEmailPage extends React.Component<IPINEmailPageProps, IP
                     onComplete={this.onSignOn}
                     onError={this.onError}
                     email={this.state.email.value}
-                    redirect
                     organizationId={this.props.match.params.organizationId} />
                 <RegisterOrganizationUserRequest 
                     send={this.state.register}

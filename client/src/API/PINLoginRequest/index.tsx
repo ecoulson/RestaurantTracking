@@ -2,10 +2,17 @@ import RequestComponent from "../RequestComponent";
 import IPINLoginRequestProps from "./IPINLoginRequestProps";
 import Axios from "axios";
 import IPINLoginResponse from "./IPINLoginResponse";
+import { addToast, removeToast } from "../../Store/Toast/actions";
+import IState from "../../Store/IState";
+import { connect } from "react-redux";
 
-export default class PINLoginRequest extends RequestComponent<IPINLoginRequestProps, IPINLoginResponse> {
+class PINLoginRequest extends RequestComponent<IPINLoginRequestProps, IPINLoginResponse> {
     getFailureMessage() {
         return "Invalid credentials"
+    }
+
+    getSuccessMessage() {
+        return "Successfully logged in"
     }
 
     async onLoad() {
@@ -15,3 +22,16 @@ export default class PINLoginRequest extends RequestComponent<IPINLoginRequestPr
         })).data;
     }
 }
+
+const mapState = (state : IState) => {
+    return {}
+}
+
+const mapDispatch = {
+    addToast: addToast,
+    removeToast: removeToast
+}
+
+const connector = connect(mapState, mapDispatch);
+
+export default connector(PINLoginRequest);

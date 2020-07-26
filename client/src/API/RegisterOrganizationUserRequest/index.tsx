@@ -1,8 +1,11 @@
 import RequestComponent from "../RequestComponent";
 import IRegisterOrganizationUserRequest from "./IRegisterOrganizationUserRequest";
 import Axios from "axios";
+import IState from "../../Store/IState";
+import { addToast, removeToast } from "../../Store/Toast/actions";
+import { connect } from "react-redux";
 
-export default class RegisterOrganizationUserRequest extends RequestComponent<IRegisterOrganizationUserRequest> {
+class RegisterOrganizationUserRequest extends RequestComponent<IRegisterOrganizationUserRequest> {
     getSuccessMessage() {
         return "Successfully registered user"
     }
@@ -17,3 +20,16 @@ export default class RegisterOrganizationUserRequest extends RequestComponent<IR
         })).data
     }
 }
+
+const mapState = (state : IState) => {
+    return {}
+}
+
+const mapDispatch = {
+    addToast: addToast,
+    removeToast: removeToast
+}
+
+const connector = connect(mapState, mapDispatch);
+
+export default connector(RegisterOrganizationUserRequest);

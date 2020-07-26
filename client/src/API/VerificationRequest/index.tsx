@@ -1,10 +1,17 @@
 import RequestComponent from "../RequestComponent";
 import IVerificationRequestProps from "./IVerificationRequestProps";
 import Axios from "axios";
+import IState from "../../Store/IState";
+import { addToast, removeToast } from "../../Store/Toast/actions";
+import { connect } from "react-redux";
 
-export default class VerificationRequest extends RequestComponent<IVerificationRequestProps> {
+class VerificationRequest extends RequestComponent<IVerificationRequestProps> {
     getFailureMessage() {
         return `Failed to verify account for ${this.props.email}`
+    }
+
+    getSuccessMessage() {
+        return "Verified account"
     }
 
     async onLoad() {
@@ -13,3 +20,17 @@ export default class VerificationRequest extends RequestComponent<IVerificationR
         )).data;
     }
 }
+
+
+const mapState = (state : IState) => {
+    return {}
+}
+
+const mapDispatch = {
+    addToast: addToast,
+    removeToast: removeToast
+}
+
+const connector = connect(mapState, mapDispatch);
+
+export default connector(VerificationRequest);

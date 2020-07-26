@@ -3,10 +3,13 @@ import IGetCheckInRequest from "./IGetCheckInRequest";
 import ICheckInResponse from "../CheckInRequest/ICheckInResponse";
 import Axios from "axios";
 import Cookie from "../../lib/Cookie";
+import IState from "../../Store/IState";
+import { addToast, removeToast } from "../../Store/Toast/actions";
+import { connect } from "react-redux";
 
-export default class GetCheckInRequest extends RequestComponent<IGetCheckInRequest, ICheckInResponse> {
+class GetCheckInRequest extends RequestComponent<IGetCheckInRequest, ICheckInResponse> {
     getSuccessMessage() {
-        return "";
+        return "Loaded check in";
     }
 
     getFailureMessage() {
@@ -21,3 +24,16 @@ export default class GetCheckInRequest extends RequestComponent<IGetCheckInReque
         })).data
     }
 }
+
+const mapState = (state : IState) => {
+    return {}
+}
+
+const mapDispatch = {
+    addToast: addToast,
+    removeToast: removeToast
+}
+
+const connector = connect(mapState, mapDispatch);
+
+export default connector(GetCheckInRequest);

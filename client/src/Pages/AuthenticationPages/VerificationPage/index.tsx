@@ -23,7 +23,6 @@ export default class VerificationPage extends React.Component<IVerificationPageP
         return (
             <AuthenticationLayout pageTitle="Verifying Account...">
                 <VerificationRequest
-                    redirect
                     send 
                     onComplete={this.onComplete} 
                     token={this.getToken()}

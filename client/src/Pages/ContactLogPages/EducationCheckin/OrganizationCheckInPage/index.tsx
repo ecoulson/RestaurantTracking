@@ -43,7 +43,6 @@ export default class OrganizationCheckInPage extends React.Component<IOrganizati
             <CheckInLayout organizationId={this.props.match.params.organizationId} pageTitle={`${this.state.organizationName} Check In`}>
                 <CheckInRequest 
                     send={this.state.send}
-                    redirect
                     onError={this.onError}
                     onComplete={this.onComplete}
                     building={this.state.building ? this.state.building.name : ""}

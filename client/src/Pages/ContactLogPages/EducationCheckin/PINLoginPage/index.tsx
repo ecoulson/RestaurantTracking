@@ -50,7 +50,6 @@ export default class PINLoginPage extends React.Component<IPinLoginPageProps, IP
                     send={this.state.send}
                     email={Cookie.getCookie("pin_email") as string}
                     organizationId={this.props.match.params.organizationId}
-                    redirect
                     onComplete={this.onLogin}
                     onError={this.onError}
                     password={this.state.password.value} />

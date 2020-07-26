@@ -2,10 +2,17 @@ import RequestComponent from "../RequestComponent";
 import IOrganizationAccountExistsRequestProps from "./IOrganizationAccountExistsRequestProps";
 import Axios from "axios";
 import IOrganizationAccountExistsResponse from "./IOrganizationAccountExistsResponse";
+import { connect } from "react-redux";
+import { removeToast, addToast } from "../../Store/Toast/actions";
+import IState from "../../Store/IState";
 
-export default class OrganizationAccountExistsRequest extends RequestComponent<IOrganizationAccountExistsRequestProps, IOrganizationAccountExistsResponse> {
+class OrganizationAccountExistsRequest extends RequestComponent<IOrganizationAccountExistsRequestProps, IOrganizationAccountExistsResponse> {
     getFailureMessage() {
         return "Failed to check if email is registered";
+    }
+    
+    getSuccessMessage() {
+        return "Organization account exists"
     }
 
     getErrorStatusMessage() {
@@ -20,3 +27,16 @@ export default class OrganizationAccountExistsRequest extends RequestComponent<I
         })).data;
     }
 }
+
+const mapState = (state : IState) => {
+    return {}
+}
+
+const mapDispatch = {
+    addToast: addToast,
+    removeToast: removeToast
+}
+
+const connector = connect(mapState, mapDispatch);
+
+export default connector(OrganizationAccountExistsRequest);
