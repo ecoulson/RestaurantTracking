@@ -5,7 +5,6 @@ import NavPanelProfileAvatar from "./NavPanelProfileAvatar";
 import NavPanelProfileName from "./NavPanelProfileName";
 import NavPanelProfileEmail from "./NavPanelProfileEmail";
 import INavProfileState from "./INavProfileState";
-import Toast from "../../../../Components/Toast";
 import ToastType from "../../../../Components/Toast/ToastType";
 import { UserActions, IUserState } from "../../../../Store/User/types";
 import IState from "../../../../Store/IState";
@@ -13,6 +12,7 @@ import { connect, ConnectedProps } from "react-redux";
 import { INavPanel } from "../../../../Store/NavPanel/types";
 import { getSessionUser, getUserAvatar } from "../../../../API"
 import IUser from "../../../../API/IUser";
+import { addToast } from "../../../../Store/Toast/actions";
 
 export class NavPanelProfile extends React.Component<Props, INavProfileState> {
     constructor(props: Props) {
@@ -33,9 +33,7 @@ export class NavPanelProfile extends React.Component<Props, INavProfileState> {
                 }
                 this.props.setUser(user);
             } catch (error) {
-                this.setState({
-                    message: "Failed to get user profile"
-                })
+                this.props.addToast("Failed to get user profile", ToastType.Error);
             }
         }
     }
@@ -47,7 +45,6 @@ export class NavPanelProfile extends React.Component<Props, INavProfileState> {
     render() {
         return (
             <div className={`dashboard-profile ${this.getCollapsedClass()}`}>
-                <Toast type={ToastType.Error} message={this.state.message} />
                 <NavPanelProfileAvatar 
                     collapsed={this.props.navPanel.collapsed}
                     profilePicture={this.props.user.profilePicture} />
@@ -85,8 +82,10 @@ const mapDispatch = {
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
+        username: user.username,
         organizations: user.organizations
-    })
+    }),
+    addToast: addToast
 }
 
 const connector = connect(mapState, mapDispatch);

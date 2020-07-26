@@ -3,25 +3,26 @@ import IRequestState from "../IRequestState";
 import { AxiosError } from "axios";
 import IResponse from "../IResponse";
 import ToastType from "../../Components/Toast/ToastType";
-import Toast from "../../Components/Toast";
 import wait from "../../lib/Wait";
 import IRequestProps from "../IRequestProps";
+import IState from "../../Store/IState";
+import { connect, ConnectedProps } from "react-redux";
+import { addToast, removeToast } from "../../Store/Toast/actions";
+import { IEnqueueToastAction } from "../../Store/Toast/types";
 
 const MessageTimeOut = 5 * 1000; // 5 seconds
 
-export default abstract class RequestComponent<P extends IRequestProps<T>, T = {}> extends React.Component<P, IRequestState> {
-    constructor(props : P) {
+abstract class RequestComponent<P extends IRequestProps<T>, T = {}> extends React.Component<Props<P>, IRequestState> {
+    constructor(props : Props<P>) {
         super(props);
         this.state = {
-            message: "",
-            unMounting: false,
-            type: ToastType.Error,
-            completed: false
+            completed: false,
+            fetching: false
         }
     }
 
     componentWillReceiveProps(props : P) {
-        if (this.state.completed && !props.send) {
+        if (this.state.completed && !props.send && !this.state.fetching) {
             this.setState({
                 completed: false
             })
@@ -29,31 +30,31 @@ export default abstract class RequestComponent<P extends IRequestProps<T>, T = {
     }
 
     componentDidMount() {
-        if (this.props.send && !this.state.completed) {
+        if (this.props.send && !this.state.completed && !this.state.fetching) {
             this.sendRequest();
         }
     }
 
     async componentDidUpdate() {
-        if (this.props.send && !this.state.completed) {
+        if (this.props.send && !this.state.completed && !this.state.fetching) {
             this.sendRequest();
         }
     }
 
-    componentWillUnmount() {
-        this.setState({
-            unMounting: true
-        })
-    }
-
     private async sendRequest() {
+        let toast : IEnqueueToastAction | null = null;
         try {
+            this.setState({
+                fetching: true
+            })
+            toast = this.props.addToast(this.getFetchingMessage(), ToastType.Info);
             const response = await this.onLoad();
-            if (!this.state.unMounting) {
-                this.setState({
-                    completed: true
-                })
-            }
+            this.props.removeToast(toast.id);
+            await wait(500);
+            this.setState({
+                completed: true,
+                fetching: false
+            })
             if (!response.success) {
                 this.displayError(this.getFailureMessage());
                 if (this.props.onError) {
@@ -66,8 +67,13 @@ export default abstract class RequestComponent<P extends IRequestProps<T>, T = {
                 }
             }
         } catch (error) {
+            if (toast) {
+                this.props.removeToast(toast.id);
+                await wait(500);
+            }
             this.setState({
-                completed: true
+                completed: true,
+                fetching: false
             })
             this.handleError(error);
             if (this.props.onError) {
@@ -108,22 +114,10 @@ export default abstract class RequestComponent<P extends IRequestProps<T>, T = {
         await this.displayMessage(message, ToastType.Error);
     }
 
-    private async displayInfo(message: string) {
-        await this.displayMessage(message, ToastType.Info);
-    }
-
     private async displayMessage(message: string, type: ToastType) {
-        if (!this.props.redirect || type === ToastType.Error) {
-            if (!this.state.unMounting) {
-                this.setState({ message, type })
-            }
-            await wait(MessageTimeOut);
-            if (!this.state.unMounting) {
-                this.setState({ 
-                    message: "",
-                })
-            }
-        }
+        const toast = this.props.addToast(message, type)
+        await wait(MessageTimeOut);
+        this.props.removeToast(toast.id);
     }
 
     private isMappedError(error : AxiosError) {
@@ -133,6 +127,23 @@ export default abstract class RequestComponent<P extends IRequestProps<T>, T = {
     protected abstract async onLoad() : Promise<IResponse<T>>;
 
     render() {
-        return <Toast type={this.state.type} message={this.state.message} />
+        return null;
     }
 }
+
+const mapState = (state : IState) => {
+    return {}
+}
+
+const mapDispatch = {
+    addToast: addToast,
+    removeToast: removeToast
+}
+
+const connector = connect(mapState, mapDispatch);
+
+type PropsFromRedux = ConnectedProps<typeof connector>
+
+type Props<P> = PropsFromRedux & P;
+
+export default RequestComponent

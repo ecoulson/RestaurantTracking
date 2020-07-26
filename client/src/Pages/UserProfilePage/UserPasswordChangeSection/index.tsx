@@ -6,20 +6,21 @@ import BasicSectionTitle from "../../../Layouts/BasicLayout/BasicSectionTitle";
 import IUserPasswordChangeSectionState from "./IUserPasswordChangeSectionState";
 import FormValue from "../../../Components/FormInput/FormValue";
 import ToastType from "../../../Components/Toast/ToastType";
-import Toast from "../../../Components/Toast";
 import IFormValue from "../../../Components/FormInput/IFormValue";
 import Axios from "axios";
 import Cookie from "../../../lib/Cookie";
 import Form from "../../../Components/Form";
+import IState from "../../../Store/IState";
+import { removeToast, addToast } from "../../../Store/Toast/actions";
+import { connect, ConnectedProps } from "react-redux";
+import wait from "../../../lib/Wait";
 
-export default class UserPasswordChangeSection extends React.Component<any, IUserPasswordChangeSectionState> {
-    constructor(props : any) {
+class UserPasswordChangeSection extends React.Component<Props, IUserPasswordChangeSectionState> {
+    constructor(props : Props) {
         super(props);
         this.state = {
             currentPassword: "",
             newPassword: new FormValue("", false),
-            message: "",
-            type: ToastType.Error
         }
 
         this.handleCurrentPassword = this.handleCurrentPassword.bind(this);
@@ -30,7 +31,6 @@ export default class UserPasswordChangeSection extends React.Component<any, IUse
     render() {
         return (
             <BasicSection>
-                <Toast type={this.state.type} message={this.state.message} />
                 <BasicSectionTitle>Change Password</BasicSectionTitle>
                 <Form onSubmit={this.handlePasswordUpdate}>
                     <PasswordInput 
@@ -77,36 +77,35 @@ export default class UserPasswordChangeSection extends React.Component<any, IUse
                         "Authorization": `Bearer ${Cookie.getCookie("token")}`
                     }
                 });
-                this.setState({
-                    type: ToastType.Success,
-                    message: "Successfully changed your password"
-                })
-                setTimeout(() => {
-                    this.setState({
-                        message: "",
-                    })
-                }, 3000)
+                const toast = this.props.addToast("Successfully changed your password", ToastType.Success)
+                await wait(3000);
+                this.props.removeToast(toast.id)
             } catch (error) {
-                this.setState({
-                    type: ToastType.Error,
-                    message: "Failed to change password"
-                })
-                setTimeout(() => {
-                    this.setState({
-                        message: "",
-                    })
-                }, 3000)
+                const toast = this.props.addToast("Failed to change password", ToastType.Error)
+                await wait(3000);
+                this.props.removeToast(toast.id);
             }
         } else {
-            this.setState({
-                message: "Please fix errors in the change password section",
-                type: ToastType.Error
-            })
-            setTimeout(() => {
-                this.setState({
-                    message: "",
-                })
-            }, 3000)
+            const toast = this.props.addToast("Please fix errors in the change password section", ToastType.Error)
+            await wait(3000);
+            this.props.removeToast(toast.id)
         }
     }
 }
+
+const mapState = (state : IState) => {
+    return {}
+}
+
+const mapDispatch = {
+    removeToast: removeToast,
+    addToast: addToast
+}
+
+const connector = connect(mapState, mapDispatch);
+
+type PropsFromRedux = ConnectedProps<typeof connector>
+
+type Props = PropsFromRedux & {}
+
+export default connector(UserPasswordChangeSection)

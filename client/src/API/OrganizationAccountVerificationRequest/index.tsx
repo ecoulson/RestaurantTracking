@@ -1,8 +1,11 @@
 import RequestComponent from "../RequestComponent";
 import IOrganizationAccountVerificationRequest from "./IOrganizationAccountVerificationRequest";
 import Axios from "axios";
+import IState from "../../Store/IState";
+import { addToast, removeToast } from "../../Store/Toast/actions";
+import { connect } from "react-redux";
 
-export default class OrganizationAccountVerificationRequest extends RequestComponent<IOrganizationAccountVerificationRequest> {
+class OrganizationAccountVerificationRequest extends RequestComponent<IOrganizationAccountVerificationRequest> {
     getFailureMessage() {
         return "Failed to verify user"
     }
@@ -18,3 +21,16 @@ export default class OrganizationAccountVerificationRequest extends RequestCompo
         })).data
     }
 }
+
+const mapState = (state : IState) => {
+    return {}
+}
+
+const mapDispatch = {
+    addToast: addToast,
+    removeToast: removeToast
+}
+
+const connector = connect(mapState, mapDispatch);
+
+export default connector(OrganizationAccountVerificationRequest);

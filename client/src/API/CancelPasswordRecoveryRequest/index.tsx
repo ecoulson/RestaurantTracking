@@ -1,8 +1,11 @@
 import RequestComponent from "../RequestComponent";
 import ICancelPasswordRecoveryRequestProps from "./ICancelPasswordRecoveryRequestProps";
 import Axios from "axios";
+import IState from "../../Store/IState";
+import { connect, ConnectedProps } from "react-redux";
+import { addToast, removeToast } from "../../Store/Toast/actions";
 
-export default class CancelPasswordRecoveryRequest extends RequestComponent<ICancelPasswordRecoveryRequestProps> {
+class CancelPasswordRecoveryRequest extends RequestComponent<ICancelPasswordRecoveryRequestProps> {
     getFailureMessage() {
         return "Something went wrong";
     }
@@ -23,3 +26,16 @@ export default class CancelPasswordRecoveryRequest extends RequestComponent<ICan
         )).data;
     }
 }
+
+const mapState = (state : IState) => {
+    return {}
+}
+
+const mapDispatch = {
+    addToast: addToast,
+    removeToast: removeToast
+}
+
+const connector = connect(mapState, mapDispatch);
+
+export default connector(CancelPasswordRecoveryRequest);

@@ -45,7 +45,6 @@ export default class VerifyPINPage extends React.Component<IVerifyPINPageProps, 
                     organizationId={this.props.match.params.organizationId}/>
                 <OrganizationAccountVerificationRequest
                     send={this.state.send}
-                    redirect
                     organizationId={this.props.match.params.organizationId}
                     email={Cookie.getCookie("pin_email") as string}
                     onComplete={this.onComplete}

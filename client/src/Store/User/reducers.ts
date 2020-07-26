@@ -6,6 +6,7 @@ const initialState : IUserState = {
     email: "",
     lastName: "",
     firstName: "",
+    username: "",
     organizations: []
 }
 
@@ -23,6 +24,7 @@ export function getUserReducer(state = initialState, action : UserActionTypes) {
                 email: action.email,
                 firstName: action.firstName,
                 lastName: action.lastName,
+                username: action.username,
                 organizations: action.organizations
             }
         default:

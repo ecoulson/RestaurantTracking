@@ -2,10 +2,13 @@ import RequestComponent from "../RequestComponent";
 import IRegisterAppRequest from "./IRegisterAppRequest";
 import Axios from "axios";
 import Cookie from "../../lib/Cookie";
+import IState from "../../Store/IState";
+import { addToast, removeToast } from "../../Store/Toast/actions";
+import { connect } from "react-redux";
 
-export default class RegisterAppRequest extends RequestComponent<IRegisterAppRequest> {
+class RegisterAppRequest extends RequestComponent<IRegisterAppRequest> {
     getSuccessMessage() {
-        return "Succesfully registered app"
+        return "Successfully registered app"
     }
 
     getFailureMessage() {
@@ -26,3 +29,16 @@ export default class RegisterAppRequest extends RequestComponent<IRegisterAppReq
         })).data;
     }
 }
+
+const mapState = (state : IState) => {
+    return {}
+}
+
+const mapDispatch = {
+    addToast: addToast,
+    removeToast: removeToast
+}
+
+const connector = connect(mapState, mapDispatch);
+
+export default connector(RegisterAppRequest);

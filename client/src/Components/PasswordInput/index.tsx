@@ -4,19 +4,21 @@ import IPasswordState from "./IPasswordState";
 import FormInput from "../FormInput";
 import IconType from "../Icon/IconTypes";
 import IFormValue from "../FormInput/IFormValue";
-import Toast from "../Toast";
 import ToastType from "../Toast/ToastType";
+import IState from "../../Store/IState";
+import { addToast, removeToast } from "../../Store/Toast/actions";
+import { connect, ConnectedProps } from "react-redux";
 
-export default class PasswordInput extends React.Component<IPasswordProps, IPasswordState> {
+class PasswordInput extends React.Component<Props, IPasswordState> {
     private digitRegex : RegExp;
     private uppercaseRegex : RegExp;
     private lowercaseRegex : RegExp;
 
-    constructor(props : IPasswordProps) {
+    constructor(props : Props) {
         super(props);
         this.state = {
             password: "",
-            message: "",
+            message: null,
             valid: this.props.registering ? true : undefined
         }
         this.digitRegex = new RegExp("\\d");
@@ -27,9 +29,7 @@ export default class PasswordInput extends React.Component<IPasswordProps, IPass
 
     render() {
         return (
-            <>
-                <Toast type={ToastType.Error} message={this.state.message} />
-                <FormInput
+            <FormInput
                     value={this.state.password}
                     type="password"
                     label={this.props.label ? this.props.label : "Password"} 
@@ -44,45 +44,37 @@ export default class PasswordInput extends React.Component<IPasswordProps, IPass
                     placeHolder={this.props.placeholder ? this.props.placeholder : "Enter your password"}
                     onChange={this.onChange}
                 />
-            </>
         )
     }
 
     private checkPassword() {
+        console.log(this.state.message, this.props.messages);
+        if (this.state.message) {
+            this.props.removeToast(this.state.message.id)
+        }
         if (this.state.password.length < 8) {
             this.setState({
-                message: "Password is too short",
-                valid: false
+                message: this.props.addToast("Password is too short", ToastType.Error)
             })
         } else if (this.state.password.length > 64) {
             this.setState({
-                message: "Password is too long",
-                valid: false
+                message: this.props.addToast("Password is too long", ToastType.Error)
             })
         } else if (!this.state.password.match(this.digitRegex)) {
             this.setState({
-                message: "Password must contain a digit",
-                valid: true
+                message: this.props.addToast("Password must contain a digit", ToastType.Error)
             })
         } else if (!this.state.password.match(this.uppercaseRegex)) {
             this.setState({
-                message: "Password must contain a an uppercase letter",
-                valid: true
+                message: this.props.addToast("Password must contain a an uppercase letter", ToastType.Error)
             })
         } else if (!this.state.password.match(this.lowercaseRegex)) {
             this.setState({
-                message: "Password must contain a an lowercase letter",
-                valid: true
+                message: this.props.addToast("Password must contain a an lowercase letter", ToastType.Error)
             })
         } else {
             this.setState({
-                message: "",
-                valid: true
-            })
-        }
-        if (this.state.password === "") {
-            this.setState({
-                message: ""
+                message: null
             })
         }
     }
@@ -103,3 +95,22 @@ export default class PasswordInput extends React.Component<IPasswordProps, IPass
         })
     }
 }
+
+const mapState = (state : IState) => {
+    return {
+        messages: state.toast.messages
+    }
+}
+
+const mapDispatch = {
+    addToast: addToast,
+    removeToast: removeToast
+}
+
+const connector = connect(mapState, mapDispatch);
+
+type PropsFromRedux = ConnectedProps<typeof connector>
+
+type Props = PropsFromRedux & IPasswordProps;
+
+export default connector(PasswordInput)

@@ -13,6 +13,7 @@ export function setUserAction(user : IUserState) : UserActionTypes {
         email: user.email,
         lastName: user.lastName,
         firstName: user.firstName,
+        username: user.username,
         organizations: user.organizations
     }
 }

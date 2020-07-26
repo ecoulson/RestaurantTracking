@@ -44,7 +44,6 @@ export default class ScanPage extends React.Component<IScanPageProps, IScanPageS
             <CheckInLayout organizationId={this.props.match.params.organizationId} pageTitle="Checking In...">
                 <CheckOutRequest
                     send={this.state.checkOut}
-                    redirect
                     onError={this.onCheckOutError}
                     onComplete={this.onCheckOut}
                     checkInId={Cookie.getCookie("checkInId") as string} />

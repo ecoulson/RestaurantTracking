@@ -1,3 +1,3 @@
 export default interface IProfilePictureSectionProps {
-    profilePictureURL: string | null;
+    profilePictureURL: string | undefined;
 }

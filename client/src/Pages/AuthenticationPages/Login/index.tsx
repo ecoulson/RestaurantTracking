@@ -43,9 +43,7 @@ export default class Login extends React.Component<{}, ILoginState> {
                         username={this.state.username} 
                         password={this.state.password} 
                         onComplete={this.onLogin}
-                        onError={this.onError} 
-                        redirect
-                        />
+                        onError={this.onError} />
                     <UsernameInput 
                         id="username"
                         iconColor="#AAAAAA" 

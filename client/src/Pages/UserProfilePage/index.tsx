@@ -3,23 +3,13 @@ import BasicLayout from "../../Layouts/BasicLayout";
 import ProfilePictureSection from "./ProfilePictureSection";
 import UserInfoSection from "./UserInfoSection";
 import UserPasswordChangeSection from "./UserPasswordChangeSection";
-import IUserProfilePageState from "./IUserProfilePageState";
 import Axios from "axios";
 import Cookie from "../../lib/Cookie";
+import { ConnectedProps, connect } from "react-redux";
+import IState from "../../Store/IState";
 
-export default class UserProfilePage extends React.Component<any, IUserProfilePageState> {
+class UserProfilePage extends React.Component<Props> {
     private objectUrl? : string;
-
-    constructor(props : any) {
-        super(props);
-        this.state = {
-            profilePicture: null,
-            email: "",
-            username: "",
-            firstName: "",
-            lastName: "",
-        }
-    }
 
     componentWillUnmount() {
         if (this.objectUrl) {
@@ -62,15 +52,31 @@ export default class UserProfilePage extends React.Component<any, IUserProfilePa
     render() {
         return (
             <BasicLayout title="Edit Profile">
-                <ProfilePictureSection profilePictureURL={this.state.profilePicture} />
+                <ProfilePictureSection profilePictureURL={this.props.user.profilePicture} />
                 <UserInfoSection 
-                    email={this.state.email}
-                    firstName={this.state.firstName}
-                    lastName={this.state.lastName}
-                    username={this.state.username}
+                    email={this.props.user.email}
+                    firstName={this.props.user.firstName}
+                    lastName={this.props.user.lastName}
+                    username={this.props.user.username}
                     />
                 <UserPasswordChangeSection />
             </BasicLayout>
         )
     }
 }
+
+const mapState = (state : IState) => {
+    return {
+        user: state.user
+    }
+}
+
+const mapDispatch = {}
+
+const connector = connect(mapState, mapDispatch);
+
+type PropsFromRedux = ConnectedProps<typeof connector>
+
+type Props = PropsFromRedux;
+
+export default connector(UserProfilePage)

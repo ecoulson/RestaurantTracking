@@ -1,8 +1,11 @@
 import Axios from "axios";
 import RequestComponent from "../RequestComponent";
 import IRecoverPasswordRequestProps from "./IRecoverPasswordRequestProps";
+import IState from "../../Store/IState";
+import { addToast, removeToast } from "../../Store/Toast/actions";
+import { connect } from "react-redux";
 
-export default class RecoverPasswordRequest extends RequestComponent<IRecoverPasswordRequestProps> {
+class RecoverPasswordRequest extends RequestComponent<IRecoverPasswordRequestProps> {
     getSuccessMessage() {
         return "Sent password reset email";
     }
@@ -17,3 +20,16 @@ export default class RecoverPasswordRequest extends RequestComponent<IRecoverPas
         })).data;
     }
 }
+
+const mapState = (state : IState) => {
+    return {}
+}
+
+const mapDispatch = {
+    addToast: addToast,
+    removeToast: removeToast
+}
+
+const connector = connect(mapState, mapDispatch);
+
+export default connector(RecoverPasswordRequest);

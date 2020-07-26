@@ -14,6 +14,10 @@
     box-shadow: 0px 0px 5px 3px rgba(0,0,0,0.7);
 }
 
+.toast-container:hover {
+    cursor: pointer;
+}
+
 .toast-error {
     background-color: #E35A42;
 }
@@ -35,6 +39,10 @@
     text-align: center;
 }
 
+.rendered-toast {
+    transform: translateY(0px)
+}
+
 .show-toast {
     animation-name: show-toast;
     animation-duration: 0.25s;
@@ -46,7 +54,7 @@
     animation-name: hide-toast;
     animation-duration: 0.25s;
     animation-timing-function: linear;
-    animation-fill-mode: backwards;
+    animation-fill-mode: forwards;
 }
 
 @keyframes show-toast {
@@ -87,36 +95,44 @@
 
 @keyframes hide-toast {
     0% {
+        opacity: 1;
         transform: translateY(0px)
     }
     100% {
-        transform: translateY(-100px);
+        opacity: 0;
+        transform: translateY(-100px)
     }
 }
 
 @-webkit-keyframes hide-toast {
     0% {
+        opacity: 1;
         transform: translateY(0px)
     }
     100% {
+        opacity: 0;
         transform: translateY(-100px);
     }
 }
 
 @-moz-keyframes hide-toast {
     0% {
+        opacity: 1;
         transform: translateY(0px)
     }
     100% {
-        transform: translateY(-100px);
+        opacity: 0;
+        transform: translateY(-100px)
     }
 }
 
 @-o-keyframes hide-toast {
     0% {
+        opacity: 1;
         transform: translateY(0px)
     }
     100% {
-        transform: translateY(-100px);
+        opacity: 0;
+        transform: translateY(-100px)
     }
 }

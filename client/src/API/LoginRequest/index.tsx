@@ -2,10 +2,17 @@ import Axios from "axios";
 import ILoginRequestProps from "./ILoginRequestProps";
 import RequestComponent from "../RequestComponent";
 import ILoginResponse from "./ILoginResponse";
+import IState from "../../Store/IState";
+import { connect } from "react-redux";
+import { removeToast, addToast } from "../../Store/Toast/actions";
 
-export default class LoginRequest extends RequestComponent<ILoginRequestProps, ILoginResponse> {
+class LoginRequest extends RequestComponent<ILoginRequestProps, ILoginResponse> {
     getFailureMessage() {
         return "Invalid credentials";
+    }
+
+    getSuccessMessage() {
+        return "Successfully logged in"
     }
 
     getErrorStatusMessage() {
@@ -22,3 +29,16 @@ export default class LoginRequest extends RequestComponent<ILoginRequestProps, I
         })).data;
     }
 }
+
+const mapState = (state : IState) => {
+    return {};
+}
+
+const mapDispatch = {
+    addToast: addToast,
+    removeToast: removeToast
+}
+
+const connector = connect(mapState, mapDispatch);
+
+export default connector(LoginRequest);
