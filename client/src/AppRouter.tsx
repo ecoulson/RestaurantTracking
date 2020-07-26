@@ -41,15 +41,13 @@ import CheckOutPage from "./Pages/ContactLogPages/EducationCheckin/CheckOutPage"
 import ScanPage from "./Pages/ContactLogPages/EducationCheckin/ScanPage";
 import PurchasePage from "./Pages/PurchasePage";
 import OrganizationPage from "./Pages/OrganizationPages";
-import CheckInLayout from "./Layouts/CheckInLayout";
+import { ConnectedProps, connect } from "react-redux";
+import IState from "./Store/IState";
+import { addToast, removeToast } from "./Store/Toast/actions";
 
-export default class AppRouter extends React.Component<{}, IAppRouterState> {
-    constructor(props: {}) {
+class AppRouter extends React.Component<Props, IAppRouterState> {
+    constructor(props: Props) {
         super(props);
-        this.state = {
-            message: "",
-            type: ToastType.Error
-        }
         this.showError = this.showError.bind(this);
         this.showSuccess = this.showSuccess.bind(this);
     }
@@ -57,7 +55,7 @@ export default class AppRouter extends React.Component<{}, IAppRouterState> {
     render() {
         return (
             <Router history={AppHistory}>
-                <Toast type={this.state.type} message={this.state.message} />
+                <Toast />
                 <Switch>
                     <Route path="/purchase/:product" render={
                         (props) => (
@@ -233,22 +231,33 @@ export default class AppRouter extends React.Component<{}, IAppRouterState> {
     }
 
     private showError(message: string, time: number) {
-        this.setState({ 
-            message,
-            type: ToastType.Error
-        })
+        const toast = this.props.addToast(message, ToastType.Error)
         setTimeout(() => {
-            this.setState({ message: "" })
+            this.props.removeToast(toast.id)
         }, time); 
     }
 
     private showSuccess(message: string, time: number) {
-        this.setState({ 
-            message,
-            type: ToastType.Success
-        })
+        const toast = this.props.addToast(message, ToastType.Success)
         setTimeout(() => {
-            this.setState({ message: "" })
+            this.props.removeToast(toast.id)
         }, time); 
     }
 }
+
+const mapState = (state : IState) => {
+    return {}
+}
+
+const mapDispatch = {
+    addToast: addToast,
+    removeToast: removeToast
+}
+
+const connector = connect(mapState, mapDispatch);
+
+type PropsFromRedux = ConnectedProps<typeof connector>
+
+type Props = PropsFromRedux;
+
+export default connector(AppRouter)

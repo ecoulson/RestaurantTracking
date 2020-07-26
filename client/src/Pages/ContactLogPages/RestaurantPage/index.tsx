@@ -13,8 +13,6 @@ import ApplicationState from '../../../Page';
 import Axios from "axios";
 import FormValue from '../../../Components/FormInput/FormValue';
 import IFormValue from '../../../Components/FormInput/IFormValue';
-import Toast from '../../../Components/Toast';
-import ToastType from '../../../Components/Toast/ToastType';
 import SlideSwitch from '../../../Components/SlideSwitch';
 import LegalContainer from '../LegalContainer';
 import Icon from '../../../Components/Icon';
@@ -75,7 +73,6 @@ export default class RestaurantPage extends React.Component<IPageProps, IRestaur
     render() {
         return (
             <>
-                <Toast type={ToastType.Error} message={this.state.errorMessage} />
                 <Logo dark/>
                 <OrganizationName>{this.state.restaurantName}</OrganizationName>
                 <Instructions>Please enter one of the following:</Instructions>
