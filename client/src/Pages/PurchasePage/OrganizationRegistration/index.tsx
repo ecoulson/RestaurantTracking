@@ -14,9 +14,12 @@ import RegisterOrganizationRequest from "../../../API/RegisterOrganizationReques
 import AppHistory from "../../../AppHistory";
 import IOrganizationRegistrationProps from "./IOrganizationRegistrationProps";
 import BasicLayout from "../../../Layouts/BasicLayout";
+import { ConnectedProps, connect } from "react-redux";
+import IState from "../../../Store/IState";
+import { UserActions } from "../../../Store/User/types";
 
-export default class OrganizationRegistrationPage extends React.Component<IOrganizationRegistrationProps, IOrganizationRegistrationState> {
-    constructor(props : IOrganizationRegistrationProps) {
+class OrganizationRegistrationPage extends React.Component<Props, IOrganizationRegistrationState> {
+    constructor(props : Props) {
         super(props);
         this.state = {
             address: {
@@ -107,6 +110,40 @@ export default class OrganizationRegistrationPage extends React.Component<IOrgan
 
     onComplete() {
         this.props.showSuccess("Successfully registered organization", 5000);
+        this.props.setUser({
+            profilePicture: this.props.user.profilePicture,
+            username: this.props.user.username,
+            organizations: this.props.user.organizations.concat(this.state.organizationId),
+            email: this.props.user.email,
+            firstName: this.props.user.firstName,
+            lastName: this.props.user.lastName
+        })
         AppHistory.push(`/organizations`);
     }
 }
+
+const mapState = (state : IState) => {
+    return {
+        user: state.user
+    }
+}
+
+const mapDispatch = {
+    setUser: (user : any) => ({
+        type: UserActions.SET,
+        profilePicture: user.profilePicture,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        username: user.username,
+        organizations: user.organizations
+    }),
+}
+
+const connector = connect(mapState, mapDispatch);
+
+type PropsFromRedux = ConnectedProps<typeof connector>
+
+type Props = PropsFromRedux & IOrganizationRegistrationProps
+
+export default connector(OrganizationRegistrationPage)
