@@ -14,19 +14,21 @@ import ProfilePictureType from "./ProfilePictureType";
 import Axios from "axios";
 import Cookie from "../../../lib/Cookie";
 import ToastType from "../../../Components/Toast/ToastType";
-import Toast from "../../../Components/Toast";
 import "./index.css"
 import Form from "../../../Components/Form";
+import { removeToast, addToast } from "../../../Store/Toast/actions";
+import IState from "../../../Store/IState";
+import { connect, ConnectedProps } from "react-redux";
+import wait from "../../../lib/Wait";
+import { UserActions } from "../../../Store/User/types";
 
-export default class ProfilePictureSection extends React.Component<IProfilePictureSectionProps, IProfilePictureSectionState> {
-    constructor(props : IProfilePictureSectionProps) {
+class ProfilePictureSection extends React.Component<Props, IProfilePictureSectionState> {
+    constructor(props : Props) {
         super(props);
         this.state = {
             profilePictureURL: props.profilePictureURL,
             inputType: ProfilePictureType.Image,
             profilePictureType: ProfilePictureType.Image,
-            message: "",
-            type: ToastType.Error
         }
         this.handleInputTypeChange = this.handleInputTypeChange.bind(this);
         this.handleURLChange = this.handleURLChange.bind(this);
@@ -43,10 +45,9 @@ export default class ProfilePictureSection extends React.Component<IProfilePictu
     render() {
         return (
             <BasicSection>
-                <Toast type={this.state.type} message={this.state.message} />
                 <BasicSectionTitle>Profile Picture</BasicSectionTitle>
                 <Form onSubmit={this.updateProfilePicture}>
-                {this.getProfilePicture()}
+                    {this.getProfilePicture()}
                     <SlideSwitch onChange={this.handleInputTypeChange}>
                         <Icon width={25} height={25} icon={IconType.Image} color="black" />
                         <Icon width={25} height={25} icon={IconType.Link} color="black" />
@@ -101,7 +102,7 @@ export default class ProfilePictureSection extends React.Component<IProfilePictu
     private handleURLChange(url : IFormValue<string>) {
         if (!url.valid) {
             this.setState({
-                profilePictureURL: null,
+                profilePictureURL: undefined,
                 profilePicture: undefined
             })
         } else {
@@ -131,46 +132,70 @@ export default class ProfilePictureSection extends React.Component<IProfilePictu
                         "Authorization": `Bearer ${Cookie.getCookie("token")}`
                     }
                 });
-                this.setState({
-                    message: "Updated profile picture",
-                    type: ToastType.Success
+                this.props.setUser({
+                    profilePicture: this.state.profilePictureURL,
+                    username: this.props.user.username,
+                    organizations: this.props.user.organizations,
+                    email: this.props.user.email,
+                    firstName: this.props.user.firstName,
+                    lastName: this.props.user.lastName
                 })
-                setTimeout(() => {
-                    this.setState({
-                        message: ""
-                    })
-                }, 3000)
-            } else {
-                if (this.state.profilePicture) {
-                    const formData = new FormData();
-                    formData.append("avatar", this.state.profilePicture);
-                    await Axios.post("api/user/avatar/file", formData, {
-                        headers: {
-                            "Authorization": `Bearer ${Cookie.getCookie("token")}`,
-                            "Content-Type": 'multipart/form-data'
-                        }
-                    });
-                    this.setState({
-                        message: "Updated profile picture",
-                        type: ToastType.Success
-                    })
-                    setTimeout(() => {
-                        this.setState({
-                            message: ""
-                        })
-                    }, 3000)
-                }
+                const toast = this.props.addToast("Updated profile picture", ToastType.Success)
+                await wait(3000)
+                this.props.removeToast(toast.id)
+            } else if (this.state.profilePicture) {
+                const formData = new FormData();
+                formData.append("avatar", this.state.profilePicture);
+                await Axios.post("api/user/avatar/file", formData, {
+                    headers: {
+                        "Authorization": `Bearer ${Cookie.getCookie("token")}`,
+                        "Content-Type": 'multipart/form-data'
+                    }
+                });
+                this.props.setUser({
+                    profilePicture: this.state.profilePictureURL,
+                    username: this.props.user.username,
+                    organizations: this.props.user.organizations,
+                    email: this.props.user.email,
+                    firstName: this.props.user.firstName,
+                    lastName: this.props.user.lastName
+                })
+                const toast = this.props.addToast("Updated profile picture", ToastType.Success)
+                await wait(3000)
+                this.props.removeToast(toast.id)
             }
         } catch (error) {
-            this.setState({
-                message: "Failed to update profile picture",
-                type: ToastType.Error
-            })
-            setTimeout(() => {
-                this.setState({
-                    message: ""
-                })
-            }, 3000)
+            const toast = this.props.addToast("Failed to update profile picture", ToastType.Error)
+            await wait(3000)
+            this.props.removeToast(toast.id)
         }
     }
 }
+
+const mapState = (state : IState) => {
+    return {
+        user: state.user
+    }
+}
+
+const mapDispatch = {
+    removeToast: removeToast,
+    addToast: addToast,
+    setUser: (user : any) => ({
+        type: UserActions.SET,
+        profilePicture: user.profilePicture,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        username: user.username,
+        organizations: user.organizations
+    }),
+}
+
+const connector = connect(mapState, mapDispatch);
+
+type PropsFromRedux = ConnectedProps<typeof connector>
+
+type Props = PropsFromRedux & IProfilePictureSectionProps
+
+export default connector(ProfilePictureSection)

@@ -5,6 +5,4 @@ export default interface IUserInfoSectionState {
     email: IFormValue<string>;
     username: IFormValue<string>;
     fullName: IFormValue<string[]>;
-    message: string;
-    type: ToastType;
 }

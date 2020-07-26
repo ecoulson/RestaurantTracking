@@ -50,6 +50,7 @@ abstract class RequestComponent<P extends IRequestProps<T>, T = {}> extends Reac
             toast = this.props.addToast(this.getFetchingMessage(), ToastType.Info);
             const response = await this.onLoad();
             this.props.removeToast(toast.id);
+            await wait(500);
             this.setState({
                 completed: true,
                 fetching: false
@@ -68,6 +69,7 @@ abstract class RequestComponent<P extends IRequestProps<T>, T = {}> extends Reac
         } catch (error) {
             if (toast) {
                 this.props.removeToast(toast.id);
+                await wait(500);
             }
             this.setState({
                 completed: true,

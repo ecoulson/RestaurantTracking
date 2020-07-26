@@ -11,12 +11,32 @@ export function toastReducer(state = initialState, action : ToastActionTypes) {
                 messages: state.messages.concat({
                     message: action.message,
                     toastType: action.toastType,
-                    id: action.id
+                    id: action.id,
+                    showing: true,
+                    rendered: false
                 })
             }
         case ToastActions.DEQUEUE_TOAST:
             return {
+                messages: state.messages.map((message) => {
+                    if (message.id === action.id) {
+                        message.showing = false
+                    }
+                    return message;
+                })
+            }
+        case ToastActions.DELETE_TOAST:
+            return {
                 messages: state.messages.filter((message) => message.id !== action.id)
+            }
+        case ToastActions.RENDER_TOAST:
+            return {
+                messages: state.messages.map((message) => {
+                    if (message.id === action.id) {
+                        message.rendered = true
+                    }
+                    return message;
+                })
             }
         default:
             return state;

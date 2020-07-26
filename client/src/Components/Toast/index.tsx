@@ -1,52 +1,40 @@
 import React from "react";
 import IToastProps from "./IToastProps";
 import "./Toast.css";
-import IToastState from "./IToastState";
 import ToastType from "./ToastType";
 import IState from "../../Store/IState";
 import { connect, ConnectedProps } from "react-redux";
-import { removeToast } from "../../Store/Toast/actions";
+import { removeToast, deleteToast, renderToast } from "../../Store/Toast/actions";
+import wait from "../../lib/Wait";
+import { ToastMessage } from "../../Store/Toast/types";
 
-class Toast extends React.Component<Props, IToastState> {
-    constructor(props : Props) {
-        super(props);
-        this.state = {
-            hasDisplayed: false
-        }
-    }
-
+class Toast extends React.Component<Props> {
     render() {
         return this.props.messages.map((toast, i) => {
+            if (!toast.showing) {
+                wait(250).then(() => {
+                    this.props.deleteToast(toast.id)
+                })
+            }
             return (
                 <div 
                     style={{top: `${i * 75 + 10}px`}}
                     onClick={() => this.props.removeToast(toast.id)}
                     key={i}
-                    className={`${this.getVisibleClass(toast.message)} ${this.getToastTheme(toast.toastType)} toast-container`}>
+                    className={`${this.getVisibleClass(toast)} ${this.getToastTheme(toast.toastType)} toast-container`}>
                     <p className="toast-message">{toast.message}</p>
                 </div> 
             )
         })
     }
 
-    componentDidUpdate() {
-        // if (this.state.hasDisplayed || this.props.message !== "") {
-        //     if (!this.state.hasDisplayed) {
-        //         this.setState({
-        //             hasDisplayed: true
-        //         })
-        //     }
-        // }
-    }
-
-    private getVisibleClass(message: string) {
-        // if (!this.state.hasDisplayed && message === "") {
-        //     return "";
-        // } else {
-        //     return message !== "" ?
-        //         "show-toast" : "hide-toast"
-        // }
-        return "show-toast"
+    private getVisibleClass(toast: ToastMessage) {
+        if (toast.rendered) {
+            return "rendered-toast"
+        }
+        return toast.showing ?
+            "show-toast" :
+            "hide-toast"
     }
 
     private getToastTheme(type : ToastType) {
@@ -69,7 +57,9 @@ const mapState = (state : IState) => {
 }
 
 const mapDispatch = {
-    removeToast: removeToast
+    removeToast: removeToast,
+    deleteToast: deleteToast,
+    renderToast: renderToast
 }
 
 const connector = connect(mapState, mapDispatch);

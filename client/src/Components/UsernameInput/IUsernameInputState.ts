@@ -1,5 +1,7 @@
+import { IEnqueueToastAction } from "../../Store/Toast/types";
+
 export default interface IUsernameInputState {
     username: string;
     valid?: boolean;
-    message: string;
+    message: IEnqueueToastAction | null;
 }

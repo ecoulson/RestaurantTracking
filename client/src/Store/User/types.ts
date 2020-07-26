@@ -2,6 +2,7 @@ export interface IUserState {
     hasFetched: boolean;
     isFetching: boolean;
     profilePicture?: string;
+    username: string;
     email: string;
     lastName: string;
     firstName: string;
@@ -20,6 +21,7 @@ interface IGetUserAction {
 interface ISetUserAction {
     type: UserActions.SET,
     profilePicture?: string,
+    username: string,
     lastName: string,
     firstName: string,
     email: string,

@@ -12,18 +12,21 @@ import FormValue from "../../../Components/FormInput/FormValue";
 import Axios from "axios";
 import Cookie from "../../../lib/Cookie";
 import ToastType from "../../../Components/Toast/ToastType";
-import Toast from "../../../Components/Toast";
 import Form from "../../../Components/Form";
+import IState from "../../../Store/IState";
+import { removeToast, addToast } from "../../../Store/Toast/actions";
+import { connect, ConnectedProps } from "react-redux";
+import wait from "../../../lib/Wait";
+import IUser from "../../../API/IUser";
+import { UserActions } from "../../../Store/User/types";
 
-export default class UserInfoSection extends React.Component<IUserInfoSectionProps, IUserInfoSectionState> {
-    constructor(props : IUserInfoSectionProps) {
+class UserInfoSection extends React.Component<Props, IUserInfoSectionState> {
+    constructor(props : Props) {
         super(props);
         this.state = {
             username: new FormValue<string>("", false),
             email: new FormValue<string>("", false),
-            fullName: new FormValue<string[]>([], false),
-            message: "",
-            type: ToastType.Error
+            fullName: new FormValue<string[]>([], false)
         }
         this.handleUsernameChange = this.handleUsernameChange.bind(this);
         this.handleEmailChange = this.handleEmailChange.bind(this);
@@ -42,7 +45,6 @@ export default class UserInfoSection extends React.Component<IUserInfoSectionPro
     render() {
         return(
             <BasicSection>
-                <Toast type={this.state.type} message={this.state.message} />
                 <BasicSectionTitle>Profile Information</BasicSectionTitle>
                 <Form onSubmit={this.updateProfile}>
                     <UsernameInput
@@ -100,39 +102,28 @@ export default class UserInfoSection extends React.Component<IUserInfoSectionPro
                         "Authorization": `Bearer ${Cookie.getCookie("token")}`
                     }
                 })
-                this.setState({
-                    type: ToastType.Success,
-                    message: "Successfully updated your profile"
+                this.props.setUser({
+                    profilePicture: this.props.user.profilePicture,
+                    username: this.state.username.value,
+                    organizations: this.props.user.organizations,
+                    email: this.state.email.value,
+                    firstName: this.state.fullName.value[0],
+                    lastName: this.state.fullName.value.length > 1 ? 
+                    this.state.fullName.value[this.state.fullName.value.length - 1] :
+                    ""
                 })
-                setTimeout(() => {
-                    this.setState({
-                        type: ToastType.Error,
-                        message: ""
-                    })
-                }, 3000)
+                const toast = this.props.addToast("Successfully updated your profile", ToastType.Success)
+                await wait(3000);
+                this.props.removeToast(toast.id)
             } catch (error) {
-                this.setState({
-                    type: ToastType.Error,
-                    message: "Failed to update profile information"
-                })
-                setTimeout(() => {
-                    this.setState({
-                        type: ToastType.Error,
-                        message: ""
-                    })
-                }, 3000)
+                const toast = this.props.addToast("Failed to update profile information", ToastType.Error)
+                await wait(3000);
+                this.props.removeToast(toast.id)
             }
         } else {
-            this.setState({
-                type: ToastType.Error,
-                message: "Please correct errors in your profile information"
-            })
-            setTimeout(() => {
-                this.setState({
-                    type: ToastType.Error,
-                    message: ""
-                })
-            }, 3000)
+            const toast = this.props.addToast("Please correct errors in your profile information", ToastType.Error)
+            await wait(3000);
+            this.props.removeToast(toast.id)
         }
     }
 
@@ -141,3 +132,31 @@ export default class UserInfoSection extends React.Component<IUserInfoSectionPro
             this.state.username.valid;
     }
 }
+
+const mapState = (state : IState) => {
+    return {
+        user: state.user
+    }
+}
+
+const mapDispatch = {
+    removeToast: removeToast,
+    addToast: addToast,
+    setUser: (user : any) => ({
+        type: UserActions.SET,
+        profilePicture: user.profilePicture,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        username: user.username,
+        organizations: user.organizations
+    }),
+}
+
+const connector = connect(mapState, mapDispatch);
+
+type PropsFromRedux = ConnectedProps<typeof connector>
+
+type Props = PropsFromRedux & IUserInfoSectionProps
+
+export default connector(UserInfoSection)

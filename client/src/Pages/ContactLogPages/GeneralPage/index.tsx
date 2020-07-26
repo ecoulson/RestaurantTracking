@@ -23,7 +23,6 @@ import LegalContainer from "../LegalContainer";
 import Icon from "../../../Components/Icon";
 import IconType from "../../../Components/Icon/IconTypes";
 import CheckInType from "../../../lib/CheckInInputType";
-import RestaurantDropdown from "../../../Components/RestaurantDropdown";
 
 export default class GeneralPage extends React.Component<IPageProps, IGeneralPageState> {
     constructor(props : IPageProps) {
@@ -74,12 +73,6 @@ export default class GeneralPage extends React.Component<IPageProps, IGeneralPag
                                 dark 
                                 onChange={this.handleEmail} />
                     }
-                    <RestaurantDropdown 
-                        id="restaurant"
-                        hoverColor="white" 
-                        iconColor="#707070" 
-                        dark 
-                        onChange={this.handleRestaurant} />
                     <DateInput id="date" hoverColor="white" iconColor="#707070" dark onChange={this.handleDate} />
                     <TimeInput id="time" hoverColor="white" iconColor="#707070" dark onChange={this.handleTime} />
                     <Instructions>Please enter one of the following:</Instructions>
