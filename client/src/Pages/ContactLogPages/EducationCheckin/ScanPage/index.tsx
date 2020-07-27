@@ -85,33 +85,20 @@ export default class ScanPage extends React.Component<IScanPageProps, IScanPageS
     }
 
     onCheckOutError() {
-        this.props.showError("Please check out before signing in elsewhere", 5000);
         AppHistory.push(`/check-in/${this.props.match.params.organizationId}/active-check-in`)
     }
 
     onCheckOut() {
-        this.props.showSuccess(`Successfully checked out of ${this.getBuildingName()}`, 5000)
         AppHistory.push(`/check-in/${this.props.match.params.organizationId}/`)
     }
 
-    onGetCheckIn(response : IResponse<ICheckInResponse>) {
-        if (this.shouldCheckOut(response)) {
-            this.setState({
-                checkOut: true
-            })
-        } else {
-            this.props.showError("Please check out before signing in elsewhere", 5000);
-            AppHistory.push(`/check-in/${this.props.match.params.organizationId}/active-check-in`)
-        }
-    }
-
-    shouldCheckOut(response : IResponse<ICheckInResponse>) {
-        return response.data.building.trim().toLowerCase() === 
-            this.props.match.params.building.toLowerCase().split("-").join(" ").trim()
+    onGetCheckIn() {
+        this.setState({
+            checkOut: true
+        })
     }
 
     onCheckIn(response : IResponse<ICheckInResponse>) {
-        this.props.showSuccess(`Successfully checked in to ${this.getBuildingName()}`, 5000)
         Cookie.setCookie("checkInId", response.data._id, 2);
         Cookie.setCookie("timeCheckedIn", response.data.timeCheckedIn, 2);
         AppHistory.push(`/check-in/${this.props.match.params.organizationId}/active-check-in`)

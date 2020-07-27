@@ -1,4 +1,4 @@
-import IFormValue from "../../../../Components/FormInput/IFormValue";
+import IFormValue from "../../../../../Components/FormInput/IFormValue";
 
 export default interface IPINEmailPageState {
     organizationName: string;

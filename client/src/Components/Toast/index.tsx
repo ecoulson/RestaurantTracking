@@ -10,7 +10,9 @@ import { ToastMessage } from "../../Store/Toast/types";
 
 class Toast extends React.Component<Props> {
     render() {
-        return this.props.messages.map((toast, i) => {
+        return this.props.messages.filter((toast) => {
+            return toast.message !== ""
+        }).map((toast, i) => {
             if (!toast.showing) {
                 wait(250).then(() => {
                     this.props.deleteToast(toast.id)

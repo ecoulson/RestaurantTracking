@@ -8,10 +8,6 @@ import { addToast, removeToast } from "../../Store/Toast/actions";
 import { connect } from "react-redux";
 
 class GetCheckInRequest extends RequestComponent<IGetCheckInRequest, ICheckInResponse> {
-    getSuccessMessage() {
-        return "Loaded check in";
-    }
-
     getFailureMessage() {
         return "Failed to get check in"
     }

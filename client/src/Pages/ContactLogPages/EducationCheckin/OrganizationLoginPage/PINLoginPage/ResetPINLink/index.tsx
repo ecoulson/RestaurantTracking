@@ -1,8 +1,8 @@
 import React from "react";
 import "./index.css";
 import IResetPINLinkState from "./IResetPINLinkState";
-import RecoverPasswordRequest from "../../../../../API/RecoverPasswordRequest";
-import Cookie from "../../../../../lib/Cookie";
+import RecoverPasswordRequest from "../../../../../../API/RecoverPasswordRequest";
+import Cookie from "../../../../../../lib/Cookie";
 import IResetPINLinkProps from "./IResetPINLinkProps";
 
 export default class ResetPINLink extends React.Component<IResetPINLinkProps, IResetPINLinkState> {

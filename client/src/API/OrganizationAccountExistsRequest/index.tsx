@@ -11,10 +11,6 @@ class OrganizationAccountExistsRequest extends RequestComponent<IOrganizationAcc
         return "Failed to check if email is registered";
     }
     
-    getSuccessMessage() {
-        return "Organization account exists"
-    }
-
     getErrorStatusMessage() {
         const mapping = new Map<number, string>();
         mapping.set(500, "Something went wrong. Try again later");

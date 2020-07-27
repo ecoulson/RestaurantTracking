@@ -11,10 +11,6 @@ class GetOrganizationNameRequest extends RequestComponent<IGetOrganizationNameRe
         return "Failed to get organization name";
     }
 
-    getSuccessMessage() {
-        return "Got organization name";
-    }
-
     async onLoad() {
         return (await Axios.get(`/api/organization/${this.props.organizationId}/name`)).data;
     }

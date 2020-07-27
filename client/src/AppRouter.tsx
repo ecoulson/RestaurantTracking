@@ -29,9 +29,9 @@ import HelpPage from "./Pages/HelpPage";
 import LegalPage from "./Pages/LegalPage";
 import AuthenticationLayout from "./Layouts/AuthenticationLayout";
 import HomePage from "./Pages/HomePage";
-import PINEmailPage from "./Pages/ContactLogPages/EducationCheckin/PINEmailPage";
-import PINLoginPage from "./Pages/ContactLogPages/EducationCheckin/PINLoginPage";
-import VerifyPINPage from "./Pages/ContactLogPages/EducationCheckin/VerifyPINPage";
+import PINEmailPage from "./Pages/ContactLogPages/EducationCheckin/OrganizationLoginPage/PINEmailPage";
+import PINLoginPage from "./Pages/ContactLogPages/EducationCheckin/OrganizationLoginPage/PINLoginPage";
+import VerifyPINPage from "./Pages/ContactLogPages/EducationCheckin/OrganizationLoginPage/VerifyPINPage";
 import ResetPINPage from "./Pages/ContactLogPages/EducationCheckin/ResetPINPage";
 import CheckInLogoutPage from "./Pages/ContactLogPages/EducationCheckin/CheckInLogoutPage";
 import CancelPasswordResetPage from "./Pages/ContactLogPages/EducationCheckin/CancelPasswordResetPage";
@@ -44,6 +44,7 @@ import OrganizationPage from "./Pages/OrganizationPages";
 import { ConnectedProps, connect } from "react-redux";
 import IState from "./Store/IState";
 import { addToast, removeToast } from "./Store/Toast/actions";
+import OrganizationLoginPage from "./Pages/ContactLogPages/EducationCheckin/OrganizationLoginPage";
 
 class AppRouter extends React.Component<Props, IAppRouterState> {
     constructor(props: Props) {
@@ -150,7 +151,7 @@ class AppRouter extends React.Component<Props, IAppRouterState> {
                     <Route exact path="/check-in/:organizationId/login" render={
                         (props) => (
                             <UnauthenticatedAccessWrapper to={`/check-in/${props.match.params.organizationId}`} showError={this.showError}>
-                                <PINEmailPage {...props} />
+                                <OrganizationLoginPage showSuccess={this.showSuccess} {...props} />
                             </UnauthenticatedAccessWrapper>
                         )
                     }/>

@@ -87,15 +87,15 @@ abstract class RequestComponent<P extends IRequestProps<T>, T = {}> extends Reac
     }
 
     getFailureMessage() : string {
-        return "Failure";
+        return "";
     }
 
     getSuccessMessage() {
-        return "Success";
+        return "";
     }
 
     getFetchingMessage() {
-        return "Fetching...";
+        return "";
     }
 
     private async handleError(error : AxiosError) {

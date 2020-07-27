@@ -28,7 +28,6 @@ export default class CancelPasswordResetPage extends React.Component<ICancelPass
     }
 
     onComplete() {
-        this.props.showSuccess("Canceled password recovery", 500);
         AppHistory.push(`/check-in/${this.props.match.params.organizationId}/login`)
     }
 }
