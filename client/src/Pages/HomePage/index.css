@@ -2,4 +2,5 @@
     position: relative;
     overflow: hidden;
     background: transparent linear-gradient(180deg, #010101 0%, #242C48 50%, #45DFC2 100%) 0% 0% no-repeat padding-box;
+    font-family: 'myriad-pro';
 }

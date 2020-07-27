@@ -4,7 +4,7 @@ import "./index.css";
 export default class ContactLogsImage extends React.Component {
     render() {
         return (
-            <img className="contact-us-image" src="./contactus.png"/>
+            <img alt="Our contact log application displayed on an IPhone that is on top of a stone on a green background" className="contact-us-image" src="./contactus.webp"/>
         )
     }
 }

@@ -29,17 +29,20 @@ export default class ContactLogPricing extends React.Component<IPricingModel, IC
                     <DisplayPricingSection
                         id="number-1"
                         onChange={this.handleTabletopDisplays}
+                        alt="example tabletop display"
                         label="Tabletop Displays"
                         placeHolder="Enter number of tabletop display(s)"
                         image="/table-display.png"/>
                     <DisplayPricingSection 
                         id="number-2"
+                        alt="example wall display"
                         onChange={this.handleWallDisplays} 
                         label="Wall Displays"
                         placeHolder="Enter number of wall display(s)"
                         image="/wall-display.png" />
                     <DisplayPricingSection 
                         id="number-3"
+                        alt="example standing display"
                         onChange={this.handleStandingDisplays} 
                         label="Standing Displays"
                         placeHolder="Enter number of standing display(s)"

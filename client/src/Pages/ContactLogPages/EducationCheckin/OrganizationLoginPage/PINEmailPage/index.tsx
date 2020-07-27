@@ -9,7 +9,6 @@ import Button from "../../../../../Components/Button";
 import OrganizationAccountExistsRequest from "../../../../../API/OrganizationAccountExistsRequest";
 import Instructions from "../../../Instructions";
 import IOrganizationAccountExistsResponse from "../../../../../API/OrganizationAccountExistsRequest/IOrganizationAccountExistsResponse";
-import AppHistory from "../../../../../AppHistory";
 import IResponse from "../../../../../API/IResponse";
 import OrganizationName from "../../../OrganizationName";
 import GetOrganizationNameRequest from "../../../../../API/GetOrganizationNameRequest";
@@ -94,7 +93,7 @@ export default class PINEmailPage extends React.Component<IPINEmailPageProps, IP
     }
 
     onRegister() {
-        AppHistory.push(`/check-in/${this.props.match.params.organizationId}/verify-account/${this.props.location.search}`)
+        this.props.gotoVerifyPage()
     }
 
     onError() {

@@ -19,7 +19,6 @@ import AppHistory from "../../../../AppHistory";
 import ICheckInResponse from "../../../../API/CheckInRequest/ICheckInResponse";
 import Cookie from "../../../../lib/Cookie";
 import CheckInLayout from "../../../../Layouts/CheckInLayout";
-import DropdownInput from "../../../../Components/DropdownInput";
 
 export default class OrganizationCheckInPage extends React.Component<IOrganizationCheckInPageProps, IOrganizationCheckInState> {
     constructor(props: IOrganizationCheckInPageProps) {
