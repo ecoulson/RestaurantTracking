@@ -1,16 +1,27 @@
 .hero {
     width: 100%;
     min-height: 100vh;
-    background: url("./hero-background.webp");
+    box-sizing: border-box;
+    font-family: 'myriad-pro';
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    box-sizing: border-box;
-    font-family: 'myriad-pro';
+}
+
+.webp .hero {
+    background: url("./hero-background.webp");
+}
+
+.no-webp .hero {
+    background: url("./hero-background.png");
 }
 
 @media all and (max-width: 500px) {
-    .hero {
+    .webp .hero {
+        background-size: auto 100vh;
+    }
+
+    .no-webp .hero {
         background-size: auto 100vh;
     }
 }

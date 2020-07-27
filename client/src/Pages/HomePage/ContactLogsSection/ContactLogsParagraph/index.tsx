@@ -12,7 +12,7 @@ export default class ContactLogsParagraph extends React.Component {
                 <p className="contact-logs-paragraph">
                     We offer touch-free check-ins for buildings and rooms. We are committed to working with you to provide quality displays and custom branding. Our displays employ NFC technology for streamlined check-in.
                 </p>
-                <SimpleButton to="/learn-more/contact-logs">Learn More</SimpleButton>
+                <SimpleButton to="/learn-more/contact-logs">Contact Logs</SimpleButton>
             </div>
         )
     }
