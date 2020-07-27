@@ -2,8 +2,8 @@ import React from "react";
 import IOrganizationLoginPageState from "./IOrganizationLoginPageState";
 import PINLoginPage from "./PINLoginPage";
 import IOrganizationLoginPageProps from "./IOrganizationLoginPageProps";
-import VerifyPINPage from "./VerifyPINPage";
-import PINEmailPage from "./PINEmailPage";
+const VerifyPINPage = React.lazy(() => import("./VerifyPINPage"));
+const PINEmailPage = React.lazy(() => import("./PINEmailPage"));
 
 export default class OrganizationLoginPage extends React.Component<IOrganizationLoginPageProps, IOrganizationLoginPageState> {
     constructor(props: IOrganizationLoginPageProps) {
