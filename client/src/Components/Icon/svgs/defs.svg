@@ -1,8 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" viewBox="0 0 0 0">
-    <defs>
-        <linearGradient id="feature" x1="0%" y1="100%" x2="100%" y2="0%" >
-            <stop offset="0%" style="stop-color:rgb(30,39,68);stop-opacity:1" />
-            <stop offset="100%" style="stop-color:rgb(55,210,167);stop-opacity:1" />
-        </linearGradient>
-    </defs>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" viewBox="0 0 0 0"><defs><linearGradient id="feature" x1="0%" x2="100%" y1="100%" y2="0%"><stop offset="0%" style="stop-color:#1e2744;stop-opacity:1"/><stop offset="100%" style="stop-color:#37d2a7;stop-opacity:1"/></linearGradient></defs></svg>
