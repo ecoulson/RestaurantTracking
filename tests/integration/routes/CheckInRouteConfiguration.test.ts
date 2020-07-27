@@ -14,12 +14,18 @@ import ResourceType from "../../../src/lib/Authorization/ResourceType";
 import PermissionSetModel from "../../../src/models/PermissionSet/PermissionSetModel";
 import BuildingModel from "../../../src/models/Building/BuildingModel";
 import BuildingType from "../../../src/models/Building/BuildingType";
+import AppModel from "../../../src/models/App/AppModel";
+import AppType from "../../../src/models/App/AppType";
 
 const userGenerator = new UserGenerator();
 const organizationGenerator = new OrganizationGenerator();
 userGenerator.setVerified();
 let user = userGenerator.generate();
 let organization = organizationGenerator.generate();
+let contactApp = new AppModel({
+    type: AppType.ContactLogs,
+    organizationId: organization.organizationId
+})
 let building = new BuildingModel({
     name: "school",
     type: BuildingType.Academic,
@@ -44,6 +50,11 @@ beforeAll(async () => {
 beforeEach(async () => {
     user = userGenerator.generate();
     organization = organizationGenerator.generate();
+    contactApp = new AppModel({
+        type: AppType.ContactLogs,
+        organizationId: organization.organizationId
+    })
+    organization.apps.push(contactApp.id)
     building = new BuildingModel({
         name: "school",
         type: BuildingType.Academic,
@@ -51,8 +62,8 @@ beforeEach(async () => {
     })
     permission = new PermissionBuilder()
         .setOperations([OperationType.Create])
-        .setResourceId(organization._id)
-        .setResourceType(ResourceType.Organization)
+        .setResourceId(contactApp.id)
+        .setResourceType(ResourceType.ContactLogApp)
         .setRestricted()
         .build();
     let userPermission = new PermissionBuilder()
@@ -82,7 +93,8 @@ beforeEach(async () => {
         organization.save(),
         building.save(),
         userPermission.save(),
-        userPermissionSet.save()
+        userPermissionSet.save(),
+        contactApp.save(),
     ])
     jwt = jsonwebtoken.sign({
         _id: user._id

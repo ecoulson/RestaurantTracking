@@ -48,7 +48,6 @@ class PasswordInput extends React.Component<Props, IPasswordState> {
     }
 
     private checkPassword() {
-        console.log(this.state.message, this.props.messages);
         if (this.state.message) {
             this.props.removeToast(this.state.message.id)
         }
