@@ -69,15 +69,16 @@ ProductDatabase.set("contact-logs", {
     sections: [
         {
             title: "How it works",
+            alt: "image of a phone face down in darkness",
             mediaURL: "https://images.unsplash.com/photo-1526222344609-ca3e80ea3b06?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=4176&q=80",
             description: "When entering a building, individuals hover, scan, or type a bit.ly link to check-in. If a building is under capacity, persons will reach a success page and be instructed to enter the building. If the building is at capacity, students will receive a notice not to enter."
 
         },
         {
             title: "Smart, data informed decisions",
+            alt: "futuristic, transparent panel with blue wires",
             mediaURL: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3450&q=80",
             description: "By analyzing check-in and check-out timestamps, we can notify you of your “chokepoints,” so that you can decrease traffic in high-risk areas. With a simple query, institutions can determine what buildings an infected student has entered. The persons checked-in simultaneously could be encouraged to quarantine for 14 days, and the buildings they entered could be thoroughly sanitized."
-            
         }
     ],
     pricingModel: {
@@ -116,11 +117,13 @@ ProductDatabase.set("contact-logs-business", {
     sections: [
         {
             title: "Touchless check-ins/check-outs",
+            alt: "image of a phone face down in darkness",
             mediaURL: "https://images.unsplash.com/photo-1526222344609-ca3e80ea3b06?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=4176&q=80",
             description: "Adapt Solutions offers touch-free check-ins for buildings and rooms. We are committed to working with you to provide quality displays and custom branding. Our displays employ NFC technology for streamlined check-in. Individuals hover over our poster and will be directed to a page indicating that they can enter the building. We also have QRs incorporated on our poster offer an alternative to NFC chip usage and Bit.ly urls that direct individuals to pages manually."
         },
         {
             title: "Simple Authentication",
+            alt: "futuristic, transparent panel with blue wires",
             mediaURL: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3450&q=80",
             description: "As default, individuals are directed to our site and prompted to provide their email address only once. Once logged in, individuals can seamlessly hover, scan, or enter bit.ly links and be directly connected to a success page allowing them to enter buildings. Pins are sent to emails to allow for individuals to log back into our system in the case they become logged out. For added cost, you can integrate your identification system with our contact log. When individuals are logged in to their institutional accounts, they can automatically begin hovering, scanning, and entering bit.ly urls without providing email addresses or receiving recovery pins. "
         }

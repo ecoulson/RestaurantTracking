@@ -17,7 +17,6 @@ import BasicLayout from "../../../Layouts/BasicLayout";
 import { ConnectedProps, connect } from "react-redux";
 import IState from "../../../Store/IState";
 import { UserActions } from "../../../Store/User/types";
-import { addToast } from "../../../Store/Toast/actions";
 
 class OrganizationRegistrationPage extends React.Component<Props, IOrganizationRegistrationState> {
     constructor(props : Props) {

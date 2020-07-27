@@ -6,8 +6,6 @@ import Button from "../../../Components/Button";
 import IVerifyAccountPageState from "./IVerifyAccountPageState";
 import AuthenticationLayoutText from "../../../Layouts/AuthenticationLayout/AuthenticationLayoutText";
 import LoginContainer from "../../../Layouts/AuthenticationLayout/LoginContainer";
-import Axios from "axios";
-import ToastType from "../../../Components/Toast/ToastType";
 import AuthenticationLayout from "../../../Layouts/AuthenticationLayout";
 import ResendVerificationEmailRequest from "../../../API/ResendVerificationEmailRequest";
 

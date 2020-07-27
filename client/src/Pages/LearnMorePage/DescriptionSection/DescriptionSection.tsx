@@ -3,7 +3,6 @@ import ISingleDescriptionSectionProps from "./ISingleDescriptionSectionProps";
 import "./index.css";
 import LearnMoreSubtitle from "../LearnMoreSubtitle";
 import LearnMoreSectionParagraph from "../LearnMoreSectionParagraph";
-import LearnMoreSection from "../LearnMoreSection";
 
 export default class DescriptionSection extends React.Component<ISingleDescriptionSectionProps> {
     render() {
@@ -30,7 +29,7 @@ export default class DescriptionSection extends React.Component<ISingleDescripti
                     <LearnMoreSectionParagraph>{this.props.section.description}</LearnMoreSectionParagraph>
                 </div>
                 <div className="description-section-image-container">
-                    <img className="description-section-image" src={this.props.section.mediaURL} />
+                    <img alt={this.props.section.alt} className="description-section-image" src={this.props.section.mediaURL} />
                 </div>
             </>
         )
@@ -40,7 +39,7 @@ export default class DescriptionSection extends React.Component<ISingleDescripti
         return (
             <>
                 <div className="description-section-image-container">
-                    <img className="description-section-image" src={this.props.section.mediaURL} />
+                    <img alt={this.props.section.alt} className="description-section-image" src={this.props.section.mediaURL} />
                 </div>
                 <div className="description-section-text-container">
                     <LearnMoreSubtitle>{this.props.section.title}</LearnMoreSubtitle>

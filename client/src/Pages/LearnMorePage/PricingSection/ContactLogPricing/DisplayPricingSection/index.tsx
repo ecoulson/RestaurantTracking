@@ -14,7 +14,8 @@ export default class DisplayPricingSection extends React.Component<IDisplayPrici
         return (
             <div className="display-pricing-section">
                 <img 
-                    className="display-pricing-section-image" 
+                    className="display-pricing-section-image"
+                    alt={this.props.alt} 
                     src={this.props.image} />
                 <NumberInput 
                     id={this.props.id}

@@ -1,6 +1,5 @@
 import React from "react";
 import CheckInMenuContainer from "./CheckInMenuContainer";
-import CheckInMenuClose from "./CheckInMenuClose";
 import ICheckInMenuProps from "./ICheckInMenuProps";
 import CheckInMenuLogoutContainer from "./CheckInMenuLogoutContainer";
 import GetOrganizationNameRequest from "../../../API/GetOrganizationNameRequest";

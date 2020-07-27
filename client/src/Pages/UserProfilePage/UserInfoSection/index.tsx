@@ -17,7 +17,6 @@ import IState from "../../../Store/IState";
 import { removeToast, addToast } from "../../../Store/Toast/actions";
 import { connect, ConnectedProps } from "react-redux";
 import wait from "../../../lib/Wait";
-import IUser from "../../../API/IUser";
 import { UserActions } from "../../../Store/User/types";
 
 class UserInfoSection extends React.Component<Props, IUserInfoSectionState> {

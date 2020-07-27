@@ -2,7 +2,7 @@ import RequestComponent from "../RequestComponent";
 import ICancelPasswordRecoveryRequestProps from "./ICancelPasswordRecoveryRequestProps";
 import Axios from "axios";
 import IState from "../../Store/IState";
-import { connect, ConnectedProps } from "react-redux";
+import { connect } from "react-redux";
 import { addToast, removeToast } from "../../Store/Toast/actions";
 
 class CancelPasswordRecoveryRequest extends RequestComponent<ICancelPasswordRecoveryRequestProps> {
