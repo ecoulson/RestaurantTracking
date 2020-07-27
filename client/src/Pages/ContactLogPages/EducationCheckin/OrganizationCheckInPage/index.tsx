@@ -100,7 +100,6 @@ export default class OrganizationCheckInPage extends React.Component<IOrganizati
     }
 
     onComplete(response : IResponse<ICheckInResponse>) {
-        this.props.showSuccess("Successfully checked in", 5000);
         Cookie.setCookie("checkInId", response.data._id, 2);
         Cookie.setCookie("timeCheckedIn", response.data.timeCheckedIn, 2);
         AppHistory.push(`/check-in/${this.props.match.params.organizationId}/active-check-in`)

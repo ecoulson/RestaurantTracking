@@ -73,7 +73,6 @@ export default class ActiveCheckInPage extends React.Component<IActiveCheckInPag
     }
 
     onCheckOut() {
-        this.props.showSuccess("Successfully checked out", 3000)
         Cookie.eraseCookie("checkInId")
         Cookie.eraseCookie("timeCheckedIn")
         AppHistory.push(`/check-in/${this.props.match.params.organizationId}/`)
