@@ -24,21 +24,19 @@ export default class RegisterOrganizationAccountController implements IRegisterO
                 crypto.randomBytes(10).toString("hex"),
                 request.params.organizationId
             );
-            const values = new Map<string, string>();
-            values.set("organizationId", request.params.organizationId);
-            await this.verifyUserService.verify(new VerifyOrganizationAccountStrategy(
-                new UserBroker(),
-                new EmailService(),
-                user.email
-            ));
+            if (!user.verified) {
+                await this.verifyUserService.verify(new VerifyOrganizationAccountStrategy(
+                    new UserBroker(),
+                    new EmailService(),
+                    user.email
+                ));
+            }
             return new JSONResponse(response).send({});
         }
     }
 
     handleResendVerification() {
         return async (request : Request, response : Response) => {
-            const values = new Map<string, string>();
-            values.set("organizationId", request.params.organizationId);
             await this.verifyUserService.verify(new VerifyOrganizationAccountStrategy(
                 new UserBroker(),
                 new EmailService(),

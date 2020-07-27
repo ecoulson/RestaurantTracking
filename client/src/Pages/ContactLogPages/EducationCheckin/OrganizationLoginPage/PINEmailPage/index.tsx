@@ -1,22 +1,22 @@
 import React from "react";
 import IPINEmailPageProps from "./IPINEmailPageProps";
-import Form from "../../../../Components/Form";
-import EmailInput from "../../../../Components/EmailInput";
+import Form from "../../../../../Components/Form";
+import EmailInput from "../../../../../Components/EmailInput";
 import IPINEmailPageState from "./IPINEmailPageState";
-import FormValue from "../../../../Components/FormInput/FormValue";
-import IFormValue from "../../../../Components/FormInput/IFormValue";
-import Button from "../../../../Components/Button";
-import OrganizationAccountExistsRequest from "../../../../API/OrganizationAccountExistsRequest";
-import Instructions from "../../Instructions";
-import IOrganizationAccountExistsResponse from "../../../../API/OrganizationAccountExistsRequest/IOrganizationAccountExistsResponse";
-import AppHistory from "../../../../AppHistory";
-import IResponse from "../../../../API/IResponse";
-import OrganizationName from "../../OrganizationName";
-import GetOrganizationNameRequest from "../../../../API/GetOrganizationNameRequest";
-import IGetOrganizationNameResponse from "../../../../API/GetOrganizationNameRequest/IGetOrganizationNameResponse";
-import Cookie from "../../../../lib/Cookie";
-import RegisterOrganizationUserRequest from "../../../../API/RegisterOrganizationUserRequest";
-import CheckInLayout from "../../../../Layouts/CheckInLayout";
+import FormValue from "../../../../../Components/FormInput/FormValue";
+import IFormValue from "../../../../../Components/FormInput/IFormValue";
+import Button from "../../../../../Components/Button";
+import OrganizationAccountExistsRequest from "../../../../../API/OrganizationAccountExistsRequest";
+import Instructions from "../../../Instructions";
+import IOrganizationAccountExistsResponse from "../../../../../API/OrganizationAccountExistsRequest/IOrganizationAccountExistsResponse";
+import AppHistory from "../../../../../AppHistory";
+import IResponse from "../../../../../API/IResponse";
+import OrganizationName from "../../../OrganizationName";
+import GetOrganizationNameRequest from "../../../../../API/GetOrganizationNameRequest";
+import IGetOrganizationNameResponse from "../../../../../API/GetOrganizationNameRequest/IGetOrganizationNameResponse";
+import Cookie from "../../../../../lib/Cookie";
+import RegisterOrganizationUserRequest from "../../../../../API/RegisterOrganizationUserRequest";
+import CheckInLayout from "../../../../../Layouts/CheckInLayout";
 
 export default class PINEmailPage extends React.Component<IPINEmailPageProps, IPINEmailPageState> {
     constructor(props : IPINEmailPageProps) {
@@ -87,9 +87,9 @@ export default class PINEmailPage extends React.Component<IPINEmailPageProps, IP
                 register: true
             })
         } else if (!response.data.isVerified) {
-            AppHistory.push(`/check-in/${this.props.match.params.organizationId}/verify-account/${this.props.location.search}`)
+            this.props.gotoVerifyPage()
         } else {
-            AppHistory.push(`/check-in/${this.props.match.params.organizationId}/login-password/${this.props.location.search}`)
+            this.props.gotoPasswordScreen()
         }
     }
 

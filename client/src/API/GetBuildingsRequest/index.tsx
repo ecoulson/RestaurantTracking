@@ -8,10 +8,6 @@ import { connect } from "react-redux";
 import { addToast, removeToast } from "../../Store/Toast/actions";
 
 class GetBuildingsRequest extends RequestComponent<IGetBuildingsRequestProps, IGetBuildingResponse> {
-    getSuccessMessage() {
-        return `Got ${this.props.organizationId}'s buildings`
-    }
-
     getFailureMessage() {
         return `Failed to get ${this.props.organizationId}'s buildings`
     }
