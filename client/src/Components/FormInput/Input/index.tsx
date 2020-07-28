@@ -12,6 +12,7 @@ export default class Input extends React.Component<IInputProps> {
         return (
             <input
                 value={this.props.value}
+                id={this.props.id}
                 autoComplete={this.props.autocomplete ? this.props.autocomplete : "off"}
                 name={this.props.name}
                 disabled={this.props.disabled}
