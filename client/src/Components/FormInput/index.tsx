@@ -7,8 +7,8 @@ import Input from "./Input";
 import IFormInputState from "./IFormInputState";
 import FormValue from "./FormValue";
 import ValidationIcon from "./ValidationIcon";
-import CustomDateInput from "./CustomDateInput";
-import CustomTimeInput from "./CustomTimeInput";
+const CustomDateInput = React.lazy(() => import("./CustomDateInput"));
+const CustomTimeInput = React.lazy(() => import("./CustomTimeInput"));
 
 export default class FormInput extends React.Component<IFormInputProps, IFormInputState> {
     constructor(props : IFormInputProps) {
