@@ -31,8 +31,9 @@ export default class FormInput extends React.Component<IFormInputProps, IFormInp
                 onMouseLeave={this.toggleHover}
                 style={this.getBackgroundColor()} 
                 className={`form-input ${this.getActiveClass()}`}>
-                <Label id={`form-input-${this.props.id}`} dark={this.props.dark}>{this.props.label}</Label>
-                <div className="input-line">
+                <Label id={`form-input-${this.props.id}`} dark={this.props.dark}>
+                    {this.props.label}
+                    <div className="input-line">
                     <Icon 
                         hovered={this.state.focused || this.state.hovered} 
                         hoverColor={this.props.hoverColor}
@@ -41,6 +42,7 @@ export default class FormInput extends React.Component<IFormInputProps, IFormInp
                     {this.getInput()}
                     {this.getValidationIcon()}
                 </div>
+                </Label>
             </div>
         )
     }

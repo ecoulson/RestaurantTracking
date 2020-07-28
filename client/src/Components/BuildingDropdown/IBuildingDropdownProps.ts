@@ -4,6 +4,7 @@ import IBuilding from "../../API/GetBuildingsRequest/IBuilding";
 export default interface IBuildingDropdownProps {
     type: BuildingType;
     organizationId: string;
+    id: string;
     dark? : boolean;
     iconColor? : string;
     hoverColor? : string;

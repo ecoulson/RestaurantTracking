@@ -24,6 +24,8 @@ export default class BuildingDropdown extends React.Component<IBuildingDropdownP
                     organizationId={this.props.organizationId}
                     onComplete={this.onBuildings} />
                 <DropdownInput
+                    id={this.props.id}
+                    label="building dropdown"
                     values={this.state.buildings
                         .filter((building) => building.type === this.props.type)
                         .map((building) => this.capitalize(building.name))
