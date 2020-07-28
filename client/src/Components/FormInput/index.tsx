@@ -56,6 +56,7 @@ export default class FormInput extends React.Component<IFormInputProps, IFormInp
     getInput() {
         if (this.props.type === "time") {
             return <CustomTimeInput
+                id={`form-input-${this.props.id}`}
                 disabled={this.props.disabled}
                 value={this.props.value}
                 onFocus={this.onFocus}
@@ -68,6 +69,7 @@ export default class FormInput extends React.Component<IFormInputProps, IFormInp
                 onChange={this.onChange} />
         } else if (this.props.type === "date") {
             return <CustomDateInput
+                id={`form-input-${this.props.id}`}
                 disabled={this.props.disabled}
                 value={this.props.value}
                 name={this.props.name}
@@ -80,6 +82,7 @@ export default class FormInput extends React.Component<IFormInputProps, IFormInp
                 onChange={this.onChange} />
         } else {
             return <Input
+                id={`form-input-${this.props.id}`}
                 dark={this.props.dark}
                 name={this.props.name}
                 disabled={this.props.disabled}

@@ -12,7 +12,8 @@ import APIRouterConfiguration from "./routes";
 import ErrorHandlingMiddleware from "./middleware/ErrorHandling/ErrorHandlingMiddleware";
 import mongoose from "mongoose";
 import TokenManager from "./services/Token/TokenManger";
-import mongoSanitize from "express-mongo-sanitize"
+import mongoSanitize from "express-mongo-sanitize";
+import compression from "compression";
 
 mongoose.set('useCreateIndex', true);
 
@@ -23,7 +24,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser());
 app.use(cors());
-app.use(mongoSanitize())
+app.use(mongoSanitize());
+app.use(compression());
 
 if (process.env.NODE_ENV !== "test") {
     app.use(session({  

@@ -7,6 +7,7 @@ export default interface IInputProps {
     name: string;
     autocomplete?: string;
     disabled?: boolean;
+    id: string
     onChange: (value: string, event : ChangeEvent) => void;
     onFocus?: (event: FocusEvent) => void;
     onBlur?: (event: FocusEvent) => void;
