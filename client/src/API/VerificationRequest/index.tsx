@@ -14,6 +14,10 @@ class VerificationRequest extends RequestComponent<IVerificationRequestProps> {
         return "Verified account"
     }
 
+    getFetchingMessage() {
+        return "Verifying account...";
+    }
+
     async onLoad() {
         return (await Axios.get(
             `/api/user/verification/verify?email=${this.props.email}&token=${this.props.token}`

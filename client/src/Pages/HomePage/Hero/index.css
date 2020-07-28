@@ -6,9 +6,6 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
-}
-
-.webp .hero {
     background: url("./hero-background.webp");
 }
 

@@ -1,10 +1,7 @@
 import React from "react";
 import IPinLoginPageProps from "./IPINLoginPageProps";
 import IPINLoginPageState from "./IPINLoginPageState";
-import GetOrganizationNameRequest from "../../../../../API/GetOrganizationNameRequest";
-import IGetOrganizationNameResponse from "../../../../../API/GetOrganizationNameRequest/IGetOrganizationNameResponse";
 import IResponse from "../../../../../API/IResponse";
-import OrganizationName from "../../../OrganizationName";
 import Instructions from "../../../Instructions";
 import Form from "../../../../../Components/Form";
 import Button from "../../../../../Components/Button";
@@ -19,19 +16,16 @@ import PasswordInput from "../../../../../Components/PasswordInput";
 import SlideSwitch from "../../../../../Components/SlideSwitch";
 import Icon from "../../../../../Components/Icon";
 import IconType from "../../../../../Components/Icon/IconTypes";
-import CheckInLayout from "../../../../../Layouts/CheckInLayout";
 
 export default class PINLoginPage extends React.Component<IPinLoginPageProps, IPINLoginPageState> {
     constructor(props : IPinLoginPageProps) {
         super(props);
         this.state = {
-            organizationName: "",
             password: new FormValue<string>("", false),
             send: false,
             passwordInputType: 0
         }
 
-        this.onOrganizationName = this.onOrganizationName.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.onLogin = this.onLogin.bind(this);
@@ -41,11 +35,7 @@ export default class PINLoginPage extends React.Component<IPinLoginPageProps, IP
 
     render() {
         return (
-            <CheckInLayout organizationId={this.props.match.params.organizationId} pageTitle="Set Pin">
-                <GetOrganizationNameRequest 
-                    send 
-                    onComplete={this.onOrganizationName}
-                    organizationId={this.props.match.params.organizationId} />
+            <>
                 <PINLoginRequest
                     send={this.state.send}
                     email={Cookie.getCookie("pin_email") as string}
@@ -53,7 +43,6 @@ export default class PINLoginPage extends React.Component<IPinLoginPageProps, IP
                     onComplete={this.onLogin}
                     onError={this.onError}
                     password={this.state.password.value} />
-                <OrganizationName>{this.state.organizationName}</OrganizationName>
                 <Form onSubmit={this.onSubmit}>
                     <SlideSwitch onChange={this.handlePasswordInputType}>
                         <Icon width={25} height={25} icon={IconType.AppsOutline} color="white" />
@@ -63,7 +52,7 @@ export default class PINLoginPage extends React.Component<IPinLoginPageProps, IP
                     <ResetPINLink organizationId={this.props.match.params.organizationId} />
                     <Button dark submit>Submit</Button>
                 </Form>
-            </CheckInLayout>
+            </>
         )
     }
 
@@ -83,11 +72,6 @@ export default class PINLoginPage extends React.Component<IPinLoginPageProps, IP
             </>
     }
 
-    onOrganizationName(response : IResponse<IGetOrganizationNameResponse>) {
-        this.setState({
-            organizationName: response.data.organizationName
-        })
-    }
 
     handlePasswordChange(password : FormValue<string>) {
         this.setState({ password })

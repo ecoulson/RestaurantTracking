@@ -16,6 +16,10 @@ class CheckOutRequest extends RequestComponent<ICheckoutRequestProps, ICheckInRe
         return "Successfully checked out"
     }
 
+    getFetchingMessage() {
+        return "Checking out...";
+    }
+
     async onLoad() {
         return (await Axios.post(`/api/check_in/checkout`, {
             checkInId: this.props.checkInId

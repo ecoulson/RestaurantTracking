@@ -10,10 +10,6 @@ class OrganizationAccountVerificationRequest extends RequestComponent<IOrganizat
         return "Failed to verify user"
     }
 
-    getSuccessMessage() {
-        return "Verified user";
-    }
-
     async onLoad() {
         return (await Axios.post(`/api/organization/account/${this.props.organizationId}/verify`, {
             email: this.props.email,

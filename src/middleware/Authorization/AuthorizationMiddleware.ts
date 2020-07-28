@@ -36,7 +36,7 @@ export default class AuthorizationMiddleware implements IAuthorizationMiddleware
 
     private getAllPermissions(permissionSets : IPermissionSet[]) {
         return permissionSets.reduce((permissions : string[], set : IPermissionSet) => {
-            return permissions.concat(set.permissions)
+            return [...permissions, ...set.permissions]
         }, []);
     }
 

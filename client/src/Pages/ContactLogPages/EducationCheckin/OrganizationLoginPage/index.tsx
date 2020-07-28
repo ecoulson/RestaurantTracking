@@ -2,6 +2,11 @@ import React from "react";
 import IOrganizationLoginPageState from "./IOrganizationLoginPageState";
 import PINLoginPage from "./PINLoginPage";
 import IOrganizationLoginPageProps from "./IOrganizationLoginPageProps";
+import CheckInLayout from "../../../../Layouts/CheckInLayout";
+import GetOrganizationNameRequest from "../../../../API/GetOrganizationNameRequest";
+import IResponse from "../../../../API/IResponse";
+import IGetOrganizationNameResponse from "../../../../API/GetOrganizationNameRequest/IGetOrganizationNameResponse";
+import OrganizationName from "../../OrganizationName";
 const VerifyPINPage = React.lazy(() => import("./VerifyPINPage"));
 const PINEmailPage = React.lazy(() => import("./PINEmailPage"));
 
@@ -11,14 +16,34 @@ export default class OrganizationLoginPage extends React.Component<IOrganization
         this.state = {
             isEnteringPassword: false,
             isVerifying: false,
-            isLogging: true
+            isLogging: true,
+            organizationName: ""
         }
-
+        this.onOrganizationName = this.onOrganizationName.bind(this);
         this.gotoPasswordScreen = this.gotoPasswordScreen.bind(this);
         this.gotoVerifyScreen = this.gotoVerifyScreen.bind(this);
     }
 
     render() {
+        return (
+            <CheckInLayout organizationId={this.props.match.params.organizationId} pageTitle="Login">
+                <GetOrganizationNameRequest 
+                    send 
+                    onComplete={this.onOrganizationName}
+                    organizationId={this.props.match.params.organizationId} />
+                <OrganizationName>{this.state.organizationName}</OrganizationName>
+                {this.renderPage()}
+            </CheckInLayout>
+        );
+    }
+
+    onOrganizationName(response : IResponse<IGetOrganizationNameResponse>) {
+        this.setState({
+            organizationName: response.data.organizationName
+        })
+    }
+
+    renderPage() {
         if (this.state.isEnteringPassword) {
             return <PINLoginPage {...this.props} />
         }

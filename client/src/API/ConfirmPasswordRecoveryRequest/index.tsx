@@ -20,6 +20,10 @@ class ConfirmPasswordRecoveryRequest extends RequestComponent<IConfirmPasswordRe
         return "Confirmed password recovery"
     }
 
+    getFetchingMessage() {
+        return "Confirming password recovery..."
+    }
+
     async onLoad() {
         return (await Axios.get(
             `/api/user/password_recovery/confirm?email=${this.props.email}&token=${this.props.token}`

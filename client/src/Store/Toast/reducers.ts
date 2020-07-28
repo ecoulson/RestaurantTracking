@@ -8,13 +8,13 @@ export function toastReducer(state = initialState, action : ToastActionTypes) {
     switch (action.type) {
         case ToastActions.ENQUEUE_TOAST:
             return {
-                messages: state.messages.concat({
+                messages: [...state.messages, {
                     message: action.message,
                     toastType: action.toastType,
                     id: action.id,
                     showing: true,
                     rendered: false
-                })
+                }]
             }
         case ToastActions.DEQUEUE_TOAST:
             return {

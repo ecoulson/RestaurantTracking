@@ -14,6 +14,10 @@ class RegisterOrganizationRequest extends RequestComponent<IRegisterOrganization
     getFailureMessage() {
         return "Failed to register organization"
     }
+
+    getFetchingMessage() {
+        return "Registering organization..."
+    }
     
     async onLoad() {
         return (await Axios.post('/api/organization/register', {

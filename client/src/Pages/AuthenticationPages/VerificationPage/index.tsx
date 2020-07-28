@@ -41,7 +41,6 @@ export default class VerificationPage extends React.Component<IVerificationPageP
     }
 
     private onComplete() {
-        this.props.showSuccess("Successfully verified account", 3000);
         AppHistory.push("/login");
     }
 }

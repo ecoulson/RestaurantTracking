@@ -14,6 +14,10 @@ class RecoverPasswordRequest extends RequestComponent<IRecoverPasswordRequestPro
         return "Failed to send password reset email"
     }
 
+    getFetchingMessage() {
+        return "Sending password reset email...";
+    }
+
     async onLoad() {
         return (await Axios.post(this.props.url, { 
             email: this.props.email

@@ -1,14 +1,11 @@
 import React from "react";
 import IVerifyPINPageProps from "./IVerifyPINPageProps";
-import OrganizationName from "../../../OrganizationName";
 import Form from "../../../../../Components/Form";
 import Instructions from "../../../Instructions";
 import Button from "../../../../../Components/Button";
 import PINInput from "../../../../../Components/PINInput";
 import IVerifyPINPageState from "./IVerifyPINPageState";
 import IResponse from "../../../../../API/IResponse";
-import IGetOrganizationNameResponse from "../../../../../API/GetOrganizationNameRequest/IGetOrganizationNameResponse";
-import GetOrganizationNameRequest from "../../../../../API/GetOrganizationNameRequest";
 import Cookie from "../../../../../lib/Cookie";
 import FormValue from "../../../../../Components/FormInput/FormValue";
 import IFormValue from "../../../../../Components/FormInput/IFormValue";
@@ -16,19 +13,16 @@ import OrganizationAccountVerificationRequest from "../../../../../API/Organizat
 import AppHistory from "../../../../../AppHistory";
 import PINLoginRequest from "../../../../../API/PINLoginRequest";
 import ILoginResponse from "../../../../../API/LoginRequest/ILoginResponse";
-import CheckInLayout from "../../../../../Layouts/CheckInLayout";
 
 export default class VerifyPINPage extends React.Component<IVerifyPINPageProps, IVerifyPINPageState> {
     constructor(props : IVerifyPINPageProps) {
         super(props);
         this.state = {
             password: new FormValue<string>("", false),
-            organizationName: "",
             send: false,
             shouldLogin: false
         }
 
-        this.onOrganizationName = this.onOrganizationName.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.onComplete = this.onComplete.bind(this);
         this.onError = this.onError.bind(this);
@@ -38,11 +32,7 @@ export default class VerifyPINPage extends React.Component<IVerifyPINPageProps, 
 
     render() {
         return (
-            <CheckInLayout organizationId={this.props.match.params.organizationId} pageTitle="Verify Account">
-                <GetOrganizationNameRequest
-                    send
-                    onComplete={this.onOrganizationName}
-                    organizationId={this.props.match.params.organizationId}/>
+            <>
                 <OrganizationAccountVerificationRequest
                     send={this.state.send}
                     organizationId={this.props.match.params.organizationId}
@@ -57,18 +47,13 @@ export default class VerifyPINPage extends React.Component<IVerifyPINPageProps, 
                     password={this.state.password.value}
                     onError={this.onError}
                     onComplete={this.onLogin} />
-                <OrganizationName>{this.state.organizationName}</OrganizationName>
                 <Form onSubmit={this.onSubmit}>
                     <PINInput onChange={this.handlePasswordChange}/>
                     <Instructions>Enter the 4 digit PIN from the verification email sent to <b>{Cookie.getCookie("pin_email")}</b></Instructions>
                     <Button dark submit>Submit</Button>
                 </Form>
-            </CheckInLayout>
+            </>
         )
-    }
-
-    onOrganizationName(response : IResponse<IGetOrganizationNameResponse>) {
-        this.setState({ organizationName : response.data.organizationName })
     }
 
     handlePasswordChange(password : IFormValue<string>) {
@@ -91,7 +76,6 @@ export default class VerifyPINPage extends React.Component<IVerifyPINPageProps, 
 
     onLogin(response : IResponse<ILoginResponse>) {
         Cookie.setCookie("token", response.data.token, 365);
-        this.props.showSuccess("Successfully verified user", 5000)
         const urlParams = new URLSearchParams(this.props.location.search as string)
         if (urlParams.has("building")) {
             AppHistory.push(`/check-in/${this.props.match.params.organizationId}/scan/${urlParams.get("building")}`)

@@ -15,6 +15,10 @@ class SendPINVerificationRequest extends RequestComponent<ISendPINVerificationRe
         return "Failed to resend email";
     }
 
+    getFetchingMessage() {
+        return "Sending verification email..."
+    }
+
     async onLoad() {
         return (await Axios.post(`/api/organization/account/${this.props.organizationId}/resend-verification/`, {
             email: this.props.email

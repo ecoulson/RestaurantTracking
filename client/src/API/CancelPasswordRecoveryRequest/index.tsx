@@ -14,6 +14,10 @@ class CancelPasswordRecoveryRequest extends RequestComponent<ICancelPasswordReco
         return "Successfully canceled password reset";
     }
 
+    getFetchingMessage() {
+        return "Canceling password reset...";
+    }
+
     getErrorStatusMessage() {
         const mapping = new Map<number, string>();
         mapping.set(400, "Invalid request");

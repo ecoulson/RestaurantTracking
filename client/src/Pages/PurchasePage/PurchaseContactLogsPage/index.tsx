@@ -62,7 +62,6 @@ class PurchaseContactLogsPage extends React.Component<Props, IPurchaseContactLog
     }
 
     onComplete() {
-        this.props.showSuccess("Registered contact logs app", 5000)
         AppHistory.push("/dashboard")
     }
 

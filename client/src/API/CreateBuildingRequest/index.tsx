@@ -15,6 +15,10 @@ class CreateBuildingRequest extends RequestComponent<ICreateBuildingRequest> {
         return "Failed to create building";
     }
 
+    getFetchingMessage() {
+        return "Creating building..."
+    }
+
     async onLoad() {
         return (await Axios.post('/api/building', {
             organizationId: this.props.organizationId,

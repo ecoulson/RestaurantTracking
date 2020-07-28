@@ -16,6 +16,10 @@ class CheckInRequest extends RequestComponent<ICheckInRequestProps, ICheckInResp
         return "Failed to check in"
     }
 
+    getFetchingMessage() {
+        return "Checking in..."
+    }
+
     async onLoad() {
         return (await Axios.post(`/api/check_in/`, {
             organizationId: this.props.organizationId,

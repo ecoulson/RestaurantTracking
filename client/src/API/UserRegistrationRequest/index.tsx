@@ -14,6 +14,10 @@ class UserRegistrationRequest extends RequestComponent<IUserRegistrationRequestP
         return "Successfully registered account, please check your email"
     }
 
+    getFetchingMessage() {
+        return "Registering user..."
+    }
+
     async onLoad() {
         return (await Axios.post("/api/user/registration/register", {
             username: this.props.username,
