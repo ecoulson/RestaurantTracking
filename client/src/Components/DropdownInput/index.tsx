@@ -34,7 +34,8 @@ export default class DropdownInput extends React.Component<IDropdownInputProps, 
                         {this.renderElements()}
                     </div>
                 </div>
-                <select className="dropdown-input-native" ref={this.selectRef}>
+                <label className="dropdown-label" htmlFor={`dropdown-input-${this.props.id}`}>{this.props.label}</label>
+                <select id={`dropdown-input-${this.props.id}`} className="dropdown-input-native" ref={this.selectRef}>
                     {this.renderOptions()}
                 </select>
             </>
@@ -52,15 +53,15 @@ export default class DropdownInput extends React.Component<IDropdownInputProps, 
     }
 
     renderOptions() {
-        return this.props.values.map((value) => {
-            return <option value={value}>{value}</option>
+        return this.props.values.map((value, i) => {
+            return <option key={i} value={value}>{value}</option>
         })
     }
 
     renderElements() {
         return this.props.values.map((value, i) => {
             return (
-                <div id={`option-${0}`} onClick={this.selectValue} className="dropdown-input-option">
+                <div key={i} id={`option-${0}`} onClick={this.selectValue} className="dropdown-input-option">
                     {value}
                 </div>
             )

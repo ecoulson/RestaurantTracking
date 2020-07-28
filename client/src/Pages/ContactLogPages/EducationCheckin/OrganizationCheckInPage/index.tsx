@@ -73,10 +73,12 @@ export default class OrganizationCheckInPage extends React.Component<IOrganizati
     private getDropdown() {
         return this.state.dropdownInputType === 0 ?
             <BuildingDropdown 
+                id="academic-buildings"
                 type={BuildingType.Academic} 
                 organizationId={this.props.match.params.organizationId}
                 onChange={this.handleBuildingChange} /> :
             <BuildingDropdown 
+                id="residential-buildings"
                 type={BuildingType.Residential}
                 organizationId={this.props.match.params.organizationId}
                 onChange={this.handleBuildingChange} />
