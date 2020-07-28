@@ -15,6 +15,10 @@ class PINLoginRequest extends RequestComponent<IPINLoginRequestProps, IPINLoginR
         return "Successfully logged in"
     }
 
+    getFetchingMessage() {
+        return "Logging in..."
+    }
+
     async onLoad() {
         return (await Axios.post(`/api/organization/account/${this.props.organizationId}/login`, {
             email: this.props.email,

@@ -10,18 +10,13 @@ import OrganizationAccountExistsRequest from "../../../../../API/OrganizationAcc
 import Instructions from "../../../Instructions";
 import IOrganizationAccountExistsResponse from "../../../../../API/OrganizationAccountExistsRequest/IOrganizationAccountExistsResponse";
 import IResponse from "../../../../../API/IResponse";
-import OrganizationName from "../../../OrganizationName";
-import GetOrganizationNameRequest from "../../../../../API/GetOrganizationNameRequest";
-import IGetOrganizationNameResponse from "../../../../../API/GetOrganizationNameRequest/IGetOrganizationNameResponse";
 import Cookie from "../../../../../lib/Cookie";
 import RegisterOrganizationUserRequest from "../../../../../API/RegisterOrganizationUserRequest";
-import CheckInLayout from "../../../../../Layouts/CheckInLayout";
 
 export default class PINEmailPage extends React.Component<IPINEmailPageProps, IPINEmailPageState> {
     constructor(props : IPINEmailPageProps) {
         super(props);
         this.state = {
-            organizationName: "",
             email: new FormValue<string>("", false),
             send: false,
             register: false
@@ -29,14 +24,13 @@ export default class PINEmailPage extends React.Component<IPINEmailPageProps, IP
         this.handleEmailChange = this.handleEmailChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.onSignOn = this.onSignOn.bind(this);
-        this.onOrganizationName = this.onOrganizationName.bind(this);
         this.onError = this.onError.bind(this);
         this.onRegister = this.onRegister.bind(this);
     }
 
     render() {
         return (
-            <CheckInLayout organizationId={this.props.match.params.organizationId} pageTitle="Login">
+            <>
                 <OrganizationAccountExistsRequest 
                     send={this.state.send}
                     onComplete={this.onSignOn}
@@ -49,17 +43,12 @@ export default class PINEmailPage extends React.Component<IPINEmailPageProps, IP
                     onError={this.onError}
                     organizationId={this.props.match.params.organizationId}
                     email={Cookie.getCookie("pin_email") as string} />
-                <GetOrganizationNameRequest 
-                    send
-                    organizationId={this.props.match.params.organizationId} 
-                    onComplete={this.onOrganizationName}/>
-                <OrganizationName>{this.state.organizationName}</OrganizationName>
                 <Form onSubmit={this.onSubmit}>
                     <EmailInput dark id="email" iconColor="#707070" hoverColor="#FFFFFF" onChange={this.handleEmailChange}/>
                     <Instructions>First time here or got logged out? Please enter your school email address.</Instructions>
                     <Button dark submit>Submit</Button>
                 </Form>
-            </CheckInLayout>
+            </>
         )
     }
 
@@ -73,10 +62,6 @@ export default class PINEmailPage extends React.Component<IPINEmailPageProps, IP
                 send: true
             })
         }
-    }
-
-    onOrganizationName(response : IResponse<IGetOrganizationNameResponse>) {
-        this.setState({ organizationName: response.data.organizationName })
     }
 
     onSignOn(response : IResponse<IOrganizationAccountExistsResponse>) {

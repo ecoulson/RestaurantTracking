@@ -14,6 +14,10 @@ class ResetPasswordRequest extends RequestComponent<IResetPasswordRequestProps> 
         return "Successfully reset password"
     }
 
+    getFetchingMessage() {
+        return "Resetting password..."
+    }
+
     async onLoad() {
         return (await Axios.post("/api/user/password_recovery/reset", {
             password: this.props.password,

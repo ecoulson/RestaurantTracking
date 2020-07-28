@@ -11,7 +11,7 @@ LegalDocumentDatabase.set("privacy-policy", {
 Thank you for choosing to be part of our community at Adapt Solutions LLC ("**Company**", "**we**", "**us**", or "**our**"). We are committed to protecting your personal information and your right to privacy. If you have any questions or concerns about this privacy notice, or our practices with regards to your personal information, please contact us at
 <support@adaptsolutions.tech>.
 
-When you visit our website <http://abs.adaptsolutions.tech> (the "**Website**"), and more generally, use any of our services (the "**Services**", which include the Website), we appreciate that you are trusting us with your personal information. We take your privacy very seriously. In this privacy notice, we seek to explain to you in the clearest way possible what information we collect, how we use it and what rights you have in relation to it. We hope you take some time to read through it carefully, as it is important. If there are any terms in this privacy notice that you do not agree with, please discontinue use of our Services immediately.
+When you visit our website <http://adaptsolutions.tech> (the "**Website**"), and more generally, use any of our services (the "**Services**", which include the Website), we appreciate that you are trusting us with your personal information. We take your privacy very seriously. In this privacy notice, we seek to explain to you in the clearest way possible what information we collect, how we use it and what rights you have in relation to it. We hope you take some time to read through it carefully, as it is important. If there are any terms in this privacy notice that you do not agree with, please discontinue use of our Services immediately.
 
 This privacy notice applies to all information collected through our Services (which, as described above, includes our Website), as well as any related services, sales, marketing or events.
 
@@ -46,7 +46,7 @@ _**In Short:** Some information — such as your Internet Protocol (IP) address 
 
 We automatically collect certain information when you visit, use or navigate the  Website. This information does not reveal your specific identity (like your name or contact information) but may include device and usage information, such as your IP address, browser and device characteristics, operating system, language preferences, referring URLs, device name, country, location, information about who and when you use our  Website  and other technical information. This information is primarily needed to maintain the security and operation of our  Website, and for our internal analytics and reporting purposes.
 
-Like many businesses, we also collect information through cookies and similar technologies.  You can find out more about this in our Cookie Notice:  <https://abs.adaptsolutions.tech/legal/cookie-policy>.
+Like many businesses, we also collect information through cookies and similar technologies.  You can find out more about this in our Cookie Notice:  <https://adaptsolutions.tech/legal/cookie-policy>.
 
 The information we collect includes:
 
@@ -110,7 +110,7 @@ More specifically, we may need to process your data or share your personal infor
             text: `
 **_In Short:_** _We may use cookies and other tracking technologies to collect and store your information._
 
-We may use cookies and similar tracking technologies (like web beacons and pixels) to access or store information. Specific information about how we use such technologies and how you can refuse certain cookies is set out in our Cookie Notice:  [https://abs.adaptsolutions.tech/cookie-policy](https://abs.adaptsolutions.tech/cookie-policy).`
+We may use cookies and similar tracking technologies (like web beacons and pixels) to access or store information. Specific information about how we use such technologies and how you can refuse certain cookies is set out in our Cookie Notice:  [https://adaptsolutions.tech/cookie-policy](https://adaptsolutions.tech/cookie-policy).`
         },
         {
             title: "How Long Do We Keep Your Information?",
@@ -157,7 +157,7 @@ If you would at any time like to review or change the information in your accoun
 
 Upon your request to terminate your account, we will deactivate or delete your account and information from our active databases. However, we may retain some information in our files to prevent fraud, troubleshoot problems, assist with any investigations, enforce our Terms of Use and/or comply with applicable legal requirements.
 
-**Cookies and similar technologies:** Most Web browsers are set to accept cookies by default. If you prefer, you can usually choose to set your browser to remove cookies and to reject cookies. If you choose to remove cookies or reject cookies, this could affect certain features or services of our  Website. To opt-out of interest-based advertising by advertisers on our  Website visit [http://www.aboutads.info/choices/](http://www.aboutads.info/choices/).  For further information, please see our Cookie Notice:  [https://abs.adaptsolutions.tech/cookie-policy](https://abs.adaptsolutions.tech/cookie-policy).
+**Cookies and similar technologies:** Most Web browsers are set to accept cookies by default. If you prefer, you can usually choose to set your browser to remove cookies and to reject cookies. If you choose to remove cookies or reject cookies, this could affect certain features or services of our  Website. To opt-out of interest-based advertising by advertisers on our  Website visit [http://www.aboutads.info/choices/](http://www.aboutads.info/choices/).  For further information, please see our Cookie Notice:  [https://adaptsolutions.tech/cookie-policy](https://adaptsolutions.tech/cookie-policy).
 
 **Opting out of email marketing:** You can unsubscribe from our marketing email list at any time by clicking on the unsubscribe link in the emails that we send or by contacting us using the details provided below. You will then be removed from the marketing email list – however, we may still communicate with you, for example to send you service-related emails that are necessary for the administration and use of your account, to respond to service requests, or for other non-marketing purposes. To otherwise opt-out, you may:
 
@@ -216,7 +216,7 @@ We may also collect other personal information outside of these categories in in
 
 **How do we use and share your personal information?**
 
-More information about our data collection and sharing practices can be found in this privacy notice and our Cookie Notice:  [https://abs.adaptsolutions.tech/cookie-policy](https://abs.adaptsolutions.tech/cookie-policy).
+More information about our data collection and sharing practices can be found in this privacy notice and our Cookie Notice:  [https://adaptsolutions.tech/cookie-policy](https://adaptsolutions.tech/cookie-policy).
 
 You may contact us  by email at <support@adaptsolutions.tech>, or by referring to the contact details at the bottom of this document.
 
@@ -302,7 +302,7 @@ If you have questions or comments about this notice, you may  email us at  <supp
 
 **HOW CAN YOU REVIEW, UPDATE, OR DELETE THE DATA WE COLLECT FROM YOU?**
 
-Based on the applicable laws of your country, you may have the right to request access to the personal information we collect from you, change that information, or delete it in some circumstances. To request to review, update, or delete your personal information, please  visit:  [http://abs.adaptsolutions.tech/settings](http://abs.adaptsolutions.tech/settings). We will respond to your request within 30 days.
+Based on the applicable laws of your country, you may have the right to request access to the personal information we collect from you, change that information, or delete it in some circumstances. To request to review, update, or delete your personal information, please  visit:  [http://adaptsolutions.tech/settings](http://adaptsolutions.tech/settings). We will respond to your request within 30 days.
 
 This privacy policy was created using  [Termly’s Privacy Policy Generator](https://termly.io/products/privacy-policy-generator/?ftseo).`
         }
@@ -318,7 +318,7 @@ LegalDocumentDatabase.set("terms-and-conditions", {
         {
             title: "Agreement To Terms",
             text: `
-These Terms of Use constitute a legally binding agreement made between you, whether personally or on behalf of an entity (“you”) and  Adapt Solutions LLC  ("**Company**", “**we**”, “**us**”, or “**our**”), concerning your access to and use of the  [http://abs.adaptsolutions.tech](http://abs.adaptsolutions.tech/) website as well as any of out other websites and media form, media channel, mobile website or mobile application related, linked, or otherwise connected thereto (collectively, the “Site”). You agree that by accessing the Site, you have read, understood, and agreed to be bound by all of these Terms of Use. IF YOU DO NOT AGREE WITH ALL OF THESE TERMS OF USE, THEN YOU ARE EXPRESSLY PROHIBITED FROM USING THE SITE AND YOU MUST DISCONTINUE USE IMMEDIATELY.
+These Terms of Use constitute a legally binding agreement made between you, whether personally or on behalf of an entity (“you”) and  Adapt Solutions LLC  ("**Company**", “**we**”, “**us**”, or “**our**”), concerning your access to and use of the  [http://adaptsolutions.tech](http://adaptsolutions.tech/) website as well as any of out other websites and media form, media channel, mobile website or mobile application related, linked, or otherwise connected thereto (collectively, the “Site”). You agree that by accessing the Site, you have read, understood, and agreed to be bound by all of these Terms of Use. IF YOU DO NOT AGREE WITH ALL OF THESE TERMS OF USE, THEN YOU ARE EXPRESSLY PROHIBITED FROM USING THE SITE AND YOU MUST DISCONTINUE USE IMMEDIATELY.
 
 Supplemental terms and conditions or documents that may be posted on the Site from time to time are hereby expressly incorporated herein by reference. We reserve the right, in our sole discretion, to make changes or modifications to these Terms of Use at any time and for any reason. We will alert you about any changes by updating the “Last updated” date of these Terms of Use, and you waive any right to receive specific notice of each such change. It is your responsibility to periodically review these Terms of Use to stay informed of updates. You will be subject to, and will be deemed to have been made aware of and to have accepted, the changes in any revised Terms of Use by your continued use of the Site after the date such revised Terms of Use are posted.
 
@@ -452,7 +452,7 @@ We reserve the right, but not the obligation, to: (1) monitor the Site for viola
         {
             title: "Privacy Policy",
             text: `
-We care about data privacy and security. Please review our Privacy Policy: **<http://abs.adaptsolutions.tech/legal/privacy-policy>**. By using the Site, you agree to be bound by our Privacy Policy, which is incorporated into these Terms of Use. Please be advised the Site is hosted in  the  United States. If you access the Site from any other region of the world with laws or other requirements governing personal data collection, use, or disclosure that differ from applicable laws in  the  United States, then through your continued use of the Site, you are transferring your data to  the  United States, and you agree to have your data transferred to and processed in  the  United States.`
+We care about data privacy and security. Please review our Privacy Policy: **<http://adaptsolutions.tech/legal/privacy-policy>**. By using the Site, you agree to be bound by our Privacy Policy, which is incorporated into these Terms of Use. Please be advised the Site is hosted in  the  United States. If you access the Site from any other region of the world with laws or other requirements governing personal data collection, use, or disclosure that differ from applicable laws in  the  United States, then through your continued use of the Site, you are transferring your data to  the  United States, and you agree to have your data transferred to and processed in  the  United States.`
         },
         {
             title: "Copyright Infringements",

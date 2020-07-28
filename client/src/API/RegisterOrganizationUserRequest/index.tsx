@@ -14,6 +14,10 @@ class RegisterOrganizationUserRequest extends RequestComponent<IRegisterOrganiza
         return "Failed to register user"
     }
 
+    getFetchingMessage() {
+        return "Registering user...";
+    }
+
     async onLoad() {
         return (await Axios.post(`/api/organization/account/${this.props.organizationId}/register`, {
             email: this.props.email

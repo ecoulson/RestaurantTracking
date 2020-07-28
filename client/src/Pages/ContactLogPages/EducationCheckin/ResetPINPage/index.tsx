@@ -106,7 +106,6 @@ export default class ResetPINPage extends React.Component<IResetPINPageProps, IR
     }
 
     onComplete() {
-        this.props.showSuccess("Succesfully reset password", 500);
         AppHistory.push(`/check-in/${this.props.match.params.organizationId}/login`)
     }
 

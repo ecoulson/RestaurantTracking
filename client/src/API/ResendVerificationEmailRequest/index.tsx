@@ -21,6 +21,10 @@ class ResendVerificationEmailRequest extends RequestComponent<IResendVerificatio
         return mapping;
     }
 
+    getFetchingMessage() {
+        return "Resending verification email request...";
+    }
+
     async onLoad() {
         return (await Axios.post("/api/user/registration/send_verification", {
             email: this.props.email

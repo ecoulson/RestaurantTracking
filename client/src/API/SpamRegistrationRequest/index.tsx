@@ -14,6 +14,10 @@ class SpamRegistrationRequest extends RequestComponent<ISpamRegistrationRequestP
         return "Failed to cancel registration"
     }
 
+    getFetchingMessage() {
+        return "Processing..."
+    }
+
     getErrorStatusMessage() {
         const mapping = new Map<number, string>();
         mapping.set(500, "Something went wrong");

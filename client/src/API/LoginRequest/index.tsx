@@ -21,6 +21,10 @@ class LoginRequest extends RequestComponent<ILoginRequestProps, ILoginResponse> 
         return mapping;
     }
 
+    getFetchingMessage() {
+        return "Logging in..."
+    }
+
     async onLoad() {
         return (await Axios.post("/api/authentication/login", { 
             username: this.props.username, 

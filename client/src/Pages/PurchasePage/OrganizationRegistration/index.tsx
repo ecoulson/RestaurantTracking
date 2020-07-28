@@ -109,11 +109,10 @@ class OrganizationRegistrationPage extends React.Component<Props, IOrganizationR
     }
 
     onComplete() {
-        this.props.showSuccess("Successfully registered organization", 5000);
         this.props.setUser({
             profilePicture: this.props.user.profilePicture,
             username: this.props.user.username,
-            organizations: this.props.user.organizations.concat(this.state.organizationId),
+            organizations: [...this.props.user.organizations, this.state.organizationId],
             email: this.props.user.email,
             firstName: this.props.user.firstName,
             lastName: this.props.user.lastName
