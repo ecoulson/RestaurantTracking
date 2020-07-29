@@ -13,7 +13,7 @@ export default class MarketPlaceItem extends React.Component<IMarketPlaceItemPro
                 <MarketPlaceItemIcon icon={this.props.icon} />
                 <MarketPlaceItemName name={this.props.name} />
                 <MarketPlaceItemDescription desc={this.props.desc} />
-                <MarketPlaceItemInfo to={this.props.to} />
+                <MarketPlaceItemInfo learnMore={this.props.learnMore} purchase={this.props.purchase} />
             </Widget>
         )
     }

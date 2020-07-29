@@ -26,7 +26,7 @@ export default class FormInput extends React.Component<IFormInputProps, IFormInp
     render() {
         return (
             <div 
-                id={`form-input-${this.props.id}`}
+                id={`form-input-${this.props.id}-container`}
                 onMouseEnter={this.toggleHover}
                 onMouseLeave={this.toggleHover}
                 style={this.getBackgroundColor()} 

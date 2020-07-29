@@ -12,7 +12,6 @@ export default class DashboardContainer extends React.Component<IDashboardContai
                 <div className="dashboard-grid">
                     {this.props.children}
                 </div>
-                <LegalFooter />
             </div>
         )
     }

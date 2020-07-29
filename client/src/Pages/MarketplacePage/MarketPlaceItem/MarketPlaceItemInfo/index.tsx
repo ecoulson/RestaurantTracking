@@ -3,6 +3,7 @@ import AppHistory from "../../../../AppHistory";
 import IMarketPlaceItemInfoProps from "./IMarketPlaceItemInfoProps";
 import Button from "../../../../Components/Button";
 import "./index.css"
+import { Link } from "react-router-dom";
 
 export default class MarketPlaceItemInfo extends React.Component<IMarketPlaceItemInfoProps> {
     constructor(props : IMarketPlaceItemInfoProps) {
@@ -13,12 +14,13 @@ export default class MarketPlaceItemInfo extends React.Component<IMarketPlaceIte
     render() {
         return (
             <div className="market-place-item-info-container">
-                <Button onClick={this.redirect}>Learn More</Button>
+                <Link className="learn-more-link" to={this.props.learnMore}>Learn More</Link>
+                <Button onClick={this.redirect}>Purchase</Button>
             </div>
         )
     }
 
     private redirect() {
-        AppHistory.push(this.props.to)
+        AppHistory.push(this.props.purchase)
     }
 }
