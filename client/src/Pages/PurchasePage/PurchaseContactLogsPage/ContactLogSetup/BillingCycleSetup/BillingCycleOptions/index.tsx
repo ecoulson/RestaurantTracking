@@ -1,0 +1,55 @@
+import React from "react";
+import IBillingCycleOptionsProps from "./IBillingCycleOptionsProps";
+import BillingCycleOption from "./BillingCycleOption";
+import "./index.css";
+import IBillingCycleOptionsState from "./IBillingCycleOptionsState";
+import { CartActions } from "../../../../../../Store/Cart/types";
+
+export default class BillingCycleOptions extends React.Component<IBillingCycleOptionsProps, IBillingCycleOptionsState> {
+    constructor(props: IBillingCycleOptionsProps) {
+        super(props);
+        this.state = {
+            activeIndex: 0,
+            item: props.cart.length === 0 ?
+                null :
+                { 
+                    cartItem: props.cart.filter((item) => {
+                        return item.name === "Contact Logs Software"
+                    })[0],
+                    type: CartActions.ADD
+                }
+        }
+    } 
+    
+    render() {
+        return (
+            <div className="billing-cycle-options">
+                {
+                    this.props.plans.map((option, i) => {
+                        return <BillingCycleOption 
+                                    onClick={() => this.handleBillingOptionSelect(i)}
+                                    option={option} 
+                                    active={this.state.activeIndex === i} />
+                    })
+                }
+            </div>
+        )
+    }
+
+    handleBillingOptionSelect(i : number) {
+        if (this.state.item) {
+            this.props.removeFromCart(this.state.item.cartItem.id)
+        }
+        this.setState({
+            activeIndex: i,
+            item: this.props.addToCart({
+                name: "Contact Logs Software",
+                price: this.props.plans[i].cost,
+                quantity: 1,
+                description: `$${this.props.plans[i].cost} Billed ${this.props.plans[i].name}`,
+                productImage: "/light-logo.png",
+                id: ""
+            })
+        })
+    }
+}

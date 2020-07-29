@@ -1,20 +1,20 @@
 import React from "react";
 import "./index.css"
-import IconType from "../../../../Components/Icon/IconTypes";
-import NumberInput from "../../../../Components/NumberInput";
-import Button from "../../../../Components/Button";
+import IconType from "../../../../../Components/Icon/IconTypes";
+import NumberInput from "../../../../../Components/NumberInput";
+import Button from "../../../../../Components/Button";
 import Wrapper from "./Wrapper";
 import LocationNameInput from "./LocationNameInput";
 import DisplayInput from "./DisplayInput";
-import IAddLocationState from "./IAddLocationState";
-import IState from "../../../../Store/IState";
-import { addToCartAction } from "../../../../Store/Cart/actions";
+import ILocationSetupState from "./ILocationSetupState";
+import IState from "../../../../../Store/IState";
+import { addToCartAction } from "../../../../../Store/Cart/actions";
 import { connect, ConnectedProps } from "react-redux";
-import ContactLogPricingStrategy from "../../../LearnMorePage/PricingSection/ContactLogPricing/ContactLogPricingStrategy";
-import TextInput from "../../../../Components/TextInput";
-import FormValue from "../../../../Components/FormInput/FormValue";
+import ContactLogPricingStrategy from "../../../../LearnMorePage/PricingSection/ContactLogPricing/ContactLogPricingStrategy";
+import TextInput from "../../../../../Components/TextInput";
+import FormValue from "../../../../../Components/FormInput/FormValue";
 
-class AddLocation extends React.Component<Props, IAddLocationState> {
+class LocationSetup extends React.Component<Props, ILocationSetupState> {
     private locationInputRef: React.RefObject<TextInput>;
     private displayInputRef: React.RefObject<DisplayInput>;
 
@@ -36,7 +36,7 @@ class AddLocation extends React.Component<Props, IAddLocationState> {
             <Wrapper>
                 <LocationNameInput inputRef={this.locationInputRef} onChange={this.onLocationNameChange} />
                 <DisplayInput ref={this.displayInputRef} onChange={this.onDisplayInput} displayTypes={["wall", "table", "standing"]} />
-                <Button onClick={this.addLocationToCart}>Add Location</Button>
+                <Button onClick={this.addLocationToCart}>Add To Cart</Button>
             </Wrapper>
         )
     }
@@ -131,4 +131,4 @@ type PropsFromRedux = ConnectedProps<typeof connector>
 
 type Props = PropsFromRedux;
 
-export default connector(AddLocation)
+export default connector(LocationSetup)

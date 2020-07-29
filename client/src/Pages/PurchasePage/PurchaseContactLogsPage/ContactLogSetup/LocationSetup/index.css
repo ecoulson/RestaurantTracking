@@ -8,9 +8,19 @@
     padding: 0 15px;
 }
 
+.contact-log-title {
+    text-align: center;
+}
 
 @media all and (min-width: 1000px) {
     .contact-log-checkout {
         display: flex;
     }
+}
+
+.contact-log-description {
+    text-align: center;
+    line-height: 20px;
+    font-size: 16px;
+    font-weight: 300;
 }

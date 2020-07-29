@@ -2,70 +2,56 @@ import React from "react";
 import BasicLayout from "../../../Layouts/BasicLayout";
 import IState from "../../../Store/IState";
 import { ConnectedProps, connect } from "react-redux";
-import IFormValue from "../../../Components/FormInput/IFormValue";
 import Form from "../../../Components/Form";
 import Button from "../../../Components/Button";
-import RegisterAppRequest from "../../../API/RegisterAppRequest";
 import IPurchaseContactLogsPageState from "./IPurchaseContactLogsPageState";
 import IPurchaseContactLogsPageProps from "./IPurchaseContactLogsPageProps";
-import AppHistory from "../../../AppHistory";
 import "./index.css";
-import AddLocation from "./AddLocation";
 import Cart from "../../../Components/Cart";
+import ContactLogSetup from "./ContactLogSetup";
 
 class PurchaseContactLogsPage extends React.Component<Props, IPurchaseContactLogsPageState> {
     constructor(props : Props) {
         super(props);
         this.state = {
-            organizationId: "",
-            send: false
+            page: 0
         }
-        this.onOrganizationChange = this.onOrganizationChange.bind(this);
-        this.onComplete = this.onComplete.bind(this);
-        this.onSubmit = this.onSubmit.bind(this);
-        this.onError = this.onError.bind(this);
+        this.handleCheckoutClick = this.handleCheckoutClick.bind(this)
+        this.handleBackClick = this.handleBackClick.bind(this);
     }
 
     render() {
         return (
             <BasicLayout title="Contact Log Setup">
-                <Form id="contact-log-setup" onSubmit={this.onSubmit}>
-                    <RegisterAppRequest
-                        send={this.state.send}
-                        onComplete={this.onComplete}
-                        onError={this.onError}
-                        organizationId={this.state.organizationId} />
+                {this.state.page === 1 ? <Button onClick={this.handleBackClick}>Back</Button> : null }
+                <Form id="contact-log-setup">
                     <div className="contact-log-checkout">
-                        <AddLocation />
+                        <ContactLogSetup page={this.state.page} />
                         <Cart />
                     </div>
-                    <Button>Checkout</Button>
+                    {this.getButtons()}
                 </Form>
             </BasicLayout>
         )
     }
 
-    onOrganizationChange(index : IFormValue<number>) {
+    handleCheckoutClick() {
         this.setState({
-            organizationId: this.props.organizations[index.value],
+            page: 1
         })
     }
 
-    onSubmit() {
+    handleBackClick() {
         this.setState({
-            send: true
+            page: 0
         })
     }
 
-    onComplete() {
-        AppHistory.push("/dashboard")
-    }
-
-    onError() {
-        this.setState({
-            send: false
-        })
-    }
+    getButtons() {
+        return this.state.page === 0 ?
+            <Button onClick={this.handleCheckoutClick}>Next</Button> :
+            <Button onClick={this.handleCheckoutClick}>Checkout</Button>
+    }   
 }
 
 const mapState = (state : IState) => {

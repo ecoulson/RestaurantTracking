@@ -1,11 +1,11 @@
 import React from "react";
-import SlideSwitch from "../../../../../Components/SlideSwitch";
-import NumberInput from "../../../../../Components/NumberInput";
-import IconType from "../../../../../Components/Icon/IconTypes";
+import SlideSwitch from "../../../../../../Components/SlideSwitch";
+import NumberInput from "../../../../../../Components/NumberInput";
+import IconType from "../../../../../../Components/Icon/IconTypes";
 import IDisplayInputState from "./IDisplayInputState";
 import IDisplayInputProps from "./IDisplayInputProps";
 import "./index.css";
-import ContactLogPricingStrategy from "../../../../LearnMorePage/PricingSection/ContactLogPricing/ContactLogPricingStrategy";
+import ContactLogPricingStrategy from "../../../../../LearnMorePage/PricingSection/ContactLogPricing/ContactLogPricingStrategy";
 
 export default class    DisplayInput extends React.Component<IDisplayInputProps, IDisplayInputState> {
     constructor(props: IDisplayInputProps) {
@@ -23,9 +23,11 @@ export default class    DisplayInput extends React.Component<IDisplayInputProps,
     render() {
         return (
             <>
-                <SlideSwitch optionWidth={100} onChange={this.handleDisplayTypeChange}>
-                    {this.renderSwitchOptions()}
-                </SlideSwitch>
+                <div className="display-input-slide-switch-container">
+                    <SlideSwitch optionWidth={100} onChange={this.handleDisplayTypeChange}>
+                        {this.renderSwitchOptions()}
+                    </SlideSwitch>
+                </div>
                 {this.renderImage()}
                 {this.renderInput()}
             </>

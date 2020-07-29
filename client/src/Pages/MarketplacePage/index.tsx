@@ -13,24 +13,6 @@ export default class MarketplacePage extends React.Component {
                     learnMore="/learn-more/contact-logs" 
                     purchase="/purchase/contact-logs"
                     name="College/University Contact Logs" />
-                <MarketPlaceItem 
-                    icon={IconType.ClipboardList} 
-                    desc=""
-                    learnMore="/learn-more/contact-logs" 
-                    purchase="/purchase/contact-logs"
-                    name="Restaurant Contact Logs" />
-                <MarketPlaceItem 
-                    icon={IconType.ClipboardList} 
-                    desc=""
-                    learnMore="/learn-more/contact-logs" 
-                    purchase="/purchase/contact-logs"
-                    name="Business Contact Logs" />
-                <MarketPlaceItem 
-                    icon={IconType.ClipboardList} 
-                    desc=""
-                    learnMore="/learn-more/contact-logs" 
-                    purchase="/purchase/contact-logs"
-                    name="Sexy Contact Logs" />
             </DashboardLayout>
         )
     }

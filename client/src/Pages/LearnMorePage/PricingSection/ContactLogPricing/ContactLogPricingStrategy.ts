@@ -13,7 +13,8 @@ export default class ContactLogPricingStrategy implements IPricingStrategy {
         return new Map([
             ["standing", 82],
             ["table", 8],
-            ["wall", 15]
+            ["wall", 15],
+            ["software", 1550]
         ])
     }
 

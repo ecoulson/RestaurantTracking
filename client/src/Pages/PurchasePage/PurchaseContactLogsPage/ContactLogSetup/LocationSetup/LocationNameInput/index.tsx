@@ -1,7 +1,7 @@
 import React from "react";
-import IconType from "../../../../../Components/Icon/IconTypes";
+import IconType from "../../../../../../Components/Icon/IconTypes";
 import ILocationNameInputProps from "./ILocationNameInputProps";
-import TextInput from "../../../../../Components/TextInput";
+import TextInput from "../../../../../../Components/TextInput";
 
 export default class LocationNameInput extends React.Component<ILocationNameInputProps> {
     render() {

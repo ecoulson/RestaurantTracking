@@ -1,0 +1,16 @@
+.billing-cycle-options {
+    display: block;
+    height: auto;
+    box-sizing: border-box;
+    padding: 0px 25px;
+    max-width: 800px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+}
+
+@media (min-width: 800px) {
+    .billing-cycle-options {
+        display: flex;
+        justify-content: space-evenly;
+    }
+}
