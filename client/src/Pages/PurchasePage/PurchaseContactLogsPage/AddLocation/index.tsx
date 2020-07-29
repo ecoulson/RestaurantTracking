@@ -10,11 +10,16 @@ import LocationNameInput from "./LocationNameInput";
 import DisplayInput from "./DisplayInput";
 
 export default class AddLocation extends React.Component {
+    constructor(props: {}) {
+        super(props);
+        this.onDisplayInput = this.onDisplayInput.bind(this);
+    }
+
     render() {
         return (
             <Wrapper>
                 <LocationNameInput onChange={() => {}} />
-                <DisplayInput />
+                <DisplayInput onChange={this.onDisplayInput} displayTypes={["wall", "table", "standing"]} />
                 <Button>Add Location</Button>
             </Wrapper>
         )
@@ -29,5 +34,9 @@ export default class AddLocation extends React.Component {
                 placeHolder={"Enter wall displays for this location"}
                 icon={IconType.Image} />
         )
+    }
+
+    onDisplayInput(counts: [string, number][]) {
+        console.log(counts);
     }
 }

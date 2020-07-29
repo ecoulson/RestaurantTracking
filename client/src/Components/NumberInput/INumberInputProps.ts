@@ -7,4 +7,5 @@ export default interface INumberInputProps {
     icon: IconType;
     id: string;
     hoverColor?: string;
+    value?: string;
 }
