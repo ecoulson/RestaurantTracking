@@ -5,7 +5,7 @@ export default class CartPrice extends React.Component {
     render() {
         return (
             <div className="cart-price-container">
-                <span className="total">Total: $69.69</span>
+                <span className="total">Total: $0.00</span>
             </div>
         )
     }

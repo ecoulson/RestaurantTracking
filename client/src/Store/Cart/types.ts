@@ -17,17 +17,17 @@ export enum CartActions {
     UPDATE = "UPDATE"
 }
 
-interface IAddToCartAction {
+export interface IAddToCartAction {
     type: CartActions.ADD;
     cartItem: ICartItem;
 }
 
-interface IRemoveFromCartAction {
+export interface IRemoveFromCartAction {
     type: CartActions.REMOVE;
     id: string;
 }
 
-interface IUpdateItemInCartAction {
+export interface IUpdateItemInCartAction {
     type: CartActions.UPDATE;
     id: string;
     name?: string;

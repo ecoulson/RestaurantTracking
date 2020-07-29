@@ -1,7 +1,7 @@
-import { CartActionTypes, CartActions, ICartItem } from "./types";
+import { CartActions, ICartItem, IAddToCartAction, IRemoveFromCartAction, IUpdateItemInCartAction } from "./types";
 import uuid from "uuid"
 
-export function addToCartAction(cartItem: ICartItem) : CartActionTypes {
+export function addToCartAction(cartItem: ICartItem) : IAddToCartAction {
     return {
         type: CartActions.ADD,
         cartItem : {
@@ -11,14 +11,14 @@ export function addToCartAction(cartItem: ICartItem) : CartActionTypes {
     }
 }
 
-export function removeFromCartAction(id: string) : CartActionTypes {
+export function removeFromCartAction(id: string) : IRemoveFromCartAction {
     return {
         type: CartActions.REMOVE,
         id
     }
 }
 
-export function updateItemInCartAction(id: string) : CartActionTypes {
+export function updateItemInCartAction(id: string) : IUpdateItemInCartAction {
     return {
         type: CartActions.UPDATE,
         id
