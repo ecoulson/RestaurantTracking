@@ -1,12 +1,14 @@
 import { combineReducers } from "redux"
-import { toggleCollapseReducer } from "./NavPanel/reducers";
-import { toggleCheckInMenuReducer } from "./CheckInMenu/reducers";
-import { getUserReducer } from "./User/reducers";
+import { navPanelReducer } from "./NavPanel/reducers";
+import { checkInMenuReducer } from "./CheckInMenu/reducers";
+import { userReducer } from "./User/reducers";
 import { toastReducer } from "./Toast/reducers";
+import { cartReducer } from "./Cart/reducers";
 
 export default combineReducers({
-    navPanel: toggleCollapseReducer,
-    checkInMenu: toggleCheckInMenuReducer,
-    user: getUserReducer,
-    toast: toastReducer
+    navPanel: navPanelReducer,
+    checkInMenu: checkInMenuReducer,
+    user: userReducer,
+    toast: toastReducer,
+    cart: cartReducer,
 })

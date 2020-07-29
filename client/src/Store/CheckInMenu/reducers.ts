@@ -4,7 +4,7 @@ const initialState : ICheckInMenu = {
     hidden: true,
 }
 
-export function toggleCheckInMenuReducer(state = initialState, action : CheckInMenuActionTypes) {
+export function checkInMenuReducer(state = initialState, action : CheckInMenuActionTypes) {
     switch (action.type) {
         case CheckInMenuActions.HIDE:
             return {
