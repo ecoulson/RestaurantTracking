@@ -1,0 +1,9 @@
+.contact-log-checkout {
+    display: flex;
+}
+
+.contact-log-wrapper {
+    width: 60%;
+    box-sizing: border-box;
+    padding: 0 15px;
+}

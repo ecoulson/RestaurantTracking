@@ -13,7 +13,6 @@ export default class BasicLayoutContainer extends React.Component<IBasicLayoutPr
                 {this.getNavPanel()}
                 <div className="basic-layout-page"> 
                     <div className="basic-layout-wrapper">
-                        <DashboardTitle>{this.props.title}</DashboardTitle>
                         <div className="basic-layout-container">
                             {this.props.children}
                         </div>

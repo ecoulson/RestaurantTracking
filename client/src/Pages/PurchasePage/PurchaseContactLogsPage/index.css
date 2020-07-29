@@ -1,0 +1,20 @@
+.contact-log-checkout {
+    display: flex;
+}
+
+.contact-log-wrapper {
+    width: 60%;
+    box-sizing: border-box;
+    padding: 0 15px;
+}
+
+.contact-log-container {
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+#contact-log-setup {
+    max-width: 100%;
+    width: 100%;
+    margin: 0;
+}

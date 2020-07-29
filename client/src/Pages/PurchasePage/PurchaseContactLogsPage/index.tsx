@@ -1,10 +1,7 @@
 import React from "react";
 import BasicLayout from "../../../Layouts/BasicLayout";
-import BasicSectionTitle from "../../../Layouts/BasicLayout/BasicSectionTitle";
 import IState from "../../../Store/IState";
 import { ConnectedProps, connect } from "react-redux";
-import SearchableDropdownInput from "../../../Components/SearchableDropdownInput";
-import IconType from "../../../Components/Icon/IconTypes";
 import IFormValue from "../../../Components/FormInput/IFormValue";
 import Form from "../../../Components/Form";
 import Button from "../../../Components/Button";
@@ -12,6 +9,9 @@ import RegisterAppRequest from "../../../API/RegisterAppRequest";
 import IPurchaseContactLogsPageState from "./IPurchaseContactLogsPageState";
 import IPurchaseContactLogsPageProps from "./IPurchaseContactLogsPageProps";
 import AppHistory from "../../../AppHistory";
+import "./index.css";
+import AddLocation from "./AddLocation";
+import Cart from "../../../Components/Cart";
 
 class PurchaseContactLogsPage extends React.Component<Props, IPurchaseContactLogsPageState> {
     constructor(props : Props) {
@@ -29,21 +29,17 @@ class PurchaseContactLogsPage extends React.Component<Props, IPurchaseContactLog
     render() {
         return (
             <BasicLayout title="Contact Log Setup">
-                <BasicSectionTitle>Add Contact Log To Selected Organization</BasicSectionTitle>
-                <Form onSubmit={this.onSubmit}>
+                <Form id="contact-log-setup" onSubmit={this.onSubmit}>
                     <RegisterAppRequest
                         send={this.state.send}
                         onComplete={this.onComplete}
                         onError={this.onError}
                         organizationId={this.state.organizationId} />
-                    <SearchableDropdownInput 
-                        id="organizations"
-                        label="Organization"
-                        values={this.props.organizations ? this.props.organizations : []} 
-                        icon={IconType.BuildingSolid} 
-                        placeholder="Organization..."
-                        onChange={this.onOrganizationChange} />
-                    <Button submit>Add</Button>
+                    <div className="contact-log-checkout">
+                        <AddLocation />
+                        <Cart />
+                    </div>
+                    <Button>Checkout</Button>
                 </Form>
             </BasicLayout>
         )

@@ -61,11 +61,11 @@ class AppRouter extends React.Component<Props, IAppRouterState> {
                     <Switch>
                         <Route path="/purchase/:product" render={
                             (props) => (
-                                <AuthenticateActiveSession to="/login" showError={this.showError}>
+                                // <AuthenticateActiveSession to="/login" showError={this.showError}>
                                     <Suspense fallback={<BasicLayout title="Loading..." />}>
                                         <PurchasePage showSuccess={this.showSuccess} {...props} />
                                     </Suspense>
-                                </AuthenticateActiveSession>
+                                // </AuthenticateActiveSession>
                             )
                         }/>
                         <Route path="/learn-more/:product" render={

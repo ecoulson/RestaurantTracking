@@ -1,7 +1,7 @@
 import { INavPanel, NavPanelActionTypes, NavPanelActions } from "./types";
 
 const initialState : INavPanel = {
-    collapsed: false,
+    collapsed: true,
     hidden: false,
 }
 

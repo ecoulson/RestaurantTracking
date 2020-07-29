@@ -19,7 +19,7 @@ const NavLinksData : INavLinkData[] = [
     {
         icon: IconType.BreifcaseSolid,
         iconColor: "#b1b1b3",
-        text: "Organizations",
+        text: "Manage",
         to: "/organizations",
         hoverColor: "white"
     }
