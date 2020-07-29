@@ -1,0 +1,12 @@
+.cart-price-container {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding-left: 10px;
+}
+
+.total {
+    float: right;
+    padding: 10px;;
+    border-top: 1px solid black;
+}

@@ -1,0 +1,9 @@
+.cart {
+    position: relative;
+    width: 40%;
+    box-sizing: border-box;
+    padding: 0 15px;
+    border-left: 2px solid black;
+    min-height: 400px;
+    height: 100%;
+}

@@ -8,17 +8,23 @@ import Button from "../../../../Components/Button";
 import Wrapper from "./Wrapper";
 import LocationNameInput from "./LocationNameInput";
 import DisplayInput from "./DisplayInput";
+import IAddLocationState from "./IAddLocationState";
 
-export default class AddLocation extends React.Component {
+export default class AddLocation extends React.Component<{}, IAddLocationState> {
     constructor(props: {}) {
         super(props);
+        this.state = {
+            location: "",
+            counts: []
+        }
         this.onDisplayInput = this.onDisplayInput.bind(this);
+        this.onLocationNameChange = this.onLocationNameChange.bind(this);
     }
 
     render() {
         return (
             <Wrapper>
-                <LocationNameInput onChange={() => {}} />
+                <LocationNameInput onChange={this.onLocationNameChange} />
                 <DisplayInput onChange={this.onDisplayInput} displayTypes={["wall", "table", "standing"]} />
                 <Button>Add Location</Button>
             </Wrapper>
@@ -36,7 +42,11 @@ export default class AddLocation extends React.Component {
         )
     }
 
+    onLocationNameChange(location: string) {
+        this.setState({ location });
+    }
+
     onDisplayInput(counts: [string, number][]) {
-        console.log(counts);
+        this.setState({ counts });
     }
 }
