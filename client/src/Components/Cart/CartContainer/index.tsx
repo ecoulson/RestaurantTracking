@@ -5,7 +5,9 @@ export default class CartContainer extends React.Component {
     render() {
         return (
             <div className="cart">
-                {this.props.children}
+                <div className="cart-container">
+                    {this.props.children}
+                </div>
             </div>
         )
     }

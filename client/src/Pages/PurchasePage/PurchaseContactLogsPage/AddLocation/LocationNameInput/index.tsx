@@ -8,9 +8,11 @@ export default class LocationNameInput extends React.Component<ILocationNameInpu
         return (
             <TextInput 
                 label="Location"
+                ref={this.props.inputRef}
                 icon={IconType.BuildingSolid}
-                iconColor="black"
-                hoverColor="grey"
+                hoverColor="black"
+                iconColor="grey"
+                isValid={true}
                 id="location-name"
                 placeholder="Enter location name..."
                 name="location-name"

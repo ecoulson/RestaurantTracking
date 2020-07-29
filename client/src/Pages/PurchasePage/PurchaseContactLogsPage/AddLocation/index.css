@@ -1,9 +1,16 @@
 .contact-log-checkout {
-    display: flex;
+    display: block;
 }
 
 .contact-log-wrapper {
-    width: 60%;
+    width: 100%;
     box-sizing: border-box;
     padding: 0 15px;
+}
+
+
+@media all and (min-width: 1000px) {
+    .contact-log-checkout {
+        display: flex;
+    }
 }

@@ -1,0 +1,10 @@
+.cart-items {
+    min-height: 500px;
+    padding: 0px 5px;
+    max-height: 80vh;
+    overflow-y: scroll;
+}
+
+.empty-cart-text {
+    text-align: center;
+}

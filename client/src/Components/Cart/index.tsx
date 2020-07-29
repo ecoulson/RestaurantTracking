@@ -16,7 +16,7 @@ class Cart extends React.Component<Props> {
                 <CartItems 
                     items={this.props.cart.items} 
                     removeItem={this.props.removeItem} />
-                <CartPrice />
+                <CartPrice items={this.props.cart.items} />
             </CartContainer>
         )
     }

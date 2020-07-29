@@ -1,3 +1,9 @@
 .display-type-option {
     text-transform: capitalize;
 }
+
+.display-image {
+    width: 100px;
+    margin: 0 auto;
+    display: block;
+}

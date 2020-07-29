@@ -4,7 +4,7 @@ import "./index.css";
 export default class CartTitle extends React.Component {
     render() {
         return (
-            <h1 className="cart-header">Items in your Cart</h1>
+            <h1 className="cart-header">My <b>Cart</b></h1>
         )
     }
 }

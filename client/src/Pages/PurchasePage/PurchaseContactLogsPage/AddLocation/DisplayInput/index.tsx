@@ -5,6 +5,7 @@ import IconType from "../../../../../Components/Icon/IconTypes";
 import IDisplayInputState from "./IDisplayInputState";
 import IDisplayInputProps from "./IDisplayInputProps";
 import "./index.css";
+import ContactLogPricingStrategy from "../../../../LearnMorePage/PricingSection/ContactLogPricing/ContactLogPricingStrategy";
 
 export default class    DisplayInput extends React.Component<IDisplayInputProps, IDisplayInputState> {
     constructor(props: IDisplayInputProps) {
@@ -25,8 +26,8 @@ export default class    DisplayInput extends React.Component<IDisplayInputProps,
                 <SlideSwitch optionWidth={100} onChange={this.handleDisplayTypeChange}>
                     {this.renderSwitchOptions()}
                 </SlideSwitch>
+                {this.renderImage()}
                 {this.renderInput()}
-                {this.renderSelectedDisplays()}
             </>
         )
     }
@@ -37,29 +38,29 @@ export default class    DisplayInput extends React.Component<IDisplayInputProps,
         })
     }
 
-    renderSelectedDisplays() {
-        return <p>{this.getDisplayString()}</p>
-    }
-
-    getDisplayString() {
-        return this.state.counts.reduce((displayString: string[], count) => {
-            return [...displayString, `${!isNaN(count[1]) ? count[1] : 0}x ${this.capitalize(count[0])} Displays`]
-        }, []).join(", ")
-    }
-
     handleDisplayTypeChange(type: number) {
         this.setState({ type })
     }
 
+    renderImage() {
+        const displayName = this.props.displayTypes[this.state.type];
+        return (
+            <img className="display-image" src={`/${displayName.toLowerCase()}-display.png`}/>
+        )
+    }
+
     renderInput() {
         const displayName = this.props.displayTypes[this.state.type];
-        const value = this.state.counts[this.state.type][1]
+        const value = this.state.counts[this.state.type][1];
+        const pricing = new ContactLogPricingStrategy();
+        const breakdown = pricing.getPriceBreakdown();
         return (
             <NumberInput 
                 id={`${displayName}-${this.state.type}`}
                 value={isNaN(value) ? "" : value.toString()}
                 onChange={this.getDisplayChangeHandler()} 
-                label={`${this.capitalize(displayName)} Displays`}
+                hoverColor="black"
+                label={`${this.capitalize(displayName)} Displays ($${breakdown.get(displayName)?.toFixed(2)})`}
                 placeHolder={`Enter ${displayName.toLowerCase()} displays for this location`}
                 icon={IconType.Image} />
         )
