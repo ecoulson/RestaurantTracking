@@ -4,7 +4,7 @@
     border-bottom: 1px solid #707070;
     transition: all 0.25s;
     padding: 5px;
-    width: auto;
+    width: 100%;
 }
 
 .active-dark {
@@ -19,6 +19,10 @@
     margin: 5px 0;
     height: 20px;
     position: relative;
+    display: flex;
+    box-sizing: border-box;
+    width: inherit;
+    justify-content: space-evenly;
 }
 
 .label-container {
@@ -48,19 +52,6 @@
     font-size: 14px;
     z-index: 4;
     text-transform: none;
-}
-
-.or {
-    display: block;
-    width: 36px;
-    border: 1px solid #707070;
-    text-align: center;
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 26px;
-    color: white;
-    padding: 5px 0;
-    margin: 0 auto;
 }
 
 .invalid-field {

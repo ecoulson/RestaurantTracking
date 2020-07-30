@@ -1,18 +1,16 @@
 .form-raw-input {
-    width: 90%;
-    min-width: 250px;
+    width: 100%;
     font-size: 16px;
     line-height: 26px;
     font-weight: 200;
     letter-spacing: 0px;
     height: 24px;
     box-sizing: border-box;
-    position: absolute;
     border:none;
     margin-left: 8px;
     outline: none;
     padding: 0px;
-    top: -4px;
+    margin-top: -4px;
     font-family: 'myriad-pro', 'sans-serif', Helvetica;
 }
 

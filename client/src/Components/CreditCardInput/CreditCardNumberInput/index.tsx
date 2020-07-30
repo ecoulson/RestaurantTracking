@@ -25,10 +25,11 @@ export default class CreditCardNumberInput extends React.Component<ICreditCardNu
                 iconColor="grey"
                 hoverColor="black"
                 name="cardnumber"
+                help="Credit/Debit card number"
                 autocomplete="cc-number"
                 id="credit-card"
                 isValid={this.state.number.valid}
-                placeholder="Credit card number..."
+                placeholder="Card Number"
                 onChange={this.onChange} />
         )
     }

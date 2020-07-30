@@ -46,7 +46,8 @@ export default class FormInput extends React.Component<IFormInputProps, IFormInp
                         {this.renderHelpIcon()}
                         {this.renderHelpTooltip()}
                     </div>
-                    <div className="input-line">
+                </Label>
+                <div className="input-line">
                     <Icon 
                         hovered={this.state.focused || this.state.hovered} 
                         hoverColor={this.props.hoverColor}
@@ -55,7 +56,6 @@ export default class FormInput extends React.Component<IFormInputProps, IFormInp
                     {this.getInput()}
                     {this.getValidationIcon()}
                 </div>
-                </Label>
             </div>
         )
     }

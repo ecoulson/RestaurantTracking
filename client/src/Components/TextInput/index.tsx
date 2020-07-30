@@ -21,7 +21,8 @@ export default class TextInput extends React.Component<ITextInputProps, ITextInp
                 id={this.props.id}
                 name={this.props.name}
                 autocomplete={this.props.autocomplete}
-                placeHolder={this.props.placeholder} 
+                placeHolder={this.props.placeholder}
+                help={this.props.help}
                 label={this.props.label}
                 icon={this.props.icon}
                 iconColor={this.props.iconColor}
