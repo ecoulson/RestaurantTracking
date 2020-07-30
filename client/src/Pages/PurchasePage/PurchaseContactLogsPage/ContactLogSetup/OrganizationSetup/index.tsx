@@ -31,9 +31,11 @@ export default class OrganizationSetup extends React.Component<{}, IOrganization
         return (
             <div className="organization-setup">
                 <h1>Final Steps</h1>
+                <h2>Establishment Information</h2>
                 <OrganizationNameInput onChange={this.handleOrganizationNameChange}  />
                 <OrganizationIdInput value={this.state.organizationId} id="organization-id" onChange={this.handleOrganizationIdChange} />
                 <AddressInput iconColor="gray" hoverColor="black" onChange={() => {}} />
+                <h2>Payment Information</h2>
                 <CreditCardInput />
             </div>
         )

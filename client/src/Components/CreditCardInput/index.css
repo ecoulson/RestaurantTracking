@@ -1,3 +1,19 @@
 .credit-card-input {
     display: flex;
 }
+
+.credit-card-date-container {
+    width: 60%;
+}
+
+.credit-card-zip-container {
+    width: 40%;
+}
+
+.credit-card-number-container {
+    width: 75%
+}
+
+.credit-card-cvc-container {
+    width: 25%;
+}

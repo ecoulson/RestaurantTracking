@@ -19,7 +19,7 @@ export default class CreditCardSecurityCodeInput extends React.Component<ICredit
     render() {
         return (
             <TextInput 
-                label="Security Code"
+                label="CVC"
                 icon={IconType.Lock}
                 iconColor="grey"
                 hoverColor="black"
