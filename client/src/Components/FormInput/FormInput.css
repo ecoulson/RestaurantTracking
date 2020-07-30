@@ -21,6 +21,35 @@
     position: relative;
 }
 
+.label-container {
+    position: relative;
+}
+
+.label-container > .icon {
+    margin-left: 4px;
+}
+
+.label-container:hover {
+    cursor: help;
+}
+
+.label-container:hover > .icon {
+    fill: black;
+}
+
+.form-tool-tip {
+    position: absolute;
+    top: -5px;
+    left: 135px;
+    background-color: rgba(0,0,0, 0.5);
+    color: white;
+    padding: 2px 10px;
+    border-radius: 50px;
+    font-size: 14px;
+    z-index: 4;
+    text-transform: none;
+}
+
 .or {
     display: block;
     width: 36px;

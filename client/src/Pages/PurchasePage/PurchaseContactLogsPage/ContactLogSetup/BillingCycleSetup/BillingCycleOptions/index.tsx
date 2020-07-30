@@ -8,14 +8,15 @@ import { CartActions } from "../../../../../../Store/Cart/types";
 export default class BillingCycleOptions extends React.Component<IBillingCycleOptionsProps, IBillingCycleOptionsState> {
     constructor(props: IBillingCycleOptionsProps) {
         super(props);
+        const subscription = props.cart.filter((item) => {
+            return item.name === "Contact Logs Software"
+        })[0]
         this.state = {
             activeIndex: 0,
-            item: props.cart.length === 0 ?
+            item: !subscription ?
                 null :
                 { 
-                    cartItem: props.cart.filter((item) => {
-                        return item.name === "Contact Logs Software"
-                    })[0],
+                    cartItem: subscription,
                     type: CartActions.ADD
                 }
         }

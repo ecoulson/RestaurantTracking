@@ -16,14 +16,14 @@ class PurchaseContactLogsPage extends React.Component<Props, IPurchaseContactLog
         this.state = {
             page: 0
         }
-        this.handleCheckoutClick = this.handleCheckoutClick.bind(this)
+        this.handleNextClick = this.handleNextClick.bind(this)
         this.handleBackClick = this.handleBackClick.bind(this);
     }
 
     render() {
         return (
             <BasicLayout title="Contact Log Setup">
-                {this.state.page === 1 ? <Button onClick={this.handleBackClick}>Back</Button> : null }
+                {this.state.page > 0 ? <Button onClick={this.handleBackClick}>Back</Button> : null }
                 <Form id="contact-log-setup">
                     <div className="contact-log-checkout">
                         <ContactLogSetup page={this.state.page} />
@@ -35,22 +35,27 @@ class PurchaseContactLogsPage extends React.Component<Props, IPurchaseContactLog
         )
     }
 
-    handleCheckoutClick() {
+    handleNextClick() {
         this.setState({
-            page: 1
+            page: this.state.page + 1
         })
     }
 
     handleBackClick() {
         this.setState({
-            page: 0
+            page: this.state.page - 1
         })
     }
 
     getButtons() {
-        return this.state.page === 0 ?
-            <Button onClick={this.handleCheckoutClick}>Next</Button> :
-            <Button onClick={this.handleCheckoutClick}>Checkout</Button>
+        switch (this.state.page) {
+            case 0:
+                return <Button onClick={this.handleNextClick}>Next</Button>
+            case 1:
+                return <Button onClick={this.handleNextClick}>Checkout</Button>
+            case 2:
+                return <Button onClick={this.handleNextClick}>Continue</Button>
+        }
     }   
 }
 
