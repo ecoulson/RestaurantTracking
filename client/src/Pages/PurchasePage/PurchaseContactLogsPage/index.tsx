@@ -9,24 +9,31 @@ import IPurchaseContactLogsPageProps from "./IPurchaseContactLogsPageProps";
 import "./index.css";
 import Cart from "../../../Components/Cart";
 import ContactLogSetup from "./ContactLogSetup";
+import { CardElement } from "@stripe/react-stripe-js";
 
 class PurchaseContactLogsPage extends React.Component<Props, IPurchaseContactLogsPageState> {
     constructor(props : Props) {
         super(props);
         this.state = {
-            page: 0
+            page: 0,
+            paymentIntentSecret : ""
         }
         this.handleNextClick = this.handleNextClick.bind(this)
         this.handleBackClick = this.handleBackClick.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handlePaymentIntent = this.handlePaymentIntent.bind(this);
     }
 
     render() {
         return (
             <BasicLayout title="Contact Log Setup">
                 {this.state.page > 0 ? <Button onClick={this.handleBackClick}>Back</Button> : null }
-                <Form id="contact-log-setup">
+                <Form onSubmit={this.handleSubmit} id="contact-log-setup">
                     <div className="contact-log-checkout">
-                        <ContactLogSetup page={this.state.page} />
+                        <ContactLogSetup 
+                            cart={this.props.cart}
+                            onPaymentIntent={this.handlePaymentIntent}
+                            page={this.state.page} />
                         <Cart />
                     </div>
                     {this.getButtons()}
@@ -54,14 +61,42 @@ class PurchaseContactLogsPage extends React.Component<Props, IPurchaseContactLog
             case 1:
                 return <Button onClick={this.handleNextClick}>Checkout</Button>
             case 2:
-                return <Button onClick={this.handleNextClick}>Continue</Button>
+                return <Button onClick={this.handleSubmit}>Complete</Button>
         }
-    }   
+    }
+
+    handlePaymentIntent(paymentIntentSecret : string) {
+        console.log(paymentIntentSecret);
+        this.setState({ paymentIntentSecret })
+    }
+    
+    async handleSubmit() {
+        if (this.props.stripe && this.props.elements) {
+            const card = this.props.elements.getElement(CardElement);
+            if (card) {
+                const payload = await this.props.stripe.confirmCardPayment(this.state.paymentIntentSecret, {
+                    payment_method: {
+                        card,
+                        billing_details: {
+                            name: "Test"
+                        }
+                    }
+                });
+                if (payload.error) {
+                    console.error("error")
+                } else {
+                    console.log("check dashboard")
+                }
+            }
+        }
+        
+    }
 }
 
 const mapState = (state : IState) => {
     return {
-        organizations: state.user.organizations
+        organizations: state.user.organizations,
+        cart: state.cart.items
     }
 }
 

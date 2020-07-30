@@ -5,5 +5,4 @@ export default interface IOrganizationSetupState {
     organizationId: string;
     organizationName: string;
     address: IAddress;
-    creditCard: ICreditCard;
 }

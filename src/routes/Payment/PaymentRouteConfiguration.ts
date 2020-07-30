@@ -19,7 +19,7 @@ export default class PaymentRouteConfiguration extends RouterConfiguration {
 
     configureRoutes() {
         this.router.post(
-            '/payments', 
+            '/purchase', 
             new JSONWebTokenAuthenticationStrategy().authenticate(),
             new AuthorizationMiddleware().authorize(OperationType.Update, async (req) => [
                 new ResourceRequest(req.user?.id, ResourceType.User)

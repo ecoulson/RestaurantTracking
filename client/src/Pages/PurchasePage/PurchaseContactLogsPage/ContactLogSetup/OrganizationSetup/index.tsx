@@ -6,12 +6,13 @@ import IOrganizationSetupState from "./IOrganizationSetupState";
 import IFormValue from "../../../../../Components/FormInput/IFormValue";
 import OrganizationNameInput from "./OrganizationNameInput";
 import IAddress from "../../../../../Components/AddressInput/IAddress";
-import CreditCardInput from "../../../../../Components/CreditCardInput";
-import ICreditCard from "../../../../../lib/ICreditCard";
-import FormValue from "../../../../../Components/FormInput/FormValue";
+import Axios from "axios";
+import Cookie from "../../../../../lib/Cookie";
+import IOrganizationSetupProps from "./IOrganizationSetupProps";
+import { CardElement } from "@stripe/react-stripe-js";
 
-export default class OrganizationSetup extends React.Component<{}, IOrganizationSetupState> {
-    constructor(props: {}) {
+export default class OrganizationSetup extends React.Component<IOrganizationSetupProps, IOrganizationSetupState> {
+    constructor(props: IOrganizationSetupProps) {
         super(props);
         this.state = {
             organizationId: "",
@@ -23,18 +24,23 @@ export default class OrganizationSetup extends React.Component<{}, IOrganization
                 country: "",
                 state: "",
                 zip: ""
-            },
-            creditCard: {
-                number: new FormValue<string>("", false),
-                zip: new FormValue<string>("", false),
-                cvc: new FormValue<string>("", false),
-                expirationDate: [new FormValue<string>("", false), new FormValue<string>("", false)]
             }
         }
         this.handleOrganizationIdChange = this.handleOrganizationIdChange.bind(this);
         this.handleOrganizationNameChange = this.handleOrganizationNameChange.bind(this);
         this.handleAddress = this.handleAddress.bind(this);
-        this.handleCreditCardChange = this.handleCreditCardChange.bind(this);
+    }
+
+    async componentWillMount() {
+        const res = await Axios.post('/api/payment/purchase', {
+            cart: this.props.cart
+        }, {
+            headers: {
+                "Authorization": `Bearer ${Cookie.getCookie("token")}`
+            }
+        });
+        console.log(this.props.cart)
+        this.props.onPaymentIntent(res.data.data.paymentIntent.client_secret)
     }
 
     render() {
@@ -46,7 +52,7 @@ export default class OrganizationSetup extends React.Component<{}, IOrganization
                 <OrganizationIdInput value={this.state.organizationId} id="organization-id" onChange={this.handleOrganizationIdChange} />
                 <AddressInput iconColor="gray" hoverColor="black" onChange={this.handleAddress} />
                 <h2>Payment Information</h2>
-                <CreditCardInput onChange={this.handleCreditCardChange} />
+                <CardElement id="card-element" />
             </div>
         )
     }
@@ -78,9 +84,5 @@ export default class OrganizationSetup extends React.Component<{}, IOrganization
 
     handleAddress(address : IAddress) {
         this.setState({ address })
-    }
-
-    handleCreditCardChange(creditCard: ICreditCard) {
-        this.setState({ creditCard });
     }
 }

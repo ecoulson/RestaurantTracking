@@ -47,7 +47,10 @@ export default class ContactLogSetup extends React.Component<IContactLogSetupPro
             case 1:
                 return <LocationSetup />
             case 2:
-                return <OrganizationSetup />
+                return <OrganizationSetup 
+                            onPaymentIntent={this.props.onPaymentIntent}
+                            cart={this.props.cart} 
+                            />
         }
     }
 }

@@ -12,8 +12,8 @@ export default class CartItem extends React.Component<ICartItemProps> {
                 <div className="cart-item-description-container">
                     <h2 className="cart-item-name">{this.props.item.name}</h2>
                     <h3 className="cart-item-description">{
-                        this.props.item.description.split("\n").map((item) => {
-                            return <p className="cart-item-description-item">{item}</p>
+                        this.props.item.description.split("\n").map((item, i) => {
+                            return <p key={i} className="cart-item-description-item">{item}</p>
                         })
                     }</h3>
                 </div>
