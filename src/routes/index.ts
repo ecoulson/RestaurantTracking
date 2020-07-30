@@ -22,6 +22,11 @@ import AppController from "../controllers/App/AppController";
 import RegisterAppService from "../services/App/RegisterAppService";
 import AppBroker from "../brokers/AppBroker";
 import PermissionSetBroker from "../brokers/PermissionSetBroker";
+import PaymentRouteConfiguration from "./Payment/PaymentRouteConfiguration";
+import PaymentController from "../controllers/Payment/PaymentController";
+import PaymentService from "../services/Payment/PaymentService";
+import StripeBroker from "../brokers/StripeBroker";
+import Stripe from "stripe";
 
 export default class APIRouteConfiguration extends RouterConfiguration {
     configureRoutes() {
@@ -59,6 +64,17 @@ export default class APIRouteConfiguration extends RouterConfiguration {
                     new AppBroker(),
                     new PermissionBuilder(),
                     new PermissionSetBroker()
+                )
+            )
+        ).setup())
+        this.router.use("/payment", new PaymentRouteConfiguration(
+            new PaymentController(
+                new PaymentService(
+                    new StripeBroker(
+                        new Stripe(process.env.STRIPE_SECRET_KEY, {
+                            apiVersion: "2020-03-02"
+                        })
+                    )
                 )
             )
         ).setup())
