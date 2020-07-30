@@ -1,4 +1,4 @@
-import React from "react";
+import React, { MouseEvent } from "react";
 import BasicLayout from "../../../Layouts/BasicLayout";
 import IState from "../../../Store/IState";
 import { ConnectedProps, connect } from "react-redux";
@@ -27,7 +27,7 @@ class PurchaseContactLogsPage extends React.Component<Props, IPurchaseContactLog
     render() {
         return (
             <BasicLayout title="Contact Log Setup">
-                {this.state.page > 0 ? <Button onClick={this.handleBackClick}>Back</Button> : null }
+                {this.state.page > 0 ? <Button id="back" onClick={this.handleBackClick}>Back</Button> : null }
                 <Form onSubmit={this.handleSubmit} id="contact-log-setup">
                     <div className="contact-log-checkout">
                         <ContactLogSetup 
@@ -42,13 +42,15 @@ class PurchaseContactLogsPage extends React.Component<Props, IPurchaseContactLog
         )
     }
 
-    handleNextClick() {
+    handleNextClick(e : MouseEvent) {
+        (e.target as HTMLButtonElement).blur()
         this.setState({
             page: this.state.page + 1
         })
     }
 
-    handleBackClick() {
+    handleBackClick(e : MouseEvent) {
+        (e.target as HTMLButtonElement).blur()
         this.setState({
             page: this.state.page - 1
         })
@@ -57,11 +59,11 @@ class PurchaseContactLogsPage extends React.Component<Props, IPurchaseContactLog
     getButtons() {
         switch (this.state.page) {
             case 0:
-                return <Button onClick={this.handleNextClick}>Next</Button>
+                return <Button id="next" onClick={this.handleNextClick}>Next</Button>
             case 1:
-                return <Button onClick={this.handleNextClick}>Checkout</Button>
+                return <Button id="next" onClick={this.handleNextClick}>Checkout</Button>
             case 2:
-                return <Button onClick={this.handleSubmit}>Complete</Button>
+                return <Button id="next" onClick={this.handleSubmit}>Complete</Button>
         }
     }
 

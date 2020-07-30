@@ -7,4 +7,16 @@
     max-width: 100%;
     width: 100%;
     margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+#button-next {
+    margin: 25px 0 0 0;
+    align-self: flex-end;
+}
+
+#button-back {
+    margin: 0;
+    align-self: flex-start;
 }

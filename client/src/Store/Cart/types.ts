@@ -2,6 +2,11 @@ export interface ICart {
     items: ICartItem[]
 }
 
+export enum PaymentType {
+    Payment,
+    Subscription
+}
+
 export interface ICartItem {
     id: string;
     name: string;
