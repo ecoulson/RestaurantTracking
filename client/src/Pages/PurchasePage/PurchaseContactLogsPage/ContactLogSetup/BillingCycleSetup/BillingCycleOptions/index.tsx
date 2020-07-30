@@ -3,7 +3,9 @@ import IBillingCycleOptionsProps from "./IBillingCycleOptionsProps";
 import BillingCycleOption from "./BillingCycleOption";
 import "./index.css";
 import IBillingCycleOptionsState from "./IBillingCycleOptionsState";
-import { CartActions } from "../../../../../../Store/Cart/types";
+import { CartActions, PaymentType } from "../../../../../../Store/Cart/types";
+import BillingCycleSetup from "..";
+import BillingCycleType from "../BillingCycleType";
 
 export default class BillingCycleOptions extends React.Component<IBillingCycleOptionsProps, IBillingCycleOptionsState> {
     constructor(props: IBillingCycleOptionsProps) {
@@ -50,7 +52,9 @@ export default class BillingCycleOptions extends React.Component<IBillingCycleOp
                 quantity: 1,
                 description: `$${this.props.plans[i].cost} Billed ${this.props.plans[i].name}`,
                 productImage: "/light-logo.png",
-                id: ""
+                id: "",
+                type: PaymentType.Subscription,
+                billingPlan: this.props.plans[i].type
             })
         })
     }

@@ -1,3 +1,5 @@
+import BillingCycleType from "../../Pages/PurchasePage/PurchaseContactLogsPage/ContactLogSetup/BillingCycleSetup/BillingCycleType";
+
 export interface ICart {
     items: ICartItem[]
 }
@@ -14,6 +16,8 @@ export interface ICartItem {
     price: number;
     quantity: number;
     productImage: string;
+    type: PaymentType;
+    billingPlan?: BillingCycleType;
 }
 
 export enum CartActions {

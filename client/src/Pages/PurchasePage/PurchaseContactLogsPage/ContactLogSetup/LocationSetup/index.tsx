@@ -13,6 +13,7 @@ import { connect, ConnectedProps } from "react-redux";
 import ContactLogPricingStrategy from "../../../../LearnMorePage/PricingSection/ContactLogPricing/ContactLogPricingStrategy";
 import TextInput from "../../../../../Components/TextInput";
 import FormValue from "../../../../../Components/FormInput/FormValue";
+import { PaymentType } from "../../../../../Store/Cart/types";
 
 class LocationSetup extends React.Component<Props, ILocationSetupState> {
     private locationInputRef: React.RefObject<TextInput>;
@@ -51,7 +52,8 @@ class LocationSetup extends React.Component<Props, ILocationSetupState> {
                 price: this.getPrice(priceBreakdown),
                 quantity: 1,
                 productImage: this.getProductImage(),
-                id: ""
+                id: "",
+                type: PaymentType.Payment
             })
             this.locationInputRef.current?.setState({
                 text: new FormValue("", false)

@@ -68,7 +68,6 @@ class PurchaseContactLogsPage extends React.Component<Props, IPurchaseContactLog
     }
 
     handlePaymentIntent(paymentIntentSecret : string) {
-        console.log(paymentIntentSecret);
         this.setState({ paymentIntentSecret })
     }
     
