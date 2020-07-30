@@ -15,7 +15,7 @@ export default class CreditCardInput extends React.Component<ICreditCardInputPro
         this.state = {
             number: new FormValue<string>("", false),
             cvc: new FormValue<string>("", false),
-            expirationDate: new FormValue<[string, string]>(["", ""], false),
+            expirationDate: [new FormValue("", false), new FormValue("", false)],
             zip: new FormValue<string>("", false)
         }
 
@@ -31,18 +31,18 @@ export default class CreditCardInput extends React.Component<ICreditCardInputPro
             <>
                 <div className="credit-card-input">
                     <div className="credit-card-number-container">
-                        <CreditCardNumberInput onChange={() => {}} />
+                        <CreditCardNumberInput onChange={this.onNumberChange} />
                     </div>
                     <div className="credit-card-cvc-container">
-                        <CreditCardSecurityCodeInput onChange={() => {}} />
+                        <CreditCardSecurityCodeInput onChange={this.onCVCChange} />
                     </div>
                 </div>
                 <div className="credit-card-input">
                     <div className="credit-card-date-container">
-                        <CreditCardExpirationDateInput onChange={() => {}} />
+                        <CreditCardExpirationDateInput onChange={this.onDateChange} />
                     </div>
                     <div className="credit-card-zip-container">
-                        <CreditCardZipInput onChange={() => {}} />
+                        <CreditCardZipInput onChange={this.onZipChange} />
                     </div>
                 </div>
             </>
@@ -57,7 +57,7 @@ export default class CreditCardInput extends React.Component<ICreditCardInputPro
         this.setState({ cvc }, this.handleChange)
     }
 
-    onDateChange(expirationDate : IFormValue<[string, string]>) {
+    onDateChange(expirationDate : [IFormValue<string>, IFormValue<string>]) {
         this.setState({ expirationDate }, this.handleChange)
     }
 

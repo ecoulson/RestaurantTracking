@@ -30,6 +30,7 @@ export default class BillingCycleOptions extends React.Component<IBillingCycleOp
                         return <BillingCycleOption 
                                     onClick={() => this.handleBillingOptionSelect(i)}
                                     option={option} 
+                                    key={i}
                                     active={this.state.activeIndex === i} />
                     })
                 }

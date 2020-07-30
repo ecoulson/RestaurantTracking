@@ -31,8 +31,11 @@ export default class CreditCardZipInput extends React.Component<ICreditCardZipIn
     }
 
     onChange(zip: string) {
+        const match = zip.match(/(^\d{5}$)|(^\d{5}-\d{4}$)/)
         this.setState({
-            zip: new FormValue(zip, zip.match(/(^\d{5}$)|(^\d{5}-\d{4}$)/)?.length === 1)
+            zip: new FormValue(zip, (match ? match[0] : undefined) === zip)
+        }, () => {
+            this.props.onChange(this.state.zip)
         })
     }
 }
