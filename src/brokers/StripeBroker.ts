@@ -99,4 +99,12 @@ export default class StripeBroker {
             throw error;
         }
     }
+
+    async getSetupIntent(setupIntentId: string) {
+        try {
+            return await this.stripe.setupIntents.retrieve(setupIntentId);
+        } catch (error) {
+            throw error;
+        }
+    }
 }

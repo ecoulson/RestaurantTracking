@@ -33,6 +33,7 @@ import StripeWebhookService from "../services/Webhooks/StripeWebhookService";
 import CreateCustomerService from "../services/Payment/CreateCustomer/CreateCustomerService";
 import CreateSubscriptionService from "../services/Payment/CreateSubscription/CreateSubscriptionService";
 import AppActivationHandler from "../services/Stripe/AppActivationHandler";
+import GetSetupIntentService from "../services/Payment/SetupIntent/GetSetupIntentService";
 
 export default class APIRouteConfiguration extends RouterConfiguration {
     configureRoutes() {
@@ -93,7 +94,8 @@ export default class APIRouteConfiguration extends RouterConfiguration {
             new PaymentController(
                 new PaymentService(stripeBroker),
                 new CreateCustomerService(stripeBroker, organizationBroker),
-                new CreateSubscriptionService(stripeBroker)
+                new CreateSubscriptionService(stripeBroker),
+                new GetSetupIntentService(stripeBroker)
             )
         ).setup())
 

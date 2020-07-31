@@ -3,7 +3,6 @@ import BasicLayout from "../../../Layouts/BasicLayout";
 import IState from "../../../Store/IState";
 import { ConnectedProps, connect } from "react-redux";
 import Form from "../../../Components/Form";
-import Button from "../../../Components/Button";
 import IPurchaseContactLogsPageState from "./IPurchaseContactLogsPageState";
 import IPurchaseContactLogsPageProps from "./IPurchaseContactLogsPageProps";
 import "./index.css";
@@ -197,8 +196,37 @@ class PurchaseContactLogsPage extends React.Component<Props, IPurchaseContactLog
             });
             const subscription = response.data.data.subscription;
             await this.onSubscriptionComplete(subscription);
+            await this.handlePaymentWithAuthentication(subscription, paymentMethodId);
         } catch (error) {
             this.props.showError("Failed to create subscription", 5000)
+        }
+    }
+
+    async handlePaymentWithAuthentication(subscription: any, paymentMethodId: string) {
+        let setupIntent = subscription.pending_setup_intent;
+        console.log(subscription, setupIntent);
+        if (setupIntent) { 
+            if (setupIntent.status === 'requires_action') {
+                const result = await this.props.stripe?.confirmCardSetup(setupIntent.client_secret, {
+                    payment_method: paymentMethodId
+                })
+                if (result?.error) {
+                    this.props.showError("Card declined", 5000);
+                }
+            } else {
+                const response = await Axios.get(`/api/payment/get-setup-intent/${setupIntent}`, {
+                    headers: {
+                        "Authorization": `Bearer ${Cookie.getCookie("token")}`
+                    }
+                });
+                const setupIntentObject = response.data.data.setupIntent;
+                const result = await this.props.stripe?.confirmCardSetup(setupIntentObject.client_secret, {
+                    payment_method: paymentMethodId
+                })
+                if (result?.error) {
+                    this.props.showError("Card declined", 5000);
+                }
+            }
         }
     }
 

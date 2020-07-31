@@ -22,10 +22,15 @@ const CreateSubscriptionSchema = Joi.object({
     paymentMethodId: Joi.string().required(),
     customerId: Joi.string().required(),
     priceIds: Joi.array().items(Joi.string()).required()
+});
+
+const GetSetupIntentSchema = Joi.object({
+    setupIntentId: Joi.string().required()
 })
 
 export {
     PaymentBodySchema,
     CreateCustomerBodySchema,
-    CreateSubscriptionSchema
+    CreateSubscriptionSchema,
+    GetSetupIntentSchema
 };

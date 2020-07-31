@@ -4,20 +4,24 @@ import { Request, Response } from "express";
 import JSONResponse from "../../lib/HTTP/JSONResponse";
 import ICreateCustomerService from "../../services/Payment/CreateCustomer/ICreateCustomerService";
 import ICreateSubscriptionService from "../../services/Payment/CreateSubscription/ICreateSubscriptionService";
+import IGetSetupIntentService from "../../services/Payment/SetupIntent/IGetSetupIntentService";
 
 export default class PaymentController implements IPaymentController {
     private paymentService : IPaymentService;
     private createCustomerService : ICreateCustomerService;
     private createSubscriptionService : ICreateSubscriptionService;
+    private getSetupIntentService : IGetSetupIntentService;
 
     constructor(
         paymentService: IPaymentService, 
         createCustomerService : ICreateCustomerService, 
-        createSubscriptionService : ICreateSubscriptionService
+        createSubscriptionService : ICreateSubscriptionService,
+        getSetupIntentService: IGetSetupIntentService
     ) {
         this.paymentService = paymentService
         this.createCustomerService = createCustomerService;
         this.createSubscriptionService = createSubscriptionService;
+        this.getSetupIntentService = getSetupIntentService
     }
 
     handlePayment() {
@@ -46,6 +50,16 @@ export default class PaymentController implements IPaymentController {
                     req.body.paymentMethodId,
                     req.body.customerId,
                     req.body.priceIds
+                )
+            })
+        }
+    }
+
+    handleGetSetupIntent() {
+        return async (req : Request, res : Response) => {
+            return new JSONResponse(res).send({
+                setupIntent: await this.getSetupIntentService.getSetupIntent(
+                    req.params.setupIntentId
                 )
             })
         }
