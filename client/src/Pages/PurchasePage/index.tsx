@@ -21,6 +21,7 @@ export default class PurchasePage extends React.Component<IPurchasePageProps> {
                         <ElementsConsumer>
                                 {({elements, stripe}) => (
                                     <ContactLogsPurchase 
+                                        showError={this.props.showError}
                                         elements={elements}
                                         stripe={stripe}
                                         showSuccess={this.props.showSuccess} />

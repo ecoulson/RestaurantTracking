@@ -245,7 +245,7 @@ export default class CountryDropdown extends React.Component<ICountryDropdownPro
                 "United Arab Emirates",
                 "United Kingdom of Great Britain and Northern Ireland",
                 "United States Minor Outlying Islands",
-                "United States of America",
+                "United States",
                 "Uruguay",
                 "Uzbekistan",
                 "Vanuatu",

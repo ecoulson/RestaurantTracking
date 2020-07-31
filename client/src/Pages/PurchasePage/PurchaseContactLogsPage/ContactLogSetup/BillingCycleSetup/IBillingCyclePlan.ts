@@ -5,4 +5,5 @@ export default interface IBillingCyclePlan {
     cost: number;
     type: BillingCycleType;
     unit: string;
+    priceId: string;
 }

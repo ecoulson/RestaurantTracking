@@ -14,6 +14,7 @@ import ContactLogPricingStrategy from "../../../../LearnMorePage/PricingSection/
 import TextInput from "../../../../../Components/TextInput";
 import FormValue from "../../../../../Components/FormInput/FormValue";
 import { PaymentType } from "../../../../../Store/Cart/types";
+import BillingCycleType from "../BillingCycleSetup/BillingCycleType";
 
 class LocationSetup extends React.Component<Props, ILocationSetupState> {
     private locationInputRef: React.RefObject<TextInput>;
@@ -53,7 +54,8 @@ class LocationSetup extends React.Component<Props, ILocationSetupState> {
                 quantity: 1,
                 productImage: this.getProductImage(),
                 id: "",
-                type: PaymentType.Payment
+                type: PaymentType.Payment,
+                priceId: ""
             })
             this.locationInputRef.current?.setState({
                 text: new FormValue("", false)

@@ -1,5 +1,5 @@
-import IUser from "../../../models/User/IUser";
+import IOrganization from "../../../models/Organization/IOrganization";
 
 export default interface ICreateCustomerService {
-    createCustomer(email: string, user : IUser) : Promise<IUser>;
+    createCustomer(email: string, organzationId: string) : Promise<IOrganization>;
 }

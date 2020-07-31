@@ -53,10 +53,6 @@ const UserSchema = new Schema({
     organizations: {
         type: [String],
         default: []
-    },
-    stripeId: {
-        type: String,
-        default: ""
     }
 });
 

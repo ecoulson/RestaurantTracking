@@ -2,12 +2,14 @@ import AppType from "../models/App/AppType";
 import AppModel from "../models/App/AppModel";
 
 export default class AppBroker {
-    async createApp(organizationId: string, type: AppType) {
+    async createApp(appData: {
+        organizationId: string,
+        stripeProductId: string,
+        stripeSubscriptionId: string,
+        type: AppType
+    }) {
         try {
-            const app = new AppModel({
-                organizationId,
-                type
-            })
+            const app = new AppModel(appData)
             return await app.save();
         } catch (error) {
             throw error;

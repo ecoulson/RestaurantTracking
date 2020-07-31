@@ -10,7 +10,11 @@ export default class PaymentController implements IPaymentController {
     private createCustomerService : ICreateCustomerService;
     private createSubscriptionService : ICreateSubscriptionService;
 
-    constructor(paymentService: IPaymentService, createCustomerService : ICreateCustomerService, createSubscriptionService : ICreateSubscriptionService) {
+    constructor(
+        paymentService: IPaymentService, 
+        createCustomerService : ICreateCustomerService, 
+        createSubscriptionService : ICreateSubscriptionService
+    ) {
         this.paymentService = paymentService
         this.createCustomerService = createCustomerService;
         this.createSubscriptionService = createSubscriptionService;
@@ -27,10 +31,10 @@ export default class PaymentController implements IPaymentController {
     handleCreateCustomer() {
         return async (req : Request, res : Response) => {
             return new JSONResponse(res).send({
-                user: (await this.createCustomerService.createCustomer(
+                organization: (await this.createCustomerService.createCustomer(
                     req.body.billingEmail,
-                    req.user
-                )).serialize()
+                    req.body.organizationId
+                ))
             })
         }
     }

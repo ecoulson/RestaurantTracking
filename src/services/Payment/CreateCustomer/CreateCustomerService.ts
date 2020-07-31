@@ -1,27 +1,21 @@
 import ICreateCustomerService from "./ICreateCustomerService";
 import StripeBroker from "../../../brokers/StripeBroker";
-import IUser from "../../../models/User/IUser";
-import UserBroker from "../../../brokers/UserBroker";
+import OrganizationBroker from "../../../brokers/OrganizationBroker";
 
 export default class CreateCustomerService implements ICreateCustomerService {
     private stripeBroker : StripeBroker;
-    private userBroker : UserBroker;
+    private organizationBroker : OrganizationBroker;
 
-    constructor(stripeBroker : StripeBroker, userBroker : UserBroker) {
+    constructor(stripeBroker : StripeBroker, organizationBroker : OrganizationBroker) {
         this.stripeBroker = stripeBroker;
-        this.userBroker = userBroker;
+        this.organizationBroker = organizationBroker;
     }
 
-    async createCustomer(email: string, user : IUser) {
-        const customer = await this.stripeBroker.createCustomer(email, this.getFullName(user));
-        user.stripeId = customer.id;
-        return await this.userBroker.save(user);
-    }
-
-    getFullName(user : IUser) {
-        if (user.lastName) {
-            return user.firstName + " " + user.lastName
-        }
-        return user.firstName;
+    async createCustomer(email: string, organizationId : string) {
+        console.log(organizationId);
+        const organization = await this.organizationBroker.findOrganizationById(organizationId);
+        const customer = await this.stripeBroker.createCustomer(email, organization.organizationName);
+        organization.stripeId = customer.id;
+        return await this.organizationBroker.save(organization);
     }
 }

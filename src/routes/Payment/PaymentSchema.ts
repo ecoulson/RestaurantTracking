@@ -14,7 +14,8 @@ const PaymentBodySchema = Joi.object({
 })
 
 const CreateCustomerBodySchema = Joi.object({
-    billingEmail: Joi.string().required().email()
+    billingEmail: Joi.string().required().email(),
+    organizationId: Joi.string().required()
 })
 
 const CreateSubscriptionSchema = Joi.object({

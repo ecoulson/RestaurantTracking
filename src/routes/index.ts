@@ -90,7 +90,7 @@ export default class APIRouteConfiguration extends RouterConfiguration {
         this.router.use("/payment", new PaymentRouteConfiguration(
             new PaymentController(
                 new PaymentService(stripeBroker),
-                new CreateCustomerService(stripeBroker, userBroker),
+                new CreateCustomerService(stripeBroker, organizationBroker),
                 new CreateSubscriptionService(stripeBroker)
             )
         ).setup())

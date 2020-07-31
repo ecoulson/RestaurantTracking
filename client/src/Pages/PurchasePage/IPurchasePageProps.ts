@@ -4,4 +4,5 @@ export default interface IPurchasePageProps extends RouteComponentProps<{
     product: string
 }> {
     showSuccess: (message: string, delay: number) => void;
+    showError: (message: string, delay: number) => void;
 }

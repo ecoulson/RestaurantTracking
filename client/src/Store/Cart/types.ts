@@ -19,6 +19,7 @@ export interface ICartItem {
     productImage: string;
     type: PaymentType;
     billingPlan?: BillingCycleType;
+    priceId: string
 }
 
 export enum CartActions {

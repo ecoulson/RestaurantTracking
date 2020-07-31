@@ -28,9 +28,19 @@ export default class RegisterAppService implements IRegisterAppService {
         this.permissionSetBroker = permissionSetBroker
     }
 
-    async register(organizationId: string, type: AppType) {
+    async register(
+        organizationId : string, 
+        stripeProductId: string,
+        stripeSubscriptionId: string,
+        type : AppType
+    ) {
         const organization = await this.organizationBroker.findOrganizationById(organizationId);
-        const app = await this.appBroker.createApp(organizationId, type);
+        const app = await this.appBroker.createApp({
+            organizationId,
+            stripeProductId,
+            stripeSubscriptionId, 
+            type
+        });
         const permission = await this.createWritePrmission(app);
         organization.apps.push(app.id);
         await this.addPermissionToOrganizationSets(permission, organization)

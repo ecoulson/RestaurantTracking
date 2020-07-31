@@ -59,10 +59,12 @@ export default class OrganizationSetup extends React.Component<IOrganizationSetu
     }
 
     handleOrganizationIdChange(organizationId: IFormValue<string>) {
+        this.props.onOrganizationId(organizationId.value)
         this.setState({ organizationId: organizationId.value });
     }
 
     handleOrganizationNameChange(organizationName: string) {
+        this.props.onOrganizationName(organizationName)
         this.setState({ 
             organizationName,
             organizationId: this.generatePossibleOrganizationId(organizationName)
@@ -84,6 +86,8 @@ export default class OrganizationSetup extends React.Component<IOrganizationSetu
     }
 
     handleAddress(address : IAddress) {
+        console.log(address);
+        this.props.onAddress(address)
         this.setState({ address })
     }
 }

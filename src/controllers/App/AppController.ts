@@ -13,7 +13,12 @@ export default class AppController implements IAppController {
 
     handleRegisterApp() {
         return async (request : Request, response : Response) => {
-            await this.registerAppService.register(request.body.organizationId, AppType.ContactLogs)
+            await this.registerAppService.register(
+                request.body.organizationId, 
+                request.body.stripeProductId,
+                request.body.stripeSubscriptionId,
+                AppType.ContactLogs
+            )
             return new JSONResponse(response).send({});
         }
     }

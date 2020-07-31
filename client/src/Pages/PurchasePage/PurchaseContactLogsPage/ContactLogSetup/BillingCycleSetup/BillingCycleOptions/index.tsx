@@ -14,7 +14,7 @@ export default class BillingCycleOptions extends React.Component<IBillingCycleOp
             return item.name === "Contact Logs Software"
         })[0]
         this.state = {
-            activeIndex: 0,
+            activeIndex: -1,
             item: !subscription ?
                 null :
                 { 
@@ -54,7 +54,8 @@ export default class BillingCycleOptions extends React.Component<IBillingCycleOp
                 productImage: "/light-logo.png",
                 id: "",
                 type: PaymentType.Subscription,
-                billingPlan: this.props.plans[i].type
+                billingPlan: this.props.plans[i].type,
+                priceId: this.props.plans[i].priceId
             })
         })
     }

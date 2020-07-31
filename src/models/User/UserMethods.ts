@@ -13,7 +13,6 @@ export default class UserMethods {
             firstName: context.firstName,
             lastName: context.lastName,
             verified: context.verified,
-            stripeId: context.stripeId,
             organizations: context.organizations,
             dateCreated: context.dateCreated,
             updatedAt: context.updatedAt,
