@@ -14,12 +14,11 @@ export default class CreateUsageRecordsService implements ICreateUsageRecordsSer
 
     async createUsageRecord(app : IApp) {
         const subscription = await this.stripeBroker.getSubscription(app.stripeSubscriptionId)
-        const usage = await this.stripeBroker.createUsageRecord(
+        await this.stripeBroker.createUsageRecord(
             subscription.items.data[0].id, 
             app.usage, 
             Math.floor(Date.now() / 1000)
         );
-        console.log(usage);
         app.usage = 0;
         await this.appBroker.save(app);
     }

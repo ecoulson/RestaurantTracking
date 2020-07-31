@@ -15,6 +15,9 @@ export default class AppActivationHandler implements IStripeEventHandler {
             case StripeEvents.InvoicePaid:
                 this.handleInvoicePaid(event.data.object as Stripe.Invoice)
                 break;
+            case StripeEvents.InvoicePaymentFailed:
+                this.handleInvoicePaymentFailed(event.data.object as Stripe.Invoice)
+                break;
             default:
                 break;
         }
@@ -24,6 +27,14 @@ export default class AppActivationHandler implements IStripeEventHandler {
         const app = await this.appBroker.findBySubscriptionId(this.getSubscriptionId(invoice));
         if (!app.isActive) {
             app.isActive = true;
+            this.appBroker.save(app);
+        }
+    }
+
+    async handleInvoicePaymentFailed(invoice : Stripe.Invoice) {
+        const app = await this.appBroker.findBySubscriptionId(this.getSubscriptionId(invoice));
+        if (app.isActive) {
+            app.isActive = false;
             this.appBroker.save(app);
         }
     }

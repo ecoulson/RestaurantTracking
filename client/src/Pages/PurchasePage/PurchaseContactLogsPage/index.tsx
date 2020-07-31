@@ -204,7 +204,6 @@ class PurchaseContactLogsPage extends React.Component<Props, IPurchaseContactLog
 
     async handlePaymentWithAuthentication(subscription: any, paymentMethodId: string) {
         let setupIntent = subscription.pending_setup_intent;
-        console.log(subscription, setupIntent);
         if (setupIntent) { 
             if (setupIntent.status === 'requires_action') {
                 const result = await this.props.stripe?.confirmCardSetup(setupIntent.client_secret, {

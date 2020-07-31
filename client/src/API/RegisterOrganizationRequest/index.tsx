@@ -21,7 +21,6 @@ class RegisterOrganizationRequest extends RequestComponent<IRegisterOrganization
     }
     
     async onLoad() {
-        console.log(this.props.address);
         return (await Axios.post('/api/organization/register', {
             organizationName: this.props.organizationName,
             organizationId: this.props.organizationId,

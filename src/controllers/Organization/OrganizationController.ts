@@ -33,4 +33,11 @@ export default class OrganizationController implements IOrganizationController {
             new JSONResponse(response).send({ organizationName: organization.organizationName })
         }
     }
+
+    handleGetOrganization() {
+        return async (request : Request, response : Response) => {
+            const organization = await this.getOrganizationService.getOrganization(request.params.organizationId)
+            new JSONResponse(response).send(organization)
+        }
+    }
 }

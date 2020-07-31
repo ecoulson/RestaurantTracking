@@ -2,18 +2,15 @@ import React from "react";
 import BasicLayout from "../../Layouts/BasicLayout";
 import { ConnectedProps, connect } from "react-redux";
 import IState from "../../Store/IState";
-import SearchableDropdownInput from "../../Components/SearchableDropdownInput";
-import IconType from "../../Components/Icon/IconTypes";
-import IFormValue from "../../Components/FormInput/IFormValue";
 import IOrganizationPageState from "./IOrganizationPageState";
 import IResponse from "../../API/IResponse";
 import IGetOrganizationNameResponse from "../../API/GetOrganizationNameRequest/IGetOrganizationNameResponse";
 import GetOrganizationNameRequest from "../../API/GetOrganizationNameRequest";
-import BasicSectionTitle from "../../Layouts/BasicLayout/BasicSectionTitle";
 import BuildingSection from "./BuildingSection";
 import DropdownInput from "../../Components/DropdownInput";
 import Button from "../../Components/Button";
 import AppHistory from "../../AppHistory";
+import BillingSection from "./BillingSection";
 
 class OrganizationPage extends React.Component<Props, IOrganizationPageState> {
     constructor(props : Props) {
@@ -51,6 +48,7 @@ class OrganizationPage extends React.Component<Props, IOrganizationPageState> {
                                 values={this.props.user.organizations ? this.props.user.organizations : []} 
                                 onChange={this.onOrganizationChange}/>
                             <BuildingSection organizationId={this.state.currentOrganizationId} />
+                            <BillingSection organizationId={this.state.currentOrganizationId} />
                         </>
                         
                 }

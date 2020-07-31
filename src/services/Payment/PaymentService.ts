@@ -10,7 +10,6 @@ export default class PaymentService implements IPaymentService {
     }
 
     async handlePayment(items: ICartItem[]) {
-        console.log(items);
         const price = items.reduce<number>((total: number, item) => {
             return total + item.price
         }, 0) * 100;

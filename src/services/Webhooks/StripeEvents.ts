@@ -1,5 +1,6 @@
 enum StripeEvents {
-    InvoicePaid = "Invoice.Paid"
+    InvoicePaid = "invoice.paid",
+    InvoicePaymentFailed = "invoice.payment_failed"
 }
 
 export default StripeEvents;

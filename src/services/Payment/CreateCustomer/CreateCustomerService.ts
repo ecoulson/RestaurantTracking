@@ -12,7 +12,6 @@ export default class CreateCustomerService implements ICreateCustomerService {
     }
 
     async createCustomer(email: string, organizationId : string) {
-        console.log(organizationId);
         const organization = await this.organizationBroker.findOrganizationById(organizationId);
         const customer = await this.stripeBroker.createCustomer(email, organization.organizationName);
         organization.stripeId = customer.id;

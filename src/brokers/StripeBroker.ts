@@ -21,7 +21,6 @@ export default class StripeBroker {
 
     constructWebhookEvent(request : Request) {
         try {
-            // console.log(request.body, request.headers["stripe-signature"])
             return this.stripe.webhooks.constructEvent(
                 request.rawBody,
                 request.headers["stripe-signature"],

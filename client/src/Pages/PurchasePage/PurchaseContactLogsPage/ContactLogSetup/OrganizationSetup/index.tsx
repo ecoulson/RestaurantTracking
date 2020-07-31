@@ -86,7 +86,6 @@ export default class OrganizationSetup extends React.Component<IOrganizationSetu
     }
 
     handleAddress(address : IAddress) {
-        console.log(address);
         this.props.onAddress(address)
         this.setState({ address })
     }

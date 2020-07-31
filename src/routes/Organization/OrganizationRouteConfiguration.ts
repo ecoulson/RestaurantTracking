@@ -47,6 +47,12 @@ export default class OrganizationRouteConfiguration extends RouterConfiguration 
             ErrorCatchingMiddleware.catchErrors(this.organizationController.handleGetOrganizationName())
         )
 
+        this.router.get(
+            '/:organizationId',
+            new ValidationMiddleware(OrganizationIdParametersSchema).validateParams(),
+            ErrorCatchingMiddleware.catchErrors(this.organizationController.handleGetOrganization())
+        )
+
         this.router.use("/account", new OrganizationAccountRouteConfiguration(
             new OrganizationAccountController(
                 new OrganizationAccountExistsService(new OrganizationBroker()),
