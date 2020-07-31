@@ -10,6 +10,7 @@ import Axios from "axios";
 import Cookie from "../../../../../lib/Cookie";
 import IOrganizationSetupProps from "./IOrganizationSetupProps";
 import { CardElement } from "@stripe/react-stripe-js";
+import EmailInput from "../../../../../Components/EmailInput";
 
 export default class OrganizationSetup extends React.Component<IOrganizationSetupProps, IOrganizationSetupState> {
     constructor(props: IOrganizationSetupProps) {
@@ -51,6 +52,7 @@ export default class OrganizationSetup extends React.Component<IOrganizationSetu
                 <OrganizationIdInput value={this.state.organizationId} id="organization-id" onChange={this.handleOrganizationIdChange} />
                 <AddressInput iconColor="gray" hoverColor="black" onChange={this.handleAddress} />
                 <h2>Payment Information</h2>
+                <EmailInput onChange={this.props.onBillingEmail} iconColor="gray" hoverColor="black" id="billing-email" />
                 <CardElement id="card-element" />
             </div>
         )

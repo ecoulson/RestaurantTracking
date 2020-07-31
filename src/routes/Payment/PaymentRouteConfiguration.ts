@@ -7,7 +7,7 @@ import ResourceRequest from "../../lib/Authorization/ResourceRequest";
 import ResourceType from "../../lib/Authorization/ResourceType";
 import ErrorCatchingMiddleware from "../../middleware/ErrorHandling/ErrorCatchingMiddleware";
 import ValidationMiddleware from "../../middleware/Validation/ValidationMiddleware";
-import { PaymentBodySchema } from "./PaymentSchema";
+import { PaymentBodySchema, CreateCustomerBodySchema, CreateSubscriptionSchema } from "./PaymentSchema";
 
 export default class PaymentRouteConfiguration extends RouterConfiguration {
     private paymentController : IPaymentController;
@@ -26,6 +26,26 @@ export default class PaymentRouteConfiguration extends RouterConfiguration {
             ]),
             new ValidationMiddleware(PaymentBodySchema).validateBody(),
             ErrorCatchingMiddleware.catchErrors(this.paymentController.handlePayment())
+        )
+
+        this.router.post(
+            '/create-customer',
+            new JSONWebTokenAuthenticationStrategy().authenticate(),
+            new AuthorizationMiddleware().authorize(OperationType.Update, async (req) => [
+                new ResourceRequest(req.user.id, ResourceType.User)
+            ]),
+            new ValidationMiddleware(CreateCustomerBodySchema).validateBody(),
+            ErrorCatchingMiddleware.catchErrors(this.paymentController.handleCreateCustomer())
+        )
+
+        this.router.post(
+            '/create-subscription',
+            new JSONWebTokenAuthenticationStrategy().authenticate(),
+            new AuthorizationMiddleware().authorize(OperationType.Update, async (req) => [
+                new ResourceRequest(req.user.id, ResourceType.User)
+            ]),
+            new ValidationMiddleware(CreateSubscriptionSchema).validateBody(),
+            ErrorCatchingMiddleware.catchErrors(this.paymentController.handleCreateSubscription())
         )
     }
 }

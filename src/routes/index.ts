@@ -30,6 +30,8 @@ import Stripe from "stripe";
 import WebhookRouterConfiguration from "./Webhook/WebhookRouterConfiguration";
 import StripeWebhookController from "../controllers/Webhooks/StripeWebhookController";
 import StripeWebhookService from "../services/Webhooks/StripeWebhookService";
+import CreateCustomerService from "../services/Payment/CreateCustomer/CreateCustomerService";
+import CreateSubscriptionService from "../services/Payment/CreateSubscription/CreateSubscriptionService";
 
 export default class APIRouteConfiguration extends RouterConfiguration {
     configureRoutes() {
@@ -86,7 +88,11 @@ export default class APIRouteConfiguration extends RouterConfiguration {
         ).setup())
 
         this.router.use("/payment", new PaymentRouteConfiguration(
-            new PaymentController(new PaymentService(stripeBroker))
+            new PaymentController(
+                new PaymentService(stripeBroker),
+                new CreateCustomerService(stripeBroker, userBroker),
+                new CreateSubscriptionService(stripeBroker)
+            )
         ).setup())
 
         this.router.use("/webhooks", new WebhookRouterConfiguration(

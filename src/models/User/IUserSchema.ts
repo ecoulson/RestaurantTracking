@@ -13,4 +13,5 @@ export default interface IUserSchema extends IDocument {
     organizations: string[];
     dateCreated: Date;
     updatedAt: Date;
+    stripeId: string;
 }

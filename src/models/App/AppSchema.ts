@@ -12,6 +12,14 @@ const AppSchema = new Schema({
         type: String,
         required: true,
         index: true
+    },
+    stripeSubscriptionId: {
+        type: String,
+        required: true
+    },
+    stripeProductId: {
+        type: String,
+        required: true
     }
 });
 
