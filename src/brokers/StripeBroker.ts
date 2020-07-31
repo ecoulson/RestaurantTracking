@@ -106,4 +106,16 @@ export default class StripeBroker {
             throw error;
         }
     }
+
+    async updateUser(customerId: string, paymentMethodId: string) {
+        try {
+            return await this.stripe.customers.update(customerId, {
+                invoice_settings: {
+                    default_payment_method: paymentMethodId
+                }
+            })
+        } catch (error) {
+            throw error;
+        }
+    }
 }

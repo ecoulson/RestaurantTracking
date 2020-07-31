@@ -5,23 +5,27 @@ import JSONResponse from "../../lib/HTTP/JSONResponse";
 import ICreateCustomerService from "../../services/Payment/CreateCustomer/ICreateCustomerService";
 import ICreateSubscriptionService from "../../services/Payment/CreateSubscription/ICreateSubscriptionService";
 import IGetSetupIntentService from "../../services/Payment/SetupIntent/IGetSetupIntentService";
+import IUpdatePaymentMethodService from "../../services/Payment/UpdatePaymentMethod/IUpdatePaymentMethodService";
 
 export default class PaymentController implements IPaymentController {
     private paymentService : IPaymentService;
     private createCustomerService : ICreateCustomerService;
     private createSubscriptionService : ICreateSubscriptionService;
     private getSetupIntentService : IGetSetupIntentService;
+    private updatePaymentService : IUpdatePaymentMethodService;
 
     constructor(
         paymentService: IPaymentService, 
         createCustomerService : ICreateCustomerService, 
         createSubscriptionService : ICreateSubscriptionService,
-        getSetupIntentService: IGetSetupIntentService
+        getSetupIntentService: IGetSetupIntentService,
+        updatePaymentService : IUpdatePaymentMethodService
     ) {
         this.paymentService = paymentService
         this.createCustomerService = createCustomerService;
         this.createSubscriptionService = createSubscriptionService;
-        this.getSetupIntentService = getSetupIntentService
+        this.getSetupIntentService = getSetupIntentService;
+        this.updatePaymentService = updatePaymentService;
     }
 
     handlePayment() {
@@ -62,6 +66,16 @@ export default class PaymentController implements IPaymentController {
                     req.params.setupIntentId
                 )
             })
+        }
+    }
+
+    handleUpdatePaymentMethod() {
+        return async (req : Request, res : Response) => {
+            await this.updatePaymentService.updatePaymentMethod(
+                req.body.customerId,
+                req.body.paymentMethodId
+            )
+            return new JSONResponse(res).send({})
         }
     }
 }

@@ -7,7 +7,7 @@ import ResourceRequest from "../../lib/Authorization/ResourceRequest";
 import ResourceType from "../../lib/Authorization/ResourceType";
 import ErrorCatchingMiddleware from "../../middleware/ErrorHandling/ErrorCatchingMiddleware";
 import ValidationMiddleware from "../../middleware/Validation/ValidationMiddleware";
-import { PaymentBodySchema, CreateCustomerBodySchema, CreateSubscriptionSchema, GetSetupIntentSchema } from "./PaymentSchema";
+import { PaymentBodySchema, CreateCustomerBodySchema, CreateSubscriptionSchema, GetSetupIntentSchema, UpdatePaymentMethodSchema } from "./PaymentSchema";
 
 export default class PaymentRouteConfiguration extends RouterConfiguration {
     private paymentController : IPaymentController;
@@ -56,6 +56,16 @@ export default class PaymentRouteConfiguration extends RouterConfiguration {
             ]),
             new ValidationMiddleware(GetSetupIntentSchema).validateParams(),
             ErrorCatchingMiddleware.catchErrors(this.paymentController.handleGetSetupIntent())
+        )
+
+        this.router.post(
+            '/update-payment-method',
+            new JSONWebTokenAuthenticationStrategy().authenticate(),
+            new AuthorizationMiddleware().authorize(OperationType.Update, async (req) => [
+                new ResourceRequest(req.user.id, ResourceType.User)
+            ]),
+            new ValidationMiddleware(UpdatePaymentMethodSchema).validateBody(),
+            ErrorCatchingMiddleware.catchErrors(this.paymentController.handleUpdatePaymentMethod())
         )
     }
 }

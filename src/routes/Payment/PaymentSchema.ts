@@ -28,9 +28,15 @@ const GetSetupIntentSchema = Joi.object({
     setupIntentId: Joi.string().required()
 })
 
+const UpdatePaymentMethodSchema = Joi.object({
+    paymentMethodId: Joi.string().required(),
+    customerId: Joi.string().required(),
+});
+
 export {
     PaymentBodySchema,
     CreateCustomerBodySchema,
     CreateSubscriptionSchema,
-    GetSetupIntentSchema
+    GetSetupIntentSchema,
+    UpdatePaymentMethodSchema
 };

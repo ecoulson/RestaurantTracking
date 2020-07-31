@@ -34,6 +34,7 @@ import CreateCustomerService from "../services/Payment/CreateCustomer/CreateCust
 import CreateSubscriptionService from "../services/Payment/CreateSubscription/CreateSubscriptionService";
 import AppActivationHandler from "../services/Stripe/AppActivationHandler";
 import GetSetupIntentService from "../services/Payment/SetupIntent/GetSetupIntentService";
+import UpdatePaymentMethodService from "../services/Payment/UpdatePaymentMethod/UpdatePaymentMethodService";
 
 export default class APIRouteConfiguration extends RouterConfiguration {
     configureRoutes() {
@@ -95,7 +96,8 @@ export default class APIRouteConfiguration extends RouterConfiguration {
                 new PaymentService(stripeBroker),
                 new CreateCustomerService(stripeBroker, organizationBroker),
                 new CreateSubscriptionService(stripeBroker),
-                new GetSetupIntentService(stripeBroker)
+                new GetSetupIntentService(stripeBroker),
+                new UpdatePaymentMethodService(stripeBroker)
             )
         ).setup())
 

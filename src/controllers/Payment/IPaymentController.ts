@@ -5,4 +5,5 @@ export default interface IPaymentController {
     handleCreateCustomer() : RequestHandler;
     handleCreateSubscription() : RequestHandler;
     handleGetSetupIntent() : RequestHandler;
+    handleUpdatePaymentMethod() : RequestHandler;
 }
