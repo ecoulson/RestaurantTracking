@@ -13,7 +13,8 @@ class Cart extends React.Component<Props> {
         return (
             <CartContainer>
                 <CartTitle />
-                <CartItems 
+                <CartItems
+                    isCheckingOut={this.props.cart.isCheckingOut} 
                     items={this.props.cart.items} 
                     removeItem={this.props.removeItem} />
                 <CartPrice items={this.props.cart.items} />

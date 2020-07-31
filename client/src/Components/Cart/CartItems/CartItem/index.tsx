@@ -25,9 +25,11 @@ export default class CartItem extends React.Component<ICartItemProps> {
                 <div className="cart-item-price-container">
                     <span>${this.props.item.price.toFixed(2)}</span>
                 </div>
-                <div onClick={() => this.props.removeItem(this.props.item.id)} className="cart-item-remove-container">
-                    <span>x</span>
-                </div>
+                {this.props.isCheckingOut ? null :
+                    <div onClick={() => this.props.removeItem(this.props.item.id)} className="cart-item-remove-container">
+                        <span>x</span>
+                    </div>
+                }
             </div>
         );
     }

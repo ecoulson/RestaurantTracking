@@ -10,7 +10,7 @@ export default class CartItems extends React.Component<ICartItemsProps> {
                 {this.props.items.length === 0 ?
                     <p className="empty-cart-text">There is nothing in your cart yet!</p>: 
                     this.props.items.map((item, i) => {
-                        return <CartItem item={item} key={i} removeItem={this.props.removeItem} />
+                        return <CartItem isCheckingOut={this.props.isCheckingOut} item={item} key={i} removeItem={this.props.removeItem} />
                     })
                 }
             </div>

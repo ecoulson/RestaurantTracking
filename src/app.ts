@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request } from "express";
 import path from "path";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
@@ -20,7 +20,13 @@ mongoose.set('useCreateIndex', true);
 const OneHour = 60 * 60 * 1000;
 const tokenManager = new TokenManager();
 const app = express();
-app.use(bodyParser.json());
+app.use(bodyParser.json({
+    verify: function (req : Request, res, buf) {
+        if (req.url.startsWith('/api/webhooks/')) {
+            req.rawBody = buf.toString()
+        }
+    }
+}));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser());
 app.use(cors());

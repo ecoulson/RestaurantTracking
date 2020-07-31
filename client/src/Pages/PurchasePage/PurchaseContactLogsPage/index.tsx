@@ -10,6 +10,9 @@ import "./index.css";
 import Cart from "../../../Components/Cart";
 import ContactLogSetup from "./ContactLogSetup";
 import { CardElement } from "@stripe/react-stripe-js";
+import { shopModeAction, checkoutModeAction } from "../../../Store/Cart/actions";
+import { addToast, removeToast } from "../../../Store/Toast/actions";
+import ToastType from "../../../Components/Toast/ToastType";
 
 class PurchaseContactLogsPage extends React.Component<Props, IPurchaseContactLogsPageState> {
     constructor(props : Props) {
@@ -22,6 +25,8 @@ class PurchaseContactLogsPage extends React.Component<Props, IPurchaseContactLog
         this.handleBackClick = this.handleBackClick.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handlePaymentIntent = this.handlePaymentIntent.bind(this);
+        this.setCartMode = this.setCartMode.bind(this);
+        props.setShopMode()
     }
 
     render() {
@@ -46,14 +51,20 @@ class PurchaseContactLogsPage extends React.Component<Props, IPurchaseContactLog
         (e.target as HTMLButtonElement).blur()
         this.setState({
             page: this.state.page + 1
-        })
+        }, this.setCartMode)
     }
 
     handleBackClick(e : MouseEvent) {
         (e.target as HTMLButtonElement).blur()
         this.setState({
             page: this.state.page - 1
-        })
+        }, this.setCartMode)
+    }
+
+    setCartMode() {
+        this.state.page === 2 ?
+            this.props.setCheckoutMode() :
+            this.props.setShopMode()
     }
 
     getButtons() {
@@ -84,9 +95,9 @@ class PurchaseContactLogsPage extends React.Component<Props, IPurchaseContactLog
                     }
                 });
                 if (payload.error) {
-                    console.error("error")
+                    this.props.addToast("Transaction failed", ToastType.Error)
                 } else {
-                    console.log("check dashboard")
+                    this.props.addToast("Successfully processed transaction", ToastType.Success)
                 }
             }
         }
@@ -101,7 +112,12 @@ const mapState = (state : IState) => {
     }
 }
 
-const mapDispatch = {}
+const mapDispatch = {
+    setShopMode: shopModeAction,
+    setCheckoutMode: checkoutModeAction,
+    addToast: addToast,
+    removeToast: removeToast
+}
 
 const connector = connect(mapState, mapDispatch);
 

@@ -39,7 +39,6 @@ export default class OrganizationSetup extends React.Component<IOrganizationSetu
                 "Authorization": `Bearer ${Cookie.getCookie("token")}`
             }
         });
-        console.log(this.props.cart)
         this.props.onPaymentIntent(res.data.data.paymentIntent.client_secret)
     }
 

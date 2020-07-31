@@ -4,7 +4,8 @@ declare global {
     namespace Express {
         export interface Request {
             user? : IUser,
-            tokenValues: Map<string, string>
+            tokenValues: Map<string, string>,
+            rawBody?: string
         }
     }
 }

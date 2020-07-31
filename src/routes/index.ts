@@ -27,35 +27,52 @@ import PaymentController from "../controllers/Payment/PaymentController";
 import PaymentService from "../services/Payment/PaymentService";
 import StripeBroker from "../brokers/StripeBroker";
 import Stripe from "stripe";
+import WebhookRouterConfiguration from "./Webhook/WebhookRouterConfiguration";
+import StripeWebhookController from "../controllers/Webhooks/StripeWebhookController";
+import StripeWebhookService from "../services/Webhooks/StripeWebhookService";
 
 export default class APIRouteConfiguration extends RouterConfiguration {
     configureRoutes() {
+        const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+            apiVersion: "2020-03-02"
+        });
+        const organizationBroker = new OrganizationBroker();
+        const permissionBuilder = new PermissionBuilder();
+        const checkInBroker = new CheckInBroker();
+        const userBroker = new UserBroker();
+        const stripeBroker = new StripeBroker(stripe);
+
         this.router.use("/restaurant", new RestaurantRouteConfiguration().setup());
         this.router.use("/check_in", new CheckInRouteConfiguration(
             new CheckInController(
                 new CheckInService(
-                    new OrganizationBroker(),
-                    new PermissionBuilder(),
-                    new UserBroker()
+                    organizationBroker,
+                    permissionBuilder,
+                    userBroker
                 ),
                 new GetCheckInService(
-                    new CheckInBroker()
+                    checkInBroker
                 ),
                 new CheckoutService(
-                    new CheckInBroker()
+                    checkInBroker
                 ),
                 new SimpleCheckInQRService()
             ),
             new OrganizationBroker(),
             new AppBroker()
         ).setup());
+
         this.router.use("/authentication", new AuthenticationRouteConfiguration().setup());
+
         this.router.use("/user", new UserRouteConfiguration().setup());
+
         this.router.use("/organization", new OrganizationRouteConfiguration().setup());
+
         this.router.use("/building", new BuildingRouterController(
             new BuildingController(new CreateBuildingService(new BuildingBroker())),
             new OrganizationBroker()
         ).setup())
+
         this.router.use("/app", new AppRouteConfiguration(
             new OrganizationBroker(),
             new AppController(
@@ -67,16 +84,13 @@ export default class APIRouteConfiguration extends RouterConfiguration {
                 )
             )
         ).setup())
+
         this.router.use("/payment", new PaymentRouteConfiguration(
-            new PaymentController(
-                new PaymentService(
-                    new StripeBroker(
-                        new Stripe(process.env.STRIPE_SECRET_KEY, {
-                            apiVersion: "2020-03-02"
-                        })
-                    )
-                )
-            )
+            new PaymentController(new PaymentService(stripeBroker))
+        ).setup())
+
+        this.router.use("/webhooks", new WebhookRouterConfiguration(
+            new StripeWebhookController(stripeBroker, new StripeWebhookService())
         ).setup())
     }
 }

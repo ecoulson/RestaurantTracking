@@ -1,7 +1,8 @@
 import BillingCycleType from "../../Pages/PurchasePage/PurchaseContactLogsPage/ContactLogSetup/BillingCycleSetup/BillingCycleType";
 
 export interface ICart {
-    items: ICartItem[]
+    items: ICartItem[],
+    isCheckingOut: boolean;
 }
 
 export enum PaymentType {
@@ -23,7 +24,9 @@ export interface ICartItem {
 export enum CartActions {
     ADD = "Add",
     REMOVE = "Remove",
-    UPDATE = "UPDATE"
+    UPDATE = "Update",
+    CHECKOUT_MODE = "CheckoutMode",
+    SHOP_MODE = "ShopMode"
 }
 
 export interface IAddToCartAction {
@@ -46,5 +49,16 @@ export interface IUpdateItemInCartAction {
     productImage?: string;
 }
 
+export interface ICheckoutModeAction {
+    type: CartActions.CHECKOUT_MODE
+}
 
-export type CartActionTypes = IAddToCartAction | IRemoveFromCartAction | IUpdateItemInCartAction;
+export interface IShopModeAction {
+    type: CartActions.SHOP_MODE
+}
+
+export type CartActionTypes = IAddToCartAction | 
+                                IRemoveFromCartAction | 
+                                IUpdateItemInCartAction | 
+                                ICheckoutModeAction | 
+                                IShopModeAction
