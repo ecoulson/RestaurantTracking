@@ -25,6 +25,11 @@ const AppSchema = new Schema({
         type: Boolean,
         required: true,
         default: false
+    },
+    usage: {
+        type: Number,
+        required: true,
+        default: 0
     }
 });
 

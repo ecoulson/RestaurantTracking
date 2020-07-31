@@ -1,5 +1,6 @@
 import { Stripe } from "stripe";
 import { Request } from "express";
+import { v1 as uuid } from "uuid";
 
 export default class StripeBroker {
     private stripe : Stripe;
@@ -71,6 +72,28 @@ export default class StripeBroker {
                     }
                 }),
                 expand: ['latest_invoice.payment_intent']
+            })
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async getSubscription(subscriptionId: string) {
+        try {
+            return await this.stripe.subscriptions.retrieve(subscriptionId)
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async createUsageRecord(subscriptionItemId: string, quantity: number, timestamp: number) {
+        try {
+            return await this.stripe.subscriptionItems.createUsageRecord(subscriptionItemId, {
+                quantity,
+                timestamp,
+                action: 'set'
+            }, {
+                idempotencyKey: uuid()
             })
         } catch (error) {
             throw error;

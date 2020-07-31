@@ -7,4 +7,5 @@ export default interface IAppSchema extends IDocument {
     stripeProductId: string;
     stripeSubscriptionId: string;
     isActive: boolean;
+    usage: number;
 }

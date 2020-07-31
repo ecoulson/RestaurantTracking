@@ -1,13 +1,24 @@
 import IStripeWebhookService from "./IStripeWebhookService";
 import Stripe from "stripe";
+import IStripeEventHandler from "../Stripe/IStripeEventHandler";
+import StripeEvents from "./StripeEvents";
 
 export default class StripeWebhookService implements IStripeWebhookService {
+    private handlers : IStripeEventHandler[]
+
+    constructor(handlers : IStripeEventHandler[]) {
+        this.handlers = handlers;
+    }
+
     handleEvent(event : Stripe.Event) {
         switch (event.type) {
             case 'invoice.paid':
                 // Used to provision services after the trial has ended.
                 // The status of the invoice will show up as paid. Store the status in your
                 // database to reference when a user accesses your service to avoid hitting rate limits.
+                this.handlers.forEach((handler) => [
+                    handler.handleEvent(StripeEvents.InvoicePaid, event)
+                ])
                 break;
             case 'invoice.payment_failed':
                 // If the payment fails or the customer does not have a valid payment method,

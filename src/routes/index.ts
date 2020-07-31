@@ -32,6 +32,7 @@ import StripeWebhookController from "../controllers/Webhooks/StripeWebhookContro
 import StripeWebhookService from "../services/Webhooks/StripeWebhookService";
 import CreateCustomerService from "../services/Payment/CreateCustomer/CreateCustomerService";
 import CreateSubscriptionService from "../services/Payment/CreateSubscription/CreateSubscriptionService";
+import AppActivationHandler from "../services/Stripe/AppActivationHandler";
 
 export default class APIRouteConfiguration extends RouterConfiguration {
     configureRoutes() {
@@ -43,6 +44,7 @@ export default class APIRouteConfiguration extends RouterConfiguration {
         const checkInBroker = new CheckInBroker();
         const userBroker = new UserBroker();
         const stripeBroker = new StripeBroker(stripe);
+        const appBroker = new AppBroker();
 
         this.router.use("/restaurant", new RestaurantRouteConfiguration().setup());
         this.router.use("/check_in", new CheckInRouteConfiguration(
@@ -61,7 +63,7 @@ export default class APIRouteConfiguration extends RouterConfiguration {
                 new SimpleCheckInQRService()
             ),
             new OrganizationBroker(),
-            new AppBroker()
+            appBroker
         ).setup());
 
         this.router.use("/authentication", new AuthenticationRouteConfiguration().setup());
@@ -72,15 +74,15 @@ export default class APIRouteConfiguration extends RouterConfiguration {
 
         this.router.use("/building", new BuildingRouterController(
             new BuildingController(new CreateBuildingService(new BuildingBroker())),
-            new OrganizationBroker()
+            organizationBroker
         ).setup())
 
         this.router.use("/app", new AppRouteConfiguration(
             new OrganizationBroker(),
             new AppController(
                 new RegisterAppService(
-                    new OrganizationBroker(),
-                    new AppBroker(),
+                    organizationBroker,
+                    appBroker,
                     new PermissionBuilder(),
                     new PermissionSetBroker()
                 )
@@ -96,7 +98,9 @@ export default class APIRouteConfiguration extends RouterConfiguration {
         ).setup())
 
         this.router.use("/webhooks", new WebhookRouterConfiguration(
-            new StripeWebhookController(stripeBroker, new StripeWebhookService())
+            new StripeWebhookController(stripeBroker, new StripeWebhookService([
+                new AppActivationHandler(appBroker)
+            ]))
         ).setup())
     }
 }

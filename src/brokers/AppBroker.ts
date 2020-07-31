@@ -1,5 +1,6 @@
 import AppType from "../models/App/AppType";
 import AppModel from "../models/App/AppModel";
+import IApp from "../models/App/IApp";
 
 export default class AppBroker {
     async createApp(appData: {
@@ -19,6 +20,32 @@ export default class AppBroker {
     async findById(appId: string) {
         try {
             return await AppModel.findById(appId);
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async findBySubscriptionId(stripeSubscriptionId: string) {
+        try {
+            return await AppModel.findOne({
+                stripeSubscriptionId
+            })
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async save(app: IApp) {
+        try {
+            return app.save();
+        } catch (error) {
+            throw error;
+        }
+    }
+    
+    async findAll() {
+        try {
+            return await AppModel.find();
         } catch (error) {
             throw error;
         }
