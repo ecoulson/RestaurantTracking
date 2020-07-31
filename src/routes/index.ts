@@ -35,6 +35,9 @@ import CreateSubscriptionService from "../services/Payment/CreateSubscription/Cr
 import AppActivationHandler from "../services/Stripe/AppActivationHandler";
 import GetSetupIntentService from "../services/Payment/SetupIntent/GetSetupIntentService";
 import UpdatePaymentMethodService from "../services/Payment/UpdatePaymentMethod/UpdatePaymentMethodService";
+import CancelSubscriptionService from "../services/Payment/CancelSubscription/CancelSubscriptionService";
+import GetAppService from "../services/App/GetAppService";
+import PermissionBroker from "../brokers/PermissionBroker";
 
 export default class APIRouteConfiguration extends RouterConfiguration {
     configureRoutes() {
@@ -42,18 +45,19 @@ export default class APIRouteConfiguration extends RouterConfiguration {
             apiVersion: "2020-03-02"
         });
         const organizationBroker = new OrganizationBroker();
-        const permissionBuilder = new PermissionBuilder();
         const checkInBroker = new CheckInBroker();
         const userBroker = new UserBroker();
         const stripeBroker = new StripeBroker(stripe);
         const appBroker = new AppBroker();
+        const permissionBroker = new PermissionBroker();
+        const permissionSetBroker = new PermissionSetBroker();
 
         this.router.use("/restaurant", new RestaurantRouteConfiguration().setup());
         this.router.use("/check_in", new CheckInRouteConfiguration(
             new CheckInController(
                 new CheckInService(
                     organizationBroker,
-                    permissionBuilder,
+                    new PermissionBuilder(),
                     userBroker
                 ),
                 new GetCheckInService(
@@ -86,8 +90,9 @@ export default class APIRouteConfiguration extends RouterConfiguration {
                     organizationBroker,
                     appBroker,
                     new PermissionBuilder(),
-                    new PermissionSetBroker()
-                )
+                    permissionSetBroker
+                ),
+                new GetAppService(appBroker)
             )
         ).setup())
 
@@ -97,7 +102,14 @@ export default class APIRouteConfiguration extends RouterConfiguration {
                 new CreateCustomerService(stripeBroker, organizationBroker),
                 new CreateSubscriptionService(stripeBroker),
                 new GetSetupIntentService(stripeBroker),
-                new UpdatePaymentMethodService(stripeBroker)
+                new UpdatePaymentMethodService(stripeBroker),
+                new CancelSubscriptionService(
+                    stripeBroker, 
+                    appBroker, 
+                    organizationBroker, 
+                    permissionBroker, 
+                    permissionSetBroker
+                )
             )
         ).setup())
 

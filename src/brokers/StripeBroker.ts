@@ -118,4 +118,12 @@ export default class StripeBroker {
             throw error;
         }
     }
+
+    async cancelSubscription(subscriptionId: string) {
+        try {
+            return await this.stripe.subscriptions.del(subscriptionId);
+        } catch (error) {
+            throw error;
+        }
+    }
 }

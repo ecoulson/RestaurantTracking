@@ -50,4 +50,12 @@ export default class AppBroker {
             throw error;
         }
     }
+
+    async remove(app : IApp) {
+        try {
+            return await app.remove();
+        } catch (error) {
+            throw error;
+        }
+    }
 }

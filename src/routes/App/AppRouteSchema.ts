@@ -6,6 +6,11 @@ const CreateAppSchema = Joi.object({
     stripeSubscriptionId: Joi.string().required()
 })
 
+const GetAppSchema = Joi.object({
+    id: Joi.string().required()
+})
+
 export {
-    CreateAppSchema
+    CreateAppSchema,
+    GetAppSchema
 }

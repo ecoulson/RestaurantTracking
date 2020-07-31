@@ -7,6 +7,8 @@ import ResourceType from "../../lib/Authorization/ResourceType";
 import OrganizationBroker from "../../brokers/OrganizationBroker";
 import ErrorCatchingMiddleware from "../../middleware/ErrorHandling/ErrorCatchingMiddleware";
 import IAppController from "../../controllers/App/IAppController";
+import ValidationMiddleware from "../../middleware/Validation/ValidationMiddleware";
+import { GetAppSchema, CreateAppSchema } from "./AppRouteSchema";
 
 export default class AppRouteConfiguration extends RouterConfiguration {
     private organizationBroker : OrganizationBroker;
@@ -28,7 +30,21 @@ export default class AppRouteConfiguration extends RouterConfiguration {
                     ResourceType.Organization
                 )
             ]),
+            new ValidationMiddleware(CreateAppSchema).validateBody(),
             ErrorCatchingMiddleware.catchErrors(this.appController.handleRegisterApp())
+        )
+
+        this.router.get(
+            "/:id",
+            new JSONWebTokenAuthenticationStrategy().authenticate(),
+            new AuthorizationMiddleware().authorize(OperationType.Create, async (request) => [
+                new ResourceRequest(
+                    request.params.id,
+                    ResourceType.ContactLogApp
+                )
+            ]),
+            new ValidationMiddleware(GetAppSchema).validateParams(),
+            ErrorCatchingMiddleware.catchErrors(this.appController.handleGetApp())
         )
     }
 }

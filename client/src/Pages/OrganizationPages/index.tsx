@@ -11,6 +11,7 @@ import DropdownInput from "../../Components/DropdownInput";
 import Button from "../../Components/Button";
 import AppHistory from "../../AppHistory";
 import BillingSection from "./BillingSection";
+import CancelSubscriptionSection from "./CancelSubscriptionSection";
 
 class OrganizationPage extends React.Component<Props, IOrganizationPageState> {
     constructor(props : Props) {
@@ -49,6 +50,7 @@ class OrganizationPage extends React.Component<Props, IOrganizationPageState> {
                                 onChange={this.onOrganizationChange}/>
                             <BuildingSection organizationId={this.state.currentOrganizationId} />
                             <BillingSection organizationId={this.state.currentOrganizationId} />
+                            <CancelSubscriptionSection organizationId={this.state.currentOrganizationId} />
                         </>
                         
                 }

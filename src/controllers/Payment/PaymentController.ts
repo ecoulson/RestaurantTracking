@@ -6,6 +6,7 @@ import ICreateCustomerService from "../../services/Payment/CreateCustomer/ICreat
 import ICreateSubscriptionService from "../../services/Payment/CreateSubscription/ICreateSubscriptionService";
 import IGetSetupIntentService from "../../services/Payment/SetupIntent/IGetSetupIntentService";
 import IUpdatePaymentMethodService from "../../services/Payment/UpdatePaymentMethod/IUpdatePaymentMethodService";
+import ICancelSubscriptionService from "../../services/Payment/CancelSubscription/ICancelSubscriptionService";
 
 export default class PaymentController implements IPaymentController {
     private paymentService : IPaymentService;
@@ -13,19 +14,22 @@ export default class PaymentController implements IPaymentController {
     private createSubscriptionService : ICreateSubscriptionService;
     private getSetupIntentService : IGetSetupIntentService;
     private updatePaymentService : IUpdatePaymentMethodService;
+    private cancelSubscriptionService : ICancelSubscriptionService;
 
     constructor(
         paymentService: IPaymentService, 
         createCustomerService : ICreateCustomerService, 
         createSubscriptionService : ICreateSubscriptionService,
         getSetupIntentService: IGetSetupIntentService,
-        updatePaymentService : IUpdatePaymentMethodService
+        updatePaymentService : IUpdatePaymentMethodService,
+        cancelSubscriptionService : ICancelSubscriptionService
     ) {
         this.paymentService = paymentService
         this.createCustomerService = createCustomerService;
         this.createSubscriptionService = createSubscriptionService;
         this.getSetupIntentService = getSetupIntentService;
         this.updatePaymentService = updatePaymentService;
+        this.cancelSubscriptionService = cancelSubscriptionService
     }
 
     handlePayment() {
@@ -75,7 +79,14 @@ export default class PaymentController implements IPaymentController {
                 req.body.customerId,
                 req.body.paymentMethodId
             )
-            return new JSONResponse(res).send({})
+            return new JSONResponse(res).send();
+        }
+    }
+
+    handleCancelSubscription() {
+        return async (req : Request, res : Response) => {
+            await this.cancelSubscriptionService.cancelSubscription(req.body.subscriptionId)
+            return new JSONResponse(res).send();
         }
     }
 }
