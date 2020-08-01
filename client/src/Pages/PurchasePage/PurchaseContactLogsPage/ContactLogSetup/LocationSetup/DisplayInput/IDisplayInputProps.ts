@@ -1,4 +1,6 @@
+import IProductPrice from "../../../../../../API/GetProductPricesRequest/IProductPrice";
+
 export default interface IDisplayInputProps {
-    displayTypes: string[];
-    onChange: (counts: [string, number][]) => void;
+    productPrices: IProductPrice[];
+    onChange: (counts: [IProductPrice, number][]) => void;
 }

@@ -5,15 +5,14 @@ import IconType from "../../../../../../Components/Icon/IconTypes";
 import IDisplayInputState from "./IDisplayInputState";
 import IDisplayInputProps from "./IDisplayInputProps";
 import "./index.css";
-import ContactLogPricingStrategy from "../../../../../LearnMorePage/PricingSection/ContactLogPricing/ContactLogPricingStrategy";
 
-export default class    DisplayInput extends React.Component<IDisplayInputProps, IDisplayInputState> {
+export default class DisplayInput extends React.Component<IDisplayInputProps, IDisplayInputState> {
     constructor(props: IDisplayInputProps) {
         super(props);
         this.state = {
             type: 0,
-            counts: props.displayTypes.map((value) => {
-                return [value, 0]
+            counts: props.productPrices.map((productPrice) => {
+                return [productPrice, 0]
             })
         }
         this.handleDisplayTypeChange = this.handleDisplayTypeChange.bind(this);
@@ -35,8 +34,8 @@ export default class    DisplayInput extends React.Component<IDisplayInputProps,
     }
 
     renderSwitchOptions() {
-        return this.props.displayTypes.map((displayType, i) => {
-            return <span key={i} className="display-type-option">{displayType}</span>
+        return this.props.productPrices.map((productPrice, i) => {
+            return <span key={i} className="display-type-option">{productPrice.product.name.split(" ")[0]}</span>
         })
     }
 
@@ -45,36 +44,35 @@ export default class    DisplayInput extends React.Component<IDisplayInputProps,
     }
 
     renderImage() {
-        const displayName = this.props.displayTypes[this.state.type];
+        const productPrice = this.props.productPrices[this.state.type];
         return (
-            <img className="display-image" src={`/${displayName.toLowerCase()}-display.png`}/>
+            <img className="display-image" src={`/${productPrice.product.name.toLowerCase().split(" ").join("-")}.png`}/>
         )
     }
 
     renderInput() {
-        const displayName = this.props.displayTypes[this.state.type];
+        const productPrice = this.props.productPrices[this.state.type];
         const value = this.state.counts[this.state.type][1];
-        const pricing = new ContactLogPricingStrategy();
-        const breakdown = pricing.getPriceBreakdown();
+        const price = productPrice.prices[0].unit_amount as number / 100
         return (
             <NumberInput 
-                id={`${displayName}-${this.state.type}`}
+                id={`${productPrice}-${this.state.type}`}
                 value={isNaN(value) ? "" : value.toString()}
                 onChange={this.getDisplayChangeHandler()} 
                 hoverColor="black"
-                label={`${this.capitalize(displayName)} Displays ($${breakdown.get(displayName)?.toFixed(2)})`}
-                placeHolder={`Enter ${displayName.toLowerCase()} displays for this location`}
+                label={`${this.capitalize(productPrice.product.name)} ($${price.toFixed(2)})`}
+                placeHolder={`Enter ${productPrice.product.name.toLowerCase()} for this location`}
                 icon={IconType.Image} />
         )
     }
 
     getDisplayChangeHandler() {
         return (displayCount: number) => {
-            const displayName = this.props.displayTypes[this.state.type];
+            const productPrice = this.props.productPrices[this.state.type];
             this.setState({
                 counts: this.state.counts.map((count) => {
-                    if (count[0] === displayName) {
-                        return [displayName, displayCount]
+                    if (count[0].product.id === productPrice.product.id) {
+                        return [productPrice, displayCount]
                     } else {
                         return count;
                     }

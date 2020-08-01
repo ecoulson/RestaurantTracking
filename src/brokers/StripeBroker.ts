@@ -126,4 +126,22 @@ export default class StripeBroker {
             throw error;
         }
     }
+
+    async getProducts() {
+        try {
+            return await this.stripe.products.list();
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async getPriceOfProduct(productId: string) {
+        try {
+            return await this.stripe.prices.list({
+                product: productId
+            })
+        } catch (error) {
+            throw error;
+        }
+    }
 }

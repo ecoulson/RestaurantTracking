@@ -9,7 +9,7 @@ import "./index.css";
 import Cart from "../../../Components/Cart";
 import ContactLogSetup from "./ContactLogSetup";
 import { CardElement } from "@stripe/react-stripe-js";
-import { shopModeAction, checkoutModeAction } from "../../../Store/Cart/actions";
+import { shopModeAction, checkoutModeAction, clearCartAction } from "../../../Store/Cart/actions";
 import Axios from "axios";
 import Cookie from "../../../lib/Cookie";
 import IFormValue from "../../../Components/FormInput/IFormValue";
@@ -54,6 +54,10 @@ class PurchaseContactLogsPage extends React.Component<Props, IPurchaseContactLog
         this.onAppError = this.onAppError.bind(this);
         this.handleBillingPlan = this.handleBillingPlan.bind(this);
         props.setShopMode()
+    }
+
+    componentWillMount() {
+        this.props.clearCart()
     }
 
     render() {
@@ -110,13 +114,14 @@ class PurchaseContactLogsPage extends React.Component<Props, IPurchaseContactLog
             case 0:
                 return this.state.billingPlan !== null;
             case 1:
-                return this.props.cart.length > 1;
+                return this.state.billingPlan !== null && 
+                        this.props.cart.length > 1;
             default:
                 return false;
         }
     }
 
-    handleBillingPlan(billingPlan: IPrice) {
+    handleBillingPlan(billingPlan: IPrice | null) {
         this.setState({ billingPlan })
     }
 
@@ -282,7 +287,8 @@ const mapState = (state : IState) => {
 
 const mapDispatch = {
     setShopMode: shopModeAction,
-    setCheckoutMode: checkoutModeAction
+    setCheckoutMode: checkoutModeAction,
+    clearCart: clearCartAction
 }
 
 const connector = connect(mapState, mapDispatch);

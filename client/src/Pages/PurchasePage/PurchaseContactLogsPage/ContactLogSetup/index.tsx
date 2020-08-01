@@ -6,17 +6,21 @@ import IContactLogSetupProps from "./IContactLogSetupProps";
 import OrganizationSetup from "./OrganizationSetup";
 import IContactLogSetupState from "./IContactLogSetupState";
 import GetBillingPlanRequest from "../../../../API/GetBillingPlanRequest";
-import AppType from "../../../../lib/AppType";
 import IResponse from "../../../../API/IResponse";
 import IPrice from "../../../../API/GetBillingPlanRequest/IPrice";
+import { AppType } from "../../../../Store/Cart/types";
+import IProductPrice from "../../../../API/GetProductPricesRequest/IProductPrice";
+import GetProductPricesRequest from "../../../../API/GetProductPricesRequest";
 
 export default class ContactLogSetup extends React.Component<IContactLogSetupProps, IContactLogSetupState> {
     constructor(props : IContactLogSetupProps) {
         super(props);
         this.state = {
-            prices: []
+            billingPrices: [],
+            productPrices: []
         }
         this.onBillingPlan = this.onBillingPlan.bind(this);
+        this.onProductPrices = this.onProductPrices.bind(this);
     }
 
     render() {
@@ -37,14 +41,25 @@ export default class ContactLogSetup extends React.Component<IContactLogSetupPro
                             appType={AppType.ContactLogs}
                             onComplete={this.onBillingPlan}
                             />
-                        <BillingCycleSetup plans={this.state.prices} 
+                        <BillingCycleSetup 
+                            plans={this.state.billingPrices} 
                             description="Chose a billing plan to maintain your contact logs software"
-                            onBillingPlan={this.props.onBillingPlan}
-                            />
+                            onBillingPlan={this.props.onBillingPlan}/>
                     </>
                 )
             case 1:
-                return <LocationSetup />
+                return (
+                    <>
+                        <GetProductPricesRequest 
+                            send
+                            type={AppType.ContactLogs} 
+                            onComplete={this.onProductPrices} />
+                        {
+                            this.state.productPrices.length === 0 ? null : 
+                            <LocationSetup productPrices={this.state.productPrices} />
+                        }
+                    </>
+                )
             case 2:
                 return <OrganizationSetup 
                             onPaymentIntent={this.props.onPaymentIntent}
@@ -58,7 +73,14 @@ export default class ContactLogSetup extends React.Component<IContactLogSetupPro
 
     onBillingPlan(response : IResponse<IPrice[]>) {
         this.setState({
-            prices: response.data
+            billingPrices: response.data
+        })
+    }
+
+    onProductPrices(response : IResponse<IProductPrice[]>) {
+        console.log(response.data);
+        this.setState({
+            productPrices: response.data
         })
     }
 }

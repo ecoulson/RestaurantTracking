@@ -1,7 +1,7 @@
-import { CartActions, ICartItem, IAddToCartAction, IRemoveFromCartAction, IUpdateItemInCartAction, ICheckoutModeAction, IShopModeAction } from "./types";
+import { CartActions, ICartItem, IAddToCartAction, IRemoveFromCartAction, IUpdateItemInCartAction, ICheckoutModeAction, IShopModeAction, IClearCartAction } from "./types";
 import uuid from "uuid"
 
-export function addToCartAction(cartItem: ICartItem) : IAddToCartAction {
+export function addToCartAction(cartItem: Omit<ICartItem, "id">) : IAddToCartAction {
     return {
         type: CartActions.ADD,
         cartItem : {
@@ -34,5 +34,11 @@ export function checkoutModeAction() : ICheckoutModeAction {
 export function shopModeAction() : IShopModeAction {
     return {
         type: CartActions.SHOP_MODE
+    }
+}
+
+export function clearCartAction() : IClearCartAction {
+    return {
+        type:CartActions.CLEAR_CART
     }
 }

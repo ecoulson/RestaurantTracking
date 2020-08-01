@@ -42,6 +42,9 @@ import BillingPlanRouter from "./BillingPlan/BillingPlanRouter";
 import BillingPlanBroker from "../brokers/BillingPlanBroker";
 import BillingPlanController from "../controllers/BillingPlan/BillingPlanController";
 import GetBillingPlanService from "../services/BillingPlan/GetBillingPlanService";
+import ProductPricesController from "../controllers/ProductPrices/ProductPricesController";
+import ProductPricesRouter from "./ProductPrices/ProductPricesRouter";
+import GetProductPricesService from "../services/ProductPrices/GetProductPricesService";
 
 export default class APIRouteConfiguration extends RouterConfiguration {
     configureRoutes() {
@@ -127,6 +130,14 @@ export default class APIRouteConfiguration extends RouterConfiguration {
             new BillingPlanController(
                 new GetBillingPlanService(
                     new BillingPlanBroker(stripe)
+                )
+            )
+        ).setup())
+
+        this.router.use("/product-prices", new ProductPricesRouter(
+            new ProductPricesController(
+                new GetProductPricesService(
+                    stripeBroker
                 )
             )
         ).setup())

@@ -12,7 +12,7 @@ class BillingCycleSetup extends React.Component<Props> {
     render() {
         return (
             <BillingCycleWrapper>
-                <BillingCycleTitle>Select a Software Payment Plan</BillingCycleTitle>
+                <BillingCycleTitle>Select an App Payment Plan</BillingCycleTitle>
                 <BillingCycleDescription>{this.props.description}</BillingCycleDescription>
                 <BillingCycleOptions 
                     cart={this.props.cart}

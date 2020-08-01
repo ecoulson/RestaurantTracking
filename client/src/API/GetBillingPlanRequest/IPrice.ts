@@ -24,5 +24,7 @@ export default interface IPrice {
     tier_mode: string,
     transform_usage: string | null,
     trial_period_days: string | null,
-    usage_type: string
+    usage_type: string,
+    unit_amount?: number,
+    unit_amount_decimal?: string
 }

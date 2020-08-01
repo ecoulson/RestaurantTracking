@@ -1,7 +1,7 @@
 import IRequestProps from "../IRequestProps";
-import AppType from "../../lib/AppType";
 import IPrice from "./IPrice";
+import { AppType } from "../../Store/Cart/types";
 
 export default interface IGetBillingPlanRequest extends IRequestProps<IPrice[]> {
-    appType: AppType
+    appType: AppType;
 }

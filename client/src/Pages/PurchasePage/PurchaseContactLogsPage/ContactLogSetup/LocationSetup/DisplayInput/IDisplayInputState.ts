@@ -1,4 +1,6 @@
+import IProductPrice from "../../../../../../API/GetProductPricesRequest/IProductPrice";
+
 export default interface IDisplayInputState {
     type: number;
-    counts: [string, number][];
+    counts: [IProductPrice, number][];
 }

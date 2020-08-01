@@ -16,6 +16,9 @@ export function cartReducer(state = initialState, action : CartActionTypes) {
             return {
                 ...state,
                 items: state.items.filter((item) => {
+                    if (item.id === action.id && item.onDelete) {
+                        item.onDelete(item)
+                    }
                     return item.id !== action.id;
                 })
             }
@@ -41,6 +44,11 @@ export function cartReducer(state = initialState, action : CartActionTypes) {
         case CartActions.SHOP_MODE:
             return {
                 ...state,
+                isCheckingOut: false
+            }
+        case CartActions.CLEAR_CART:
+            return {
+                items: [],
                 isCheckingOut: false
             }
         default:

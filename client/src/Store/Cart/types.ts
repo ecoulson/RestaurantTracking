@@ -3,9 +3,13 @@ export interface ICart {
     isCheckingOut: boolean;
 }
 
-export enum PaymentType {
-    Payment,
-    Subscription
+export enum ProductType {
+    Physical = "Physical",
+    App = "App"
+}
+
+export enum AppType {
+    ContactLogs = "ContactLogs"
 }
 
 export interface ICartItem {
@@ -15,9 +19,16 @@ export interface ICartItem {
     price: number;
     quantity: number;
     productImage: string;
-    type: PaymentType;
+    productType: ProductType;
+    appType: AppType;
     billingPlan?: string;
-    priceId: string
+    prices: {
+        priceId: string,
+        quantity: number
+    }[];
+    onClick?: (item: ICartItem) => void;
+    onDelete?: (item: ICartItem) => void;
+    onUpdate?: (item: ICartItem) => void;
 }
 
 export enum CartActions {
@@ -25,7 +36,8 @@ export enum CartActions {
     REMOVE = "Remove",
     UPDATE = "Update",
     CHECKOUT_MODE = "CheckoutMode",
-    SHOP_MODE = "ShopMode"
+    SHOP_MODE = "ShopMode",
+    CLEAR_CART = "ClearCart"
 }
 
 export interface IAddToCartAction {
@@ -56,8 +68,13 @@ export interface IShopModeAction {
     type: CartActions.SHOP_MODE
 }
 
+export interface IClearCartAction {
+    type: CartActions.CLEAR_CART
+}
+
 export type CartActionTypes = IAddToCartAction | 
                                 IRemoveFromCartAction | 
                                 IUpdateItemInCartAction | 
                                 ICheckoutModeAction | 
-                                IShopModeAction
+                                IShopModeAction |
+                                IClearCartAction;

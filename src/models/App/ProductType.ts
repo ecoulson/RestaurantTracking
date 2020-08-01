@@ -1,6 +1,6 @@
 enum ProductType {
     App = "App",
-    Display = "Display"
+    Physical = "Physical"
 }
 
 export default ProductType
