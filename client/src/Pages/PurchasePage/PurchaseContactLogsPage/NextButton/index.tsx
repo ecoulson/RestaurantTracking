@@ -14,9 +14,12 @@ export default class NextButton extends React.Component<INextButtonProps> {
     }
 
     handleNextClick(e : MouseEvent) {
-        (e.target as HTMLButtonElement).blur()
-        this.props.onClick(this.props.page + 1)
-        this.setCartMode()
+        e.preventDefault();
+        if (this.props.canProgress()) {
+            (e.target as HTMLButtonElement).blur()
+            this.props.onClick(this.props.page + 1)
+            this.setCartMode()
+        }
     }
 
     setCartMode() {

@@ -4,8 +4,6 @@ import BillingCycleOption from "./BillingCycleOption";
 import "./index.css";
 import IBillingCycleOptionsState from "./IBillingCycleOptionsState";
 import { CartActions, PaymentType } from "../../../../../../Store/Cart/types";
-import BillingCycleSetup from "..";
-import BillingCycleType from "../BillingCycleType";
 
 export default class BillingCycleOptions extends React.Component<IBillingCycleOptionsProps, IBillingCycleOptionsState> {
     constructor(props: IBillingCycleOptionsProps) {
@@ -44,18 +42,19 @@ export default class BillingCycleOptions extends React.Component<IBillingCycleOp
         if (this.state.item) {
             this.props.removeFromCart(this.state.item.cartItem.id)
         }
+        this.props.onBillingPlan(this.props.plans[i])
         this.setState({
             activeIndex: i,
             item: this.props.addToCart({
-                name: "Contact Logs Software",
-                price: this.props.plans[i].cost,
-                quantity: 1,
-                description: `$${this.props.plans[i].cost} Billed ${this.props.plans[i].name}`,
+                name: `Contact Logs Software (Tier ${this.props.plans[i].metadata.Tier})`,
+                price: 0,
+                quantity: 0,
+                description: `Billed $${this.props.plans[i].tiers[0].flat_amount / 100} per ${this.props.plans[i].interval}`,
                 productImage: "/light-logo.png",
                 id: "",
                 type: PaymentType.Subscription,
-                billingPlan: this.props.plans[i].type,
-                priceId: this.props.plans[i].priceId
+                billingPlan: this.props.plans[i].interval,
+                priceId: this.props.plans[i].id
             })
         })
     }

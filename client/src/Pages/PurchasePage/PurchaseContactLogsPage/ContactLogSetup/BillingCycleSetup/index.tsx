@@ -16,6 +16,7 @@ class BillingCycleSetup extends React.Component<Props> {
                 <BillingCycleDescription>{this.props.description}</BillingCycleDescription>
                 <BillingCycleOptions 
                     cart={this.props.cart}
+                    onBillingPlan={this.props.onBillingPlan}
                     addToCart={this.props.addItemToCart}
                     removeFromCart={this.props.removeFromCart}
                     plans={this.props.plans} />

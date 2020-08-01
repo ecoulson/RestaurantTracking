@@ -3,7 +3,7 @@ import IRequestProps from "../IRequestProps";
 import IRegisterOrganizationResponse from "./IRegisterOrganizationResponse";
 
 export default interface IRegisterOrganizationRequest extends IRequestProps<IRegisterOrganizationResponse> {
-    address: IAddress;
+    address: IAddress | null;
     organizationName: string;
     organizationId: string;
 }

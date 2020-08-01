@@ -1,4 +1,4 @@
-import React, { MouseEvent } from "react";
+import React from "react";
 import BasicLayout from "../../../Layouts/BasicLayout";
 import IState from "../../../Store/IState";
 import { ConnectedProps, connect } from "react-redux";
@@ -23,6 +23,7 @@ import NextButton from "./NextButton";
 import IRegisterOrganizationResponse from "../../../API/RegisterOrganizationRequest/IRegisterOrganizationResponse";
 import AppHistory from "../../../AppHistory";
 import RegisterAppRequest from "../../../API/RegisterAppRequest";
+import IPrice from "../../../API/GetBillingPlanRequest/IPrice";
 
 class PurchaseContactLogsPage extends React.Component<Props, IPurchaseContactLogsPageState> {
     constructor(props : Props) {
@@ -31,21 +32,16 @@ class PurchaseContactLogsPage extends React.Component<Props, IPurchaseContactLog
             page: 0,
             paymentIntentSecret : "",
             billingEmail: new FormValue<string>("", false),
-            address: {
-                addressLine1: "",
-                addressLine2: "",
-                city: "",
-                zip: "",
-                country: "",
-                state: ""
-            },
+            address: null,
             organizationName: "",
             organizationId: "",
             shouldCreateOrganization: false,
             shouldCreateApp: false,
             stripeProductId: "",
-            stripeSubscriptionId: ""
+            stripeSubscriptionId: "",
+            billingPlan: null
         }
+        this.canProgress = this.canProgress.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handlePaymentIntent = this.handlePaymentIntent.bind(this);
         this.handleBillingEmail = this.handleBillingEmail.bind(this);
@@ -56,6 +52,7 @@ class PurchaseContactLogsPage extends React.Component<Props, IPurchaseContactLog
         this.handleOrganizationName = this.handleOrganizationName.bind(this);
         this.onOrganizationRegistrationFailed = this.onOrganizationRegistrationFailed.bind(this);
         this.onAppError = this.onAppError.bind(this);
+        this.handleBillingPlan = this.handleBillingPlan.bind(this);
         props.setShopMode()
     }
 
@@ -87,6 +84,7 @@ class PurchaseContactLogsPage extends React.Component<Props, IPurchaseContactLog
                     <div className="contact-log-checkout">
                         <ContactLogSetup 
                             cart={this.props.cart}
+                            onBillingPlan={this.handleBillingPlan}
                             onBillingEmail={this.handleBillingEmail}
                             onPaymentIntent={this.handlePaymentIntent}
                             onAddress={this.handleAddress}
@@ -96,6 +94,7 @@ class PurchaseContactLogsPage extends React.Component<Props, IPurchaseContactLog
                         <Cart />
                     </div>
                     <NextButton 
+                        canProgress={this.canProgress}
                         page={this.state.page}
                         onClick={this.handlePageChange}
                         setCheckoutMode={this.props.setCheckoutMode}
@@ -104,6 +103,21 @@ class PurchaseContactLogsPage extends React.Component<Props, IPurchaseContactLog
                 </Form>
             </BasicLayout>
         )
+    }
+
+    canProgress() {
+        switch (this.state.page) {
+            case 0:
+                return this.state.billingPlan !== null;
+            case 1:
+                return this.props.cart.length > 1;
+            default:
+                return false;
+        }
+    }
+
+    handleBillingPlan(billingPlan: IPrice) {
+        this.setState({ billingPlan })
     }
 
     handleAddress(address : IAddress) {
@@ -131,9 +145,14 @@ class PurchaseContactLogsPage extends React.Component<Props, IPurchaseContactLog
     }
     
     handleSubmit() {
-        this.setState({
-            shouldCreateOrganization: true
-        })
+        if (this.state.address !== null && 
+            this.state.billingEmail.valid && 
+            this.state.billingPlan !== null && 
+            this.props.cart.length > 1) {
+            this.setState({
+                shouldCreateOrganization: true
+            })
+        }
     }
 
     onOrganizationRegistrationFailed() {
@@ -149,7 +168,11 @@ class PurchaseContactLogsPage extends React.Component<Props, IPurchaseContactLog
             if (!paymentMethod) {
                 this.props.showError("Failed to create payment method", 5000)
             } else {
-                await this.createSubscription(organization.stripeId, paymentMethod.id, "price_1HAoY9DHaKfj17c3o9S4G82Q")
+                await this.createSubscription(
+                    organization.stripeId, 
+                    paymentMethod.id, 
+                    this.state.billingPlan?.id as string
+                )
             }
         }
     }

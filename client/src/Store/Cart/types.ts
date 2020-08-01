@@ -1,5 +1,3 @@
-import BillingCycleType from "../../Pages/PurchasePage/PurchaseContactLogsPage/ContactLogSetup/BillingCycleSetup/BillingCycleType";
-
 export interface ICart {
     items: ICartItem[],
     isCheckingOut: boolean;
@@ -18,7 +16,7 @@ export interface ICartItem {
     quantity: number;
     productImage: string;
     type: PaymentType;
-    billingPlan?: BillingCycleType;
+    billingPlan?: string;
     priceId: string
 }
 

@@ -1,6 +1,7 @@
-import IBillingCyclePlan from "./IBillingCyclePlan";
+import IPrice from "../../../../../API/GetBillingPlanRequest/IPrice";
 
 export default interface IBillingCycleSetupProps {
-    plans: IBillingCyclePlan[];
+    plans: IPrice[];
     description: string;
+    onBillingPlan: (billingPlan: IPrice) => void;
 }

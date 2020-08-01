@@ -2,12 +2,23 @@ import React from "react";
 import LocationSetup from "./LocationSetup";
 import BillingCycleSetup from "./BillingCycleSetup";
 import "./index.css";
-import BillingCycleType from "./BillingCycleSetup/BillingCycleType";
-import ContactLogPricingStrategy from "../../../LearnMorePage/PricingSection/ContactLogPricing/ContactLogPricingStrategy";
 import IContactLogSetupProps from "./IContactLogSetupProps";
 import OrganizationSetup from "./OrganizationSetup";
+import IContactLogSetupState from "./IContactLogSetupState";
+import GetBillingPlanRequest from "../../../../API/GetBillingPlanRequest";
+import AppType from "../../../../lib/AppType";
+import IResponse from "../../../../API/IResponse";
+import IPrice from "../../../../API/GetBillingPlanRequest/IPrice";
 
-export default class ContactLogSetup extends React.Component<IContactLogSetupProps> {
+export default class ContactLogSetup extends React.Component<IContactLogSetupProps, IContactLogSetupState> {
+    constructor(props : IContactLogSetupProps) {
+        super(props);
+        this.state = {
+            prices: []
+        }
+        this.onBillingPlan = this.onBillingPlan.bind(this);
+    }
+
     render() {
         return (
             <div className="contact-log-setup-container">
@@ -17,42 +28,20 @@ export default class ContactLogSetup extends React.Component<IContactLogSetupPro
     }
 
     getPage() {
-        const pricingStrategy = new ContactLogPricingStrategy();
-        const breakdown = pricingStrategy.getPriceBreakdown()
         switch(this.props.page) {
             case 0:
                 return (
-                    <BillingCycleSetup plans={[
-                        {
-                            type: BillingCycleType.Monthly,
-                            name: "Tier 1",
-                            cost: Math.ceil(breakdown.get("software") as number / 12),
-                            unit: "month",
-                            priceId: "price_1HAoY9DHaKfj17c3o9S4G82Q"
-                        },
-                        {
-                            type: BillingCycleType.Monthly,
-                            name: "Tier 2",
-                            cost: Math.ceil(breakdown.get("software") as number / 2),
-                            unit: "6 months",
-                            priceId: "price_1HAobzDHaKfj17c3Q6Ik4yrG"
-                        },
-                        {
-                            type: BillingCycleType.Monthly,
-                            name: "Tier 3",
-                            cost: breakdown.get("software") as number,
-                            unit: "year",
-                            priceId: "price_1HAobzDHaKfj17c3Q6Ik4yrG"
-                        },
-                        {
-                            type: BillingCycleType.Monthly,
-                            name: "Tier 4",
-                            cost: breakdown.get("software") as number,
-                            unit: "year",
-                            priceId: "price_1HAog1DHaKfj17c3y3rsuHNT"
-                        }
-                    ]} 
-                    description="Chose a billing plan to maintain your contact logs software" />
+                    <> 
+                        <GetBillingPlanRequest
+                            send
+                            appType={AppType.ContactLogs}
+                            onComplete={this.onBillingPlan}
+                            />
+                        <BillingCycleSetup plans={this.state.prices} 
+                            description="Chose a billing plan to maintain your contact logs software"
+                            onBillingPlan={this.props.onBillingPlan}
+                            />
+                    </>
                 )
             case 1:
                 return <LocationSetup />
@@ -65,5 +54,11 @@ export default class ContactLogSetup extends React.Component<IContactLogSetupPro
                             onOrganizationName={this.props.onOrganizationName}
                             cart={this.props.cart} />
         }
+    }
+
+    onBillingPlan(response : IResponse<IPrice[]>) {
+        this.setState({
+            prices: response.data
+        })
     }
 }

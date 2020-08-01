@@ -38,6 +38,10 @@ import UpdatePaymentMethodService from "../services/Payment/UpdatePaymentMethod/
 import CancelSubscriptionService from "../services/Payment/CancelSubscription/CancelSubscriptionService";
 import GetAppService from "../services/App/GetAppService";
 import PermissionBroker from "../brokers/PermissionBroker";
+import BillingPlanRouter from "./BillingPlan/BillingPlanRouter";
+import BillingPlanBroker from "../brokers/BillingPlanBroker";
+import BillingPlanController from "../controllers/BillingPlan/BillingPlanController";
+import GetBillingPlanService from "../services/BillingPlan/GetBillingPlanService";
 
 export default class APIRouteConfiguration extends RouterConfiguration {
     configureRoutes() {
@@ -117,6 +121,14 @@ export default class APIRouteConfiguration extends RouterConfiguration {
             new StripeWebhookController(stripeBroker, new StripeWebhookService([
                 new AppActivationHandler(appBroker)
             ]))
+        ).setup())
+
+        this.router.use("/billing-plan", new BillingPlanRouter(
+            new BillingPlanController(
+                new GetBillingPlanService(
+                    new BillingPlanBroker(stripe)
+                )
+            )
         ).setup())
     }
 }

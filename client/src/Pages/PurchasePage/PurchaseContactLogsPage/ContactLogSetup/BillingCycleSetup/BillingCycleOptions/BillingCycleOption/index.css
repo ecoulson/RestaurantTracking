@@ -1,5 +1,5 @@
 .billing-cycle-option {
-    height: 200px;
+    height: 250px;
     padding: 3px;
     margin: 10px auto;
     box-sizing: border-box;
@@ -13,6 +13,14 @@
     box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.03);
     background: transparent;
     border: 2px solid black;
+    position: relative;
+}
+
+.billing-cycle-option-container > .button {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    margin-left: -52px;
 }
 
 @media all and (min-width: 620px) {
