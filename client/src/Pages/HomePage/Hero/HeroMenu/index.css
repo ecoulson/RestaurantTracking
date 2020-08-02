@@ -2,9 +2,11 @@
     position: absolute;
     top: 65px;
     right: 65px;
+    z-index: 100;
 }
 
 .hero-menu > .icon {
+    z-index: 100;
     transition: all 0.25s ease;
 }
 

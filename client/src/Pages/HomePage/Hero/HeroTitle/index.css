@@ -2,12 +2,14 @@
     text-align: center;
     letter-spacing: 12.1px;
     color: #FFFFFF;
-    font-size: 100px;
+    font-size: 90px;
     width: 100%;
     margin: 0;
     padding: 40px 0px;
     font-weight: 100;
     font-family: 'sweet-sans-pro';
+    z-index: 100;
+    position: relative;
 }
 
 @media all and (max-width : 800px) {

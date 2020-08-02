@@ -13,13 +13,3 @@
 .no-webp .hero {
     background-image: url('./hero-background.jpg');
 }
-
-/* @media all and (max-width: 500px) {
-    .webp .hero {
-        background-size: auto 100vh;
-    }
-
-    .no-webp .hero {
-        background-size: auto 100vh;
-    }
-} */
