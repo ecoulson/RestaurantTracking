@@ -7,6 +7,7 @@ import ICreateSubscriptionService from "../../services/Payment/CreateSubscriptio
 import IGetSetupIntentService from "../../services/Payment/SetupIntent/IGetSetupIntentService";
 import IUpdatePaymentMethodService from "../../services/Payment/UpdatePaymentMethod/IUpdatePaymentMethodService";
 import ICancelSubscriptionService from "../../services/Payment/CancelSubscription/ICancelSubscriptionService";
+import ICreateInvoiceService from "../../services/Payment/CreateInvoice/ICreateInvoiceService";
 
 export default class PaymentController implements IPaymentController {
     private paymentService : IPaymentService;
@@ -15,6 +16,7 @@ export default class PaymentController implements IPaymentController {
     private getSetupIntentService : IGetSetupIntentService;
     private updatePaymentService : IUpdatePaymentMethodService;
     private cancelSubscriptionService : ICancelSubscriptionService;
+    private createInvoiceService : ICreateInvoiceService;
 
     constructor(
         paymentService: IPaymentService, 
@@ -22,7 +24,8 @@ export default class PaymentController implements IPaymentController {
         createSubscriptionService : ICreateSubscriptionService,
         getSetupIntentService: IGetSetupIntentService,
         updatePaymentService : IUpdatePaymentMethodService,
-        cancelSubscriptionService : ICancelSubscriptionService
+        cancelSubscriptionService : ICancelSubscriptionService,
+        createInvoiceService : ICreateInvoiceService
     ) {
         this.paymentService = paymentService
         this.createCustomerService = createCustomerService;
@@ -30,6 +33,7 @@ export default class PaymentController implements IPaymentController {
         this.getSetupIntentService = getSetupIntentService;
         this.updatePaymentService = updatePaymentService;
         this.cancelSubscriptionService = cancelSubscriptionService
+        this.createInvoiceService = createInvoiceService;
     }
 
     handlePayment() {
@@ -86,6 +90,16 @@ export default class PaymentController implements IPaymentController {
     handleCancelSubscription() {
         return async (req : Request, res : Response) => {
             await this.cancelSubscriptionService.cancelSubscription(req.body.subscriptionId)
+            return new JSONResponse(res).send();
+        }
+    }
+
+    handleCreateInvoice() {
+        return async (req : Request, res : Response) => {
+            await this.createInvoiceService.createInvoice(
+                req.body.customerId,
+                req.body.cartItems
+            )
             return new JSONResponse(res).send();
         }
     }

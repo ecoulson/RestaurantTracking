@@ -144,4 +144,29 @@ export default class StripeBroker {
             throw error;
         }
     }
+
+    async createInvoice(customerId: string) {
+        try {
+            return await this.stripe.invoices.create({
+                customer: customerId,
+                auto_advance: true,
+                collection_method: "charge_automatically",
+            })
+        } catch (error) {
+            throw error
+        }
+    }
+
+    async createInvoiceItem(customerId: string, description: string, amount: number) {
+        try {
+            return await this.stripe.invoiceItems.create({
+                customer: customerId,
+                description: description,
+                amount: amount * 100,
+                currency: "USD"
+            })
+        } catch (error) {
+            throw error;
+        }
+    }
 }

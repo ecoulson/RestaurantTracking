@@ -37,11 +37,17 @@ const CancelSubscriptionSchema = Joi.object({
     subscriptionId: Joi.string().required(),
 });
 
+const CreateInvoiceSchema = Joi.object({
+    customerId: Joi.string().required(),
+    cartItems: Joi.any().required()
+})
+
 export {
     PaymentBodySchema,
     CreateCustomerBodySchema,
     CreateSubscriptionSchema,
     CancelSubscriptionSchema,
     GetSetupIntentSchema,
-    UpdatePaymentMethodSchema
+    UpdatePaymentMethodSchema,
+    CreateInvoiceSchema
 };

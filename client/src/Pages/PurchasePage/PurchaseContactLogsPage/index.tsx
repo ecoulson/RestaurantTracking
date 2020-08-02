@@ -24,6 +24,7 @@ import IRegisterOrganizationResponse from "../../../API/RegisterOrganizationRequ
 import AppHistory from "../../../AppHistory";
 import RegisterAppRequest from "../../../API/RegisterAppRequest";
 import IPrice from "../../../API/GetBillingPlanRequest/IPrice";
+import { ProductType } from "../../../Store/Cart/types";
 
 class PurchaseContactLogsPage extends React.Component<Props, IPurchaseContactLogsPageState> {
     constructor(props : Props) {
@@ -173,6 +174,7 @@ class PurchaseContactLogsPage extends React.Component<Props, IPurchaseContactLog
             if (!paymentMethod) {
                 this.props.showError("Failed to create payment method", 5000)
             } else {
+                await this.addSetupFee(organization.stripeId)
                 await this.createSubscription(
                     organization.stripeId, 
                     paymentMethod.id, 
@@ -208,6 +210,21 @@ class PurchaseContactLogsPage extends React.Component<Props, IPurchaseContactLog
             })
             return result.paymentMethod;   
         }
+    }
+
+    async addSetupFee(customerId: string) {
+        const physicalProducts = this.props.cart.filter((cartItem) => {
+            return cartItem.productType === ProductType.Physical
+        });
+        const response = await Axios.post("/api/payment/create-invoice", {
+            cartItems: physicalProducts,
+            customerId
+        }, {
+            headers: {
+                "Authorization": `Bearer ${Cookie.getCookie("token")}`
+            }
+        });
+        console.log(response.data);
     }
 
     async createSubscription(customerId : string, paymentMethodId : string, priceId: string) {

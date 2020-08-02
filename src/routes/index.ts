@@ -45,6 +45,7 @@ import GetBillingPlanService from "../services/BillingPlan/GetBillingPlanService
 import ProductPricesController from "../controllers/ProductPrices/ProductPricesController";
 import ProductPricesRouter from "./ProductPrices/ProductPricesRouter";
 import GetProductPricesService from "../services/ProductPrices/GetProductPricesService";
+import CreateInvoiceService from "../services/Payment/CreateInvoice/CreateInvoiceService";
 
 export default class APIRouteConfiguration extends RouterConfiguration {
     configureRoutes() {
@@ -116,7 +117,8 @@ export default class APIRouteConfiguration extends RouterConfiguration {
                     organizationBroker, 
                     permissionBroker, 
                     permissionSetBroker
-                )
+                ),
+                new CreateInvoiceService(stripeBroker)
             )
         ).setup())
 
