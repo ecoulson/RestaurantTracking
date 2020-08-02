@@ -44,7 +44,6 @@ export default class Hero extends React.Component<{}, IHeroState> {
         }
     }
 
-
     getClass() {
         if (this.state.hasRendered) {
             return this.state.isVisible ?

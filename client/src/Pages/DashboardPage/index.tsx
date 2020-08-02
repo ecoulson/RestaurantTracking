@@ -4,6 +4,7 @@ import Widget from "../../Components/Widget";
 import Button from "../../Components/Button";
 import AppHistory from "../../AppHistory";
 import WidgetTitle from "../../Components/WidgetTitle";
+import "./index.css"
 
 export default class DashboardPage extends React.Component {
     render() {
@@ -11,7 +12,7 @@ export default class DashboardPage extends React.Component {
             <DashboardLayout title="Dashboard">
                 <Widget columns={5} rows={2}>
                     <WidgetTitle>Get Started</WidgetTitle>
-                    <p>Start by setting up your business, institution, or organization</p>
+                    <p className="getting-started">Start by setting up your business, institution, or organization</p>
                     <Button onClick={() => AppHistory.push("/marketplace")}>Visit Marketplace</Button>
                 </Widget>
             </DashboardLayout>

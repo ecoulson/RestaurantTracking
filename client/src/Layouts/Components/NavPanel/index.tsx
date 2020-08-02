@@ -10,6 +10,7 @@ import IState from "../../../Store/IState";
 import Icon from "../../../Components/Icon";
 import IconType from "../../../Components/Icon/IconTypes";
 import { toggleNavPanelCollapseAction, toggleNavPanelHideAction } from "../../../Store/NavPanel/actions"
+import { Link } from "react-router-dom";
 
 class NavPanel extends React.Component<Props> {
     render() {
@@ -19,7 +20,9 @@ class NavPanel extends React.Component<Props> {
                     <Icon color="#b1b1b3" icon={IconType.HamburgerMenu} />
                 </div>
                 <div className={this.getContainerClass()}>
-                    <Logo collapsed={this.props.collapsed} dark horizontal />
+                    <Link to="/">
+                        <Logo collapsed={this.props.collapsed} dark horizontal />
+                    </Link>
                     <NavPanelCollapseButton collapsed={this.props.collapsed} onClick={this.props.toggleCollapse} />
                     <NavPanelLinks collapsed={this.props.collapsed} />
                     <NavPanelProfile />
