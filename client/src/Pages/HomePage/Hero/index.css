@@ -1,19 +1,20 @@
 .hero {
     width: 100%;
     min-height: 100vh;
-    box-sizing: border-box;
     font-family: 'myriad-pro';
+    background-size: unset;
     background-size: cover;
+    background-position: center center;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    background: url("./hero-background.webp");
+    background-image: url('./hero-background.webp');
 }
 
 .no-webp .hero {
-    background: url("./hero-background.jpg");
+    background-image: url('./hero-background.jpg');
 }
 
-@media all and (max-width: 500px) {
+/* @media all and (max-width: 500px) {
     .webp .hero {
         background-size: auto 100vh;
     }
@@ -21,4 +22,4 @@
     .no-webp .hero {
         background-size: auto 100vh;
     }
-}
+} */

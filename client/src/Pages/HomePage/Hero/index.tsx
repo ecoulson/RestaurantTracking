@@ -5,6 +5,7 @@ import HeroTitle from "./HeroTitle";
 import SimpleButton from "../../../Components/SimpleButton";
 import HeroInfo from "./HeroInfo";
 import HeroScrollArrow from "./HeroScrollArrow";
+import HeroMenu from "./HeroMenu";
 
 export default class Hero extends React.Component {
     render() {
@@ -12,7 +13,7 @@ export default class Hero extends React.Component {
             <div className="hero">
                 <HeroLogo />
                 <HeroTitle />
-                {/* <HeroMenu /> */}
+                <HeroMenu />
                 <div className="hero-container">
                     <HeroInfo />
                     <SimpleButton center to="/register">Create Account</SimpleButton>
