@@ -19,13 +19,15 @@ export default class PurchasePage extends React.Component<IPurchasePageProps> {
                 return (
                     <Elements stripe={stripePromise}>
                         <ElementsConsumer>
-                                {({elements, stripe}) => (
-                                    <ContactLogsPurchase 
-                                        showError={this.props.showError}
-                                        elements={elements}
-                                        stripe={stripe}
-                                        showSuccess={this.props.showSuccess} />
-                                )}
+                                {({elements, stripe}) => {
+                                    return (
+                                        <ContactLogsPurchase 
+                                            showError={this.props.showError}
+                                            elements={elements}
+                                            stripe={stripe}
+                                            showSuccess={this.props.showSuccess} />
+                                    )
+                                }}
                         </ElementsConsumer>
                     </Elements>
                 )

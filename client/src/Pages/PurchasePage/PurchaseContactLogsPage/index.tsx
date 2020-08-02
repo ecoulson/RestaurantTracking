@@ -54,6 +54,7 @@ class PurchaseContactLogsPage extends React.Component<Props, IPurchaseContactLog
         this.onOrganizationRegistrationFailed = this.onOrganizationRegistrationFailed.bind(this);
         this.onAppError = this.onAppError.bind(this);
         this.handleBillingPlan = this.handleBillingPlan.bind(this);
+        this.showError = this.showError.bind(this);
         props.setShopMode()
     }
 
@@ -101,6 +102,7 @@ class PurchaseContactLogsPage extends React.Component<Props, IPurchaseContactLog
                     <NextButton 
                         canProgress={this.canProgress}
                         page={this.state.page}
+                        showError={this.showError}
                         onClick={this.handlePageChange}
                         setCheckoutMode={this.props.setCheckoutMode}
                         setShopMode={this.props.setShopMode}
@@ -119,6 +121,18 @@ class PurchaseContactLogsPage extends React.Component<Props, IPurchaseContactLog
                         this.props.cart.length > 1;
             default:
                 return false;
+        }
+    }
+
+    showError() {
+        if (this.state.billingPlan === null) {
+            this.props.showError("Please select an app plan", 5000)
+        } else if (this.props.cart.length === 1) {
+            this.props.showError("Please add a location", 5000)
+        } else if (!this.state.address) {
+            this.props.showError("Please enter a valid address", 5000)
+        } else if (!this.state.billingEmail.valid) {
+            this.props.showError("Please enter a valid billing email", 5000)
         }
     }
 
@@ -158,6 +172,8 @@ class PurchaseContactLogsPage extends React.Component<Props, IPurchaseContactLog
             this.setState({
                 shouldCreateOrganization: true
             })
+        } else {
+            this.showError()
         }
     }
 

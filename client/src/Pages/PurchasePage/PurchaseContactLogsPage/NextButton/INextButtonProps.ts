@@ -5,4 +5,5 @@ export default interface INextButtonProps {
     page: number;
     setCheckoutMode: () => void;
     setShopMode: () => void;
+    showError: () => void;
 }

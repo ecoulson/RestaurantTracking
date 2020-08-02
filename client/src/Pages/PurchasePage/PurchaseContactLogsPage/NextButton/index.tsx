@@ -20,7 +20,7 @@ export default class NextButton extends React.Component<INextButtonProps> {
             this.props.onClick(this.props.page + 1)
             this.setCartMode()
         } else {
-            
+            this.props.showError();
         }
     }
 
