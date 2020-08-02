@@ -8,6 +8,10 @@ import { addToast, removeToast } from "../../Store/Toast/actions";
 import { connect } from "react-redux";
 
 class GetAppRequest extends RequestComponent<IGetAppRequest, IApp> {
+    getFailureMessage() {
+        return "Failed to get app"
+    }
+
     async onLoad() {
         return (await Axios.get(`/api/app/${this.props.id}`, {
             headers: {

@@ -78,7 +78,6 @@ export default class ContactLogSetup extends React.Component<IContactLogSetupPro
     }
 
     onProductPrices(response : IResponse<IProductPrice[]>) {
-        console.log(response.data);
         this.setState({
             productPrices: response.data
         })

@@ -66,7 +66,8 @@ export default class APIRouteConfiguration extends RouterConfiguration {
                 new CheckInService(
                     organizationBroker,
                     new PermissionBuilder(),
-                    userBroker
+                    userBroker,
+                    appBroker
                 ),
                 new GetCheckInService(
                     checkInBroker

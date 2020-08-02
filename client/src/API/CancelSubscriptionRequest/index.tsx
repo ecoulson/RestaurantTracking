@@ -7,6 +7,10 @@ import { removeToast, addToast } from "../../Store/Toast/actions";
 import IState from "../../Store/IState";
 
 class CancelSubscriptionRequest extends RequestComponent<ICancelSubscriptionRequest> {
+    getFetchingMessage() {
+        return "Canceling subscription..."
+    }
+
     async onLoad() {
         return (await Axios.post(`/api/payment/cancel-subscription`, {
             subscriptionId: this.props.subscriptionId

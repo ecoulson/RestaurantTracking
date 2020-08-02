@@ -56,7 +56,7 @@ export default class DisplayInput extends React.Component<IDisplayInputProps, ID
         const price = productPrice.prices[0].unit_amount as number / 100
         return (
             <NumberInput 
-                id={`${productPrice}-${this.state.type}`}
+                id={`${productPrice.product.id}`}
                 value={isNaN(value) ? "" : value.toString()}
                 onChange={this.getDisplayChangeHandler()} 
                 hoverColor="black"

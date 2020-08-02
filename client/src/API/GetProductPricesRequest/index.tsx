@@ -7,6 +7,10 @@ import { removeToast, addToast } from "../../Store/Toast/actions";
 import IProductPrice from "./IProductPrice";
 
 class GetProductPricesRequest extends RequestComponent<IGetProductPricesRequest, IProductPrice[]> {
+    getFailureMessage() {
+        return "Failed to get products"
+    }
+
     async onLoad() {
         return (
             await Axios.get(`/api/product-prices/${this.props.type}`)

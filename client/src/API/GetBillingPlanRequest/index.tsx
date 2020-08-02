@@ -7,6 +7,10 @@ import Axios from "axios";
 import IPrice from "./IPrice";
 
 class GetBillingPlanRequest extends RequestComponent<IGetBillingPlanRequest, IPrice[]> {
+    getFailureMessage() {
+        return "Failed to get billing plans"
+    }
+
     async onLoad() {
         return (await Axios.get(`/api/billing-plan/${this.props.appType}`)).data
     }
