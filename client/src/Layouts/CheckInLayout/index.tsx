@@ -12,7 +12,7 @@ export default class CheckInLayout extends React.Component<ICheckInLayoutProps> 
             <PageLayout pageTitle={this.props.pageTitle}>
                 <CheckInBackground>
                     <CheckInMenu organizationId={this.props.organizationId} />
-                    <CheckInHeader />
+                    <CheckInHeader organizationId={this.props.organizationId} />
                     {this.props.children}
                     <CheckInFooter />
                 </CheckInBackground>

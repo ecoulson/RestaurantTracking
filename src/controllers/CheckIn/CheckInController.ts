@@ -9,18 +9,27 @@ import ICheckInController from "./ICheckInController";
 import IGetCheckInService from "../../services/CheckIn/IGetCheckInService";
 import ICheckoutService from "../../services/CheckIn/ICheckoutService";
 import ICheckInQRService from "../../services/CheckIn/ICheckInQRService";
+import ISyncCheckInsService from "../../services/CheckIn/ISyncCheckInsService";
 
 export default class CheckInController implements ICheckInController {
     private checkInService : CheckInService;
     private getCheckInService : IGetCheckInService;
     private checkOutService : ICheckoutService;
     private qrCodeService : ICheckInQRService;
+    private syncCheckInService : ISyncCheckInsService
 
-    constructor(checkInService : CheckInService, getCheckInService : IGetCheckInService, checkoutService : ICheckoutService, qrCodeService : ICheckInQRService) {
+    constructor(
+        checkInService : CheckInService, 
+        getCheckInService : IGetCheckInService, 
+        checkoutService : ICheckoutService, 
+        qrCodeService : ICheckInQRService,
+        syncCheckInService : ISyncCheckInsService
+    ) {
         this.checkInService = checkInService;
         this.getCheckInService = getCheckInService;
         this.checkOutService = checkoutService;
         this.qrCodeService = qrCodeService;
+        this.syncCheckInService = syncCheckInService;
     }
 
     handleCheckIn() {
@@ -61,6 +70,19 @@ export default class CheckInController implements ICheckInController {
     handleGetQRCode() {
         return async (req : Request, res: Response) => {
             return this.qrCodeService.getQRStream(req.body.organizationId, req.body.building)(res);
+        }
+    }
+
+    handleSyncCheckIns() {
+        return async (req : Request, res: Response) => {
+            return new JSONResponse(res).send({
+                token: await this.syncCheckInService.syncCheckIns(
+                    req.user,
+                    req.body.username,
+                    req.body.password,
+                    req.params.organizationId
+                )
+            });
         }
     }
 }

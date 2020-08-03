@@ -19,8 +19,11 @@ export default class UserPermissionSetupService implements IUserPermissionSetupS
     async setup(user : IUser) {
         const userPermissionSet = await this.permissionSetService.create(`User:${user._id}`);
         await user.addPermissionSet(userPermissionSet);
+        console.log("ccc")
         const userPermission = await this.createSelfAccessPermission(user);
+        console.log("ddd")
         await userPermissionSet.addPermission(userPermission);
+        console.log("eee")
         return await this.saveUser(user);
     }
 

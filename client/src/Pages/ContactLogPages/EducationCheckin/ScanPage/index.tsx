@@ -13,6 +13,8 @@ import AppHistory from "../../../../AppHistory";
 import CheckOutRequest from "../../../../API/CheckOutRequest";
 import CheckInRequest from "../../../../API/CheckInRequest";
 import CheckInLayout from "../../../../Layouts/CheckInLayout";
+import ReigsterAnonymousOrganizationUserRequest from "../../../../API/RegisterAnonymousOrganizationUserRequest";
+import IRegisterAnonymousOrganizationUserResponse from "../../../../API/RegisterAnonymousOrganizationUserRequest/IRegisterAnonymousOrganizationUserResponse";
 
 export default class ScanPage extends React.Component<IScanPageProps, IScanPageState> {
     constructor(props : IScanPageProps) {
@@ -21,7 +23,8 @@ export default class ScanPage extends React.Component<IScanPageProps, IScanPageS
             organizationName: "",
             isCheckedIn: false,
             checkOut: false,
-            shouldCheckIn: false
+            shouldCheckIn: false,
+            createAnonymousAccount: false
         }
         this.onOrganizationName = this.onOrganizationName.bind(this);
         this.onGetCheckIn = this.onGetCheckIn.bind(this);
@@ -29,22 +32,30 @@ export default class ScanPage extends React.Component<IScanPageProps, IScanPageS
         this.onCheckOut = this.onCheckOut.bind(this);
         this.onCheckIn = this.onCheckIn.bind(this);
         this.onCheckInError = this.onCheckInError.bind(this);
+        this.onAnonymousRegister = this.onAnonymousRegister.bind(this);
     }
 
     componentWillMount() {
-        if (Cookie.getCookie("checkInId")) {
+        if (Cookie.hasCookie("checkInId")) {
             this.setState({
                 isCheckedIn: true
             })
         }
         if (!Cookie.hasCookie("token")) {
-            throw Error("handle anon account")
+            this.setState({
+                createAnonymousAccount: true
+            })
         }
     }
 
     render() {
         return (
             <CheckInLayout organizationId={this.props.match.params.organizationId} pageTitle="Checking In...">
+                <ReigsterAnonymousOrganizationUserRequest 
+                    send={this.state.createAnonymousAccount}
+                    organizationId={this.props.match.params.organizationId}
+                    onComplete={this.onAnonymousRegister}
+                    />
                 <CheckOutRequest
                     send={this.state.checkOut}
                     onError={this.onCheckOutError}
@@ -55,7 +66,7 @@ export default class ScanPage extends React.Component<IScanPageProps, IScanPageS
                     checkInId={Cookie.getCookie("checkInId") as string}
                     onComplete={this.onGetCheckIn} />
                 <GetOrganizationNameRequest
-                    send
+                    send={!this.state.createAnonymousAccount}
                     organizationId={this.props.match.params.organizationId}
                     onComplete={this.onOrganizationName} />
                 <CheckInRequest
@@ -70,6 +81,13 @@ export default class ScanPage extends React.Component<IScanPageProps, IScanPageS
                 <Instructions>Checking into <b>{this.getBuildingName()}</b>...</Instructions>
             </CheckInLayout>
         )
+    }
+
+    onAnonymousRegister(response : IResponse<IRegisterAnonymousOrganizationUserResponse>) {
+        Cookie.setCookie("token", response.data.token, 365);
+        this.setState({
+            createAnonymousAccount: false
+        })
     }
 
     getBuildingName() {

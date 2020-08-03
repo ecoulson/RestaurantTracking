@@ -3,4 +3,5 @@ export default interface IScanPageState {
     isCheckedIn: boolean;
     checkOut: boolean;
     shouldCheckIn: boolean;
+    createAnonymousAccount: boolean;
 }

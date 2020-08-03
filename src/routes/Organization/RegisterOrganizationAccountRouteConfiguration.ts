@@ -22,6 +22,12 @@ export default class RegisterOrganizationAccountRouteConfiguration extends Route
         )
 
         this.router.post(
+            '/:organizationId/register-anonymous',
+            new ValidationMiddleware(OrganizationIdParametersSchema).validateParams(),
+            ErrorCatchingMiddleware.catchErrors(this.controller.handleAnonymousRegistration())
+        )
+
+        this.router.post(
             '/:organizationId/resend-verification',
             new ValidationMiddleware(EmailBodySchema).validateBody(),
             new JSONWebTokenAuthenticationStrategy().authenticate(),

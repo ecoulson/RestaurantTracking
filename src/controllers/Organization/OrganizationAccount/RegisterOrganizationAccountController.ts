@@ -4,24 +4,35 @@ import IRegisterOrganizationAccountService from "../../../services/Organization/
 import IVerifyUserService from "../../../services/User/Registration/IVerifyUserService";
 import JSONResponse from "../../../lib/HTTP/JSONResponse";
 import VerifyOrganizationAccountStrategy from "./VerifyOrganizationAccountStrategy";
-import crypto from "crypto";
 import UserBroker from "../../../brokers/UserBroker";
 import EmailService from "../../../services/Email/EmailService";
+import { v1 } from "uuid"
+import IAuthenticationService from "../../../services/Authentication/IAuthenticationService";
 
 export default class RegisterOrganizationAccountController implements IRegisterOrganizationAccountController {
     private registrationService : IRegisterOrganizationAccountService;
     private verifyUserService : IVerifyUserService;
+    private anonymousRegistrationService : IRegisterOrganizationAccountService;
+    private authenticationService : IAuthenticationService;
 
-    constructor(registrationService : IRegisterOrganizationAccountService, verifyUserService : IVerifyUserService) {
+    constructor(
+        registrationService : IRegisterOrganizationAccountService, 
+        verifyUserService : IVerifyUserService,
+        anonymousRegistrationService : IRegisterOrganizationAccountService,
+        authenticationService : IAuthenticationService
+    ) {
         this.registrationService = registrationService;
         this.verifyUserService = verifyUserService;
+        this.anonymousRegistrationService = anonymousRegistrationService;
+        this.authenticationService = authenticationService;
     }
 
     handleRegistration() {
         return async (request : Request, response : Response) => {
+            const password = v1()
             const user = await this.registrationService.register(
                 request.body.email,
-                crypto.randomBytes(10).toString("hex"),
+                password,
                 request.params.organizationId
             );
             if (!user.verified) {
@@ -31,7 +42,23 @@ export default class RegisterOrganizationAccountController implements IRegisterO
                     user.email
                 ));
             }
-            return new JSONResponse(response).send({});
+            return new JSONResponse(response).send({
+                user:user.serialize()
+            });
+        }
+    }
+
+    handleAnonymousRegistration() {
+        return async (request : Request, response : Response) => {
+            const user = await this.anonymousRegistrationService.register(
+                v1(),
+                v1(),
+                request.params.organizationId
+            );
+            return new JSONResponse(response).send({
+                user: user.serialize(),
+                token: await this.authenticationService.generateAccessToken(user, true)
+            })
         }
     }
 

@@ -47,6 +47,8 @@ import ProductPricesRouter from "./ProductPrices/ProductPricesRouter";
 import GetProductPricesService from "../services/ProductPrices/GetProductPricesService";
 import CreateInvoiceService from "../services/Payment/CreateInvoice/CreateInvoiceService";
 import AppIsActiveService from "../services/App/AppIsActiveService";
+import SyncCheckInsService from "../services/CheckIn/SyncCheckInsService";
+import AuthenticationService from "../services/Authentication/AuthenticationService";
 
 export default class APIRouteConfiguration extends RouterConfiguration {
     configureRoutes() {
@@ -76,7 +78,14 @@ export default class APIRouteConfiguration extends RouterConfiguration {
                 new CheckoutService(
                     checkInBroker
                 ),
-                new SimpleCheckInQRService()
+                new SimpleCheckInQRService(),
+                new SyncCheckInsService(
+                    new AuthenticationService(),
+                    checkInBroker,
+                    permissionBroker,
+                    permissionSetBroker,
+                    userBroker
+                )
             ),
             new OrganizationBroker(),
             appBroker

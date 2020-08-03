@@ -15,7 +15,7 @@ export default class CheckInNotificationMenu extends React.Component<ICheckInNot
     render() {
         return (
             <div className={`check-in-notification-menu ${this.getClass()}`}>
-                <Link className="check-in-notification-menu-item" to="/check-in/org/verify-sync">
+                <Link className="check-in-notification-menu-item" to={`/check-in/${this.props.organizationId}/sync`}>
                     Click to verify or sync your account to save your check-ins.
                 </Link>
             </div>

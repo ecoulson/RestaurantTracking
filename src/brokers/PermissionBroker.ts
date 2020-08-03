@@ -10,6 +10,14 @@ export default class PermissionBroker {
         }
     }
 
+    async findOneByResourceId(resourceId: string) {
+        try {
+            return await PermissionModel.findOne({ resourceId })
+        } catch (error) {
+            throw error;
+        }
+    }
+
     async remove(permission: IPermission) {
         try {
             return await permission.remove();

@@ -24,6 +24,8 @@ import BuildingBroker from "../../brokers/BuildingBroker";
 import UserVerificationService from "../../services/User/Verification/UserVerificationService";
 import OrganizationExistsService from "../../services/Organization/Registration/OrganizationExsitsService";
 import UserBroker from "../../brokers/UserBroker";
+import RegisterAnonymousOrganizationAccountService from "../../services/Organization/OrganizationAccount/RegisterAnonymousOrganizationAccountService";
+import AuthenticationService from "../../services/Authentication/AuthenticationService";
 
 export default class OrganizationRouteConfiguration extends RouterConfiguration {
     private organizationController : IOrganizationController;
@@ -68,7 +70,13 @@ export default class OrganizationRouteConfiguration extends RouterConfiguration 
                     new UserPermissionSetupService(),
                     new UserBroker()
                 ),
-                new VerifyUserService()
+                new VerifyUserService(),
+                new RegisterAnonymousOrganizationAccountService(
+                    new UserBroker(),
+                    new UserPermissionSetupService(),
+                    new OrganizationBroker()
+                ),
+                new AuthenticationService()
             )
         ).setup())
 
