@@ -39,14 +39,8 @@ export default class OrganizationAccountController implements IOrganizationAccou
                 request.params.organizationId
             ));
             const token = await this.authenticationService.generateAccessToken(user, true);
-            if (!user.verified) {
-                return new JSONResponse(response).send({ 
-                    verified: false,
-                    token
-                })
-            }
             return new JSONResponse(response).send({ 
-                verified: true,
+                verified: user.verified,
                 token 
             });
         }

@@ -29,3 +29,7 @@
     z-index: 50;
     position: relative;
 }
+
+#check-in-icon-container {
+    position: relative;
+}

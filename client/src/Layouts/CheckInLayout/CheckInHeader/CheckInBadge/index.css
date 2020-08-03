@@ -1,0 +1,28 @@
+.check-in-badge {
+    background-color: #d2381d;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    border-radius: 100%;
+    z-index: 101;
+}
+
+.check-in-badge-count {
+    color: white;
+    font-size: 12px;
+    line-height: 0;
+    font-weight: 800;
+    display: block;
+    margin-top: 10px;
+}
+
+.check-in-badge-show {
+    display: block;
+}
+
+.check-in-badge-hide {
+    display: none;
+}

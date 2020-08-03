@@ -37,6 +37,9 @@ export default class ScanPage extends React.Component<IScanPageProps, IScanPageS
                 isCheckedIn: true
             })
         }
+        if (!Cookie.hasCookie("token")) {
+            throw Error("handle anon account")
+        }
     }
 
     render() {

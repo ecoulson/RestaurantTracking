@@ -7,6 +7,7 @@ import GetOrganizationNameRequest from "../../../../API/GetOrganizationNameReque
 import IResponse from "../../../../API/IResponse";
 import IGetOrganizationNameResponse from "../../../../API/GetOrganizationNameRequest/IGetOrganizationNameResponse";
 import OrganizationName from "../../OrganizationName";
+import AppHistory from "../../../../AppHistory";
 const VerifyPINPage = React.lazy(() => import("./VerifyPINPage"));
 const PINEmailPage = React.lazy(() => import("./PINEmailPage"));
 
@@ -48,7 +49,7 @@ export default class OrganizationLoginPage extends React.Component<IOrganization
             return <PINLoginPage {...this.props} />
         }
         if (this.state.isVerifying) {
-            return <VerifyPINPage {...this.props} />
+            AppHistory.push(`/verify/`)
         }
         return <PINEmailPage gotoPasswordScreen={this.gotoPasswordScreen} gotoVerifyPage={this.gotoVerifyScreen} {...this.props} />
     }
