@@ -8,7 +8,7 @@ import OrganizationBroker from "../../brokers/OrganizationBroker";
 import ErrorCatchingMiddleware from "../../middleware/ErrorHandling/ErrorCatchingMiddleware";
 import IAppController from "../../controllers/App/IAppController";
 import ValidationMiddleware from "../../middleware/Validation/ValidationMiddleware";
-import { GetAppSchema, CreateAppSchema } from "./AppRouteSchema";
+import { GetAppSchema, CreateAppSchema, AppIsActiveSchema } from "./AppRouteSchema";
 
 export default class AppRouteConfiguration extends RouterConfiguration {
     private organizationBroker : OrganizationBroker;
@@ -45,6 +45,12 @@ export default class AppRouteConfiguration extends RouterConfiguration {
             ]),
             new ValidationMiddleware(GetAppSchema).validateParams(),
             ErrorCatchingMiddleware.catchErrors(this.appController.handleGetApp())
+        )
+
+        this.router.get(
+            "/isActive/:organizationId/:type",
+            new ValidationMiddleware(AppIsActiveSchema).validateParams(),
+            ErrorCatchingMiddleware.catchErrors(this.appController.handleAppIsActive())
         )
     }
 }

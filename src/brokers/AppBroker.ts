@@ -58,4 +58,12 @@ export default class AppBroker {
             throw error;
         }
     }
+
+    async findByOrganizationId(organizationId: string, type: AppType) {
+        try {
+            return await AppModel.findOne({ organizationId, type })
+        } catch (error) {
+            throw error;
+        }
+    }
 }

@@ -8,6 +8,7 @@ import { ConnectedProps, connect } from "react-redux";
 import IState from "../../../Store/IState";
 import { toggleCheckInMenuShowAction, toggleCheckInMenuHideAction } from "../../../Store/CheckInMenu/actions";
 import ICheckInHeaderState from "./ICheckInHeaderState";
+import { Link } from "react-router-dom";
 
 class CheckInHeader extends React.Component<Props, ICheckInHeaderState> {
     constructor(props : Props) {
@@ -21,7 +22,9 @@ class CheckInHeader extends React.Component<Props, ICheckInHeaderState> {
         return (
             <header className="check-in-header">
                 <div className="check-in-header-element">
-                    <Logo noTitle dark horizontal />
+                    <Link to="/">
+                        <Logo noTitle dark horizontal />
+                    </Link>
                 </div>
                 <div className="check-in-header-element">
                     <CheckInHeaderTitle />

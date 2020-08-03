@@ -46,6 +46,7 @@ import ProductPricesController from "../controllers/ProductPrices/ProductPricesC
 import ProductPricesRouter from "./ProductPrices/ProductPricesRouter";
 import GetProductPricesService from "../services/ProductPrices/GetProductPricesService";
 import CreateInvoiceService from "../services/Payment/CreateInvoice/CreateInvoiceService";
+import AppIsActiveService from "../services/App/AppIsActiveService";
 
 export default class APIRouteConfiguration extends RouterConfiguration {
     configureRoutes() {
@@ -101,7 +102,8 @@ export default class APIRouteConfiguration extends RouterConfiguration {
                     new PermissionBuilder(),
                     permissionSetBroker
                 ),
-                new GetAppService(appBroker)
+                new GetAppService(appBroker),
+                new AppIsActiveService(appBroker)
             )
         ).setup())
 

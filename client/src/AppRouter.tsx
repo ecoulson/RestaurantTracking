@@ -17,6 +17,8 @@ import AuthenticateActiveSession from "./Components/AuthenticationWrappers/Authe
 import BasicLayout from "./Layouts/BasicLayout";
 import AuthenticationLayout from "./Layouts/AuthenticationLayout";
 import CheckInLayout from "./Layouts/CheckInLayout";
+import AppIsActive from "./Components/AuthenticationWrappers/AppIsActive";
+import { AppType } from "./Store/Cart/types";
 
 const Login = React.lazy(() => import("./Pages/AuthenticationPages/Login"));
 const Logout = React.lazy(() => import("./Pages/AuthenticationPages/Logout"));
@@ -45,6 +47,7 @@ const OrganizationPage = React.lazy(() => import("./Pages/OrganizationPages"));
 const OrganizationLoginPage = React.lazy(() => import("./Pages/ContactLogPages/EducationCheckin/OrganizationLoginPage"));
 const VerifyPINPage = React.lazy(() => import("./Pages/ContactLogPages/EducationCheckin/OrganizationLoginPage/VerifyPINPage"));
 const HomePage = React.lazy(() => import("./Pages/HomePage"));
+const InActiveAppPage = React.lazy(() => import("./Pages/ContactLogPages/InActiveAppPage"));
 
 class AppRouter extends React.Component<Props, IAppRouterState> {
     constructor(props: Props) {
@@ -183,83 +186,111 @@ class AppRouter extends React.Component<Props, IAppRouterState> {
                         </Route>
                         <Route exact path="/check-in/:organizationId/login" render={
                             (props) => (
-                                <UnauthenticatedAccessWrapper to={`/check-in/${props.match.params.organizationId}`} showError={this.showError}>
-                                    <Suspense fallback={<CheckInLayout organizationId={props.match.params.organizationId} pageTitle="Loading..." />}>
-                                        <OrganizationLoginPage showSuccess={this.showSuccess} {...props} />
-                                    </Suspense>
-                                </UnauthenticatedAccessWrapper>
+                                <AppIsActive appType={AppType.ContactLogs} organizationId={props.match.params.organizationId}>
+                                    <UnauthenticatedAccessWrapper to={`/check-in/${props.match.params.organizationId}`} showError={this.showError}>
+                                        <Suspense fallback={<CheckInLayout organizationId={props.match.params.organizationId} pageTitle="Loading..." />}>
+                                            <OrganizationLoginPage showSuccess={this.showSuccess} {...props} />
+                                        </Suspense>
+                                    </UnauthenticatedAccessWrapper>
+                                </AppIsActive>
+                                
                             )
                         }/>
                         <Route exact path="/check-in/:organizationId/verify-account" render={
                             (props) => (
-                                <UnauthenticatedAccessWrapper to={`/check-in/${props.match.params.organizationId}`} showError={this.showError}>
-                                    <Suspense fallback={<CheckInLayout organizationId={props.match.params.organizationId} pageTitle="Loading..." />}>
-                                        <VerifyPINPage showSuccess={this.showSuccess} {...props} />
-                                    </Suspense>
-                                </UnauthenticatedAccessWrapper>
+                                <AppIsActive appType={AppType.ContactLogs} organizationId={props.match.params.organizationId}>
+                                    <UnauthenticatedAccessWrapper to={`/check-in/${props.match.params.organizationId}`} showError={this.showError}>
+                                        <Suspense fallback={<CheckInLayout organizationId={props.match.params.organizationId} pageTitle="Loading..." />}>
+                                            <VerifyPINPage showSuccess={this.showSuccess} {...props} />
+                                        </Suspense>
+                                    </UnauthenticatedAccessWrapper>
+                                </AppIsActive>
                             )
                         }/>
                         <Route exact path="/check-in/:organizationId/reset-password" render={
                             (props) => (
-                                <UnauthenticatedAccessWrapper to={`/check-in/${props.match.params.organizationId}`} showError={this.showError}>
-                                    <Suspense fallback={<CheckInLayout organizationId={props.match.params.organizationId} pageTitle="Loading..." />}>
-                                        <ResetPINPage showSuccess={this.showSuccess} {...props} />
-                                    </Suspense>
-                                </UnauthenticatedAccessWrapper>
+                                <AppIsActive appType={AppType.ContactLogs} organizationId={props.match.params.organizationId}>
+                                    <UnauthenticatedAccessWrapper to={`/check-in/${props.match.params.organizationId}`} showError={this.showError}>
+                                        <Suspense fallback={<CheckInLayout organizationId={props.match.params.organizationId} pageTitle="Loading..." />}>
+                                            <ResetPINPage showSuccess={this.showSuccess} {...props} />
+                                        </Suspense>
+                                    </UnauthenticatedAccessWrapper>
+                                </AppIsActive>
+                                
                             )
                         }/>
                         <Route exact path="/check-in/:organizationId/logout" render={
                             (props) => (
-                                <AuthenticateActiveSession to={`/check-in/${props.match.params.organizationId}/login`} showError={this.showError}>
-                                    <Suspense fallback={<CheckInLayout organizationId={props.match.params.organizationId} pageTitle="Loading..." />}>
-                                        <CheckInLogoutPage showSuccess={this.showSuccess} {...props} />
-                                    </Suspense>
-                                </AuthenticateActiveSession>
+                                <AppIsActive appType={AppType.ContactLogs} organizationId={props.match.params.organizationId}>
+                                    <AuthenticateActiveSession to={`/check-in/${props.match.params.organizationId}/login`} showError={this.showError}>
+                                        <Suspense fallback={<CheckInLayout organizationId={props.match.params.organizationId} pageTitle="Loading..." />}>
+                                            <CheckInLogoutPage showSuccess={this.showSuccess} {...props} />
+                                        </Suspense>
+                                    </AuthenticateActiveSession>
+                                </AppIsActive>
                             )
                         }/>
                         <Route exact path="/check-in/:organizationId/cancel-recover" render={
                             (props) => (
-                                <UnauthenticatedAccessWrapper to={`/check-in/${props.match.params.organizationId}`} showError={this.showError}>
-                                    <Suspense fallback={<CheckInLayout organizationId={props.match.params.organizationId} pageTitle="Loading..." />}>
-                                        <CancelPasswordResetPage showSuccess={this.showSuccess} {...props} />
-                                    </Suspense>
-                                </UnauthenticatedAccessWrapper>
+                                <AppIsActive appType={AppType.ContactLogs} organizationId={props.match.params.organizationId}>
+                                    <UnauthenticatedAccessWrapper to={`/check-in/${props.match.params.organizationId}`} showError={this.showError}>
+                                        <Suspense fallback={<CheckInLayout organizationId={props.match.params.organizationId} pageTitle="Loading..." />}>
+                                            <CancelPasswordResetPage showSuccess={this.showSuccess} {...props} />
+                                        </Suspense>
+                                    </UnauthenticatedAccessWrapper>
+                                </AppIsActive>
                             )
                         }/>
                         <Route exact path="/check-in/:organizationId/active-check-in" render={
                             (props) => (
-                                <AuthenticateActiveSession showError={this.showError} to={`/check-in/${props.match.params.organizationId}/login`}>
-                                    <Suspense fallback={<CheckInLayout organizationId={props.match.params.organizationId} pageTitle="Loading..." />}>
-                                        <ActiveCheckInPage showSuccess={this.showSuccess} {...props} />
-                                    </Suspense>
-                                </AuthenticateActiveSession>
+                                <AppIsActive appType={AppType.ContactLogs} organizationId={props.match.params.organizationId}>
+                                    <AuthenticateActiveSession showError={this.showError} to={`/check-in/${props.match.params.organizationId}/login`}>
+                                        <Suspense fallback={<CheckInLayout organizationId={props.match.params.organizationId} pageTitle="Loading..." />}>
+                                            <ActiveCheckInPage showSuccess={this.showSuccess} {...props} />
+                                        </Suspense>
+                                    </AuthenticateActiveSession>
+                                </AppIsActive>
                             )
                         }/>
                         <Route exact path="/check-in/:organizationId/check-out" render={
                             (props) => (
-                                <AuthenticateActiveSession showError={this.showError} to={`/check-in/${props.match.params.organizationId}/login`}>
-                                    <Suspense fallback={<CheckInLayout organizationId={props.match.params.organizationId} pageTitle="Loading..." />}>
-                                        <CheckOutPage showSuccess={this.showSuccess} {...props} />
-                                    </Suspense>
-                                </AuthenticateActiveSession>
+                                <AppIsActive appType={AppType.ContactLogs} organizationId={props.match.params.organizationId}>
+                                    <AuthenticateActiveSession showError={this.showError} to={`/check-in/${props.match.params.organizationId}/login`}>
+                                        <Suspense fallback={<CheckInLayout organizationId={props.match.params.organizationId} pageTitle="Loading..." />}>
+                                            <CheckOutPage showSuccess={this.showSuccess} {...props} />
+                                        </Suspense>
+                                    </AuthenticateActiveSession>
+                                </AppIsActive>
                             )
                         }/>
                         <Route path="/check-in/:organizationId/scan/:building" render={
                             (props) => (
-                                <AuthenticateActiveSession showError={this.showError} to={`/check-in/${props.match.params.organizationId}/login?building=${props.match.params.building}`}>
-                                    <Suspense fallback={<CheckInLayout organizationId={props.match.params.organizationId} pageTitle="Loading..." />}>
-                                        <ScanPage showError={this.showError} showSuccess={this.showSuccess} {...props} />
-                                    </Suspense>
-                                </AuthenticateActiveSession>
+                                <AppIsActive appType={AppType.ContactLogs} organizationId={props.match.params.organizationId}>
+                                    <AuthenticateActiveSession showError={this.showError} to={`/check-in/${props.match.params.organizationId}/login?building=${props.match.params.building}`}>
+                                        <Suspense fallback={<CheckInLayout organizationId={props.match.params.organizationId} pageTitle="Loading..." />}>
+                                            <ScanPage showError={this.showError} showSuccess={this.showSuccess} {...props} />
+                                        </Suspense>
+                                    </AuthenticateActiveSession>
+                                </AppIsActive>
+                                
                             )
                         }/>
                         <Route exact path="/check-in/:organizationId/" render={
                             (props) => (
-                                <AuthenticateActiveSession showError={this.showError} to={`/check-in/${props.match.params.organizationId}/login`}>
-                                    <Suspense fallback={<CheckInLayout organizationId={props.match.params.organizationId} pageTitle="Loading..." />}>
-                                        <OrganizationCheckInPage showSuccess={this.showSuccess} {...props} />
-                                    </Suspense>
-                                </AuthenticateActiveSession>
+                                <AppIsActive appType={AppType.ContactLogs} organizationId={props.match.params.organizationId}>
+                                    <AuthenticateActiveSession showError={this.showError} to={`/check-in/${props.match.params.organizationId}/login`}>
+                                        <Suspense fallback={<CheckInLayout organizationId={props.match.params.organizationId} pageTitle="Loading..." />}>
+                                            <OrganizationCheckInPage showSuccess={this.showSuccess} {...props} />
+                                        </Suspense>
+                                    </AuthenticateActiveSession>
+                                </AppIsActive>
+                            )
+                        }/>
+                        <Route exact path="/check-in/:organizationId/inactive" render={
+                            (props) => (
+                                <Suspense fallback={<div></div>}>
+                                    <InActiveAppPage />
+                                </Suspense>
                             )
                         }/>
                         <Route exact path="/help">
