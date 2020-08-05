@@ -8,6 +8,11 @@ import UserBroker from "../../brokers/UserBroker"
 import TokenBroker from "../../brokers/TokenBroker"
 import UserVerificationService from "../../services/User/Verification/UserVerificationService"
 import SpamVerificationService from "../../services/User/Verification/SpamVerificationService"
+import JSONWebTokenAuthenticationStrategy from "../../middleware/Authentication/JSONWebTokenAuthenticationStrategy"
+import AuthorizationMiddleware from "../../middleware/Authorization/AuthorizationMiddleware"
+import OperationType from "../../lib/Authorization/OperationType"
+import ResourceType from "../../lib/Authorization/ResourceType"
+import ResourceRequest from "../../lib/Authorization/ResourceRequest"
 
 export default class VerificationRouteConfiguration extends RouterConfiguration {
     private controller : IVerificationController;
@@ -33,6 +38,15 @@ export default class VerificationRouteConfiguration extends RouterConfiguration 
             "/verify",
             new ValidationMiddleware(TokenCallbackSchema).validateQuery(),
             ErrorCatchingMiddleware.catchErrors(this.controller.handleVerification())
+        )
+
+        this.router.get(
+            "/verified",
+            new JSONWebTokenAuthenticationStrategy().authenticate(),
+            new AuthorizationMiddleware().authorize(OperationType.Read, async (request) => {
+                return [new ResourceRequest(request.user.id, ResourceType.User)]
+            }),
+            ErrorCatchingMiddleware.catchErrors(this.controller.handleIsVerified())
         )
     }
 }

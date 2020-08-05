@@ -3,7 +3,6 @@ import ValidationMiddleware from "../../middleware/Validation/ValidationMiddlewa
 import { OrganizationIdParametersSchema } from "./OrganizationSchema";
 import ErrorCatchingMiddleware from "../../middleware/ErrorHandling/ErrorCatchingMiddleware";
 import IOrganizationController from "../../controllers/Organization/IOrganizationController";
-import OrganizationController from "../../controllers/Organization/OrganizationController";
 import OrganizationAccountRouteConfiguration from "./OrganizationAccountRouteConfiguration";
 import OrganizationAccountController from "../../controllers/Organization/OrganizationAccount/OrganizationAccountController";
 import OrganizationAccountExistsService from "../../services/Organization/OrganizationAccount/OrganizationAccountExistsService";
@@ -26,13 +25,19 @@ import OrganizationExistsService from "../../services/Organization/Registration/
 import UserBroker from "../../brokers/UserBroker";
 import RegisterAnonymousOrganizationAccountService from "../../services/Organization/OrganizationAccount/RegisterAnonymousOrganizationAccountService";
 import AuthenticationService from "../../services/Authentication/AuthenticationService";
+import TokenBroker from "../../brokers/TokenBroker";
 
 export default class OrganizationRouteConfiguration extends RouterConfiguration {
     private organizationController : IOrganizationController;
+    private tokenBroker : TokenBroker;
 
-    constructor() {
+    constructor(
+        organizationController : IOrganizationController, 
+        tokenBroker : TokenBroker
+    ) {
         super();
-        this.organizationController = new OrganizationController();
+        this.organizationController = organizationController;
+        this.tokenBroker = tokenBroker;
     }
 
     public configureRoutes(): void {
@@ -59,7 +64,8 @@ export default class OrganizationRouteConfiguration extends RouterConfiguration 
             new OrganizationAccountController(
                 new OrganizationAccountExistsService(new OrganizationBroker()),
                 new OrganizationPINAuthenticationService(),
-                new UserVerificationService()
+                new UserVerificationService(),
+                this.tokenBroker
             )
         ).setup())
 
@@ -76,7 +82,8 @@ export default class OrganizationRouteConfiguration extends RouterConfiguration 
                     new UserPermissionSetupService(),
                     new OrganizationBroker()
                 ),
-                new AuthenticationService()
+                new AuthenticationService(),
+                new UserBroker()
             )
         ).setup())
 

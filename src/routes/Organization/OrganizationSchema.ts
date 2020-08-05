@@ -29,6 +29,10 @@ const OrganizationPINLoginSchema = Joi.object({
 
 const OrganizationAccountRegistrationSchema = Joi.object({
     email: Joi.string().email().required(),
+    username: Joi.string().required(),
+    firstName: Joi.string().required(),
+    lastName: Joi.string(),
+    password: Joi.string().required(),
 })
 
 const OrganizationBuildingsSchema = Joi.object({

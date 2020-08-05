@@ -1,6 +1,5 @@
 import IRegisterOrganizationAccountService from "./IRegisterOrganizationAccountService";
 import UserBroker from "../../../brokers/UserBroker";
-import { v1 } from "uuid";
 import IUserPermissionSetupService from "../../User/Registration/IUserPermissionSetupService";
 import OrganizationBroker from "../../../brokers/OrganizationBroker";
 
@@ -15,16 +14,25 @@ export default class RegisterAnonymousOrganizationAccountService implements IReg
         this.organizationBroker = organizationBroker;
     }
 
-    async register(email: string, password: string, organizationId: string) {
-        const organization = await this.organizationBroker.findOrganizationById(organizationId);
+    async register(params: {
+        email: string, 
+        password: string,
+        username: string,
+        firstName: string,
+        lastName?: string,
+        organizationId: string
+    }) {
+        const organization = await this.organizationBroker.findOrganizationById(params.organizationId);
         const user = await this.userBroker.createUser({
-            username: v1(),
-            email,
-            firstName: "Anonymous",
-            password
+            username: params.username,
+            email: params.email,
+            firstName: params.firstName,
+            lastName: params.lastName,
+            password: params.password,
+            anonymous: true
         });
         await this.userSetup.setup(user);
-        user.organizations.push(organizationId);
+        user.organizations.push(params.organizationId);
         await organization.addStudent(user);
         return await this.userBroker.save(user);
     }

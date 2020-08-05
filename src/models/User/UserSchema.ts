@@ -59,6 +59,10 @@ const UserSchema = new Schema({
     organizations: {
         type: [String],
         default: []
+    },
+    anonymous: {
+        type: Boolean,
+        default: false
     }
 });
 

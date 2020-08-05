@@ -49,7 +49,8 @@ export default class UserBroker {
         password: string,
         firstName: string,
         lastName?: string,
-        number?: string
+        number?: string,
+        anonymous?: boolean
     }) {
         try {
             return new UserModel({
@@ -58,7 +59,8 @@ export default class UserBroker {
                 password: await bcrypt.hash(userParams.password, 10),
                 firstName: userParams.firstName,
                 lastName: userParams.lastName,
-                number: userParams.number
+                number: userParams.number,
+                anonymous: userParams.anonymous ? userParams.anonymous : false
             })
         } catch (error) {
             throw error;

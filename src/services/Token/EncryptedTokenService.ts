@@ -53,6 +53,7 @@ export default class EncryptedTokenService implements ITokenService {
 
     async deleteExistingToken(user : IUser) {
         const tokens = await this.tokenBroker.getTokens(user);
+        console.log(tokens);
         if (this.userHasTokens(tokens)) {
             return null;
         }

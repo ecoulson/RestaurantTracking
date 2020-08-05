@@ -49,6 +49,8 @@ import CreateInvoiceService from "../services/Payment/CreateInvoice/CreateInvoic
 import AppIsActiveService from "../services/App/AppIsActiveService";
 import SyncCheckInsService from "../services/CheckIn/SyncCheckInsService";
 import AuthenticationService from "../services/Authentication/AuthenticationService";
+import OrganizationController from "../controllers/Organization/OrganizationController";
+import TokenBroker from "../brokers/TokenBroker";
 
 export default class APIRouteConfiguration extends RouterConfiguration {
     configureRoutes() {
@@ -62,6 +64,7 @@ export default class APIRouteConfiguration extends RouterConfiguration {
         const appBroker = new AppBroker();
         const permissionBroker = new PermissionBroker();
         const permissionSetBroker = new PermissionSetBroker();
+        const tokenBroker = new TokenBroker();
 
         this.router.use("/restaurant", new RestaurantRouteConfiguration().setup());
         this.router.use("/check_in", new CheckInRouteConfiguration(
@@ -95,7 +98,10 @@ export default class APIRouteConfiguration extends RouterConfiguration {
 
         this.router.use("/user", new UserRouteConfiguration().setup());
 
-        this.router.use("/organization", new OrganizationRouteConfiguration().setup());
+        this.router.use("/organization", new OrganizationRouteConfiguration(
+            new OrganizationController(),
+            tokenBroker
+        ).setup());
 
         this.router.use("/building", new BuildingRouterController(
             new BuildingController(new CreateBuildingService(new BuildingBroker())),

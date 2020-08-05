@@ -18,16 +18,23 @@ export default class RegisterOrganizationAccountService implements IRegisterOrga
         this.setupUserPermissionService = setupUserPermissionService;
     }
 
-    async register(email: string, password: string, organizationId: string) {
-        const organization = await this.organizationBroker.findOrganizationById(organizationId);
-        let user = await this.userBroker.findUserByEmail(email);
+    async register(params : {
+        username: string;
+        organizationId: string;
+        password: string;
+        email: string;
+        firstName: string;
+        lastName?: string;
+    }) {
+        const organization = await this.organizationBroker.findOrganizationById(params.organizationId);
+        let user = await this.userBroker.findUserByEmail(params.email);
         if (!user) {
             user = await this.registrationService.register({
-                username: email,
-                email,
-                firstName: "Student",
-                lastName: "Account",
-                password
+                username: params.username,
+                email: params.email,
+                firstName: params.firstName,
+                lastName: params.lastName,
+                password: params.password
             });
             await this.setupUserPermissionService.setup(user);
         }

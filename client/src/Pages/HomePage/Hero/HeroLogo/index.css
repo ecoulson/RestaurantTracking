@@ -10,6 +10,10 @@
     .hero-logo-container {
         top: 25px;
         left: 25px;
+    }
+
+    .hero-logo-container .company-name {
         width: 50px;
+        height: 50px;
     }
 }
