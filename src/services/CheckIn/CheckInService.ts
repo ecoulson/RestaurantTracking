@@ -24,7 +24,7 @@ export default class CheckInService {
     }
 
     async checkIn(checkInBody : ICheckInRequestBody, ipAddress : string) : Promise<ICheckIn> {
-        await this.ensureRestaurantExists(checkInBody);
+        await this.ensureOrganizationExists(checkInBody);
         const organization = await this.organizationBroker.findOrganizationById(checkInBody.organizationId);
         const apps = await Promise.all(organization.apps.map(appId => this.appBroker.findById(appId)))
         const contactLogApp = apps.filter((app) => {
@@ -45,14 +45,15 @@ export default class CheckInService {
         return checkIn
     }
 
-    private async ensureRestaurantExists(checkIn : ICheckInRequestBody) {
+    private async ensureOrganizationExists(checkIn : ICheckInRequestBody) {
         if (!await this.organizationExists(checkIn.organizationId)) {
             throw new Error("Can not check in to an organization that does not exist")
         }
     }
 
     private async organizationExists(organizationId : string) {
-        return await this.organizationBroker.findOrganizationById(organizationId) !== null
+        const org = await this.organizationBroker.findOrganizationById(organizationId);
+        return org !== null
     }
 
     private async saveCheckInToDB(checkIn : ICheckInRequestBody, ipAddress: string) : Promise<ICheckIn> {

@@ -11,8 +11,6 @@ export default class StripeWebhookService implements IStripeWebhookService {
     }
 
     handleEvent(event : Stripe.Event) {
-        console.log(this.getEventTypeKey(event.type), event.type);
-        console.log(event.data);
         this.handlers.forEach((handler) => [
             handler.handleEvent(StripeEvents[this.getEventTypeKey(event.type) as keyof typeof StripeEvents], event)
         ])

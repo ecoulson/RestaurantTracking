@@ -23,7 +23,7 @@ describe("User Model Suite", () => {
             const userDocument = await newUser.save();
 
             const foundUser = await UserModel.findById(userDocument._id);
-            expect(foundUser.serialize()).toEqual(userDocument.serialize())
+            expect(JSON.stringify(foundUser.serialize())).toEqual(JSON.stringify(userDocument.serialize()))
         })
     });
 
@@ -40,7 +40,7 @@ describe("User Model Suite", () => {
             const userDocument = await newUser.save();
 
             const foundUser = await UserModel.findByUsername(username);
-            expect(foundUser.serialize()).toEqual(userDocument.serialize());
+            expect(JSON.stringify(foundUser.serialize())).toEqual(JSON.stringify(userDocument.serialize()));
         })
     });
 
@@ -57,7 +57,7 @@ describe("User Model Suite", () => {
             const userDocument = await newUser.save();
 
             const foundUser = await UserModel.findByEmail(newUser.email);
-            expect(foundUser.serialize()).toEqual(userDocument.serialize());
+            expect(JSON.stringify(foundUser.serialize())).toEqual(JSON.stringify(userDocument.serialize()));
         })
     })
 })

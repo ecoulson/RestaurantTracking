@@ -240,7 +240,6 @@ class PurchaseContactLogsPage extends React.Component<Props, IPurchaseContactLog
                 "Authorization": `Bearer ${Cookie.getCookie("token")}`
             }
         });
-        console.log(response.data);
     }
 
     async createSubscription(customerId : string, paymentMethodId : string, priceId: string) {

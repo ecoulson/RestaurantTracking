@@ -54,7 +54,6 @@ export default class CancelSubscriptionSection extends React.Component<ICancelSu
     }
 
     onApp(response: IResponse<IApp>) {
-        console.log(response.data);
         this.setState({
             app: response.data
         })

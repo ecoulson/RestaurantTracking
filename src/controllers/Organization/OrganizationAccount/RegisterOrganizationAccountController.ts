@@ -35,7 +35,6 @@ export default class RegisterOrganizationAccountController implements IRegisterO
 
     handleRegistration() {
         return async (request : Request, response : Response) => {
-            console.log(request.body)
             const user = await this.registrationService.register({
                 username: request.body.username,
                 organizationId: request.params.organizationId,
