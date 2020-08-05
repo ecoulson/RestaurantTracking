@@ -3,7 +3,6 @@ import ValidationMiddleware from "../../middleware/Validation/ValidationMiddlewa
 import { OrganizationIdParametersSchema } from "./OrganizationSchema";
 import ErrorCatchingMiddleware from "../../middleware/ErrorHandling/ErrorCatchingMiddleware";
 import IOrganizationController from "../../controllers/Organization/IOrganizationController";
-import OrganizationController from "../../controllers/Organization/OrganizationController";
 import OrganizationAccountRouteConfiguration from "./OrganizationAccountRouteConfiguration";
 import OrganizationAccountController from "../../controllers/Organization/OrganizationAccount/OrganizationAccountController";
 import OrganizationAccountExistsService from "../../services/Organization/OrganizationAccount/OrganizationAccountExistsService";
@@ -24,13 +23,21 @@ import BuildingBroker from "../../brokers/BuildingBroker";
 import UserVerificationService from "../../services/User/Verification/UserVerificationService";
 import OrganizationExistsService from "../../services/Organization/Registration/OrganizationExsitsService";
 import UserBroker from "../../brokers/UserBroker";
+import RegisterAnonymousOrganizationAccountService from "../../services/Organization/OrganizationAccount/RegisterAnonymousOrganizationAccountService";
+import AuthenticationService from "../../services/Authentication/AuthenticationService";
+import TokenBroker from "../../brokers/TokenBroker";
 
 export default class OrganizationRouteConfiguration extends RouterConfiguration {
     private organizationController : IOrganizationController;
+    private tokenBroker : TokenBroker;
 
-    constructor() {
+    constructor(
+        organizationController : IOrganizationController, 
+        tokenBroker : TokenBroker
+    ) {
         super();
-        this.organizationController = new OrganizationController();
+        this.organizationController = organizationController;
+        this.tokenBroker = tokenBroker;
     }
 
     public configureRoutes(): void {
@@ -47,11 +54,18 @@ export default class OrganizationRouteConfiguration extends RouterConfiguration 
             ErrorCatchingMiddleware.catchErrors(this.organizationController.handleGetOrganizationName())
         )
 
+        this.router.get(
+            '/:organizationId',
+            new ValidationMiddleware(OrganizationIdParametersSchema).validateParams(),
+            ErrorCatchingMiddleware.catchErrors(this.organizationController.handleGetOrganization())
+        )
+
         this.router.use("/account", new OrganizationAccountRouteConfiguration(
             new OrganizationAccountController(
                 new OrganizationAccountExistsService(new OrganizationBroker()),
                 new OrganizationPINAuthenticationService(),
-                new UserVerificationService()
+                new UserVerificationService(),
+                this.tokenBroker
             )
         ).setup())
 
@@ -62,7 +76,14 @@ export default class OrganizationRouteConfiguration extends RouterConfiguration 
                     new UserPermissionSetupService(),
                     new UserBroker()
                 ),
-                new VerifyUserService()
+                new VerifyUserService(),
+                new RegisterAnonymousOrganizationAccountService(
+                    new UserBroker(),
+                    new UserPermissionSetupService(),
+                    new OrganizationBroker()
+                ),
+                new AuthenticationService(),
+                new UserBroker()
             )
         ).setup())
 

@@ -8,7 +8,7 @@ import ILogoProps from "./ILogoProps";
 export default class Logo extends React.Component<ILogoProps> {
     render() {
         return (
-            <div className={`${this.getLogoStyle()} ${this.getCollapsedClass()} `}>
+            <div onClick={this.props.onClick} className={`${this.getLogoStyle()} ${this.getCollapsedClass()} `}>
                 <img 
                     className={`company-name ${this.getThemeClass()} ${this.getLogoDirectionClass()} ${this.getCollapsedLogoClass()}`} 
                     src={this.getLogo()} 

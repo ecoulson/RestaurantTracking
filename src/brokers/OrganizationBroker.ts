@@ -24,4 +24,12 @@ export default class OrganizationBroker {
             throw error;
         }
     }
+
+    async save(organization : IOrganization) {
+        try {
+            return await organization.save();
+        } catch (error) {
+            throw error;
+        }
+    }
 }

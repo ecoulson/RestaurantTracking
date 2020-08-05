@@ -11,14 +11,17 @@ import UserBroker from "../../../../src/brokers/UserBroker";
 import PermissionModel from "../../../../src/models/Permission/PermissionModel";
 import UserModel from "../../../../src/models/User/UserModel";
 import UserGenerator from "../../../mocks/Generators/UserGenerator";
+import AppBroker from "../../../../src/brokers/AppBroker";
+import AppGenerator from "../../../mocks/Generators/AppGenerator";
 
 jest.mock("../../../../src/brokers/OrganizationBroker");
 jest.mock("../../../../src/brokers/UserBroker");
-jest.mock("../../../../src/models/Organization/OrganizationModel");
+jest.mock("../../../../src/brokers/AppBroker");
 
 const checkInBodyGenerator = new CheckInBodyGenerator();
 const userGenerator = new UserGenerator();
 const checkInGenerator = new CheckInGenerator();
+const appGenerator = new AppGenerator();
 const organizationGenerator = new OrganizationGenerator();
 
 describe("Check In Service Test", () => {
@@ -28,14 +31,16 @@ describe("Check In Service Test", () => {
             PermissionModel.prototype.save = jest.fn();
             UserBroker.prototype.findById = jest.fn().mockResolvedValue(userGenerator.generate())
             UserModel.prototype.addPermission = jest.fn()
+            AppBroker.prototype.findById = jest.fn().mockResolvedValue(appGenerator.generate())
             OrganizationBroker.prototype.findOrganizationById = jest.fn().mockResolvedValue(null);
+
             const service = new CheckInService(
                 new OrganizationBroker(),
                 new PermissionBuilder(),
-                new UserBroker()
+                new UserBroker(),
+                new AppBroker()
             );
-            const checkInBody = checkInBodyGenerator.generate()
-
+            const checkInBody = checkInBodyGenerator.generate();
             try {
                 await service.checkIn(checkInBody, faker.internet.ip());
             } catch(error) {
@@ -56,7 +61,8 @@ describe("Check In Service Test", () => {
             const service = new CheckInService(
                 new OrganizationBroker(),
                 new PermissionBuilder(),
-                new UserBroker()
+                new UserBroker(),
+                new AppBroker()
             );
 
             const checkInDocument = await service.checkIn(checkIn, checkIn.ipAddress);
@@ -76,7 +82,8 @@ describe("Check In Service Test", () => {
             const service = new CheckInService(
                 new OrganizationBroker(),
                 new PermissionBuilder(),
-                new UserBroker()
+                new UserBroker(),
+                new AppBroker()
             );
 
             const checkInDocument = await service.checkIn(checkIn, checkIn.ipAddress);
@@ -90,7 +97,8 @@ describe("Check In Service Test", () => {
             const service = new CheckInService(
                 new OrganizationBroker(),
                 new PermissionBuilder(),
-                new UserBroker()
+                new UserBroker(),
+                new AppBroker()
             );
             const checkIn = checkInGenerator.generate();
             CheckInModel.findByOrganizationId = jest.fn().mockResolvedValue([]);
@@ -104,7 +112,8 @@ describe("Check In Service Test", () => {
             const service = new CheckInService(
                 new OrganizationBroker(),
                 new PermissionBuilder(),
-                new UserBroker()
+                new UserBroker(),
+                new AppBroker()
             );
             const checkIn = checkInGenerator.generate();
             CheckInModel.findByOrganizationId = jest.fn().mockResolvedValue([ checkIn ]);
@@ -118,7 +127,8 @@ describe("Check In Service Test", () => {
             const service = new CheckInService(
                 new OrganizationBroker(),
                 new PermissionBuilder(),
-                new UserBroker()
+                new UserBroker(),
+                new AppBroker()
             );
             const checkIn = checkInGenerator.generate();
             const record = [ checkIn, checkIn, checkIn ];

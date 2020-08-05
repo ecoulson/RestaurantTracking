@@ -7,6 +7,7 @@ import PermissionBuilder from "../../Permission/PermissionBuilder";
 import OperationType from "../../../lib/Authorization/OperationType";
 import ResourceType from "../../../lib/Authorization/ResourceType";
 import IUser from "../../../models/User/IUser";
+import IAddress from "../../../models/Organization/IAddress";
 
 export default class RegisterOrganizationService implements IRegisterOrganizationService {
     private permissionSetService : PermissionSetService;
@@ -17,8 +18,13 @@ export default class RegisterOrganizationService implements IRegisterOrganizatio
         this.permissionBuilder = new PermissionBuilder();
     }
 
-    async registerOrganization(organizationId: string, organizationName: string, user : IUser): Promise<IOrganization> {
-        const organization = new OrganizationModel({ organizationId, organizationName });
+    async registerOrganization(
+        organizationId: string, 
+        organizationName: string, 
+        address: IAddress,
+        user : IUser
+    ): Promise<IOrganization> {
+        const organization = new OrganizationModel({ organizationId, organizationName, address });
         user.organizations.push(organization.organizationId);
         const studentPermissionSet = await this.permissionSetService.create("student");
         const adminPermissionSet = await this.permissionSetService.create("admin");

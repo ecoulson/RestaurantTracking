@@ -10,9 +10,13 @@ export default class DashboardLayout extends React.Component<IDashboardLayoutPro
             <PageLayout pageTitle={this.props.title}>
                 <div style={{ display: "flex" }}>
                     <NavPanel />
-                    <DashboardContainer title={this.props.title}>
-                        {this.props.children}
-                    </DashboardContainer>
+                    <div className="dashboard-layout">
+                        <div className="dashboard-wrapper">
+                            <DashboardContainer title={this.props.title}>
+                                {this.props.children}
+                            </DashboardContainer>
+                        </div>
+                    </div>
                 </div>
             </PageLayout>
         )

@@ -23,6 +23,12 @@ const UserSchema = new Schema({
         index: true,
         unique: true
     },
+    number: {
+        type: String,
+        required: false,
+        unique: true,
+        sparse: true
+    },
     firstName: {
         type: String,
         required: true
@@ -53,6 +59,10 @@ const UserSchema = new Schema({
     organizations: {
         type: [String],
         default: []
+    },
+    anonymous: {
+        type: Boolean,
+        default: false
     }
 });
 

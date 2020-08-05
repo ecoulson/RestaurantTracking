@@ -13,6 +13,11 @@ import CheckoutService from "../../../../src/services/CheckIn/CheckoutService";
 import CheckInBroker from "../../../../src/brokers/CheckInBroker";
 import CheckInGenerator from "../../../mocks/Generators/CheckInGenerator";
 import SimpleCheckInQRService from "../../../../src/services/CheckIn/SimpleCheckInQRService";
+import SyncCheckInsService from "../../../../src/services/CheckIn/SyncCheckInsService";
+import PermissionBroker from "../../../../src/brokers/PermissionBroker";
+import PermissionSetBroker from "../../../../src/brokers/PermissionSetBroker";
+import AppBroker from "../../../../src/brokers/AppBroker";
+import AuthenticationService from "../../../../src/services/Authentication/AuthenticationService";
 
 const chance = new Chance();
 const checkInGenerator = new CheckInGenerator();
@@ -30,11 +35,19 @@ describe("Check In Controller Suite", () => {
                 new CheckInService(
                     new OrganizationBroker(),
                     new PermissionBuilder(),
-                    new UserBroker()
+                    new UserBroker(),
+                    new AppBroker()
                 ),
                 new GetCheckInService(new CheckInBroker()),
                 new CheckoutService(new CheckInBroker()),
-                new SimpleCheckInQRService()
+                new SimpleCheckInQRService(),
+                new SyncCheckInsService(
+                    new AuthenticationService(),
+                    new CheckInBroker(),
+                    new PermissionBroker(),
+                    new PermissionSetBroker(),
+                    new UserBroker()
+                )
             );
             const request = mockRequest({
                 user: {
@@ -70,11 +83,19 @@ describe("Check In Controller Suite", () => {
                 new CheckInService(
                     new OrganizationBroker(),
                     new PermissionBuilder(),
-                    new UserBroker()
+                    new UserBroker(),
+                    new AppBroker()
                 ),
                 new GetCheckInService(new CheckInBroker()),
                 new CheckoutService(new CheckInBroker()),
-                new SimpleCheckInQRService()
+                new SimpleCheckInQRService(),
+                new SyncCheckInsService(
+                    new AuthenticationService(),
+                    new CheckInBroker(),
+                    new PermissionBroker(),
+                    new PermissionSetBroker(),
+                    new UserBroker()
+                )
             );
             const request = mockRequest();
             const response = mockResponse();

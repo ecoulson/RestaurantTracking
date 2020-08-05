@@ -34,6 +34,12 @@ import { ReactComponent as AddressCardSolid } from "./svgs/address-card-solid.sv
 import { ReactComponent as GlobeAmericasSolid } from "./svgs/globe-americas-solid.svg";
 import { ReactComponent as FlagRegular } from "./svgs/flag-regular.svg";
 import { ReactComponent as BriefcaseSolid } from "./svgs/briefcase-solid.svg";
+import { ReactComponent as AmexCard } from "./svgs/cc-amex-brands.svg";
+import { ReactComponent as DinersClubCard } from "./svgs/cc-diners-club-brands.svg";
+import { ReactComponent as DiscoverCard } from "./svgs/cc-discover-brands.svg";
+import { ReactComponent as JCBCard } from "./svgs/cc-jcb-brands.svg";
+import { ReactComponent as Mastercard } from "./svgs/cc-mastercard-brands.svg";
+import { ReactComponent as VisaCard } from "./svgs/cc-visa-brands.svg";
 
 const IconMapping = new Map<IconType, any>();
 IconMapping.set(IconType.Mail, Mail);
@@ -70,6 +76,12 @@ IconMapping.set(IconType.AddressCardSolid, AddressCardSolid);
 IconMapping.set(IconType.CitySolid, CitySolid);
 IconMapping.set(IconType.GlobeAmericasSolid, GlobeAmericasSolid);
 IconMapping.set(IconType.FlagRegular, FlagRegular);
-IconMapping.set(IconType.BreifcaseSolid, BriefcaseSolid);
+IconMapping.set(IconType.BriefcaseSolid, BriefcaseSolid);
+IconMapping.set(IconType.AmexCard, AmexCard);
+IconMapping.set(IconType.DinersClubCard, DinersClubCard);
+IconMapping.set(IconType.DiscoverCard, DiscoverCard);
+IconMapping.set(IconType.JCBCard, JCBCard);
+IconMapping.set(IconType.MastercardCard, Mastercard);
+IconMapping.set(IconType.VisaCard, VisaCard);
 
 export default IconMapping;

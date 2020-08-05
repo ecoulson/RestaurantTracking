@@ -8,7 +8,7 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
     constructor(props: IMenuProps) {
         super(props);
         this.state = {
-            hasDisplayed: false
+            hasRendered: false
         }
 
         this.onClick = this.onClick.bind(this);
@@ -34,10 +34,10 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
     }
 
     componentDidUpdate() {
-        if (this.state.hasDisplayed || this.props.visible) {
-            if (!this.state.hasDisplayed) {
+        if (this.state.hasRendered || this.props.visible) {
+            if (!this.state.hasRendered) {
                 this.setState({
-                    hasDisplayed: true
+                    hasRendered: true
                 })
             }
         }
@@ -48,7 +48,7 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
     }
 
     private getMenuVisibleClass() {
-        if (!this.state.hasDisplayed && !this.props.visible) {
+        if (!this.state.hasRendered && !this.props.visible) {
             return "none";
         } else {
             return this.props.visible ? "show-menu" : "hide-menu"

@@ -20,6 +20,7 @@ export default class OrganizationController implements IOrganizationController {
             const organization = await this.registerOrganizationService.registerOrganization(
                 request.body.organizationId, 
                 request.body.organizationName,
+                request.body.address,
                 request.user
             );
             new JSONResponse(response).send({ organization });
@@ -30,6 +31,13 @@ export default class OrganizationController implements IOrganizationController {
         return async (request : Request, response : Response) => {
             const organization = await this.getOrganizationService.getOrganization(request.params.organizationId)
             new JSONResponse(response).send({ organizationName: organization.organizationName })
+        }
+    }
+
+    handleGetOrganization() {
+        return async (request : Request, response : Response) => {
+            const organization = await this.getOrganizationService.getOrganization(request.params.organizationId)
+            new JSONResponse(response).send(organization)
         }
     }
 }

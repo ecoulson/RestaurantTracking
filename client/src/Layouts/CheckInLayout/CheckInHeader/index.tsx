@@ -8,20 +8,39 @@ import { ConnectedProps, connect } from "react-redux";
 import IState from "../../../Store/IState";
 import { toggleCheckInMenuShowAction, toggleCheckInMenuHideAction } from "../../../Store/CheckInMenu/actions";
 import ICheckInHeaderState from "./ICheckInHeaderState";
+import CheckInBadge from "./CheckInBadge";
+import CheckInNotificationMenu from "./CheckInNotificationMenu";
+import { isSessionActive } from "../../../API";
+import Cookie from "../../../lib/Cookie";
+import ICheckInHeaderProps from "./ICheckInHeaderProps";
 
 class CheckInHeader extends React.Component<Props, ICheckInHeaderState> {
     constructor(props : Props) {
         super(props);
         this.state = {
-            hasRendered: false
+            hasRendered: false,
+            isVisible: false,
+            isBadgeVisible: false
         }
+        this.onClick = this.onClick.bind(this);
+        this.onMenuToggle = this.onMenuToggle.bind(this);
+    }
+
+    async componentWillMount() {
+        this.setState({
+            isBadgeVisible: (!(await isSessionActive()) && Cookie.hasCookie("token"))
+        })
     }
 
     render() {
         return (
             <header className="check-in-header">
-                <div className="check-in-header-element">
+                <div onClick={this.onMenuToggle} className="check-in-header-element" id="check-in-icon-container">
+                    <CheckInBadge isVisible={this.state.isBadgeVisible} />
                     <Logo noTitle dark horizontal />
+                    <CheckInNotificationMenu 
+                        organizationId={this.props.organizationId}
+                        isVisible={this.state.isVisible && this.state.isBadgeVisible} />
                 </div>
                 <div className="check-in-header-element">
                     <CheckInHeaderTitle />
@@ -37,6 +56,12 @@ class CheckInHeader extends React.Component<Props, ICheckInHeaderState> {
                 </div>
             </header>
         )
+    }
+
+    onMenuToggle() {
+        this.setState({
+            isVisible: !this.state.isVisible
+        })
     }
 
     getClassName() {
@@ -76,6 +101,6 @@ const connector = connect(mapState, mapDispatch);
 
 type PropsFromRedux = ConnectedProps<typeof connector>
 
-type Props = PropsFromRedux;
+type Props = PropsFromRedux & ICheckInHeaderProps;
 
 export default connector(CheckInHeader)

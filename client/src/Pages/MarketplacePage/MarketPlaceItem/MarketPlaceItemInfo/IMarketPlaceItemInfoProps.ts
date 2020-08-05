@@ -1,3 +1,4 @@
 export default interface IMarketPlaceItemInfoProps {
-    to: string;
+    learnMore: string;
+    purchase: string;
 }

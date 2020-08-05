@@ -24,6 +24,33 @@ const OrganizationSchema = new Schema({
     apps: {
         type: [String],
         default: []
+    },
+    stripeId: {
+        type: String,
+        default: ""
+    },
+    address: {
+        addressLine1: {
+            type: String,
+            required: true
+        },
+        addressLine2: String,
+        city: {
+            type: String,
+            required: true
+        },
+        zip: {
+            type: String,
+            required: true
+        },
+        state: {
+            type: String,
+            required: true
+        },
+        country: {
+            type: String,
+            required: true
+        }
     }
 })
 

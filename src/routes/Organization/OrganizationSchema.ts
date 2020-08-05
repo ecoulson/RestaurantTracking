@@ -11,7 +11,15 @@ const OrganizationIdParametersSchema = Joi.object({
 
 const RegisterOrganizationSchema = Joi.object({
     organizationId: Joi.string().required(),
-    organizationName: Joi.string().required()
+    organizationName: Joi.string().required(),
+    address: Joi.object({
+        addressLine1: Joi.string().required(),
+        addressLine2: Joi.string().allow(""),
+        city: Joi.string().required(),
+        zip: Joi.string().required(),
+        state: Joi.string().required(),
+        country: Joi.string().required()
+    }).required()
 })
 
 const OrganizationPINLoginSchema = Joi.object({
@@ -21,6 +29,10 @@ const OrganizationPINLoginSchema = Joi.object({
 
 const OrganizationAccountRegistrationSchema = Joi.object({
     email: Joi.string().email().required(),
+    username: Joi.string().required(),
+    firstName: Joi.string().required(),
+    lastName: Joi.string(),
+    password: Joi.string().required(),
 })
 
 const OrganizationBuildingsSchema = Joi.object({

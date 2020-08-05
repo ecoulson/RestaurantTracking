@@ -24,8 +24,11 @@ let user = userGenerator.generate();
 let organization = organizationGenerator.generate();
 let contactApp = new AppModel({
     type: AppType.ContactLogs,
-    organizationId: organization.organizationId
+    organizationId: organization.organizationId,
+    stripeSubscriptionId: "foo",
+    stripeProductId: "foo"
 })
+organization.apps = [contactApp.id]
 let building = new BuildingModel({
     name: "school",
     type: BuildingType.Academic,
@@ -52,9 +55,11 @@ beforeEach(async () => {
     organization = organizationGenerator.generate();
     contactApp = new AppModel({
         type: AppType.ContactLogs,
-        organizationId: organization.organizationId
+        organizationId: organization.organizationId,
+        stripeSubscriptionId: "foo",
+        stripeProductId: "foo"
     })
-    organization.apps.push(contactApp.id)
+    organization.apps = [contactApp.id]
     building = new BuildingModel({
         name: "school",
         type: BuildingType.Academic,

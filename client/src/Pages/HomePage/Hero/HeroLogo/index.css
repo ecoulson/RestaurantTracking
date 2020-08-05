@@ -3,12 +3,17 @@
     left: 50px;
     width: 100px;
     position: absolute;
+    z-index: 100;
 }
 
 @media all and (max-width: 500px) {
     .hero-logo-container {
         top: 25px;
         left: 25px;
+    }
+
+    .hero-logo-container .company-name {
         width: 50px;
+        height: 50px;
     }
 }

@@ -42,11 +42,12 @@ export default class AuthenticationController {
                 const result : any = jsonwebtoken.verify(token, process.env.ACCESS_TOKEN_SECRET);
                 const user = await UserModel.findById(result._id);
                 return new JSONResponse(response).send({
-                    isActive: user.verified
+                    isActive: user.verified || (user && request.query.allowUnverified)
                 });
             } catch (error) {
                 return new JSONResponse(response).send({
-                    isActive: false
+                    isActive: false,
+                    error
                 });
             }
         }

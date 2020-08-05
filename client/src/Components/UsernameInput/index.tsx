@@ -12,7 +12,7 @@ import IState from "../../Store/IState";
 import { ConnectedProps, connect } from "react-redux";
 import ToastType from "../Toast/ToastType";
 
-export class UsernameInput extends React.Component<Props, IUsernameInputState> {
+class UsernameInput extends React.Component<Props, IUsernameInputState> {
     private validateUsername : () => void;
 
     constructor(props: Props) {
@@ -49,6 +49,7 @@ export class UsernameInput extends React.Component<Props, IUsernameInputState> {
                 iconColor={this.props.iconColor}
                 isValid={this.state.valid}
                 hoverColor={this.props.hoverColor}
+                dark={this.props.dark}
                 type="text"
                 label="Username"
                 name="username"

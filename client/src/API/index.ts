@@ -29,9 +29,9 @@ export async function getUserAvatar(id: string) {
     }
 }
 
-export async function isSessionActive() {
+export async function isSessionActive(unverified?: boolean) {
     try {
-        const res = await Axios.get(`/api/authentication/is_session_active`)
+        const res = await Axios.get(`/api/authentication/is_session_active${unverified ? `?allowUnverified=true` : ""}`)
         return res.data.data.isActive
     } catch (error) {
         throw error;

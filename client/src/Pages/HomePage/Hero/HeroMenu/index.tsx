@@ -2,12 +2,16 @@ import React from "react";
 import Icon from "../../../../Components/Icon";
 import IconType from "../../../../Components/Icon/IconTypes";
 import "./index.css";
+import IHeroMenuProps from "./IHeroMenuProps";
 
-export default class HeroMenu extends React.Component {
+export default class HeroMenu extends React.Component<IHeroMenuProps> {
     render() {
         return (
             <div className="hero-menu">
-                <Icon width={70} height={70} icon={IconType.HamburgerMenu} color="#FFFFFF"/>
+                <Icon 
+                    onClick={this.props.onClick} 
+                    icon={IconType.HamburgerMenu} 
+                    color="#FFFFFF"/>
             </div>
         )
     }

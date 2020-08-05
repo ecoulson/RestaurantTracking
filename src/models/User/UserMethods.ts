@@ -13,6 +13,9 @@ export default class UserMethods {
             firstName: context.firstName,
             lastName: context.lastName,
             verified: context.verified,
+            organizations: context.organizations,
+            dateCreated: context.dateCreated,
+            updatedAt: context.updatedAt,
             schemaVersion: context.schemaVersion
         }
     }

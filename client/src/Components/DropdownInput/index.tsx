@@ -11,6 +11,7 @@ export default class DropdownInput extends React.Component<IDropdownInputProps, 
     constructor(props: IDropdownInputProps) {
         super(props);
         this.state = {
+            value: props.value,
             showing: false,
             hasRendered: false,
         }

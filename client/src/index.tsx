@@ -6,6 +6,13 @@ import AppRouter from './AppRouter';
 import { Provider } from 'react-redux';
 import store from './Store';
 
+import { library } from "@fortawesome/fontawesome-svg-core"
+import { faTimes, faCheck, faChevronRight } from "@fortawesome/free-solid-svg-icons"
+
+library.add(faTimes);
+library.add(faCheck);
+library.add(faChevronRight);
+
 ReactDOM.render(
 	<React.StrictMode>
 		<Provider store={store}>

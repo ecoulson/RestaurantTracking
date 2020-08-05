@@ -6,4 +6,5 @@ export default interface ICheckInController {
     handleGetReport() : RequestHandler;
     handleGetCheckIn() : RequestHandler;
     handleGetQRCode() : RequestHandler;
+    handleSyncCheckIns: RequestHandler;
 }

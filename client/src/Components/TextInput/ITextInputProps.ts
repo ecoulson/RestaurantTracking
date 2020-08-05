@@ -7,6 +7,7 @@ export default interface ITextInputProps {
     hoverColor: string;
     name: string;
     autocomplete?: string;
+    help?: string;
     id: string;
     isValid?: boolean;
     dark?: boolean;

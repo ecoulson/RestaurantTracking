@@ -32,14 +32,16 @@ export default class OrganizationIdInput extends React.Component<IOrganizationIn
     render() {
         return <FormInput 
                     id={this.props.id}
-                    name="organization-id"
+                    name="establishment-id"
                     value={this.props.value}
                     icon={IconType.Link}
+                    help="This ID will be used to brand links and identify you."
                     iconColor="#AAAAAA"
                     isValid={this.state.valid}
+                    autocomplete={"off"}
                     hoverColor="#232C47"
-                    placeHolder="Organization ID..."
-                    label="Organization ID"
+                    placeHolder="Enter an establishment ID..."
+                    label="Establishment ID"
                     type="text"
                     onChange={this.onChange} />;
     }

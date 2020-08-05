@@ -50,4 +50,13 @@ export default class VerificationController implements IVerificationController {
             return new JSONResponse(res).send(mailData);
         }
     }
+
+    handleIsVerified() {
+        return async (req : Request, res : Response) => {
+            return new JSONResponse(res).send({
+                verified: req.user.verified,
+                anonymous: req.user.anonymous
+            })
+        }
+    }
 }

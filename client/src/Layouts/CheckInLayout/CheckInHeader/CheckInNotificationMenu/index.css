@@ -1,0 +1,60 @@
+.check-in-notification-menu {
+    position: absolute;
+    width: 80vw;
+    margin-left: 25px;
+    border: 1px solid #37D2A7;
+    background-color: #00152D;
+    border-bottom: none;
+    top: 45px;
+    z-index: 101;
+    max-width: 600px;
+    box-shadow: 3px 5px 10px rgba(0, 0, 0, 0.8);
+    display: none;
+    opacity: 0;
+    max-height: 0px;
+    overflow-y: hidden;
+    animation-duration: 0.25s;
+    animation-timing-function: ease;
+}
+
+.check-in-notification-menu-item {
+    color: white;
+    display: block;
+    display: flex;
+    padding: 10px 15px;
+    border-bottom: 1px solid #37D2A7;
+}
+
+.check-in-notification-menu-show {
+    display: block;
+    animation-name: CheckInNotificationMenuShow;
+    animation-fill-mode: forwards;
+}
+
+.check-in-notification-menu-hide {
+    display: block;
+    animation-name: CheckInNotificationMenuHide;
+    animation-fill-mode: forwards;
+}
+
+@keyframes CheckInNotificationMenuShow {
+    0% {        
+        max-height: 0px;
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+        max-height: 500px;
+    }
+}
+
+@keyframes CheckInNotificationMenuHide {
+    0% {
+        max-height: 500px;
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        max-height: 0px;
+    }
+}

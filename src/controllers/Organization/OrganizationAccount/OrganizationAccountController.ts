@@ -7,20 +7,26 @@ import OrganizationPINLoginArguments from "../../../services/Authentication/Orga
 import IUserVerificationService from "../../../services/User/Verification/IUserVerificationService";
 import OrganizationAccountVerificationStrategy from "../../../services/Organization/OrganizationAccount/OrganizationAccountVerificationStrategy";
 import UserBroker from "../../../brokers/UserBroker";
+import EncryptedTokenService from "../../../services/Token/EncryptedTokenService";
+import TokenBroker from "../../../brokers/TokenBroker";
+import Scope from "../../../services/Token/Scope";
 
 export default class OrganizationAccountController implements IOrganizationAccountController {
     private accountExistsService : IOrganizationAccountExistsService;
     private authenticationService : IAuthenticationService;
     private userVerificationService : IUserVerificationService;
+    private tokenBroker : TokenBroker;
 
     constructor(
         accountService : IOrganizationAccountExistsService, 
         authenticationService : IAuthenticationService, 
-        userVerificationService : IUserVerificationService
+        userVerificationService : IUserVerificationService,
+        tokenBroker: TokenBroker
     ) {
         this.accountExistsService = accountService;
         this.authenticationService = authenticationService;
         this.userVerificationService = userVerificationService;
+        this.tokenBroker = tokenBroker;
     }
 
     handleAccountExists() {
@@ -39,14 +45,8 @@ export default class OrganizationAccountController implements IOrganizationAccou
                 request.params.organizationId
             ));
             const token = await this.authenticationService.generateAccessToken(user, true);
-            if (!user.verified) {
-                return new JSONResponse(response).send({ 
-                    verified: false,
-                    token
-                })
-            }
             return new JSONResponse(response).send({ 
-                verified: true,
+                verified: user.verified,
                 token 
             });
         }
@@ -57,7 +57,9 @@ export default class OrganizationAccountController implements IOrganizationAccou
             const user = await this.userVerificationService.verify(new OrganizationAccountVerificationStrategy(
                 new UserBroker(),
                 request.body.email,
-                request.body.password
+                request.body.password,
+                new EncryptedTokenService([Scope.VerifyEmail], 24, this.tokenBroker),
+                new TokenBroker()
             ))
             return new JSONResponse(response).send({ user })
         }

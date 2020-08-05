@@ -1,11 +1,11 @@
 import { INavPanel, NavPanelActionTypes, NavPanelActions } from "./types";
 
 const initialState : INavPanel = {
-    collapsed: false,
+    collapsed: true,
     hidden: false,
 }
 
-export function toggleCollapseReducer(state = initialState, action : NavPanelActionTypes) {
+export function navPanelReducer(state = initialState, action : NavPanelActionTypes) {
     switch (action.type) {
         case NavPanelActions.TOGGLE_COLLAPSE:
             return {

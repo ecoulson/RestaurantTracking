@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request } from "express";
 import path from "path";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
@@ -14,13 +14,24 @@ import mongoose from "mongoose";
 import TokenManager from "./services/Token/TokenManger";
 import mongoSanitize from "express-mongo-sanitize";
 import compression from "compression";
+import NodeCron from "node-cron";
+import AppBroker from "./brokers/AppBroker";
+import Stripe from "stripe";
+import StripeBroker from "./brokers/StripeBroker";
+import CreateUsageRecordsService from "./services/App/CreateUsageRecordsService";
 
 mongoose.set('useCreateIndex', true);
 
 const OneHour = 60 * 60 * 1000;
 const tokenManager = new TokenManager();
 const app = express();
-app.use(bodyParser.json());
+app.use(bodyParser.json({
+    verify: function (req : Request, res, buf) {
+        if (req.url.startsWith('/api/webhooks/')) {
+            req.rawBody = buf.toString()
+        }
+    }
+}));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser());
 app.use(cors());
@@ -81,5 +92,18 @@ async function clearTokens() {
         logger.error("Failed to clear expired tokens");
     }
 }
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+    apiVersion: "2020-03-02"
+});
+const appBroker = new AppBroker();
+const stripeBroker = new StripeBroker(stripe);
+const createUsageRecordsService = new CreateUsageRecordsService(appBroker, stripeBroker)
+NodeCron.schedule('0 0 0 * * *', async () => {
+    const apps = await appBroker.findAll();
+    apps.forEach(async (app) => {
+        await createUsageRecordsService.createUsageRecord(app);
+    })
+})
 
 export default app;

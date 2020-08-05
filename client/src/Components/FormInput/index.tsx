@@ -7,6 +7,7 @@ import Input from "./Input";
 import IFormInputState from "./IFormInputState";
 import FormValue from "./FormValue";
 import ValidationIcon from "./ValidationIcon";
+import IconType from "../Icon/IconTypes";
 const CustomDateInput = React.lazy(() => import("./CustomDateInput"));
 const CustomTimeInput = React.lazy(() => import("./CustomTimeInput"));
 
@@ -15,25 +16,38 @@ export default class FormInput extends React.Component<IFormInputProps, IFormInp
         super(props);
         this.state = {
             focused: false,
-            hovered: false
+            hovered: false,
+            helpHovered: false
         }
         this.onFocus = this.onFocus.bind(this);
         this.onBlur = this.onBlur.bind(this);
         this.onChange = this.onChange.bind(this);
         this.toggleHover = this.toggleHover.bind(this);
+        this.handleHelpHoverEnd = this.handleHelpHoverEnd.bind(this);
+        this.handleHelpHoverStart = this.handleHelpHoverStart.bind(this);
     }
 
     render() {
         return (
             <div 
-                id={`form-input-${this.props.id}`}
+                id={`form-input-${this.props.id}-container`}
                 onMouseEnter={this.toggleHover}
                 onMouseLeave={this.toggleHover}
                 style={this.getBackgroundColor()} 
                 className={`form-input ${this.getActiveClass()}`}>
                 <Label id={`form-input-${this.props.id}`} dark={this.props.dark}>
-                    {this.props.label}
-                    <div className="input-line">
+                    <div 
+                        onMouseEnter={this.handleHelpHoverStart}
+                        onMouseLeave={this.handleHelpHoverEnd}
+                        onTouchStart={this.handleHelpHoverStart}
+                        onTouchEnd={this.handleHelpHoverEnd}
+                        className="label-container">
+                        <span>{this.props.label}</span>
+                        {this.renderHelpIcon()}
+                        {this.renderHelpTooltip()}
+                    </div>
+                </Label>
+                <div className="input-line">
                     <Icon 
                         hovered={this.state.focused || this.state.hovered} 
                         hoverColor={this.props.hoverColor}
@@ -42,9 +56,36 @@ export default class FormInput extends React.Component<IFormInputProps, IFormInp
                     {this.getInput()}
                     {this.getValidationIcon()}
                 </div>
-                </Label>
             </div>
         )
+    }
+
+    handleHelpHoverStart() {
+        this.setState({
+            helpHovered: true
+        })
+    }
+
+    handleHelpHoverEnd() {
+        this.setState({
+            helpHovered: false
+        })
+    }
+
+    renderHelpIcon() {
+        return this.props.help ?
+            <Icon 
+                width={15} 
+                height={15} 
+                color="grey"
+                icon={IconType.Help} /> :
+            null;
+    }
+
+    renderHelpTooltip() {
+        return this.state.helpHovered && this.props.help ?
+            <div className="form-tool-tip">{this.props.help}</div> :
+            null;
     }
 
     toggleHover() {

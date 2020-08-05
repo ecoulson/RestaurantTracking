@@ -12,7 +12,7 @@ export default class UnauthenticatedAccessWrapper extends React.Component<IUnaut
             this.props.showError("You are already logged in", 5000)
             return AppHistory.push(this.props.to)
         }
-        if  (await isSessionActive()) {
+        if  (await isSessionActive(this.props.unverified)) {
             this.props.showError("You are already logged in", 5000);
             return AppHistory.push(this.props.to);
         }

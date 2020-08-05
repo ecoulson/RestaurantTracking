@@ -2,21 +2,31 @@
     position: absolute;
     top: 65px;
     right: 65px;
+    z-index: 100;
 }
 
-.hero-menu > .icon {
+.hero-menu .icon {
+    width: 70px;
+    height: 70px;
+    z-index: 100;
     transition: all 0.25s ease;
 }
 
-.hero-menu:hover > .icon {
+.hero-menu:hover .icon {
     cursor: pointer;
     stroke: #707070;
 }
+
 
 @media all and (max-width: 500px) {
     .hero-menu  {
         top: 40px;
         right: 50px;
         width: 50px;
+    }
+
+    .hero-menu .icon {
+        width: 40px;
+        height: 40px;
     }
 }

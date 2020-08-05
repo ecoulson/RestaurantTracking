@@ -11,6 +11,7 @@ export default class Button extends React.Component<IButtonProps> {
     render() {
         return (
             <button 
+                id={this.props.id ? `button-${this.props.id}` : undefined}
                 onClick={this.props.onClick ? this.props.onClick : () => {}} 
                 className={`button ${this.getClass()}`} 
                 type={this.props.submit ? "submit" : "button"}>

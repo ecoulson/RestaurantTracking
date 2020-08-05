@@ -1,0 +1,14 @@
+.display-type-option {
+    text-transform: capitalize;
+}
+
+.display-image {
+    width: 100px;
+    margin: 0 auto;
+    display: block;
+}
+
+.display-input-slide-switch-container > .slide-switch-container {
+    border-radius: 50px;
+    background-color: #c4c4c4;
+}

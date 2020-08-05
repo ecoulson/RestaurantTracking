@@ -1,12 +1,13 @@
 .button {
     font-family: 'sweet-sans-pro';
-    width: 100%;
-    font-size: 28px;
+    width: auto;
+    padding: 2px 25px;
+    font-size: 20px;
     font-weight: 600;
-    line-height: 40px;
+    line-height: 30px;
     letter-spacing: 0px;
     height: auto;
-    min-height: 45px;
+    min-height: auto;
     box-sizing: border-box;
     box-shadow: none;
     border-radius: 5px;
@@ -29,11 +30,11 @@
 }
 
 .show-dark {
-    box-shadow: 4px 4px 4px #00000080;
+    box-shadow: 3px 3px 10px 2px rgba(0, 0, 0, 0.2);
 }
 
 .show-light {
-    box-shadow: 4px 4px 4px #00000080;
+    box-shadow: 3px 3px 10px 2px rgba(0, 0, 0, 0.2);
 }
 
 .show:hover {

@@ -3,4 +3,5 @@ export default interface ILogoProps {
     horizontal?: boolean;
     collapsed? : boolean;
     noTitle?: boolean;
+    onClick?: () => void;
 }

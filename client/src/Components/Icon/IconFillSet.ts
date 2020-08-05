@@ -19,6 +19,13 @@ IconFillSet.add(IconType.BuildingSolid);
 IconFillSet.add(IconType.CitySolid);
 IconFillSet.add(IconType.AddressCardSolid);
 IconFillSet.add(IconType.GlobeAmericasSolid);
-IconFillSet.add(IconType.BreifcaseSolid);
+IconFillSet.add(IconType.FlagRegular);
+IconFillSet.add(IconType.BriefcaseSolid);
+IconFillSet.add(IconType.AmexCard);
+IconFillSet.add(IconType.DinersClubCard);
+IconFillSet.add(IconType.DiscoverCard);
+IconFillSet.add(IconType.JCBCard);
+IconFillSet.add(IconType.MastercardCard);
+IconFillSet.add(IconType.VisaCard);
 
 export default IconFillSet;

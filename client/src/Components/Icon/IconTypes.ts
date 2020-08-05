@@ -33,7 +33,13 @@ enum IconType {
     AddressCardSolid,
     FlagRegular,
     GlobeAmericasSolid,
-    BreifcaseSolid
+    BriefcaseSolid,
+    AmexCard,
+    DinersClubCard,
+    DiscoverCard,
+    JCBCard,
+    MastercardCard,
+    VisaCard
 }
 
 export default IconType;

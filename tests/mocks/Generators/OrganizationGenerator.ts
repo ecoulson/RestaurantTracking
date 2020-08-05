@@ -7,7 +7,17 @@ export default class OrganizationGenerator implements IGenerator<IOrganization> 
     generate() {
         return new OrganizationModel({
             organizationId: faker.name.firstName(),
-            organizationName: faker.company.companyName()
+            organizationName: faker.company.companyName(),
+            apps: ["fakeAppId"],
+            address: {
+                country: faker.address.country(),
+                state: faker.address.state(),
+                addressLine1: faker.address.streetAddress(),
+                addressLine2: faker.address.secondaryAddress(),
+                zip: faker.address.zipCode(),
+                city: faker.address.city(),
+            },
+            stripeCustomerId: faker.random.alphaNumeric()
         });
     }
 }

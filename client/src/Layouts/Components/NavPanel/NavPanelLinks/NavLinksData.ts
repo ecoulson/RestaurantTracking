@@ -17,9 +17,9 @@ const NavLinksData : INavLinkData[] = [
         hoverColor: "white"
     },
     {
-        icon: IconType.BreifcaseSolid,
+        icon: IconType.BriefcaseSolid,
         iconColor: "#b1b1b3",
-        text: "Organizations",
+        text: "Manage",
         to: "/organizations",
         hoverColor: "white"
     }

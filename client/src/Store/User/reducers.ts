@@ -10,7 +10,7 @@ const initialState : IUserState = {
     organizations: []
 }
 
-export function getUserReducer(state = initialState, action : UserActionTypes) {
+export function userReducer(state = initialState, action : UserActionTypes) {
     switch (action.type) {
         case UserActions.GET:
             return {

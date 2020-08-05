@@ -4,4 +4,8 @@ import AppType from "./AppType";
 export default interface IAppSchema extends IDocument {
     organizationId: string;
     type: AppType;
+    stripeProductId: string;
+    stripeSubscriptionId: string;
+    isActive: boolean;
+    usage: number;
 }

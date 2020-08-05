@@ -2,23 +2,24 @@ import React from "react";
 import BasicLayout from "../../Layouts/BasicLayout";
 import { ConnectedProps, connect } from "react-redux";
 import IState from "../../Store/IState";
-import SearchableDropdownInput from "../../Components/SearchableDropdownInput";
-import IconType from "../../Components/Icon/IconTypes";
-import IFormValue from "../../Components/FormInput/IFormValue";
 import IOrganizationPageState from "./IOrganizationPageState";
 import IResponse from "../../API/IResponse";
 import IGetOrganizationNameResponse from "../../API/GetOrganizationNameRequest/IGetOrganizationNameResponse";
 import GetOrganizationNameRequest from "../../API/GetOrganizationNameRequest";
-import BasicSectionTitle from "../../Layouts/BasicLayout/BasicSectionTitle";
 import BuildingSection from "./BuildingSection";
+import DropdownInput from "../../Components/DropdownInput";
+import Button from "../../Components/Button";
+import AppHistory from "../../AppHistory";
+import BillingSection from "./BillingSection";
+import CancelSubscriptionSection from "./CancelSubscriptionSection";
 
 class OrganizationPage extends React.Component<Props, IOrganizationPageState> {
     constructor(props : Props) {
         super(props);
         this.state = {
             organizationNames: [],
-            currentOrganizationId: "",
-            currentOrganizationName: "Organization",
+            currentOrganizationId: props.user.organizations[0] ? props.user.organizations[0] : "",
+            currentOrganizationName: "Manage",
             shouldGetName: false
         }
         this.onOrganizationChange = this.onOrganizationChange.bind(this);
@@ -28,32 +29,38 @@ class OrganizationPage extends React.Component<Props, IOrganizationPageState> {
 
     render() {
         return (
-            <BasicLayout title={this.state.currentOrganizationName}>
+            <BasicLayout title="Manage">
                 <GetOrganizationNameRequest
                     send={this.state.shouldGetName} 
                     onComplete={this.onOrganizationName}
                     onError={this.onError}
                     organizationId={this.state.currentOrganizationId} />
-                <SearchableDropdownInput 
-                    id="organizations"
-                    label="Organization"
-                    values={this.props.user.organizations ? this.props.user.organizations : []} 
-                    icon={IconType.BuildingSolid} 
-                    placeholder="Organization..."
-                    onChange={this.onOrganizationChange}
-                    />
                 {
-                    this.state.currentOrganizationName === "Organization" ?
-                        <BasicSectionTitle>Please Select An Organization</BasicSectionTitle> :
-                        <BuildingSection organizationId={this.state.currentOrganizationId} />
+                    this.state.currentOrganizationId === "" ?
+                        <>
+                            Visit the Marketplace to set up a contact log.
+                            <Button onClick={() => AppHistory.push("/marketplace")}>Visit Marketplace</Button>
+                        </> :
+                        <>
+                            <DropdownInput 
+                                id="organizations"
+                                label="Organization"
+                                value={this.state.currentOrganizationId}
+                                values={this.props.user.organizations ? this.props.user.organizations : []} 
+                                onChange={this.onOrganizationChange}/>
+                            <BuildingSection organizationId={this.state.currentOrganizationId} />
+                            <BillingSection organizationId={this.state.currentOrganizationId} />
+                            <CancelSubscriptionSection organizationId={this.state.currentOrganizationId} />
+                        </>
+                        
                 }
             </BasicLayout>
         )
     }
 
-    onOrganizationChange(index : IFormValue<number>) {
+    onOrganizationChange(organizationId : string, index: number) {
         this.setState({
-            currentOrganizationId: this.props.user.organizations[index.value],
+            currentOrganizationId: organizationId,
             shouldGetName: true
         })
     }

@@ -20,7 +20,11 @@ class RegisterOrganizationUserRequest extends RequestComponent<IRegisterOrganiza
 
     async onLoad() {
         return (await Axios.post(`/api/organization/account/${this.props.organizationId}/register`, {
-            email: this.props.email
+            email: this.props.email,
+            username: this.props.username,
+            password: this.props.password,
+            firstName: this.props.firstName,
+            lastName: this.props.lastName
         })).data
     }
 }

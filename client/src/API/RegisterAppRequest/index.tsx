@@ -21,7 +21,9 @@ class RegisterAppRequest extends RequestComponent<IRegisterAppRequest> {
 
     async onLoad() {
         return (await Axios.post(`/api/app/`, {
-            organizationId: this.props.organizationId
+            organizationId: this.props.organizationId,
+            stripeProductId: this.props.stripeProductId,
+            stripeSubscriptionId: this.props.stripeSubscriptionId
         }, {
             headers: {
                 "Authorization": `Bearer ${Cookie.getCookie("token")}`

@@ -1,0 +1,18 @@
+.cart {
+    width: 100%;
+    box-sizing: border-box;
+    background: transparent linear-gradient(330deg, #010101 0%, #22336C 54%, #45DFC2 100%) 0% 0% no-repeat padding-box;
+    height: 100%;
+    padding: 3px;
+    border-radius: 3px;
+}
+
+.cart-container {
+    position: relative;
+    display: block;
+    width: 100%;
+    background-color: #E7E7E7;
+    height: 100%;
+    padding: 0 15px;
+    box-sizing: border-box;
+}

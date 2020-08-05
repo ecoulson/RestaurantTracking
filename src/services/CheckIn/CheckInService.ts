@@ -7,20 +7,31 @@ import IPermissionBuilder from "../Permission/IPermissionBuilder";
 import OperationType from "../../lib/Authorization/OperationType";
 import ResourceType from "../../lib/Authorization/ResourceType";
 import UserBroker from "../../brokers/UserBroker";
+import AppBroker from "../../brokers/AppBroker";
+import AppType from "../../models/App/AppType";
 
 export default class CheckInService {
     private organizationBroker : OrganizationBroker;
     private permissionBuilder : IPermissionBuilder;
     private userBroker : UserBroker;
+    private appBroker : AppBroker
 
-    constructor(organizationBroker : OrganizationBroker, permissionBuilder : IPermissionBuilder, userBroker : UserBroker) {
+    constructor(organizationBroker : OrganizationBroker, permissionBuilder : IPermissionBuilder, userBroker : UserBroker, appBroker : AppBroker) {
         this.organizationBroker = organizationBroker;
         this.permissionBuilder = permissionBuilder;
         this.userBroker = userBroker;
+        this.appBroker = appBroker;
     }
 
     async checkIn(checkInBody : ICheckInRequestBody, ipAddress : string) : Promise<ICheckIn> {
-        await this.ensureRestaurantExists(checkInBody);
+        await this.ensureOrganizationExists(checkInBody);
+        const organization = await this.organizationBroker.findOrganizationById(checkInBody.organizationId);
+        const apps = await Promise.all(organization.apps.map(appId => this.appBroker.findById(appId)))
+        const contactLogApp = apps.filter((app) => {
+            return app.type === AppType.ContactLogs
+        })[0]
+        contactLogApp.usage++;
+        await this.appBroker.save(contactLogApp);
         const checkIn = await this.saveCheckInToDB(checkInBody, ipAddress);
         const permission = this.permissionBuilder
             .setOperations([OperationType.Read, OperationType.Update])
@@ -34,14 +45,15 @@ export default class CheckInService {
         return checkIn
     }
 
-    private async ensureRestaurantExists(checkIn : ICheckInRequestBody) {
+    private async ensureOrganizationExists(checkIn : ICheckInRequestBody) {
         if (!await this.organizationExists(checkIn.organizationId)) {
             throw new Error("Can not check in to an organization that does not exist")
         }
     }
 
     private async organizationExists(organizationId : string) {
-        return await this.organizationBroker.findOrganizationById(organizationId) !== null
+        const org = await this.organizationBroker.findOrganizationById(organizationId);
+        return org !== null
     }
 
     private async saveCheckInToDB(checkIn : ICheckInRequestBody, ipAddress: string) : Promise<ICheckIn> {

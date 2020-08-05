@@ -1,34 +1,36 @@
 import IVerifyUserStrategy from "../../../services/User/Registration/IVerifyUserStrategy";
-import UserBroker from "../../../brokers/UserBroker";
 import IEmailService from "../../../services/Email/IEmailService";
 import RegisterOrganizationAccountEmailStrategy from "../../../services/Organization/OrganizationAccount/RegisterOrganizationAccountEmailStrategy";
 import EmailMessageBuilder from "../../../services/Email/EmailMessageBuilder";
-import bcrypt from "bcrypt";
+import IUser from "../../../models/User/IUser";
+import ITokenService from "../../../services/Token/ITokenService";
 
 export default class VerifyOrganizationAccountStrategy implements IVerifyUserStrategy {
-    private userBroker : UserBroker;
     private emailService : IEmailService;
-    private email: string;
+    private tokenService : ITokenService;
+    private user: IUser;
 
-    constructor(userBroker : UserBroker, emailService: IEmailService, email: string) {
-        this.userBroker = userBroker;
-        this.email = email;
+    constructor(emailService: IEmailService, tokenService : ITokenService, user: IUser) {
         this.emailService = emailService;
+        this.tokenService = tokenService;
+        this.user = user;
     }
 
     async verify() {
-        const user = await this.userBroker.findUserByEmail(this.email);
-        if (user.verified) {
-            throw new Error(`User ${user.id} is already verified`);
+        if (this.user.verified) {
+            throw new Error(`User ${this.user.id} is already verified`);
         }
         const PIN = this.generatePIN();
-        user.password = await bcrypt.hash(PIN, 10);
+        this.tokenService.deleteExistingToken(this.user);
+        this.tokenService.generate(this.user, new Map([
+            ["code", PIN]
+        ]))
         this.emailService.sendEmail(new RegisterOrganizationAccountEmailStrategy(
             new EmailMessageBuilder(), 
-            user, 
+            this.user, 
             PIN
         ));
-        return await user.save();
+        return await this.user.save();
     }
 
     private generatePIN() {

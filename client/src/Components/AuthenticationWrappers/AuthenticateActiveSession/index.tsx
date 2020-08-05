@@ -11,7 +11,7 @@ export default class AuthenticateActiveSession extends React.Component<IAuthenti
             this.props.showError("You must login", 5000)
             return AppHistory.push(this.props.to)
         }
-        if (!await isSessionActive()) {
+        if (!await isSessionActive(this.props.unverified)) {
             this.props.showError("Session has expired", 5000)
             return AppHistory.push(this.props.to)
         }
