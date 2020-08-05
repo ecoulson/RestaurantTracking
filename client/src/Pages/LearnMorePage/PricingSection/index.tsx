@@ -6,25 +6,27 @@ import OrganizationPricing from "./OrganizationPricing";
 import IPricingModelProps from "./IPricingModelProps";
 import ContactLogPricing from "./ContactLogPricing";
 import "./index.css";
+import Button from "../../../Components/Button";
+import AppHistory from "../../../AppHistory";
+import LearnMoreSectionParagraph from "../LearnMoreSectionParagraph";
 
 export default class PricingSection extends React.Component<IPricingModelProps> {
+    constructor(props : IPricingModelProps) {
+        super(props);
+        this.handleClick = this.handleClick.bind(this);
+    }
+
     render() {
         return (
             <LearnMoreSection id="pricing">
-                <LearnMoreSectionTitle>Price</LearnMoreSectionTitle>
-                {this.getPricingComponent()}
+                <LearnMoreSectionTitle>Price Estimator</LearnMoreSectionTitle>
+                <LearnMoreSectionParagraph>{this.props.model.description}</LearnMoreSectionParagraph>
+                <Button onClick={this.handleClick}>Go To Estimator</Button>
             </LearnMoreSection>
         )
     }
 
-    private getPricingComponent() {
-        switch (this.props.model.type) {
-            case PricingModelType.OrganizationRegistration:
-                return <OrganizationPricing {...this.props.model} />
-            case PricingModelType.ContactLog:
-                return <ContactLogPricing {...this.props.model} />
-            default:
-                return null;
-        }
+    private handleClick() {
+        AppHistory.push(`/learn-more/${this.props.product}/price-estimator`)
     }
 }

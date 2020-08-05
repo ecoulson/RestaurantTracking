@@ -4,6 +4,7 @@ import CancelPasswordRecoveryRequest from "../../../API/CancelPasswordRecoveryRe
 import ICancelPasswordResetPageProps from "./ICancelPasswordResetPageProps";
 import AppHistory from "../../../AppHistory";
 import CheckInLayout from "../../../Layouts/CheckInLayout";
+import CheckInTitle from "../Components/CheckInTitle";
 
 export default class CancelPasswordResetPage extends React.Component<ICancelPasswordResetPageProps> {
     private urlParams : URLSearchParams
@@ -22,7 +23,7 @@ export default class CancelPasswordResetPage extends React.Component<ICancelPass
                     email={this.urlParams.get("email") as string}
                     token={this.urlParams.get("token") as string}
                     />
-                <OrganizationName>Cancel Password Reset</OrganizationName>
+                <CheckInTitle>Cancel Password Reset</CheckInTitle>
             </CheckInLayout>
         )
     }

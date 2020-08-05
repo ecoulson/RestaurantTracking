@@ -46,7 +46,7 @@ export default class VerifyAnonymousAccountPage extends React.Component<IVerifyA
                     onComplete={this.onComplete}
                     onError={this.onError}
                     organizationId={this.props.match.params.organizationId} />
-                <OrganizationName>{this.state.organizationName}</OrganizationName>
+                <OrganizationName organizationId={this.props.match.params.organizationId} />
                 <RegisterAccountPage ref={this.pageRef} onAccountCreate={this.onAccountCreate} {...this.props} />
             </CheckInLayout>
         )

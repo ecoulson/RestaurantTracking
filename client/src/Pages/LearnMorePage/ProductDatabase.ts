@@ -40,13 +40,13 @@ ProductDatabase.set("organization-setup", {
     }
 });
 
-ProductDatabase.set("contact-logs", {
-    productName: "contact-logs",
-    name: "Safer-at-school Contact Logs for Colleges and Universities",
+ProductDatabase.set("check-ins", {
+    productName: "check-ins",
+    name: "Safer-at-School Check Ins for Colleges and Universities",
     description: "Prevention and intervention as a dual safety protection strategy against COVID-19.",
     overview: {
         title: "Returning responsibly during COVID-19",
-        about: "Adapt Solutions uses NFC chips, QR codes, and bit.ly links to check-in persons as they enter buildings, allowing colleges and universities to enforce a building capacity, monitor high-risk areas, and identify infected students.",
+        about: "Adapt Solutions uses NFC chips, QR codes, and bit.ly links to check in persons as they enter buildings, allowing colleges and universities to enforce a building capacity, monitor high-risk areas, and identify infected students.",
         mediaPath: "https://images.unsplash.com/photo-1590579491624-f98f36d4c763?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3600&q=80"
     },
     features: [
@@ -71,18 +71,18 @@ ProductDatabase.set("contact-logs", {
             title: "How it works",
             alt: "image of a phone face down in darkness",
             mediaURL: "https://images.unsplash.com/photo-1526222344609-ca3e80ea3b06?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=4176&q=80",
-            description: "When entering a building, individuals hover, scan, or type a bit.ly link to check-in. If a building is under capacity, persons will reach a success page and be instructed to enter the building. If the building is at capacity, students will receive a notice not to enter."
+            description: "When entering a building, individuals hover, scan, or type a bit.ly link to check in. If a building is under capacity, persons will reach a success page and be instructed to enter the building. If the building is at capacity, students will receive a notice not to enter."
 
         },
         {
             title: "Smart, data informed decisions",
             alt: "futuristic, transparent panel with blue wires",
             mediaURL: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3450&q=80",
-            description: "By analyzing check-in and check-out timestamps, we can notify you of your “chokepoints,” so that you can decrease traffic in high-risk areas. With a simple query, institutions can determine what buildings an infected student has entered. The persons checked-in simultaneously could be encouraged to quarantine for 14 days, and the buildings they entered could be thoroughly sanitized."
+            description: "By analyzing check in and check-out timestamps, we can notify you of your “choke points,” so that you can decrease traffic in high-risk areas. With a simple query, institutions can determine what buildings an infected student has entered. The persons checked-in simultaneously could be encouraged to quarantine for 14 days, and the buildings they entered could be thoroughly sanitized."
         }
     ],
     pricingModel: {
-        description: "Use our price estimator to calculate your price. Upgrades such as college/university branded QR codes, integration with an identification system, and on-the-go check-in/check-out cards are not included.",
+        description: "Use our price estimator to view the options available to your establishment.",
         type: PricingModelType.ContactLog,
         pricingStrategy: new ContactLogPricingStrategy()
     }
@@ -129,7 +129,7 @@ ProductDatabase.set("contact-logs-business", {
         }
     ],
     pricingModel: {
-        description: "Use our price estimator to calculate your price. Upgrades such as branded QR codes, integration with an identification system, and on-the-go check-in/check-out cards are not included.",
+        description: "Use our price calculator to view the options available to your establishment.",
         type: PricingModelType.ContactLog,
         pricingStrategy: new ContactLogPricingStrategy()
     }

@@ -5,6 +5,7 @@ import AppHistory from "../../../AppHistory";
 import OrganizationName from "../Components/OrganizationName";
 import CheckOutRequest from "../../../API/CheckOutRequest";
 import CheckInLayout from "../../../Layouts/CheckInLayout";
+import CheckInTitle from "../Components/CheckInTitle";
 
 export default class CheckOutPage extends React.Component<ICheckOutPageProps> {
     constructor(props: ICheckOutPageProps) {
@@ -25,7 +26,7 @@ export default class CheckOutPage extends React.Component<ICheckOutPageProps> {
                     send
                     checkInId={Cookie.getCookie("checkInId") as string}
                     onComplete={this.onCheckOut} />
-                <OrganizationName>Checking Out</OrganizationName>
+                <CheckInTitle>Checking Out</CheckInTitle>
             </CheckInLayout>
         )
     }

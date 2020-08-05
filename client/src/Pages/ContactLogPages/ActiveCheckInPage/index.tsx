@@ -11,6 +11,7 @@ import AppHistory from "../../../AppHistory";
 import GetCheckInRequest from "../../../API/GetCheckInRequest";
 import ICheckInResponse from "../../../API/CheckInRequest/ICheckInResponse";
 import CheckInLayout from "../../../Layouts/CheckInLayout";
+import CheckInTitle from "../Components/CheckInTitle";
 
 export default class ActiveCheckInPage extends React.Component<IActiveCheckInPageProps, IActiveCheckInPageState> {
     constructor(props : IActiveCheckInPageProps) {
@@ -39,7 +40,7 @@ export default class ActiveCheckInPage extends React.Component<IActiveCheckInPag
                     send
                     checkInId={Cookie.getCookie("checkInId") as string}
                     onComplete={this.onOrganizationName} />
-                <OrganizationName>{`Currently at ${this.getBuildingName()} for`}</OrganizationName>
+                <CheckInTitle>{`Currently at ${this.getBuildingName()} for`}</CheckInTitle>
                 <CheckInTimer onTick={this.onTick} startTime={new Date(Cookie.getCookie("timeCheckedIn") as string)} />
                 <Button onClick={this.onClick} dark>Check Out</Button>
             </CheckInLayout>

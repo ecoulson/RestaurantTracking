@@ -77,7 +77,7 @@ export default class ScanPage extends React.Component<IScanPageProps, IScanPageS
                     onComplete={this.onCheckIn}
                     onError={this.onCheckInError}
                     />
-                <OrganizationName>{this.state.organizationName}</OrganizationName>
+                <OrganizationName organizationId={this.props.match.params.organizationId} />
                 <Instructions>Checking into <b>{this.getBuildingName()}</b>...</Instructions>
             </CheckInLayout>
         )

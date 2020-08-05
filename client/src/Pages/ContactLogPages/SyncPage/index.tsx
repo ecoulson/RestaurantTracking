@@ -18,6 +18,7 @@ import SyncCheckInsRequest from '../../../API/SyncCheckInsRequest';
 import AppHistory from '../../../AppHistory';
 import IsUserVerifiedRequest from '../../../API/IsUserVerifiedRequest';
 import IIsUserVerifiedResponse from '../../../API/IsUserVerifiedRequest/IIsUserVerifiedResponse';
+import CheckInTitle from '../Components/CheckInTitle';
 
 export default class SyncPage extends React.Component<ISyncPageProps, ISyncPageState> {
     constructor(props : ISyncPageProps) {
@@ -51,7 +52,7 @@ export default class SyncPage extends React.Component<ISyncPageProps, ISyncPageS
                                 username={this.state.username}
                                 onComplete={this.onSync}
                                 onError={this.onError} />
-                            <OrganizationName>Sync Account</OrganizationName>
+                            <CheckInTitle>Sync Account</CheckInTitle>
                             <Form onSubmit={this.handleSubmit}>
                                 <UsernameInput dark id="username" iconColor="#707070" hoverColor="#FFFFFF" onChange={this.handleUsername} />
                                 <PasswordInput dark id="password" iconColor="#707070" hoverColor="#FFFFFF" onChange={this.handlePassword} />

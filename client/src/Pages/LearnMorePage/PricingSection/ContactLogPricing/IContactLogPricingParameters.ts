@@ -4,4 +4,5 @@ export default interface IContactLogPricingParameters extends IPricingParameter 
     smallDisplays: number;
     largeDisplays: number;
     wallDisplays: number;
+    yearlyPrice: number;
 }
