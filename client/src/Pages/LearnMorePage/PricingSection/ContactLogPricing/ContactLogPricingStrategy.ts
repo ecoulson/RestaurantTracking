@@ -20,7 +20,7 @@ export default class ContactLogPricingStrategy implements IPricingStrategy {
 
     calculatePrice(parameters : IContactLogPricingParameters) : IContactLogPricingBreakdown {
         return new ContactLogPricingBreakdown(
-            yearlyPrice * 1.5,
+            parameters.yearlyPrice,
             standingDisplayPricing * parameters.smallDisplays + 
                 tabletopPricing * parameters.largeDisplays +
                 wallPricing * parameters.wallDisplays

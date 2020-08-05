@@ -34,7 +34,7 @@ export default class OrganizationLoginPage extends React.Component<IOrganization
                     send 
                     onComplete={this.onOrganizationName}
                     organizationId={this.props.match.params.organizationId} />
-                <OrganizationName>{this.state.organizationName}</OrganizationName>
+                <OrganizationName organizationId={this.props.match.params.organizationId} />
                 {this.renderPage()}
             </CheckInLayout>
         );

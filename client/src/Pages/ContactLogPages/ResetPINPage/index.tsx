@@ -53,7 +53,7 @@ export default class ResetPINPage extends React.Component<IResetPINPageProps, IR
                     send
                     onComplete={this.onOrganizationName}
                     organizationId={this.props.match.params.organizationId}/>
-                <OrganizationName>{this.state.organizationName}</OrganizationName>
+                <OrganizationName organizationId={this.props.match.params.organizationId} />
                 <Form onSubmit={this.onSubmit}>
                     <ResetPasswordRequest 
                         send={this.state.send}

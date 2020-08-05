@@ -6,6 +6,11 @@ import IContactLogPricingState from "./IContactLogPricingState";
 import ContactLogPricingStrategy from "./ContactLogPricingStrategy";
 import ContactLogPricingParameters from "./ContactLogPricingParameters";
 import DisplayPricingSection from "./DisplayPricingSection";
+import BillingCycleSetup from "../../../PurchasePage/PurchaseContactLogsPage/ContactLogSetup/BillingCycleSetup";
+import { AppType } from "../../../../Store/Cart/types";
+import GetBillingPlanRequest from "../../../../API/GetBillingPlanRequest";
+import IResponse from "../../../../API/IResponse";
+import IPrice from "../../../../API/GetBillingPlanRequest/IPrice";
 
 export default class ContactLogPricing extends React.Component<IPricingModel, IContactLogPricingState> {
     constructor(props : IPricingModel) {
@@ -13,19 +18,31 @@ export default class ContactLogPricing extends React.Component<IPricingModel, IC
         this.state = {
             standingDisplays: 0,
             tableTopDisplays: 0,
-            wallDisplays: 0
+            wallDisplays: 0,
+            billingPlans: [],
+            currentPlan: null
         }
         this.handleTabletopDisplays = this.handleTabletopDisplays.bind(this);
         this.handleStandingDisplays = this.handleStandingDisplays.bind(this);
         this.handleWallDisplays = this.handleWallDisplays.bind(this);
+        this.onBillingPlans = this.onBillingPlans.bind(this);
+        this.onBillingPlan = this.onBillingPlan.bind(this);
     }
 
     render() {
         return (
             <>
-                <LearnMoreSectionParagraph>{this.props.description}</LearnMoreSectionParagraph>
-                <LearnMoreSubtitle>Price Estimator</LearnMoreSubtitle>
-                <div style={{display: "flex", flexWrap: "wrap"}}>
+                <GetBillingPlanRequest
+                    send
+                    appType={AppType.ContactLogs}
+                    onComplete={this.onBillingPlans} />
+                <LearnMoreSubtitle>Select a monthly payment plan</LearnMoreSubtitle>
+                <BillingCycleSetup 
+                    plans={this.state.billingPlans} 
+                    description="Select a plan that works for you" 
+                    onBillingPlan={this.onBillingPlan} />
+                <LearnMoreSubtitle>Setup your check in system for the yearly price of </LearnMoreSubtitle>
+                <div style={{display: "flex", flexWrap: "wrap", marginTop: "25px"}}>
                     <DisplayPricingSection
                         id="number-1"
                         onChange={this.handleTabletopDisplays}
@@ -48,11 +65,19 @@ export default class ContactLogPricing extends React.Component<IPricingModel, IC
                         placeHolder="Enter number of standing display(s)"
                         image="/standing-display.png" />
                 </div>
-                <LearnMoreSectionParagraph>{this.getSetupPriceString()}</LearnMoreSectionParagraph>
-                <LearnMoreSubtitle>Maintain and secure your contact log for the yearly price of </LearnMoreSubtitle>
                 <LearnMoreSectionParagraph>{this.getYearlyPriceString()}</LearnMoreSectionParagraph>
             </>
         )
+    }
+
+    onBillingPlans(response : IResponse<IPrice[]>) {
+        this.setState({
+            billingPlans: response.data
+        })
+    }
+
+    onBillingPlan(currentPlan : IPrice | null) {
+        this.setState({ currentPlan })
     }
 
     private handleTabletopDisplays(tableTopDisplays: number) {
@@ -76,7 +101,8 @@ export default class ContactLogPricing extends React.Component<IPricingModel, IC
         const parameters = new ContactLogPricingParameters(
             this.state.standingDisplays,
             this.state.tableTopDisplays,
-            this.state.wallDisplays
+            this.state.wallDisplays,
+            this.state.currentPlan?.unit_amount ? this.state.currentPlan.unit_amount : 0
         )
         return `$${strategy.calculatePrice(parameters).setup.toFixed(2)}`
     }
@@ -86,7 +112,8 @@ export default class ContactLogPricing extends React.Component<IPricingModel, IC
         const parameters = new ContactLogPricingParameters(
             this.state.standingDisplays,
             this.state.tableTopDisplays,
-            this.state.wallDisplays
+            this.state.wallDisplays,
+            this.state.currentPlan?.unit_amount ? this.state.currentPlan.unit_amount : 0
         )
         const price = strategy.calculatePrice(parameters);
         return `$${(price.setup + price.monthly).toFixed(2)} / Year`

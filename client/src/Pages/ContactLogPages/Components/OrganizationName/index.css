@@ -8,3 +8,33 @@
     margin: 35px auto 35px;
     letter-spacing: 1.7px;
 }
+
+.organization-name-loader {
+    background: rgb(84,84,84);
+    background: linear-gradient(90deg, rgba(84,84,84,1) 0%, rgba(120,120,120,1) 0%, rgba(105,105,105,1) 49%, rgba(110,110,110,1) 100%);
+    border-radius: 2px;
+    width: 275px;
+    height: 30px;
+    margin: 35px auto 10px;
+    opacity: 0.5;
+    animation-name: OrganizationNameLoader;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+}
+
+#organization-name-loader-2 {
+    margin: 0px auto 35px;
+    width: 225px;
+}
+
+@keyframes OrganizationNameLoader {
+    0% {
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 0.75;
+    }
+    100% {
+        opacity: 0.5;
+    }
+}

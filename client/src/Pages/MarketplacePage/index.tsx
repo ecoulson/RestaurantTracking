@@ -10,7 +10,7 @@ export default class MarketplacePage extends React.Component {
                 <MarketPlaceItem 
                     icon={IconType.ClipboardList} 
                     desc=""
-                    learnMore="/learn-more/contact-logs" 
+                    learnMore="/learn-more/check-ins" 
                     purchase="/purchase/contact-logs"
                     name="College/University Contact Logs" />
             </DashboardLayout>

@@ -20,6 +20,7 @@ import CheckInLayout from "./Layouts/CheckInLayout";
 import AppIsActive from "./Components/AuthenticationWrappers/AppIsActive";
 import { AppType } from "./Store/Cart/types";
 import VerifyCodePage from "./Pages/ContactLogPages/VerifyCodePage";
+import PriceEstimatorPage from "./Pages/PriceEstimatorPage";
 
 const Login = React.lazy(() => import("./Pages/AuthenticationPages/Login"));
 const Logout = React.lazy(() => import("./Pages/AuthenticationPages/Logout"));
@@ -77,7 +78,17 @@ class AppRouter extends React.Component<Props, IAppRouterState> {
                                 </AuthenticateActiveSession>
                             )
                         }/>
-                        <Route path="/learn-more/:product" render={
+                        <Route exact path="/learn-more/:product/price-estimator" render={
+                            (props) => (
+                                <Suspense fallback={<BasicLayout title="Loading..." />}>
+                                        <PriceEstimatorPage 
+                                            showError={this.showError}
+                                            showSuccess={this.showSuccess} 
+                                            {...props} />
+                                </Suspense>
+                            )
+                        }/>
+                        <Route exact path="/learn-more/:product" render={
                             (props) => (
                                 <Suspense fallback={<BasicLayout title="Loading..." />}>
                                     <LearnMoreLayout {...props} />

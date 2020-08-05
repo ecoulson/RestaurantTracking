@@ -52,7 +52,7 @@ export default class OrganizationCheckInPage extends React.Component<IOrganizati
                     send 
                     onComplete={this.onOrganizationName}
                     organizationId={this.props.match.params.organizationId}/>
-                <OrganizationName>{this.state.organizationName}</OrganizationName>
+                <OrganizationName organizationId={this.props.match.params.organizationId} />
                 <Form onSubmit={this.onSubmit}>
                     <SlideSwitch onChange={this.handleChange}>
                         <Icon icon={IconType.OpenMenu} color="white" />

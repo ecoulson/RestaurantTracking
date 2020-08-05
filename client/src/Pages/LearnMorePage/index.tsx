@@ -22,7 +22,7 @@ export default class LearnMorePage extends React.Component<ILearnMorePageProps> 
                     <OverviewSection overview={productData.overview} />
                     <FeatureSection features={productData.features} />
                     <DescriptionSections sections={productData.sections} />
-                    <PricingSection model={productData.pricingModel}/>
+                    <PricingSection product={productData.productName} model={productData.pricingModel}/>
                     <PurchaseButton productName={productData.productName} />
                 </div>
             )
