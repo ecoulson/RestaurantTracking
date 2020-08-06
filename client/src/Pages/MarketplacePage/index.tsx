@@ -11,7 +11,7 @@ export default class MarketplacePage extends React.Component {
                     icon={IconType.ClipboardList} 
                     desc=""
                     learnMore="/learn-more/check-ins" 
-                    purchase="/purchase/contact-logs"
+                    purchase="/purchase/check-ins"
                     name="College/University Contact Logs" />
             </DashboardLayout>
         )
