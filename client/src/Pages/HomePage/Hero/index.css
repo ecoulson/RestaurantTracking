@@ -2,10 +2,16 @@
     width: 100%;
     min-height: 100vh;
     font-family: 'myriad-pro';
+    background-image: url('./hero-background.jpg');
     background-size: unset;
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    background-image: url('./hero-background.jpg');
+}
+
+@media (min-width:321px) and (max-width:768px) {
+    .hero {
+        background-attachment: scroll;
+    }
 }
