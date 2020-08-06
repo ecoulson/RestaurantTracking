@@ -15,7 +15,7 @@ export default class PurchasePage extends React.Component<IPurchasePageProps> {
                 return (
                     <OrganizationRegistrationPage showSuccess={this.props.showSuccess} />
                 )
-            case "contact-logs":
+            case "check-ins":
                 return (
                     <Elements stripe={stripePromise}>
                         <ElementsConsumer>
