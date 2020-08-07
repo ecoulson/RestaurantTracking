@@ -12,7 +12,6 @@ import EmailInput from "../../../Components/EmailInput";
 import IFormValue from "../../../Components/FormInput/IFormValue";
 import FormValue from "../../../Components/FormInput/FormValue";
 import SendPINVerificationRequest from "../../../API/SendPINVerificationRequest";
-import CheckInLayout from "../../../Layouts/CheckInLayout";
 import AppHistory from "../../../AppHistory";
 
 export default class VerifyPINAccountPage extends React.Component<IVerifyPINAccountPageProps, IVerifyPINAccountPageState> {
@@ -31,7 +30,7 @@ export default class VerifyPINAccountPage extends React.Component<IVerifyPINAcco
 
     render() {
         return (
-            <CheckInLayout organizationId={this.props.match.params.organizationId} pageTitle="Verify PIN Account">
+            <>
                 <GetOrganizationNameRequest
                     organizationId={this.props.match.params.organizationId}
                     onComplete={this.onOrganizationName}
@@ -49,7 +48,7 @@ export default class VerifyPINAccountPage extends React.Component<IVerifyPINAcco
                     <Instructions>Enter the email associated with your PIN to resend your verification email</Instructions>
                     <Button dark submit>Resend</Button>
                 </Form>
-            </CheckInLayout>
+            </>
         )
     }
 

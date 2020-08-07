@@ -5,7 +5,7 @@ import Button from "../../../../Components/Button";
 export default class NextButton extends React.Component<INextButtonProps> {    
     constructor(props : INextButtonProps) {
         super(props);
-        this.handleNextClick = this.handleNextClick .bind(this);
+        this.handleNextClick = this.handleNextClick.bind(this);
         this.setCartMode = this.setCartMode.bind(this);
     }
 

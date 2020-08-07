@@ -18,7 +18,6 @@ import CheckInRequest from "../../../API/CheckInRequest";
 import AppHistory from "../../../AppHistory";
 import ICheckInResponse from "../../../API/CheckInRequest/ICheckInResponse";
 import Cookie from "../../../lib/Cookie";
-import CheckInLayout from "../../../Layouts/CheckInLayout";
 
 export default class OrganizationCheckInPage extends React.Component<IOrganizationCheckInPageProps, IOrganizationCheckInState> {
     constructor(props: IOrganizationCheckInPageProps) {
@@ -39,7 +38,7 @@ export default class OrganizationCheckInPage extends React.Component<IOrganizati
 
     render() {
         return (
-            <CheckInLayout organizationId={this.props.match.params.organizationId} pageTitle={`${this.state.organizationName} Check In`}>
+            <>
                 <CheckInRequest 
                     send={this.state.send}
                     onError={this.onError}
@@ -62,7 +61,7 @@ export default class OrganizationCheckInPage extends React.Component<IOrganizati
                     <Instructions>Find a building and check in.</Instructions>
                     <Button dark submit>Check In</Button>
                 </Form>
-            </CheckInLayout>
+            </>
         )
     }
 

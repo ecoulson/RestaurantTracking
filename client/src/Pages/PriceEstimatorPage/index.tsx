@@ -1,5 +1,4 @@
 import React from "react"
-import LearnMoreLayout from "../../Layouts/LearnMoreLayout";
 import IPriceEstimatorPageProps from "./IPriceEstimatorPageProps";
 import PricingModelType from "../LearnMorePage/PricingSection/Model/PricingModelType";
 import ProductDatabase from "../LearnMorePage/ProductDatabase";
@@ -14,6 +13,7 @@ import TopSection from "../LearnMorePage/TopSection";
 import LearnMoreSection from "../LearnMorePage/LearnMoreSection";
 import Button from "../../Components/Button";
 import AppHistory from "../../AppHistory";
+import "./index.css"
 
 export default class PriceEstimatorPage extends React.Component<IPriceEstimatorPageProps> {
     render() {

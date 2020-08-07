@@ -4,7 +4,6 @@ import Cookie from "../../../lib/Cookie";
 import AppHistory from "../../../AppHistory";
 import OrganizationName from "../Components/OrganizationName";
 import CheckOutRequest from "../../../API/CheckOutRequest";
-import CheckInLayout from "../../../Layouts/CheckInLayout";
 import CheckInTitle from "../Components/CheckInTitle";
 
 export default class CheckOutPage extends React.Component<ICheckOutPageProps> {
@@ -21,13 +20,14 @@ export default class CheckOutPage extends React.Component<ICheckOutPageProps> {
 
     render() {
         return (
-            <CheckInLayout organizationId={this.props.match.params.organizationId} pageTitle="Check Out Page">
+            <>
                 <CheckOutRequest
                     send
                     checkInId={Cookie.getCookie("checkInId") as string}
                     onComplete={this.onCheckOut} />
+                <OrganizationName organizationId={this.props.match.params.organizationId}/>
                 <CheckInTitle>Checking Out</CheckInTitle>
-            </CheckInLayout>
+            </>
         )
     }
 

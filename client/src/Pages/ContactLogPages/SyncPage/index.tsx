@@ -1,7 +1,5 @@
 import React from 'react';
-import CheckInLayout from '../../../Layouts/CheckInLayout';
 import ISyncPageProps from './ISyncPageProps';
-import OrganizationName from '../Components/OrganizationName';
 import { Link } from 'react-router-dom';
 import Form from '../../../Components/Form';
 import UsernameInput from '../../../Components/UsernameInput';
@@ -39,7 +37,7 @@ export default class SyncPage extends React.Component<ISyncPageProps, ISyncPageS
 
     render() {
         return (
-            <CheckInLayout pageTitle="Sync Page" organizationId={this.props.match.params.organizationId}>
+            <>
                 <IsUserVerifiedRequest send onComplete={this.onVerificationCheck}/>
                 {
                     this.state.hasFetched ?
@@ -65,7 +63,7 @@ export default class SyncPage extends React.Component<ISyncPageProps, ISyncPageS
                         </>
                     ) : null
                 }
-            </CheckInLayout>
+            </>
         );
     }
 

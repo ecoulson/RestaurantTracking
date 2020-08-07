@@ -12,7 +12,6 @@ import ICheckInResponse from "../../../API/CheckInRequest/ICheckInResponse";
 import AppHistory from "../../../AppHistory";
 import CheckOutRequest from "../../../API/CheckOutRequest";
 import CheckInRequest from "../../../API/CheckInRequest";
-import CheckInLayout from "../../../Layouts/CheckInLayout";
 import ReigsterAnonymousOrganizationUserRequest from "../../../API/RegisterAnonymousOrganizationUserRequest";
 import IRegisterAnonymousOrganizationUserResponse from "../../../API/RegisterAnonymousOrganizationUserRequest/IRegisterAnonymousOrganizationUserResponse";
 
@@ -50,7 +49,7 @@ export default class ScanPage extends React.Component<IScanPageProps, IScanPageS
 
     render() {
         return (
-            <CheckInLayout organizationId={this.props.match.params.organizationId} pageTitle="Checking In...">
+            <>
                 <ReigsterAnonymousOrganizationUserRequest 
                     send={this.state.createAnonymousAccount}
                     organizationId={this.props.match.params.organizationId}
@@ -79,7 +78,7 @@ export default class ScanPage extends React.Component<IScanPageProps, IScanPageS
                     />
                 <OrganizationName organizationId={this.props.match.params.organizationId} />
                 <Instructions>Checking into <b>{this.getBuildingName()}</b>...</Instructions>
-            </CheckInLayout>
+            </>
         )
     }
 

@@ -13,8 +13,9 @@
 
 .home-menu-show {
     display: block;
+    position: fixed;
     z-index: 10;
-    animation-name: ShowCheckInMenu;
+    animation-name: ShowHomeMenu;
     animation-timing-function: linear;
     animation-duration: 0.25s;
     animation-fill-mode: forwards;
@@ -22,7 +23,7 @@
 
 .home-menu-hide {
     display: block;
-    animation-name: HideCheckInMenu;
+    animation-name: HideHomeMenu;
     animation-timing-function: linear;
     animation-duration: 0.25s;
     animation-fill-mode: forwards;

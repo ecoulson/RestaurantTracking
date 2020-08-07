@@ -1,6 +1,5 @@
 import React from "react";
 import IBasicLayoutProps from "../IBasicLayoutProps";
-import DashboardTitle from "../../DashboardLayout/DashboardTitle";
 import "./index.css";
 import NavPanel from "../../Components/NavPanel";
 import Cookie from "../../../lib/Cookie";

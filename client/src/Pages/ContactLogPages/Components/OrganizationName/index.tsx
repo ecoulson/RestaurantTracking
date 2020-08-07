@@ -5,9 +5,12 @@ import GetOrganizationNameRequest from "../../../../API/GetOrganizationNameReque
 import IGetOrganizationNameResponse from "../../../../API/GetOrganizationNameRequest/IGetOrganizationNameResponse";
 import IResponse from "../../../../API/IResponse";
 import IOrganizationNameState from "./IOrganizationNameState";
+import IState from "../../../../Store/IState";
+import { getOrganizationName, setOrganizationName } from "../../../../Store/CheckInApp/OrganizationName/actions";
+import { connect, ConnectedProps } from "react-redux";
 
-export default class OrganizationName extends React.Component<IOrganizationNameProps, IOrganizationNameState> {
-    constructor(props : IOrganizationNameProps) {
+class OrganizationName extends React.Component<Props, IOrganizationNameState> {
+    constructor(props : Props) {
         super(props);
         this.state = {
             organizationName: null
@@ -15,24 +18,48 @@ export default class OrganizationName extends React.Component<IOrganizationNameP
         this.handleOrganizationName = this.handleOrganizationName.bind(this);
     }
 
+    componentWillMount() {
+        if (!this.props.organizationName.fetched) {
+            this.props.getOrganizationName(this.props.organizationId)
+        }
+    }
+
     render() {
-        return !this.state.organizationName ?
+        return !this.props.organizationName.fetched ?
             <>
                 <GetOrganizationNameRequest 
-                    send
-                    organizationId={this.props.organizationId}
+                    send={this.props.organizationName.fetching}
+                    organizationId={this.props.organizationName.organizationId as string}
                     onComplete={this.handleOrganizationName} />
                 <div className="organization-name-loader"></div>
                 <div id="organization-name-loader-2" className="organization-name-loader"></div>
             </> :
             <>
-                <h1 className="organization-name">{this.state.organizationName}</h1>
+                <h1 className="organization-name">{this.props.organizationName.name}</h1>
             </>
     }
 
     handleOrganizationName(response: IResponse<IGetOrganizationNameResponse>) {
-        this.setState({
-            organizationName: response.data.organizationName
-        })
+        this.props.setOrganizationName(response.data.organizationName)
     }
 }
+
+
+const mapState = (state : IState) => {
+    return {
+        organizationName: state.checkInApp.organizationName
+    }
+}
+
+const mapDispatch = {
+    getOrganizationName: getOrganizationName,
+    setOrganizationName: setOrganizationName
+}
+
+const connector = connect(mapState, mapDispatch);
+
+type PropsFromRedux = ConnectedProps<typeof connector>
+
+type Props = PropsFromRedux & IOrganizationNameProps
+
+export default connector(OrganizationName);

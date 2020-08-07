@@ -46,7 +46,10 @@ export default class DisplayInput extends React.Component<IDisplayInputProps, ID
     renderImage() {
         const productPrice = this.props.productPrices[this.state.type];
         return (
-            <img className="display-image" src={`/${productPrice.product.name.toLowerCase().split(" ").join("-")}.png`}/>
+            <img 
+                className="display-image" 
+                alt="Check in display"
+                src={`/${productPrice.product.name.toLowerCase().split(" ").join("-")}.png`}/>
         )
     }
 
