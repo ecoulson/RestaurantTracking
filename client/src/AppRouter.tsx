@@ -23,6 +23,7 @@ import VerifyCodePage from "./Pages/ContactLogPages/VerifyCodePage";
 const HomeRoute = React.lazy(() => import("./Routes/Home/HomeRoute"))
 const LearnMoreRoute = React.lazy(() => import("./Routes/LearnMore/LearnMoreRoute"));
 const PurchaseRoute = React.lazy(() => import("./Routes/Purchase/PurchaseRoute"));
+const LegalRoute = React.lazy(() => import("./Routes/Legal/LegalRoute"));
 
 const Login = React.lazy(() => import("./Pages/AuthenticationPages/Login"));
 const Logout = React.lazy(() => import("./Pages/AuthenticationPages/Logout"));
@@ -38,7 +39,6 @@ const DashboardPage = React.lazy(() => import("./Pages/DashboardPage"));
 const MarketplacePage = React.lazy(() => import("./Pages/MarketplacePage"));
 const UserProfilePage = React.lazy(() => import("./Pages/UserProfilePage"));
 const HelpPage = React.lazy(() => import("./Pages/HelpPage"));
-const LegalPage = React.lazy(() => import("./Pages/LegalPage"));
 const ResetPINPage = React.lazy(() => import("./Pages/ContactLogPages/ResetPINPage"));
 const CheckInLogoutPage = React.lazy(() => import("./Pages/ContactLogPages/CheckInLogoutPage"));
 const CancelPasswordResetPage = React.lazy(() => import("./Pages/ContactLogPages/CancelPasswordResetPage"));
@@ -46,7 +46,6 @@ const OrganizationCheckInPage = React.lazy(() => import("./Pages/ContactLogPages
 const ActiveCheckInPage = React.lazy(() => import("./Pages/ContactLogPages/ActiveCheckInPage"));
 const CheckOutPage = React.lazy(() => import("./Pages/ContactLogPages/CheckOutPage"));
 const ScanPage = React.lazy(() => import("./Pages/ContactLogPages/ScanPage"));
-const PurchasePage = React.lazy(() => import("./Pages/PurchasePage"));
 const OrganizationPage = React.lazy(() => import("./Pages/OrganizationPages"));
 const OrganizationLoginPage = React.lazy(() => import("./Pages/ContactLogPages/OrganizationLoginPage"));
 const VerifyPINAccountPage = React.lazy(() => import("./Pages/ContactLogPages/VerifyPINAccountPage"));
@@ -76,13 +75,9 @@ class AppRouter extends React.Component<Props, IAppRouterState> {
                         <Route path="/purchase">
                             <PurchaseRoute showSuccess={this.showSuccess} showError={this.showError} />
                         </Route>
-                        {/*<Route path="/legal/:documentName" render={
-                            (props) => (
-                                <Suspense fallback={<BasicLayout title="Loading..." />}>
-                                    <LegalPage {...props} />
-                                </Suspense>
-                            )
-                        }/>
+                        <Route path="/legal">
+                            <LegalRoute />
+                        </Route>
                         <Route exact path="/login">
                             <UnauthenticatedAccessWrapper to="/dashboard" showError={this.showError}>
                                 <Suspense fallback={<AuthenticationLayout pageTitle="Loading..." />}>
@@ -323,8 +318,7 @@ class AppRouter extends React.Component<Props, IAppRouterState> {
                                     <HelpPage />
                                 </Suspense>
                             </AuthenticateActiveSession>
-                        </Route> */}
-                        
+                        </Route>
                     </Switch>
                 </Suspense>
             </Router>
