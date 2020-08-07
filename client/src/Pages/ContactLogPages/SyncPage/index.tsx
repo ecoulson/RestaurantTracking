@@ -1,7 +1,5 @@
 import React from 'react';
-import CheckInLayout from '../../../Layouts/CheckInLayout';
 import ISyncPageProps from './ISyncPageProps';
-import OrganizationName from '../Components/OrganizationName';
 import { Link } from 'react-router-dom';
 import Form from '../../../Components/Form';
 import UsernameInput from '../../../Components/UsernameInput';

@@ -3,7 +3,6 @@ import OrganizationName from "../Components/OrganizationName";
 import CancelPasswordRecoveryRequest from "../../../API/CancelPasswordRecoveryRequest";
 import ICancelPasswordResetPageProps from "./ICancelPasswordResetPageProps";
 import AppHistory from "../../../AppHistory";
-import CheckInLayout from "../../../Layouts/CheckInLayout";
 import CheckInTitle from "../Components/CheckInTitle";
 
 export default class CancelPasswordResetPage extends React.Component<ICancelPasswordResetPageProps> {

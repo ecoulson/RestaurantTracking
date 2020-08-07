@@ -1,5 +1,4 @@
 import React, { RefObject } from "react";
-import CheckInLayout from "../../../Layouts/CheckInLayout";
 import IVerifyAnonymousAccountProps from "./IVerifyAnonymousAccountProps";
 import RegisterAccountPage from "../OrganizationLoginPage/RegisterAccountPage";
 import IVerifyAnonymousAccountState from "./IVerifyAnonymousAccountState";

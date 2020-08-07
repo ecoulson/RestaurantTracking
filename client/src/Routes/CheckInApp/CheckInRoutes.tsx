@@ -67,7 +67,7 @@ export default function CheckInRoutes(props : ICheckInRoute & IRouteProps) {
                                             showSuccess={props.showSuccess} />
                     }/>
                     <Route exact path={`${path}/inactive`}>
-                        <InActiveRoute />
+                        <InActiveRoute {...props} />
                     </Route>
                 </Switch>
             </CheckInLayout>

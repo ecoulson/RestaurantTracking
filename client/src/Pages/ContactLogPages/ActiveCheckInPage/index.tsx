@@ -5,12 +5,10 @@ import Button from "../../../Components/Button";
 import IActiveCheckInPageProps from "./IActiveCheckInPageProps";
 import IResponse from "../../../API/IResponse";
 import IActiveCheckInPageState from "./IActiveCheckInPageState";
-import OrganizationName from "../Components/OrganizationName";
 import CheckOutRequest from "../../../API/CheckOutRequest";
 import AppHistory from "../../../AppHistory";
 import GetCheckInRequest from "../../../API/GetCheckInRequest";
 import ICheckInResponse from "../../../API/CheckInRequest/ICheckInResponse";
-import CheckInLayout from "../../../Layouts/CheckInLayout";
 import CheckInTitle from "../Components/CheckInTitle";
 
 export default class ActiveCheckInPage extends React.Component<IActiveCheckInPageProps, IActiveCheckInPageState> {

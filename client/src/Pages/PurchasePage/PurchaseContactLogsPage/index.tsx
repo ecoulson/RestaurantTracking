@@ -232,7 +232,7 @@ class PurchaseContactLogsPage extends React.Component<Props, IPurchaseContactLog
         const physicalProducts = this.props.cart.filter((cartItem) => {
             return cartItem.productType === ProductType.Physical
         });
-        const response = await Axios.post("/api/payment/create-invoice", {
+        await Axios.post("/api/payment/create-invoice", {
             cartItems: physicalProducts,
             customerId
         }, {

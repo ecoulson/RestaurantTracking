@@ -14,7 +14,7 @@
 .home-menu-show {
     display: block;
     z-index: 10;
-    animation-name: ShowCheckInMenu;
+    animation-name: ShowAuthMenu;
     animation-timing-function: linear;
     animation-duration: 0.25s;
     animation-fill-mode: forwards;
@@ -22,7 +22,7 @@
 
 .home-menu-hide {
     display: block;
-    animation-name: HideCheckInMenu;
+    animation-name: HideAuthMenu;
     animation-timing-function: linear;
     animation-duration: 0.25s;
     animation-fill-mode: forwards;
@@ -124,7 +124,7 @@
     }
 }
 
-@keyframes HideHomeMenu {
+@keyframes HideAuthMenu {
     0% {
         opacity: 1;
     }
@@ -134,7 +134,7 @@
     }
 }
 
-@keyframes ShowHomeMenu {
+@keyframes ShowAuthMenu {
     0% {
         opacity: 0;
     }

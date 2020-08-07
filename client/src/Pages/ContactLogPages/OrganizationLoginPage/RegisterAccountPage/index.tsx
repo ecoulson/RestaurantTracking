@@ -1,5 +1,4 @@
 import React from "react";
-import CheckInLayout from "../../../../Layouts/CheckInLayout";
 import IRegisterAccountPageProps from "./IRegisterAccountPageProps";
 import Instructions from "../../Components/Instructions";
 import Form from "../../../../Components/Form";

@@ -2,9 +2,8 @@ import React from "react";
 import Cookie from "../../../lib/Cookie";
 import AppHistory from "../../../AppHistory";
 import ICheckInLogoutPageProps from "./ICheckInLogoutPageProps";
-import OrganizationName from "../Components/OrganizationName";
-import CheckInLayout from "../../../Layouts/CheckInLayout";
 import CheckInTitle from "../Components/CheckInTitle";
+import OrganizationName from "../Components/OrganizationName";
 
 export default class CheckInLogoutPage extends React.Component<ICheckInLogoutPageProps> {
     componentDidMount() {
@@ -19,6 +18,7 @@ export default class CheckInLogoutPage extends React.Component<ICheckInLogoutPag
     render() {
         return (
             <>
+                <OrganizationName organizationId={this.props.match.params.organizationId} />
                 <CheckInTitle>Logging Out</CheckInTitle>
             </>
         )

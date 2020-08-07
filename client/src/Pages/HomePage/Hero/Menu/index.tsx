@@ -35,11 +35,8 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
     }
 
     getClass() {
-        if (this.state.hasRendered) {
-            return this.props.isVisible ?
+        return this.props.isVisible ?
                 "home-menu-show" :
                 "home-menu-hide"
-        }
-        return "";
     }
 }

@@ -12,7 +12,6 @@ import ICheckInResponse from "../../../API/CheckInRequest/ICheckInResponse";
 import AppHistory from "../../../AppHistory";
 import CheckOutRequest from "../../../API/CheckOutRequest";
 import CheckInRequest from "../../../API/CheckInRequest";
-import CheckInLayout from "../../../Layouts/CheckInLayout";
 import ReigsterAnonymousOrganizationUserRequest from "../../../API/RegisterAnonymousOrganizationUserRequest";
 import IRegisterAnonymousOrganizationUserResponse from "../../../API/RegisterAnonymousOrganizationUserRequest/IRegisterAnonymousOrganizationUserResponse";
 

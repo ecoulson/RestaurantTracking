@@ -13,9 +13,6 @@ import IPINLoginResponse from "../../../../API/PINLoginRequest/IPINLoginResponse
 import FormValue from "../../../../Components/FormInput/FormValue";
 import ResetPINLink from "./ResetPINLink";
 import PasswordInput from "../../../../Components/PasswordInput";
-import SlideSwitch from "../../../../Components/SlideSwitch";
-import Icon from "../../../../Components/Icon";
-import IconType from "../../../../Components/Icon/IconTypes";
 
 export default class PINLoginPage extends React.Component<IPinLoginPageProps, IPINLoginPageState> {
     constructor(props : IPinLoginPageProps) {

@@ -6,7 +6,6 @@ import IContactLogPricingBreakdown from "./IContactLogPricingBreakdown";
 const standingDisplayPricing = 82;
 const wallPricing = 15;
 const tabletopPricing = 8;
-const yearlyPrice = 1550;
 
 export default class ContactLogPricingStrategy implements IPricingStrategy {
     getPriceBreakdown() {
