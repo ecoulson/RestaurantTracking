@@ -12,7 +12,6 @@ import IAppRouterState from "./IAppRouterState";
 import Toast from "./Components/Toast";
 import ToastType from "./Components/Toast/ToastType";
 import UnauthenticatedAccessWrapper from "./Components/AuthenticationWrappers/UnauthenticatedAccessWrapper";
-import LearnMoreLayout from "./Layouts/LearnMoreLayout";
 import AuthenticateActiveSession from "./Components/AuthenticationWrappers/AuthenticateActiveSession";
 import BasicLayout from "./Layouts/BasicLayout";
 import AuthenticationLayout from "./Layouts/AuthenticationLayout";
@@ -20,8 +19,8 @@ import CheckInLayout from "./Layouts/CheckInLayout";
 import AppIsActive from "./Components/AuthenticationWrappers/AppIsActive";
 import { AppType } from "./Store/Cart/types";
 import VerifyCodePage from "./Pages/ContactLogPages/VerifyCodePage";
-import PriceEstimatorPage from "./Pages/PriceEstimatorPage";
 
+const HomeRoute = React.lazy(() => import("./Routes/Home/HomeRoute"))
 const LearnMoreRoute = React.lazy(() => import("./Routes/LearnMore/LearnMoreRoute"));
 
 const Login = React.lazy(() => import("./Pages/AuthenticationPages/Login"));
@@ -50,7 +49,6 @@ const PurchasePage = React.lazy(() => import("./Pages/PurchasePage"));
 const OrganizationPage = React.lazy(() => import("./Pages/OrganizationPages"));
 const OrganizationLoginPage = React.lazy(() => import("./Pages/ContactLogPages/OrganizationLoginPage"));
 const VerifyPINAccountPage = React.lazy(() => import("./Pages/ContactLogPages/VerifyPINAccountPage"));
-const HomePage = React.lazy(() => import("./Pages/HomePage"));
 const InActiveAppPage = React.lazy(() => import("./Pages/ContactLogPages/InActiveAppPage"));
 const SyncPage = React.lazy(() => import("./Pages/ContactLogPages/SyncPage"));
 const VerifyAnonymousAccountPage = React.lazy(() => import("./Pages/ContactLogPages/VerifyAnonymousAccountPage"));
@@ -61,14 +59,21 @@ class AppRouter extends React.Component<Props, IAppRouterState> {
         this.showError = this.showError.bind(this);
         this.showSuccess = this.showSuccess.bind(this);
     }
-
+    
     render() {
         return (
             <Router history={AppHistory}>
                 <Toast />
                 <Suspense fallback={<div />}>
                     <Switch>
-                        <Route path="/purchase/:product" render={
+                        <Route exact path="/">
+                            <HomeRoute />
+                        </Route>
+                        <Route path="/learn-more">
+                            <LearnMoreRoute />
+                        </Route>
+                        
+                        {/* <Route path="/purchase/:product" render={
                             (props) => (
                                 <AuthenticateActiveSession to="/login" showError={this.showError}>
                                     <Suspense fallback={<BasicLayout title="Loading..." />}>
@@ -327,11 +332,8 @@ class AppRouter extends React.Component<Props, IAppRouterState> {
                                     <HelpPage />
                                 </Suspense>
                             </AuthenticateActiveSession>
-                        </Route>
-                        <Route exact path="/">
-                            <HomePage />
-                        </Route>
-                        <LearnMoreRoute />
+                        </Route> */}
+                        
                     </Switch>
                 </Suspense>
             </Router>

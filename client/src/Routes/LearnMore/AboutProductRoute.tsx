@@ -1,14 +1,10 @@
 import React from "react";
-import { Route, useRouteMatch } from "react-router-dom";
+import ILearnMoreLayoutProps from "../../Layouts/LearnMoreLayout/ILearnMoreLayoutProps";
 
 const LearnMoreLayout = React.lazy(() => import("../../Layouts/LearnMoreLayout"));
 
-export default function AboutProductRoute() {
-    let { path } = useRouteMatch();
-
+export default function AboutProductRoute(props : ILearnMoreLayoutProps) {
     return (
-        <Route exact path={`${path}/:product/`} render={
-            (props) => <LearnMoreLayout {...props} />
-        }/>
+        <LearnMoreLayout {...props} />
     )
 }
