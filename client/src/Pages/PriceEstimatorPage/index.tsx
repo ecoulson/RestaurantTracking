@@ -14,6 +14,7 @@ import TopSection from "../LearnMorePage/TopSection";
 import LearnMoreSection from "../LearnMorePage/LearnMoreSection";
 import Button from "../../Components/Button";
 import AppHistory from "../../AppHistory";
+import "./index.css"
 
 export default class PriceEstimatorPage extends React.Component<IPriceEstimatorPageProps> {
     render() {

@@ -22,6 +22,8 @@ import { AppType } from "./Store/Cart/types";
 import VerifyCodePage from "./Pages/ContactLogPages/VerifyCodePage";
 import PriceEstimatorPage from "./Pages/PriceEstimatorPage";
 
+const LearnMoreRoute = React.lazy(() => import("./Routes/LearnMore/LearnMoreRoute"));
+
 const Login = React.lazy(() => import("./Pages/AuthenticationPages/Login"));
 const Logout = React.lazy(() => import("./Pages/AuthenticationPages/Logout"));
 const VerifyAccountPage = React.lazy(() => import("./Pages/AuthenticationPages/VerifyAccountPage"));
@@ -76,23 +78,6 @@ class AppRouter extends React.Component<Props, IAppRouterState> {
                                             {...props} />
                                     </Suspense>
                                 </AuthenticateActiveSession>
-                            )
-                        }/>
-                        <Route exact path="/learn-more/:product/price-estimator" render={
-                            (props) => (
-                                <Suspense fallback={<BasicLayout title="Loading..." />}>
-                                        <PriceEstimatorPage 
-                                            showError={this.showError}
-                                            showSuccess={this.showSuccess} 
-                                            {...props} />
-                                </Suspense>
-                            )
-                        }/>
-                        <Route exact path="/learn-more/:product" render={
-                            (props) => (
-                                <Suspense fallback={<BasicLayout title="Loading..." />}>
-                                    <LearnMoreLayout {...props} />
-                                </Suspense>
                             )
                         }/>
                         <Route path="/legal/:documentName" render={
@@ -346,6 +331,7 @@ class AppRouter extends React.Component<Props, IAppRouterState> {
                         <Route exact path="/">
                             <HomePage />
                         </Route>
+                        <LearnMoreRoute />
                     </Switch>
                 </Suspense>
             </Router>

@@ -3,6 +3,7 @@ import { IUserState } from "./User/types";
 import { ICheckInMenu } from "./CheckInMenu/types";
 import { IToast } from "./Toast/types";
 import { ICart } from "./Cart/types";
+import { ICheckInApp } from "./CheckInApp/types";
 
 export default interface IState {
     navPanel: INavPanel;
@@ -10,4 +11,5 @@ export default interface IState {
     checkInMenu: ICheckInMenu;
     toast: IToast;
     cart: ICart;
+    checkInApp: ICheckInApp;
 }
