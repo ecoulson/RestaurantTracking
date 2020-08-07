@@ -30,7 +30,7 @@ export default class ActiveCheckInPage extends React.Component<IActiveCheckInPag
 
     render() {
         return (
-            <CheckInLayout organizationId={this.props.match.params.organizationId} pageTitle="Active Check In">
+            <>
                 <CheckOutRequest
                     send={this.state.send}
                     checkInId={Cookie.getCookie("checkInId") as string}
@@ -43,7 +43,7 @@ export default class ActiveCheckInPage extends React.Component<IActiveCheckInPag
                 <CheckInTitle>{`Currently at ${this.getBuildingName()} for`}</CheckInTitle>
                 <CheckInTimer onTick={this.onTick} startTime={new Date(Cookie.getCookie("timeCheckedIn") as string)} />
                 <Button onClick={this.onClick} dark>Check Out</Button>
-            </CheckInLayout>
+            </>
         )
     }
 

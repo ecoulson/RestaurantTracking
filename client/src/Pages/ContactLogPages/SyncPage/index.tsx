@@ -39,7 +39,7 @@ export default class SyncPage extends React.Component<ISyncPageProps, ISyncPageS
 
     render() {
         return (
-            <CheckInLayout pageTitle="Sync Page" organizationId={this.props.match.params.organizationId}>
+            <>
                 <IsUserVerifiedRequest send onComplete={this.onVerificationCheck}/>
                 {
                     this.state.hasFetched ?
@@ -65,7 +65,7 @@ export default class SyncPage extends React.Component<ISyncPageProps, ISyncPageS
                         </>
                     ) : null
                 }
-            </CheckInLayout>
+            </>
         );
     }
 

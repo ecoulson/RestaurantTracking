@@ -17,14 +17,15 @@ export default class CancelPasswordResetPage extends React.Component<ICancelPass
 
     render() {
         return (
-            <CheckInLayout organizationId={this.props.match.params.organizationId} pageTitle="Cancel Password Reset">
+            <>
                 <CancelPasswordRecoveryRequest 
                     send
                     email={this.urlParams.get("email") as string}
                     token={this.urlParams.get("token") as string}
                     />
+                <OrganizationName organizationId={this.props.match.params.organizationId} />
                 <CheckInTitle>Cancel Password Reset</CheckInTitle>
-            </CheckInLayout>
+            </>
         )
     }
 

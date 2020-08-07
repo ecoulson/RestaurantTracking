@@ -50,7 +50,7 @@ export default class ScanPage extends React.Component<IScanPageProps, IScanPageS
 
     render() {
         return (
-            <CheckInLayout organizationId={this.props.match.params.organizationId} pageTitle="Checking In...">
+            <>
                 <ReigsterAnonymousOrganizationUserRequest 
                     send={this.state.createAnonymousAccount}
                     organizationId={this.props.match.params.organizationId}
@@ -79,7 +79,7 @@ export default class ScanPage extends React.Component<IScanPageProps, IScanPageS
                     />
                 <OrganizationName organizationId={this.props.match.params.organizationId} />
                 <Instructions>Checking into <b>{this.getBuildingName()}</b>...</Instructions>
-            </CheckInLayout>
+            </>
         )
     }
 

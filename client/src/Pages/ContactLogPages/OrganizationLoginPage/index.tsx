@@ -1,13 +1,13 @@
 import React from "react";
 import IOrganizationLoginPageState from "./IOrganizationLoginPageState";
-import PINLoginPage from "./PINLoginPage";
 import IOrganizationLoginPageProps from "./IOrganizationLoginPageProps";
-import CheckInLayout from "../../../Layouts/CheckInLayout";
 import GetOrganizationNameRequest from "../../../API/GetOrganizationNameRequest";
 import IResponse from "../../../API/IResponse";
 import IGetOrganizationNameResponse from "../../../API/GetOrganizationNameRequest/IGetOrganizationNameResponse";
 import OrganizationName from "../Components/OrganizationName";
-import RegisterAccountPage from "./RegisterAccountPage";
+
+const PINLoginPage = React.lazy(() => import("./PINLoginPage"));
+const RegisterAccountPage = React.lazy(() => import("./RegisterAccountPage"));
 const VerifyPINPage = React.lazy(() => import("./VerifyPINPage"));
 const PINEmailPage = React.lazy(() => import("./PINEmailPage"));
 
@@ -29,14 +29,14 @@ export default class OrganizationLoginPage extends React.Component<IOrganization
 
     render() {
         return (
-            <CheckInLayout organizationId={this.props.match.params.organizationId} pageTitle="Login">
+            <>
                 <GetOrganizationNameRequest 
                     send 
                     onComplete={this.onOrganizationName}
                     organizationId={this.props.match.params.organizationId} />
                 <OrganizationName organizationId={this.props.match.params.organizationId} />
                 {this.renderPage()}
-            </CheckInLayout>
+            </>
         );
     }
 

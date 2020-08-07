@@ -44,7 +44,7 @@ export default class ResetPINPage extends React.Component<IResetPINPageProps, IR
 
     render() {
         return (
-            <CheckInLayout organizationId={this.props.match.params.organizationId} pageTitle="Reset PIN">
+            <>
                 <ConfirmPasswordRecoveryRequest 
                     send
                     email={this.urlParams.get("email") as string}
@@ -69,7 +69,7 @@ export default class ResetPINPage extends React.Component<IResetPINPageProps, IR
                     {this.getInput()}
                     <Button dark submit>Submit</Button>
                 </Form>
-            </CheckInLayout>
+            </>
         )
     }
 

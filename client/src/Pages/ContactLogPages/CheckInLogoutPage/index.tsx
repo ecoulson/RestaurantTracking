@@ -18,9 +18,9 @@ export default class CheckInLogoutPage extends React.Component<ICheckInLogoutPag
 
     render() {
         return (
-            <CheckInLayout organizationId={this.props.match.params.organizationId} pageTitle="Logout">
+            <>
                 <CheckInTitle>Logging Out</CheckInTitle>
-            </CheckInLayout>
+            </>
         )
     }
 }

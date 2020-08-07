@@ -38,7 +38,6 @@ export default class VerifyPINPage extends React.Component<IVerifyPINPageProps, 
                     onError={this.onError}
                     password={this.state.verificationCode.value} />
                 <Form onSubmit={this.onSubmit}>
-                    <PINInput onChange={this.handleCodeChange}/>
                     <Instructions>
                         Enter the 4 digit PIN from the verification email sent to <b>{Cookie.getCookie("pin_email")}</b> or <Link 
                             className="skip-verification-link" 
@@ -46,6 +45,7 @@ export default class VerifyPINPage extends React.Component<IVerifyPINPageProps, 
                                 Resend Verification Code
                         </Link>
                     </Instructions>
+                    <PINInput onChange={this.handleCodeChange}/>
                     <Instructions>
                         <Link 
                             className="skip-verification-link" 

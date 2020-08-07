@@ -1,12 +1,12 @@
 import React from "react";
-import CheckInLayout from "../../../Layouts/CheckInLayout";
 import IVerifyCodePageProps from "./IVerifyCodePageProps";
-import VerifyPINPage from "../OrganizationLoginPage/VerifyPINPage";
 import OrganizationName from "../Components/OrganizationName";
 import IVerifyCodePageState from "./IVerifyCodePageState";
 import GetOrganizationNameRequest from "../../../API/GetOrganizationNameRequest";
 import IResponse from "../../../API/IResponse";
 import IGetOrganizationNameResponse from "../../../API/GetOrganizationNameRequest/IGetOrganizationNameResponse";
+
+const VerifyPINPage = React.lazy(() => import("../OrganizationLoginPage/VerifyPINPage"));
 
 export default class VerifyCodePage extends React.Component<IVerifyCodePageProps, IVerifyCodePageState> {
     constructor(props : IVerifyCodePageProps) {
@@ -19,14 +19,14 @@ export default class VerifyCodePage extends React.Component<IVerifyCodePageProps
 
     render() {
         return (
-            <CheckInLayout pageTitle="Verify Code" organizationId={this.props.match.params.organizationId}>
+            <>
                 <GetOrganizationNameRequest
                     send
                     onComplete={this.handleOrganizationName}
                     organizationId={this.props.match.params.organizationId} />
                 <OrganizationName organizationId={this.props.match.params.organizationId} />
                 <VerifyPINPage {...this.props}/> 
-            </CheckInLayout>
+            </>
         )
     }
 
