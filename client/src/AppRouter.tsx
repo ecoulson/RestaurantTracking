@@ -22,6 +22,7 @@ import VerifyCodePage from "./Pages/ContactLogPages/VerifyCodePage";
 
 const HomeRoute = React.lazy(() => import("./Routes/Home/HomeRoute"))
 const LearnMoreRoute = React.lazy(() => import("./Routes/LearnMore/LearnMoreRoute"));
+const PurchaseRoute = React.lazy(() => import("./Routes/Purchase/PurchaseRoute"));
 
 const Login = React.lazy(() => import("./Pages/AuthenticationPages/Login"));
 const Logout = React.lazy(() => import("./Pages/AuthenticationPages/Logout"));
@@ -70,22 +71,12 @@ class AppRouter extends React.Component<Props, IAppRouterState> {
                             <HomeRoute />
                         </Route>
                         <Route path="/learn-more">
-                            <LearnMoreRoute />
+                            <LearnMoreRoute showSuccess={this.showSuccess} showError={this.showError} />
                         </Route>
-                        
-                        {/* <Route path="/purchase/:product" render={
-                            (props) => (
-                                <AuthenticateActiveSession to="/login" showError={this.showError}>
-                                    <Suspense fallback={<BasicLayout title="Loading..." />}>
-                                        <PurchasePage 
-                                            showError={this.showError}
-                                            showSuccess={this.showSuccess} 
-                                            {...props} />
-                                    </Suspense>
-                                </AuthenticateActiveSession>
-                            )
-                        }/>
-                        <Route path="/legal/:documentName" render={
+                        <Route path="/purchase">
+                            <PurchaseRoute showSuccess={this.showSuccess} showError={this.showError} />
+                        </Route>
+                        {/*<Route path="/legal/:documentName" render={
                             (props) => (
                                 <Suspense fallback={<BasicLayout title="Loading..." />}>
                                     <LegalPage {...props} />

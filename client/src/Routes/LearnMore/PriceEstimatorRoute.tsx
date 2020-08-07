@@ -1,15 +1,12 @@
 import React, { Suspense } from "react";
-import ILearnMoreLayoutProps from "../../Layouts/LearnMoreLayout/ILearnMoreLayoutProps";
+import IPriceEstimatorPageProps from "../../Pages/PriceEstimatorPage/IPriceEstimatorPageProps";
 
 const PriceEstimatorPage = React.lazy(() => import("../../Pages/PriceEstimatorPage"));
 
-export default function PriceEstimatorRoute(props : ILearnMoreLayoutProps) {    
+export default function PriceEstimatorRoute(props : IPriceEstimatorPageProps) {    
     return (
         <Suspense fallback={<div></div>}>
-            <PriceEstimatorPage 
-                showError={() => {}}
-                showSuccess={() => {}} 
-                {...props} />
+            <PriceEstimatorPage {...props} />
         </Suspense>
     )
 }
