@@ -1,13 +1,15 @@
 import React from "react";
 import "./index.css";
-import HeroLogo from "./HeroLogo";
 import HeroTitle from "./HeroTitle";
 import SimpleButton from "../../../Components/SimpleButton";
 import HeroInfo from "./HeroInfo";
 import HeroScrollArrow from "./HeroScrollArrow";
-import HeroMenu from "./HeroMenu";
-import Menu from "./Menu";
 import IHeroState from "./IHeroState";
+import Menu from "./Menu";
+
+const HeroLogo = React.lazy(() => import("./HeroLogo"));
+const HeroMenu = React.lazy(() => import("./HeroMenu"));
+// const Menu = React.lazy(() => import("./Menu"));
 
 export default class Hero extends React.Component<{}, IHeroState> {
     constructor(props : {}) {
@@ -21,6 +23,7 @@ export default class Hero extends React.Component<{}, IHeroState> {
     render() {
         return (
             <div className={`hero ${this.getClass()}`}>
+                {this.state.hasRendered ? <Menu isVisible={this.state.isVisible} /> : null}
                 <HeroLogo />
                 <HeroTitle />
                 <HeroMenu onClick={() => this.setState({ isVisible: !this.state.isVisible })}/>
@@ -29,7 +32,6 @@ export default class Hero extends React.Component<{}, IHeroState> {
                     <SimpleButton center to="/register">Create Account</SimpleButton>
                 </div>
                 <HeroScrollArrow />
-                <Menu isVisible={this.state.isVisible} />
             </div>
         )
     }
@@ -47,7 +49,7 @@ export default class Hero extends React.Component<{}, IHeroState> {
     getClass() {
         if (this.state.hasRendered) {
             return this.state.isVisible ?
-            "hero-show" : "hero-hide"
+                "hero-show" : "hero-hide"
         }
         return "";
     }

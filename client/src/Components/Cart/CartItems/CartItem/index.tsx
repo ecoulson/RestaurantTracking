@@ -7,7 +7,7 @@ export default class CartItem extends React.Component<ICartItemProps> {
         return (
             <div className="cart-item">
                 <div className="cart-item-product-image-container">
-                    <img className="cart-item-product-image" src={this.props.item.productImage} alt="product cart image" />
+                    <img className="cart-item-product-image" src={this.props.item.productImage} alt="product depiction" />
                 </div>
                 <div className="cart-item-description-container">
                     <h2 className="cart-item-name">{this.props.item.name}</h2>

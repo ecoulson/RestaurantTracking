@@ -1,5 +1,4 @@
 import RequestComponent from "../RequestComponent";
-import IRequestProps from "../IRequestProps";
 import Axios from "axios";
 import IIsUserVerifiedRequest from "./IIsUserVerifiedRequest";
 import IIsUserVerifiedResponse from "./IIsUserVerifiedResponse";

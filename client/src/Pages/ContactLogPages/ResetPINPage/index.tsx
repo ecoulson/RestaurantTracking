@@ -19,7 +19,6 @@ import Icon from "../../../Components/Icon";
 import ResetPasswordRequest from "../../../API/ResetPasswordRequest";
 import ConfirmPasswordRecoveryRequest from "../../../API/ConfirmPasswordRecoveryRequest";
 import AppHistory from "../../../AppHistory";
-import CheckInLayout from "../../../Layouts/CheckInLayout";
 
 export default class ResetPINPage extends React.Component<IResetPINPageProps, IResetPINPageState> {
     private urlParams : URLSearchParams;
@@ -44,7 +43,7 @@ export default class ResetPINPage extends React.Component<IResetPINPageProps, IR
 
     render() {
         return (
-            <CheckInLayout organizationId={this.props.match.params.organizationId} pageTitle="Reset PIN">
+            <>
                 <ConfirmPasswordRecoveryRequest 
                     send
                     email={this.urlParams.get("email") as string}
@@ -69,7 +68,7 @@ export default class ResetPINPage extends React.Component<IResetPINPageProps, IR
                     {this.getInput()}
                     <Button dark submit>Submit</Button>
                 </Form>
-            </CheckInLayout>
+            </>
         )
     }
 

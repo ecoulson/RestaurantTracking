@@ -1,5 +1,4 @@
 import React, { RefObject } from "react";
-import CheckInLayout from "../../../Layouts/CheckInLayout";
 import IVerifyAnonymousAccountProps from "./IVerifyAnonymousAccountProps";
 import RegisterAccountPage from "../OrganizationLoginPage/RegisterAccountPage";
 import IVerifyAnonymousAccountState from "./IVerifyAnonymousAccountState";
@@ -34,7 +33,7 @@ export default class VerifyAnonymousAccountPage extends React.Component<IVerifyA
 
     render() {
         return(
-            <CheckInLayout organizationId={this.props.match.params.organizationId} pageTitle="Verify Anonymous Account">
+            <>
                 <GetOrganizationNameRequest
                     send
                     organizationId={this.props.match.params.organizationId}
@@ -48,7 +47,7 @@ export default class VerifyAnonymousAccountPage extends React.Component<IVerifyA
                     organizationId={this.props.match.params.organizationId} />
                 <OrganizationName organizationId={this.props.match.params.organizationId} />
                 <RegisterAccountPage ref={this.pageRef} onAccountCreate={this.onAccountCreate} {...this.props} />
-            </CheckInLayout>
+            </>
         )
     }
 

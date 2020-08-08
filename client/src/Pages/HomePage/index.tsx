@@ -11,7 +11,7 @@ import Footer from "./Footer";
 export default class HomePage extends React.Component {
     render() {
         return (
-            <PageLayout pageTitle="Adapt Solutions">
+            <PageLayout pageTitle="Adapt Solutions | Check Ins &amp; Visitor Management">
                 <Hero />
                 <div className="home-page-container">
                     <TriangleTop />

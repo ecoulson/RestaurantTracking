@@ -1,10 +1,7 @@
 import React from "react";
 import LearnMoreSection from "../LearnMoreSection";
 import LearnMoreSectionTitle from "../LearnMoreSectionTitle";
-import PricingModelType from "./Model/PricingModelType";
-import OrganizationPricing from "./OrganizationPricing";
 import IPricingModelProps from "./IPricingModelProps";
-import ContactLogPricing from "./ContactLogPricing";
 import "./index.css";
 import Button from "../../../Components/Button";
 import AppHistory from "../../../AppHistory";

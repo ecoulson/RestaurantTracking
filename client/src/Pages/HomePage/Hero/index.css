@@ -8,6 +8,7 @@
     background-position: center center;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    z-index: -1;
 }
 
 @media (min-width:321px) and (max-width:768px) {
