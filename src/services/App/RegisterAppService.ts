@@ -34,21 +34,29 @@ export default class RegisterAppService implements IRegisterAppService {
         stripeSubscriptionId: string,
         type : AppType
     ) {
-        const organization = await this.organizationBroker.findOrganizationById(organizationId);
+        const organization = await this.getOrganization(organizationId);
         const app = await this.appBroker.createApp({
             organizationId,
             stripeProductId,
             stripeSubscriptionId, 
             type
         });
-        const permission = await this.createWritePrmission(app);
+        const permission = await this.createWritePermission(app);
         organization.apps.push(app.id);
         await this.addPermissionToOrganizationSets(permission, organization)
         await organization.save();
         return app;
     }
 
-    async createWritePrmission(app : IApp) {
+    private async getOrganization(organizationId: string) {
+        const organization = await this.organizationBroker.findOrganizationById(organizationId);
+        if (!organization) {
+            throw new Error("Can not create an app for an organization that does not exist")
+        }
+        return organization;        
+    }
+
+    async createWritePermission(app : IApp) {
         return await this.permissionBuilder
             .setOperations([OperationType.Create])
             .setResourceId(app.id)
