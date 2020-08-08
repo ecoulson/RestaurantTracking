@@ -44,7 +44,7 @@ export default class RegisterAppService implements IRegisterAppService {
         const permission = await this.createWritePermission(app);
         organization.apps.push(app.id);
         await this.addPermissionToOrganizationSets(permission, organization)
-        await organization.save();
+        await this.organizationBroker.save(organization);
         return app;
     }
 
