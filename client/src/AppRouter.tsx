@@ -104,7 +104,7 @@ class AppRouter extends React.Component<Props, IAppRouterState> {
                         </Route>
                         <Route exact path="/settings">
                             <AuthenticateActiveSession to="/login" showError={this.showError}>
-                                <Suspense fallback={<BasicLayout title="Loading..." />}>
+                                <Suspense fallback={<AuthenticationLayout pageTitle="Loading..." />}>
                                     <UserProfilePage />
                                 </Suspense>
                             </AuthenticateActiveSession>
