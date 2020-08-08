@@ -4,14 +4,30 @@ import AppModel from "../../../src/models/App/AppModel";
 import AppType from "../../../src/models/App/AppType";
 
 export default class AppGenerator implements IGenerator<IApp> {
+    private usage : number;
+
+    constructor() {
+        this.usage = 0;
+    }
+
+    setUsage(usage : number) {
+        this.usage = usage;
+    }
+
     generate() {
-        return new AppModel({
+        const app = new AppModel({
             type: AppType.ContactLogs,
             organizationId: "foo",
             stripeSubscriptionId: "foo",
             stripeProductId: "foo",
             isActive: true,
-            usage: 0
+            usage: this.usage
         })
+        this.reset();
+        return app;
+    }
+
+    private reset() {
+        this.usage = 0;
     }
 }
