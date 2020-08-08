@@ -9,6 +9,10 @@ export default class GetAppService implements IGetAppService {
     }
 
     async getApp(id: string) {
-        return await this.appBroker.findById(id);
+        const app = await this.appBroker.findById(id);
+        if (!app) {
+            throw new Error(`No app with id: ${id}`)
+        }
+        return app;
     }
 }
