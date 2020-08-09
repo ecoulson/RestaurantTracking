@@ -63,7 +63,10 @@ export default class OrganizationRouteConfiguration extends RouterConfiguration 
         this.router.use("/account", new OrganizationAccountRouteConfiguration(
             new OrganizationAccountController(
                 new OrganizationAccountExistsService(new OrganizationBroker()),
-                new OrganizationPINAuthenticationService(),
+                new OrganizationPINAuthenticationService(
+                    new UserBroker(),
+                    new OrganizationAccountExistsService(new OrganizationBroker())
+                ),
                 new UserVerificationService(),
                 this.tokenBroker
             )

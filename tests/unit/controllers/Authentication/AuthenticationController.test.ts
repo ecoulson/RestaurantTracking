@@ -13,7 +13,7 @@ describe("Authentication Controller", () => {
     describe("handleLogin", () => {
         test("Should fail due to an error thrown while logging in", async () => {
             AuthenticationService.prototype.login = jest.fn().mockRejectedValue(new Error());
-            const controller = new AuthenticationController();
+            const controller = new AuthenticationController(new AuthenticationService());
             const request = mockRequest(getLoginRequest());
             const response = mockResponse();
 
@@ -26,7 +26,7 @@ describe("Authentication Controller", () => {
 
         test("Should fail due to an error thrown while generating token", async () => {
             AuthenticationService.prototype.generateAccessToken = jest.fn().mockRejectedValue(new Error());
-            const controller = new AuthenticationController();
+            const controller = new AuthenticationController(new AuthenticationService());
             const request = mockRequest(getLoginRequest());
             const response = mockResponse();
 
@@ -41,7 +41,7 @@ describe("Authentication Controller", () => {
             const password = faker.internet.password();
             const user = getUser(password);
             user.verified = true;
-            const controller = new AuthenticationController();
+            const controller = new AuthenticationController(new AuthenticationService());
             const request = mockRequest(getLoginRequest());
             const response = mockResponse();
             AuthenticationService.prototype.login = jest.fn().mockResolvedValue(user);

@@ -5,16 +5,14 @@ import UserBroker from "../../brokers/UserBroker";
 import bcrypt from "bcrypt";
 import OrganizationPINLoginArguments from "./OrganizationPinLoginArguments";
 import IOrganizationAccountExistsService from "../Organization/OrganizationAccount/IOrganizationAccountExistsService";
-import OrganizationAccountExistsService from "../Organization/OrganizationAccount/OrganizationAccountExistsService";
-import OrganizationBroker from "../../brokers/OrganizationBroker";
 
 export default class OrganizationPINAuthenticationService implements IAuthenticationService {
     private userBroker : UserBroker;
     private organizationAccountService : IOrganizationAccountExistsService
 
-    constructor() {
-        this.userBroker = new UserBroker();
-        this.organizationAccountService = new OrganizationAccountExistsService(new OrganizationBroker());
+    constructor(userBroker : UserBroker, accountExistsService : IOrganizationAccountExistsService) {
+        this.userBroker = userBroker;
+        this.organizationAccountService = accountExistsService;
     }
 
     public async login(parameters : OrganizationPINLoginArguments) {
@@ -24,19 +22,19 @@ export default class OrganizationPINAuthenticationService implements IAuthentica
             if (!user) {
                 throw new Error("No user with email");
             }
-            await this.checkPIN(user, PIN);
+            await this.checkPassword(user, PIN);
             return user;
         }
         throw new Error("No user in organization");
     }
 
-    private async checkPIN(user : IUser, password : string) {
-        if (!await this.isCorrectPIN(user, password)) {
+    private async checkPassword(user : IUser, password : string) {
+        if (!await this.isCorrectPassword(user, password)) {
             throw new Error(`Login for ${user._id} failed because passwords did not match`);
         }
     }
 
-    private async isCorrectPIN(user : IUser, password : string) {
+    private async isCorrectPassword(user : IUser, password : string) {
         try {
             return await bcrypt.compare(password, user.password);
         } catch (error) {

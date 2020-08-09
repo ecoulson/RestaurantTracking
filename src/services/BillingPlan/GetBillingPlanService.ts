@@ -2,6 +2,7 @@ import IGetBillingPlanService from "./IGetBillingPlanService";
 import BillingPlanBroker from "../../brokers/BillingPlanBroker";
 import AppType from "../../models/App/AppType";
 import ProductType from "../../models/App/ProductType";
+import Stripe from "stripe";
 
 export default class GetBillingPlanService implements IGetBillingPlanService {
     private billingPlanBroker : BillingPlanBroker;
@@ -11,12 +12,15 @@ export default class GetBillingPlanService implements IGetBillingPlanService {
     }
 
     async getBillingPlan(type : AppType) {
-        const products = await this.billingPlanBroker.getProducts();
-        const product = products.data.filter((product) => {
-            return product.metadata.AppType === type &&
-                    product.metadata.ProductType === ProductType.App
-        })[0]
-        const prices = await this.billingPlanBroker.getPrices(product.id);
-        return prices.data;
+        const plans = await this.billingPlanBroker.getProducts();
+        const appPlan = this.getAppPlan(plans.data, type);
+        const appPlanPrice = await this.billingPlanBroker.getPrices(appPlan.id);
+        return appPlanPrice.data;
+    }
+
+    getAppPlan(plans : Stripe.Product[], type : AppType) {
+        return plans.filter(product => 
+            product.metadata.AppType === type && 
+            product.metadata.ProductType === ProductType.App)[0]
     }
 }

@@ -33,7 +33,7 @@ describe("Authentication Service", () => {
             expect.assertions(1);
         })
 
-        test("Should fail to login because an error occured while finding the user", async () => {
+        test("Should fail to login because an error occurred while finding the user", async () => {
             const user = userGenerator.generate();
             const service = new AuthenticationService();
             UserModel.findByUsername = jest.fn().mockRejectedValue(new Error())

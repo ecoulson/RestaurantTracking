@@ -51,6 +51,7 @@ import SyncCheckInsService from "../services/CheckIn/SyncCheckInsService";
 import AuthenticationService from "../services/Authentication/AuthenticationService";
 import OrganizationController from "../controllers/Organization/OrganizationController";
 import TokenBroker from "../brokers/TokenBroker";
+import AuthenticationController from "../controllers/Authentication/AuthenticationController";
 
 export default class APIRouteConfiguration extends RouterConfiguration {
     configureRoutes() {
@@ -94,7 +95,9 @@ export default class APIRouteConfiguration extends RouterConfiguration {
             appBroker
         ).setup());
 
-        this.router.use("/authentication", new AuthenticationRouteConfiguration().setup());
+        this.router.use("/authentication", new AuthenticationRouteConfiguration(
+            new AuthenticationController(new AuthenticationService())
+        ).setup());
 
         this.router.use("/user", new UserRouteConfiguration().setup());
 
