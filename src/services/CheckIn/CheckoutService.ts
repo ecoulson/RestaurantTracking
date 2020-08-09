@@ -10,8 +10,11 @@ export default class CheckoutService implements ICheckoutService {
 
     async checkout(id: string) {
         const checkIn = await this.checkInBroker.getCheckInById(id);
+        if (!checkIn) {
+            throw new Error(`No check in with id: ${id}`)
+        }
         checkIn.checkedOut = true;
         checkIn.timeCheckedOut = new Date();
-        await checkIn.save();
+        await this.checkInBroker.saveCheckIn(checkIn);
     }
 }

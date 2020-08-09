@@ -9,6 +9,10 @@ export default class GetCheckInService implements IGetCheckInService {
     }
 
     async getCheckIn(id: string) {
-        return await this.checkInBroker.getCheckInById(id);
+        const checkIn = await this.checkInBroker.getCheckInById(id);
+        if (!checkIn) {
+            throw new Error(`No check in with id: ${id}`)
+        }
+        return checkIn;
     }    
 }
