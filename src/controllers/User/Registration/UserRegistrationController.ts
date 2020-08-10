@@ -17,6 +17,7 @@ import ITokenService from "../../../services/Token/ITokenService";
 import IEmailService from "../../../services/Email/IEmailService";
 import VerifyUserService from "../../../services/User/Registration/VerifyUserService";
 import EmailService from "../../../services/Email/EmailService";
+import EmailBroker from "../../../brokers/EmailBroker";
 
 export default class UserRegistrationController implements IUserRegistrationController {
     private registrationService : IUserRegistrationService;
@@ -31,7 +32,7 @@ export default class UserRegistrationController implements IUserRegistrationCont
         this.registrationService = new UserRegistrationService();
         this.tokenService = new TokenService([Scope.VerifyEmail], 24);
         this.userBroker = new UserBroker();
-        this.emailService = new EmailService();
+        this.emailService = new EmailService(new EmailBroker());
         this.permissionSetupService = new UserPermissionSetupService();
         this.verifyService = new VerifyUserService();
         this.usernameAvailabilityService = new UsernameAvailabilityService();

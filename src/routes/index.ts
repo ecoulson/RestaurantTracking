@@ -82,7 +82,9 @@ export default class APIRouteConfiguration extends RouterConfiguration {
                 new CheckoutService(
                     checkInBroker
                 ),
-                new SimpleCheckInQRService(),
+                new SimpleCheckInQRService(
+                    organizationBroker
+                ),
                 new SyncCheckInsService(
                     new AuthenticationService(),
                     checkInBroker,
