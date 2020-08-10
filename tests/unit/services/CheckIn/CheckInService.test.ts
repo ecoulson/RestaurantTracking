@@ -51,13 +51,45 @@ describe("Check In Service Test", () => {
             expect.assertions(1)
         });
 
-        test("A check in with a provided timeCheckedIn", async () => {
+        test("Building does not exist for check in", async () => {
+            const organization = organizationGenerator.generate();
             const checkIn = checkInGenerator.generate();
+            UserBroker.prototype.findById = 
+                jest.fn().mockResolvedValue(userGenerator.generate())
+            UserModel.prototype.addPermission = jest.fn();
             CheckInModel.prototype.save = jest.fn().mockResolvedValue(checkIn);
             PermissionModel.prototype.save = jest.fn();
-            UserBroker.prototype.findById = jest.fn().mockResolvedValue(userGenerator.generate())
+            OrganizationBroker.prototype.findOrganizationById = 
+                jest.fn().mockResolvedValue(organization);
+            const service = new CheckInService(
+                new OrganizationBroker(),
+                new PermissionBuilder(),
+                new UserBroker(),
+                new AppBroker()
+            );
+
+            try {
+                await service.checkIn(checkIn, checkIn.ipAddress);
+            } catch (error) {
+                expect(error).toEqual(
+                    new Error(`Building (${checkIn.building}) does not exist`)
+                )
+            }
+
+            expect.assertions(1);
+        })
+
+        test("A check in with a provided timeCheckedIn", async () => {
+            const checkIn = checkInGenerator.generate();
+            const organization = organizationGenerator.generate();
+            organization.buildings.push(checkIn.building);
+            CheckInModel.prototype.save = jest.fn().mockResolvedValue(checkIn);
+            PermissionModel.prototype.save = jest.fn();
+            UserBroker.prototype.findById = 
+                jest.fn().mockResolvedValue(userGenerator.generate())
             UserModel.prototype.addPermission = jest.fn()
-            OrganizationBroker.prototype.findOrganizationById = jest.fn().mockResolvedValue(organizationGenerator.generate());
+            OrganizationBroker.prototype.findOrganizationById = 
+                jest.fn().mockResolvedValue(organization);
             const service = new CheckInService(
                 new OrganizationBroker(),
                 new PermissionBuilder(),
@@ -73,6 +105,7 @@ describe("Check In Service Test", () => {
         test("A successful check in", async () => {
             const organization = organizationGenerator.generate();
             const checkIn = checkInGenerator.generate();
+            organization.buildings.push(checkIn.building);
             UserBroker.prototype.findById = jest.fn().mockResolvedValue(userGenerator.generate())
             UserModel.prototype.addPermission = jest.fn();
             CheckInModel.prototype.save = jest.fn().mockResolvedValue(checkIn);
