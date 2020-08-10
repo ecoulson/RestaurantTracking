@@ -15,6 +15,6 @@ export default class CheckoutService implements ICheckoutService {
         }
         checkIn.checkedOut = true;
         checkIn.timeCheckedOut = new Date();
-        await this.checkInBroker.saveCheckIn(checkIn);
+        await this.checkInBroker.save(checkIn);
     }
 }

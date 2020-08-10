@@ -25,7 +25,7 @@ describe("Checkout Service", () => {
         const checkIn = checkInGenerator.generate();
         CheckInBroker.prototype.getCheckInById =
             jest.fn().mockResolvedValue(checkIn);
-        CheckInBroker.prototype.saveCheckIn =
+        CheckInBroker.prototype.save =
             jest.fn().mockImplementation(checkIn => checkIn)
         const service = new CheckoutService(new CheckInBroker());
 

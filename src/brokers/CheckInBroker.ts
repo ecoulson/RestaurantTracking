@@ -23,7 +23,7 @@ export default class CheckInBroker {
         }
     }
 
-    async saveCheckIn(checkIn: ICheckIn) {
+    async save(checkIn: ICheckIn) {
         try {
             return checkIn.save();
         } catch (error) {
