@@ -9,13 +9,13 @@ export default class OrganizationAccountExistsService implements IOrganizationAc
     }
 
     async hasAccount(organizationId: string, email: string) {
-        const users = await this.organizationBroker.findUser(organizationId, email)
-        return users.length === 1;
+        return (await this.organizationBroker
+            .findUser(organizationId, email)) !== null
     }
 
     async isVerified(organizationId: string, email: string) {
-        const users = await this.organizationBroker.findUser(organizationId, email)
-        return users.length === 1 && users[0].verified;
+        const user = await this.organizationBroker.findUser(organizationId, email)
+        return user && user.verified;
     }
 
 }
