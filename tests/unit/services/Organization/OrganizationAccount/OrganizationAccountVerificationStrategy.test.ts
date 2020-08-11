@@ -95,4 +95,35 @@ describe("Organization Account Verification Strategy", () => {
 
         expect.assertions(1);
     })
+
+    test("Verifies account", async () => {
+        tokenGenerator.setScope([ Scope.VerifyEmail ])
+        const token = tokenGenerator.generate();
+        const code = generateObjectId();
+        const user = userGenerator.generate();
+        UserBroker.prototype.findUserByEmail = 
+            jest.fn().mockResolvedValue(user);
+        UserBroker.prototype.save = jest.fn().mockResolvedValue(user);
+        TokenBroker.prototype.getTokens =
+            jest.fn().mockResolvedValue([ token ]);
+        EncryptedTokenService.prototype.deleteExistingToken = jest.fn();
+        EncryptedTokenService.prototype.decryptToken =
+            jest.fn().mockResolvedValue(new Map([
+                ["code", code]
+            ]))
+        const email = faker.internet.email()
+        const strategy = new OrganizationAccountVerificationStrategy(
+            new UserBroker(),
+            email,
+            code,
+            new EncryptedTokenService(
+                [Scope.VerifyEmail], 1, new TokenBroker()
+            ),
+            new TokenBroker()
+        )
+
+        const foundUser = await strategy.verify()
+
+        expect(foundUser.verified).toBeTruthy()
+    })
 })

@@ -1,24 +1,18 @@
 import PermissionSetService from "../../../../src/services/Permission/PermissionSetService"
-import PermissionSetModel from "../../../../src/models/PermissionSet/PermissionSetModel";
-import PermissionModel from "../../../../src/models/Permission/PermissionModel";
+import PermissionSetBroker from "../../../../src/brokers/PermissionSetBroker";
+import PermissionSetGenerator from "../../../mocks/Generators/PermissionSetGenerator";
+
+const permissionSetGenerator = new PermissionSetGenerator();
 
 describe("Permission set service suite", () => {
     describe("create", () => {
-        test("Error creating permission set", async () => {
-            const service = new PermissionSetService();
-            PermissionSetModel.prototype.save = jest.fn().mockRejectedValue(new Error());
-
-            try {
-                await service.create("Test");
-            } catch (error) {
-                expect(error).toEqual(new Error(`Failed to save permission set Test`))
-            }
-        })
-
         test("Creates permission set", async () => {
-            const service = new PermissionSetService();
-            const permissionSet = getPermissionSet("Test");
-            PermissionSetModel.prototype.save = jest.fn().mockResolvedValue(permissionSet)
+            const permissionSet = permissionSetGenerator.generate()
+            PermissionSetBroker.prototype.save = 
+                jest.fn().mockResolvedValue(permissionSet);
+            const service = new PermissionSetService(
+                new PermissionSetBroker()
+            );
 
             const createdSet = await service.create("Test")
 
@@ -26,7 +20,3 @@ describe("Permission set service suite", () => {
         })
     })
 })
-
-function getPermissionSet(name : string) {
-    return new PermissionModel({ name })
-}

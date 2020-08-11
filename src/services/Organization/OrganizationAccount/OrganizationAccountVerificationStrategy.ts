@@ -39,7 +39,7 @@ export default class OrganizationAccountVerificationStrategy implements IVerific
         if (values.get("code") === this.verificationCode) {
             await this.tokenService.deleteExistingToken(user)
             user.verified = true;
-            return await user.save();
+            return await this.userBroker.save(user);
         } else {
             throw new Error("Failed to verify user, incorrect verification code");
         }
