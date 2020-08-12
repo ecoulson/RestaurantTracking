@@ -2,17 +2,18 @@ import IOrganizationController from "./IOrganizationController";
 import { Request, Response } from "express";
 import JSONResponse from "../../lib/HTTP/JSONResponse";
 import IRegisterOrganizationService from "../../services/Organization/Registration/IRegisterOrganizationService";
-import RegisterOrganizationService from "../../services/Organization/Registration/RegisterOrganizationService";
 import IGetOrganizationService from "../../services/Organization/IGetOrganizationService";
-import GetOrganizationService from "../../services/Organization/GetOrganizationService";
 
 export default class OrganizationController implements IOrganizationController {
     private registerOrganizationService : IRegisterOrganizationService;
     private getOrganizationService : IGetOrganizationService;
 
-    constructor() {
-        this.registerOrganizationService = new RegisterOrganizationService();
-        this.getOrganizationService = new GetOrganizationService();
+    constructor(
+        registerOrganizationService : IRegisterOrganizationService,
+        getOrganizationService : IGetOrganizationService
+    ) {
+        this.registerOrganizationService = registerOrganizationService;
+        this.getOrganizationService = getOrganizationService;
     }
 
     handleOrganizationRegistration() {

@@ -1,7 +1,6 @@
 import IVerifyUserStrategy from "../../../services/User/Registration/IVerifyUserStrategy";
 import IEmailService from "../../../services/Email/IEmailService";
 import RegisterOrganizationAccountEmailStrategy from "../../../services/Organization/OrganizationAccount/RegisterOrganizationAccountEmailStrategy";
-import EmailMessageBuilder from "../../../services/Email/EmailMessageBuilder";
 import IUser from "../../../models/User/IUser";
 import ITokenService from "../../../services/Token/ITokenService";
 
@@ -26,7 +25,6 @@ export default class VerifyOrganizationAccountStrategy implements IVerifyUserStr
             ["code", PIN]
         ]))
         this.emailService.sendEmail(new RegisterOrganizationAccountEmailStrategy(
-            new EmailMessageBuilder(), 
             this.user, 
             PIN
         ));

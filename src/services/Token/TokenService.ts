@@ -13,9 +13,9 @@ export default class TokenService implements ITokenService {
     private tokenLifeTime : number;
     private tokenBroker : TokenBroker;
 
-    constructor(scopes : Scope[], hours : number) {
+    constructor(scopes : Scope[], hours : number, tokenBroker : TokenBroker) {
         this.scopes = scopes;
-        this.tokenBroker = new TokenBroker()
+        this.tokenBroker = tokenBroker
         this.tokenLifeTime = hours * 60 * 60 * 1000;
     }
 
