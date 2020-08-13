@@ -33,7 +33,7 @@ describe("Email Verification Token Service", () => {
             expirationDate.setDate(date.getDate() + 1)
             tokenGenerator.setExpiresAt(expirationDate);
             const testToken = tokenGenerator.generate();
-            const service = new TokenService(scope, hours);
+            const service = new TokenService(scope, hours, new TokenBroker());
             (crypto.randomBytes as jest.Mock).mockImplementation(() => { return { toString: () => testToken.value } });
             TokenBroker.prototype.save = jest.fn();
 
@@ -49,7 +49,7 @@ describe("Email Verification Token Service", () => {
     describe("Delete existing verification token", () => {
         test("No tokens associated with user", async () => {
             TokenBroker.prototype.getTokens = jest.fn().mockResolvedValue([]);
-            const service = new TokenService(scope, hours);
+            const service = new TokenService(scope, hours, new TokenBroker());
             const user = userGenerator.generate();
 
             const verificationToken = await service.deleteExistingToken(user);
@@ -60,7 +60,7 @@ describe("Email Verification Token Service", () => {
         test("No token with email verification scope", async () => {
             tokenGenerator.setScope([Scope.ResetPassword]);
             const token = tokenGenerator.generate();
-            const service = new TokenService(scope, hours);
+            const service = new TokenService(scope, hours, new TokenBroker());
             const user = userGenerator.generate();
             TokenBroker.prototype.getTokens = jest.fn().mockResolvedValue([token]);
 
@@ -72,7 +72,7 @@ describe("Email Verification Token Service", () => {
         test("No tokens with email verification scope", async () => {
             tokenGenerator.setScope([Scope.ResetPassword]);
             const token = tokenGenerator.generate();
-            const service = new TokenService(scope, hours);
+            const service = new TokenService(scope, hours, new TokenBroker());
             const user = userGenerator.generate();
             TokenBroker.prototype.getTokens = jest.fn().mockResolvedValue([token, token]);
 
@@ -86,7 +86,7 @@ describe("Email Verification Token Service", () => {
             const forgotPasswordToken = tokenGenerator.generate();
             tokenGenerator.setScope([Scope.VerifyEmail]);
             const expectedVerificationToken = tokenGenerator.generate();
-            const service = new TokenService(scope, hours);
+            const service = new TokenService(scope, hours, new TokenBroker());
             const user = userGenerator.generate();
             TokenBroker.prototype.getTokens = jest.fn().mockResolvedValue([forgotPasswordToken, expectedVerificationToken]);
             TokenModel.prototype.remove = jest.fn();
