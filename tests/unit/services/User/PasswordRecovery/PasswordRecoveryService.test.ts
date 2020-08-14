@@ -8,6 +8,7 @@ import Email from "../../../../../src/services/Email/Email";
 import TokenGenerator from "../../../../mocks/Generators/TokenGenerator";
 import Scope from "../../../../../src/services/Token/Scope";
 import UserPasswordRecoveryService from "../../../../../src/services/User/PasswordRecovery/UserPasswordRecoveryService";
+import TokenBroker from "../../../../../src/brokers/TokenBroker";
 
 const userGenerator = new UserGenerator();
 const tokenGenerator = new TokenGenerator();
@@ -22,8 +23,13 @@ describe("Password Recovery Service", () => {
         test("Removes existing forgot password token", async () => {
             tokenGenerator.setValue("value")
             const user = userGenerator.generate();
-            TokenService.prototype.generate = jest.fn().mockResolvedValue(tokenGenerator.generate())
-            const service = new UserPasswordRecoveryService(new TokenService([Scope.ResetPassword], 1));
+            TokenService.prototype.generate = 
+                jest.fn().mockResolvedValue(tokenGenerator.generate())
+            const service = new UserPasswordRecoveryService(
+                new TokenService([
+                    Scope.ResetPassword], 1, new TokenBroker()
+                )
+            );
             UserModel.findByEmail = jest.fn().mockResolvedValue(null);
 
             try {
@@ -37,8 +43,13 @@ describe("Password Recovery Service", () => {
         test("Removes existing token", async () => {
             tokenGenerator.setValue("value")
             const user = userGenerator.generate();
-            TokenService.prototype.generate = jest.fn().mockResolvedValue(tokenGenerator.generate())
-            const service = new UserPasswordRecoveryService(new TokenService([Scope.ResetPassword], 1));
+            TokenService.prototype.generate = 
+                jest.fn().mockResolvedValue(tokenGenerator.generate())
+            const service = new UserPasswordRecoveryService(
+                new TokenService(
+                    [Scope.ResetPassword], 1, new TokenBroker()
+                )
+            );
             UserModel.findByEmail = jest.fn().mockResolvedValue(user);
 
             await service.sendForgotPasswordEmail(user.email, new Map());
@@ -49,8 +60,13 @@ describe("Password Recovery Service", () => {
         test("Generates new forgot password token", async () => {
             tokenGenerator.setValue("value")
             const user = userGenerator.generate();
-            TokenService.prototype.generate = jest.fn().mockResolvedValue(tokenGenerator.generate())
-            const service = new UserPasswordRecoveryService(new TokenService([Scope.ResetPassword], 1));
+            TokenService.prototype.generate = 
+                jest.fn().mockResolvedValue(tokenGenerator.generate())
+            const service = new UserPasswordRecoveryService(
+                new TokenService(
+                    [Scope.ResetPassword], 1, new TokenBroker()
+                )
+            );
             UserModel.findByEmail = jest.fn().mockResolvedValue(user);
 
             await service.sendForgotPasswordEmail(user.email, new Map());
@@ -61,8 +77,13 @@ describe("Password Recovery Service", () => {
         test("Sends forgot password email", async () => {
             tokenGenerator.setValue("value")
             const user = userGenerator.generate();
-            TokenService.prototype.generate = jest.fn().mockResolvedValue(tokenGenerator.generate())
-            const service = new UserPasswordRecoveryService(new TokenService([Scope.ResetPassword], 1));
+            TokenService.prototype.generate = 
+                jest.fn().mockResolvedValue(tokenGenerator.generate())
+            const service = new UserPasswordRecoveryService(
+                new TokenService(
+                    [Scope.ResetPassword], 1, new TokenBroker()
+                )
+            );
             const expectedEmailData = new EmailData(new EmailMessageBuilder().build().getMessage())
             Email.prototype.send = jest.fn().mockResolvedValue(expectedEmailData);
             UserModel.findByEmail = jest.fn().mockResolvedValue(user);

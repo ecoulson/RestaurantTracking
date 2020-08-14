@@ -13,33 +13,45 @@ export default class AppActivationHandler implements IStripeEventHandler {
     async handleEvent(type: StripeEvents, event : Stripe.Event) {
         switch(type) { 
             case StripeEvents.InvoicePaid:
-                this.handleInvoicePaid(event.data.object as Stripe.Invoice)
+                await this.handleInvoicePaid(event.data.object as Stripe.Invoice)
                 break;
             case StripeEvents.InvoicePaymentFailed:
-                this.handleInvoicePaymentFailed(event.data.object as Stripe.Invoice)
+                await this.handleInvoicePaymentFailed(event.data.object as Stripe.Invoice)
                 break;
             default:
                 break;
         }
     }
 
-    async handleInvoicePaid(invoice : Stripe.Invoice) {
-        const app = await this.appBroker.findBySubscriptionId(this.getSubscriptionId(invoice));
+    private async handleInvoicePaid(invoice : Stripe.Invoice) {
+        const subscriptionId = this.getSubscriptionId(invoice);
+        const app = await this.appBroker.findBySubscriptionId(subscriptionId);
+        if (!app) {
+            throw new Error(
+                `No app associated with subscription ${subscriptionId}`
+            )
+        }
         if (!app.isActive) {
             app.isActive = true;
-            this.appBroker.save(app);
+            await this.appBroker.save(app);
         }
     }
 
-    async handleInvoicePaymentFailed(invoice : Stripe.Invoice) {
-        const app = await this.appBroker.findBySubscriptionId(this.getSubscriptionId(invoice));
+    private async handleInvoicePaymentFailed(invoice : Stripe.Invoice) {
+        const subscriptionId = this.getSubscriptionId(invoice);
+        const app = await this.appBroker.findBySubscriptionId(subscriptionId);
+        if (!app) {
+            throw new Error(
+                `No app associated with subscription ${subscriptionId}`
+            )
+        }
         if (app.isActive) {
             app.isActive = false;
-            this.appBroker.save(app);
+            await this.appBroker.save(app);
         }
     }
 
-    getSubscriptionId(invoice : Stripe.Invoice) {
+    private getSubscriptionId(invoice : Stripe.Invoice) {
         if (typeof invoice.subscription === "string") {
             return invoice.subscription
         } else {

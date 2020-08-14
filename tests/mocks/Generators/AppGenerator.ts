@@ -8,9 +8,11 @@ export default class AppGenerator implements IGenerator<IApp> {
     private organizationId: string;
     private stripeSubscriptionId: string;
     private stripeProductId: string;
+    private isActive: boolean;
 
     constructor() {
         this.usage = 0;
+        this.isActive = false;
     }
 
     setUsage(usage : number) {
@@ -33,13 +35,18 @@ export default class AppGenerator implements IGenerator<IApp> {
         return this;
     }
 
+    setActive() {
+        this.isActive = true;
+        return this;
+    }
+
     generate() {
         const app = new AppModel({
             type: AppType.ContactLogs,
             organizationId: this.organizationId,
             stripeSubscriptionId: this.stripeSubscriptionId,
             stripeProductId: this.stripeProductId,
-            isActive: true,
+            isActive: this.isActive,
             usage: this.usage
         })
         this.reset();
@@ -51,5 +58,6 @@ export default class AppGenerator implements IGenerator<IApp> {
         this.stripeProductId = "";
         this.organizationId = "";
         this.stripeSubscriptionId = ""
+        this.isActive = false;
     }
 }

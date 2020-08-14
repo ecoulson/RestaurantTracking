@@ -40,7 +40,7 @@ describe("Check In Controller Suite", () => {
                 ),
                 new GetCheckInService(new CheckInBroker()),
                 new CheckoutService(new CheckInBroker()),
-                new SimpleCheckInQRService(),
+                new SimpleCheckInQRService(new OrganizationBroker()),
                 new SyncCheckInsService(
                     new AuthenticationService(),
                     new CheckInBroker(),
@@ -88,7 +88,7 @@ describe("Check In Controller Suite", () => {
                 ),
                 new GetCheckInService(new CheckInBroker()),
                 new CheckoutService(new CheckInBroker()),
-                new SimpleCheckInQRService(),
+                new SimpleCheckInQRService(new OrganizationBroker()),
                 new SyncCheckInsService(
                     new AuthenticationService(),
                     new CheckInBroker(),
