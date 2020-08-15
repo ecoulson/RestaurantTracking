@@ -3,19 +3,21 @@ import IUser from "../../../models/User/IUser";
 import IToken from "../../../models/Token/IToken";
 import EmailService from "../../Email/EmailService";
 import ITokenService from "../../Token/ITokenService";
+import EmailBroker from "../../../brokers/EmailBroker";
+import EmailMessageBuilder from "../../Email/EmailMessageBuilder";
 
 export default class OrganizationUserVerificationEmailService extends EmailService {
     private tokenService : ITokenService;
 
-    constructor(tokenService : ITokenService) {
-        super();
+    constructor(tokenService : ITokenService, emailBroker : EmailBroker) {
+        super(emailBroker);
         this.tokenService = tokenService;
     }
 
     async buildEmail(user : IUser, token : IToken) {
         const internalURLBuilder = new InternalURLBuilder();
         const values = await this.tokenService.decryptToken(token);
-        this.emailBuilder
+        return new EmailMessageBuilder()
             .setTo(user.email)
             .setFrom("support@adaptsolutions.tech")
             .setSubject("Verify Your Adapt Organization Account")

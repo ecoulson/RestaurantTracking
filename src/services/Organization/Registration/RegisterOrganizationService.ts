@@ -1,20 +1,20 @@
 import IRegisterOrganizationService from "./IRegisterOrganizationService";
 import IOrganization from "../../../models/Organization/IOrganization";
 import OrganizationModel from "../../../models/Organization/OrganizationModel";
-import PermissionSetService from "../../Permission/PermissionSetService";
 import IPermissionBuilder from "../../Permission/IPermissionBuilder";
 import PermissionBuilder from "../../Permission/PermissionBuilder";
 import OperationType from "../../../lib/Authorization/OperationType";
 import ResourceType from "../../../lib/Authorization/ResourceType";
 import IUser from "../../../models/User/IUser";
 import IAddress from "../../../models/Organization/IAddress";
+import IPermissionSetService from "../../Permission/IPermissionSetService";
 
 export default class RegisterOrganizationService implements IRegisterOrganizationService {
-    private permissionSetService : PermissionSetService;
+    private permissionSetService : IPermissionSetService;
     private permissionBuilder : IPermissionBuilder;
 
-    constructor() {
-        this.permissionSetService = new PermissionSetService();
+    constructor(permissionSetService : IPermissionSetService) {
+        this.permissionSetService = permissionSetService;
         this.permissionBuilder = new PermissionBuilder();
     }
 
@@ -24,7 +24,11 @@ export default class RegisterOrganizationService implements IRegisterOrganizatio
         address: IAddress,
         user : IUser
     ): Promise<IOrganization> {
-        const organization = new OrganizationModel({ organizationId, organizationName, address });
+        const organization = new OrganizationModel({ 
+            organizationId, 
+            organizationName, 
+            address 
+        });
         user.organizations.push(organization.organizationId);
         const studentPermissionSet = await this.permissionSetService.create("student");
         const adminPermissionSet = await this.permissionSetService.create("admin");

@@ -12,9 +12,9 @@ export default class OrganizationBroker {
         }
     }
 
-    async findUser(organizationId: string, email: string) : Promise<IUser[]> {
+    async findUser(organizationId: string, email: string) : Promise<IUser> {
         try {
-            return await UserModel.find({
+            return await UserModel.findOne({
                 $and: [
                     { organizations: organizationId },
                     { email: email }

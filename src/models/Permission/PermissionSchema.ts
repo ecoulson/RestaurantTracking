@@ -20,6 +20,7 @@ const PermissionSchema = new Schema({
         enum: [
             "Restaurant",
             "User",
+            "Unknown",
             "Organization",
             "CheckIn",
             "ContactLogApp",

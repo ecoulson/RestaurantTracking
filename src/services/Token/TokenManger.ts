@@ -1,13 +1,16 @@
-import TokenModel from "../../models/Token/TokenModel";
+import TokenBroker from "../../brokers/TokenBroker";
 
 export default class TokenManager {
-    run() {
-        return new Promise(async (resolve : () => void, reject : (error : Error) => void) => {
-            const tokens = await TokenModel.findExpiredTokens();
-            for (const token of tokens) {
-                await token.remove();
-            }
-            return resolve();
+    private tokenBroker : TokenBroker
+
+    constructor(tokenBroker : TokenBroker) {
+        this.tokenBroker = tokenBroker;
+    }
+
+    async run() {
+        const tokens = await this.tokenBroker.findExpiredTokens();
+        tokens.forEach(async (token) => {
+            await this.tokenBroker.remove(token)
         })
     }
 }

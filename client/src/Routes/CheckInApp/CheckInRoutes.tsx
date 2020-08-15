@@ -61,7 +61,7 @@ export default function CheckInRoutes(props : ICheckInRoute & IRouteProps) {
                         <Route exact path={`${path}/check-out`}>
                             <CheckOutRoute {...props} />
                         </Route>
-                        <Route exact path={`${path}/scan:building`} render={
+                        <Route exact path={`${path}/scan/:building`} render={
                             routeProps => <ScanRoute 
                                                 {...routeProps} 
                                                 showError={props.showError} 

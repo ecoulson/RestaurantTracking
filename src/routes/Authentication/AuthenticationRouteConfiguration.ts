@@ -7,9 +7,9 @@ import ErrorCatchingMiddleware from "../../middleware/ErrorHandling/ErrorCatchin
 export default class AuthenticationRouteConfiguration extends RouterConfiguration {
     private controller : AuthenticationController;
 
-    constructor() {
+    constructor(authenticationController : AuthenticationController) {
         super();
-        this.controller = new AuthenticationController();
+        this.controller = authenticationController;
     }
 
     configureRoutes() {

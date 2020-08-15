@@ -4,13 +4,18 @@ import UserGenerator from "../../../../mocks/Generators/UserGenerator"
 import PermissionSetService from "../../../../../src/services/Permission/PermissionSetService";
 import PermissionModel from "../../../../../src/models/Permission/PermissionModel";
 import PermissionSetModel from "../../../../../src/models/PermissionSet/PermissionSetModel";
+import PermissionSetBroker from "../../../../../src/brokers/PermissionSetBroker";
 
 const userGenerator = new UserGenerator();
 
 describe("User Permission Setup Service Suite", () => {
     describe("setup", () => {
         test("Fails to save user", async () => {
-            const service = new UserPermissionSetupService();
+            const service = new UserPermissionSetupService(
+                new PermissionSetService(
+                    new PermissionSetBroker()
+                )
+            );
             const user = userGenerator.generate();
             const set = getPermissionSet("Test");
             PermissionSetService.prototype.create = jest.fn().mockResolvedValue(set);
@@ -32,7 +37,11 @@ describe("User Permission Setup Service Suite", () => {
         })
 
         test("Saves user", async () => {
-            const service = new UserPermissionSetupService();
+            const service = new UserPermissionSetupService(
+                new PermissionSetService(
+                    new PermissionSetBroker()
+                )
+            );
             const user = userGenerator.generate();
             const set = getPermissionSet("Test");
             PermissionSetService.prototype.create = jest.fn().mockResolvedValue(set);

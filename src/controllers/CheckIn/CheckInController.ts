@@ -69,7 +69,12 @@ export default class CheckInController implements ICheckInController {
 
     handleGetQRCode() {
         return async (req : Request, res: Response) => {
-            return this.qrCodeService.getQRStream(req.body.organizationId, req.body.building)(res);
+            return (
+                await this.qrCodeService.getQRStream(
+                    req.body.organizationId, 
+                    req.body.building
+                )
+            )(res);
         }
     }
 

@@ -1,4 +1,5 @@
 import CheckInModel from "../models/CheckIn/CheckInModel";
+import ICheckIn from "../models/CheckIn/ICheckIn";
 
 export default class CheckInBroker {
     async getCheckInById(id: string) {
@@ -19,6 +20,14 @@ export default class CheckInBroker {
             })
         } catch (error) {
             throw error
+        }
+    }
+
+    async save(checkIn: ICheckIn) {
+        try {
+            return checkIn.save();
+        } catch (error) {
+            throw error;
         }
     }
 }

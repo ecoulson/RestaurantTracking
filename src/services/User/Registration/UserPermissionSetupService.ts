@@ -1,7 +1,6 @@
 import IUserPermissionSetupService from "./IUserPermissionSetupService";
 import IUser from "../../../models/User/IUser";
 import IPermissionSetService from "../../Permission/IPermissionSetService";
-import PermissionSetService from "../../Permission/PermissionSetService";
 import IPermissionBuilder from "../../Permission/IPermissionBuilder";
 import PermissionBuilder from "../../Permission/PermissionBuilder";
 import OperationType from "../../../lib/Authorization/OperationType";
@@ -11,8 +10,8 @@ export default class UserPermissionSetupService implements IUserPermissionSetupS
     private permissionSetService : IPermissionSetService;
     private permissionBuilder : IPermissionBuilder;
 
-    constructor() {
-        this.permissionSetService = new PermissionSetService();
+    constructor(permissionSetService : IPermissionSetService) {
+        this.permissionSetService = permissionSetService;
         this.permissionBuilder = new PermissionBuilder();
     }
 

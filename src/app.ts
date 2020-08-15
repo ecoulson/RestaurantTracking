@@ -19,11 +19,12 @@ import AppBroker from "./brokers/AppBroker";
 import Stripe from "stripe";
 import StripeBroker from "./brokers/StripeBroker";
 import CreateUsageRecordsService from "./services/App/CreateUsageRecordsService";
+import TokenBroker from "./brokers/TokenBroker";
 
 mongoose.set('useCreateIndex', true);
 
 const OneHour = 60 * 60 * 1000;
-const tokenManager = new TokenManager();
+const tokenManager = new TokenManager(new TokenBroker());
 const app = express();
 app.use(bodyParser.json({
     verify: function (req : Request, res, buf) {

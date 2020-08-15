@@ -11,6 +11,7 @@ import IAuthenticationService from "../../../services/Authentication/IAuthentica
 import EncryptedTokenService from "../../../services/Token/EncryptedTokenService";
 import Scope from "../../../services/Token/Scope";
 import TokenBroker from "../../../brokers/TokenBroker";
+import EmailBroker from "../../../brokers/EmailBroker";
 
 export default class RegisterOrganizationAccountController implements IRegisterOrganizationAccountController {
     private registrationService : IRegisterOrganizationAccountService;
@@ -45,7 +46,7 @@ export default class RegisterOrganizationAccountController implements IRegisterO
             });
             if (!user.verified) {
                 await this.verifyUserService.verify(new VerifyOrganizationAccountStrategy(
-                    new EmailService(),
+                    new EmailService(new EmailBroker()),
                     new EncryptedTokenService([Scope.VerifyEmail], 24, new TokenBroker()),
                     user
                 ));
@@ -76,7 +77,7 @@ export default class RegisterOrganizationAccountController implements IRegisterO
     handleResendVerification() {
         return async (request : Request, response : Response) => {
             await this.verifyUserService.verify(new VerifyOrganizationAccountStrategy(
-                new EmailService(),
+                new EmailService(new EmailBroker()),
                 new EncryptedTokenService([Scope.VerifyEmail], 24, new TokenBroker()),
                 await this.userBroker.findUserByEmail(request.body.email)
             ));

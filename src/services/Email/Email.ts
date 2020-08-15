@@ -13,15 +13,7 @@ export default class Email implements IEmail {
 
     async send() : Promise<IEmailData> {
         sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-        await this.deliver(this.message);
+        await sgMail.send(this.message.getMessage());
         return new EmailData(this.message.getMessage());
-    };
-
-    protected async deliver(message : IEmailMessage) {
-        try {
-            await sgMail.send(message.getMessage());
-        } catch (error) {
-            throw error;
-        }
     }
 }

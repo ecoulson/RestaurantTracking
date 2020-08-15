@@ -9,6 +9,7 @@ import ResourceType from "../../lib/Authorization/ResourceType";
 import UserBroker from "../../brokers/UserBroker";
 import AppBroker from "../../brokers/AppBroker";
 import AppType from "../../models/App/AppType";
+import IOrganization from "../../models/Organization/IOrganization";
 
 export default class CheckInService {
     private organizationBroker : OrganizationBroker;
@@ -26,22 +27,10 @@ export default class CheckInService {
     async checkIn(checkInBody : ICheckInRequestBody, ipAddress : string) : Promise<ICheckIn> {
         await this.ensureOrganizationExists(checkInBody);
         const organization = await this.organizationBroker.findOrganizationById(checkInBody.organizationId);
-        const apps = await Promise.all(organization.apps.map(appId => this.appBroker.findById(appId)))
-        const contactLogApp = apps.filter((app) => {
-            return app.type === AppType.ContactLogs
-        })[0]
-        contactLogApp.usage++;
-        await this.appBroker.save(contactLogApp);
+        this.ensureBuildingExists(organization, checkInBody.building);
+        await this.incrementUsage(organization);
         const checkIn = await this.saveCheckInToDB(checkInBody, ipAddress);
-        const permission = this.permissionBuilder
-            .setOperations([OperationType.Read, OperationType.Update])
-            .setResourceId(checkIn._id)
-            .setResourceType(ResourceType.CheckIn)
-            .setRestricted()
-            .build();
-        await permission.save();
-        const user = await this.userBroker.findById(checkIn.userId);
-        await user.addPermission(permission);
+        await this.addCheckInReadPermissionToUser(checkIn);
         return checkIn
     }
 
@@ -52,8 +41,25 @@ export default class CheckInService {
     }
 
     private async organizationExists(organizationId : string) {
-        const org = await this.organizationBroker.findOrganizationById(organizationId);
-        return org !== null
+        return await this.organizationBroker
+            .findOrganizationById(organizationId) !== null
+    }
+
+    private ensureBuildingExists(organization : IOrganization, building: string) {
+        if (!organization.buildings.includes(building)) {
+            throw new Error(`Building (${building}) does not exist`)
+        }
+    }
+
+    private async incrementUsage(organization: IOrganization) {
+        const apps = await Promise.all(
+            organization.apps.map(appId => this.appBroker.findById(appId))
+        )
+        const contactLogApp = apps.filter((app) => {
+            return app.type === AppType.ContactLogs
+        })[0]
+        contactLogApp.usage++;
+        await this.appBroker.save(contactLogApp);
     }
 
     private async saveCheckInToDB(checkIn : ICheckInRequestBody, ipAddress: string) : Promise<ICheckIn> {
@@ -70,6 +76,18 @@ export default class CheckInService {
         } catch (error) {
             throw new Error(`Error when saving check in to organization with ${checkIn.organizationId} from ${ipAddress}`)
         }
+    }
+
+    private async addCheckInReadPermissionToUser(checkIn: ICheckIn) {
+        const permission = this.permissionBuilder
+        .setOperations([OperationType.Read, OperationType.Update])
+        .setResourceId(checkIn._id)
+        .setResourceType(ResourceType.CheckIn)
+        .setRestricted()
+        .build();
+        await permission.save();
+        const user = await this.userBroker.findById(checkIn.userId);
+        await user.addPermission(permission);
     }
 
     async getOrganizationReport(organizationId : string) : Promise<string> {

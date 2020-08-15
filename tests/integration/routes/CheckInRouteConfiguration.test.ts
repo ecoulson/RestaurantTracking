@@ -65,6 +65,7 @@ beforeEach(async () => {
         type: BuildingType.Academic,
         organizationId: organization.organizationId
     })
+    organization.buildings.push(building.name)
     permission = new PermissionBuilder()
         .setOperations([OperationType.Create])
         .setResourceId(contactApp.id)

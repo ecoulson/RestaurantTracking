@@ -24,7 +24,6 @@ import AppBroker from "../brokers/AppBroker";
 import PermissionSetBroker from "../brokers/PermissionSetBroker";
 import PaymentRouteConfiguration from "./Payment/PaymentRouteConfiguration";
 import PaymentController from "../controllers/Payment/PaymentController";
-import PaymentService from "../services/Payment/PaymentService";
 import StripeBroker from "../brokers/StripeBroker";
 import Stripe from "stripe";
 import WebhookRouterConfiguration from "./Webhook/WebhookRouterConfiguration";
@@ -51,6 +50,41 @@ import SyncCheckInsService from "../services/CheckIn/SyncCheckInsService";
 import AuthenticationService from "../services/Authentication/AuthenticationService";
 import OrganizationController from "../controllers/Organization/OrganizationController";
 import TokenBroker from "../brokers/TokenBroker";
+import AuthenticationController from "../controllers/Authentication/AuthenticationController";
+import UserController from "../controllers/User/UserController";
+import UserService from "../services/User/UserService";
+import UserRegistrationRouteConfiguration from "./User/UserRegistrationRouteConfiguration";
+import UserRegistrationController from "../controllers/User/Registration/UserRegistrationController";
+import UserRegistrationService from "../services/User/Registration/UserRegistrationService";
+import TokenService from "../services/Token/TokenService";
+import Scope from "../services/Token/Scope";
+import EmailService from "../services/Email/EmailService";
+import EmailBroker from "../brokers/EmailBroker";
+import UserPermissionSetupService from "../services/User/Registration/UserPermissionSetupService";
+import PermissionSetService from "../services/Permission/PermissionSetService";
+import VerifyUserService from "../services/User/Registration/VerifyUserService";
+import UsernameAvailabilityService from "../services/User/Registration/UsernameAvailibilityService";
+import VerificationRouteConfiguration from "./User/VerificationRouteConfiguration";
+import PasswordRecoveryRouteConfiguration from "./User/PasswordRecoveryRouteConfiguration";
+import ProfilePictureRouteConfiguration from "./User/ProfilePictureRouteConfiguration";
+import PasswordUpdateRouteConfiguration from "./User/PasswordUpdateRouteConfiguration";
+import UserPasswordRecoveryService from "../services/User/PasswordRecovery/UserPasswordRecoveryService";
+import RegisterOrganizationService from "../services/Organization/Registration/RegisterOrganizationService";
+import GetOrganizationService from "../services/Organization/GetOrganizationService";
+import OrganizationRegistrationRouteConfiguration from "./Organization/OrganizationRegistrationRouteConfiguration";
+import OrganizationRegistrationController from "../controllers/Organization/Registration/OrganizationRegistrationController";
+import OrganizationExistsService from "../services/Organization/Registration/OrganizationExsitsService";
+import OrganizationAccountRouteConfiguration from "./Organization/OrganizationAccountRouteConfiguration";
+import OrganizationAccountController from "../controllers/Organization/OrganizationAccount/OrganizationAccountController";
+import OrganizationAccountExistsService from "../services/Organization/OrganizationAccount/OrganizationAccountExistsService";
+import UserVerificationService from "../services/User/Verification/UserVerificationService";
+import RegisterOrganizationAccountRouteConfiguration from "./Organization/RegisterOrganizationAccountRouteConfiguration";
+import RegisterOrganizationAccountController from "../controllers/Organization/OrganizationAccount/RegisterOrganizationAccountController";
+import OrganizationBuildingRouteConfiguration from "./Organization/OrganizationBuildingRouteConfiguration";
+import OrganizationBuildingController from "../controllers/Organization/Building/OrganizationBuildingController";
+import GetBuildingService from "../services/Building/GetBuildingService";
+import RegisterOrganizationAccountService from "../services/Organization/OrganizationAccount/RegistrationOrganizationAccountService";
+import RegisterAnonymousOrganizationAccountService from "../services/Organization/OrganizationAccount/RegisterAnonymousOrganizationAccountService";
 
 export default class APIRouteConfiguration extends RouterConfiguration {
     configureRoutes() {
@@ -60,11 +94,22 @@ export default class APIRouteConfiguration extends RouterConfiguration {
         const organizationBroker = new OrganizationBroker();
         const checkInBroker = new CheckInBroker();
         const userBroker = new UserBroker();
+        const buildingBroker = new BuildingBroker();
         const stripeBroker = new StripeBroker(stripe);
         const appBroker = new AppBroker();
         const permissionBroker = new PermissionBroker();
         const permissionSetBroker = new PermissionSetBroker();
         const tokenBroker = new TokenBroker();
+        const emailBroker = new EmailBroker();
+
+        const emailService = new EmailService(emailBroker);
+        const verificationTokenService = 
+            new TokenService([Scope.VerifyEmail], 24, tokenBroker);
+        const resetPasswordTokenService =
+            new TokenService([Scope.ResetPassword], 1, tokenBroker);
+        const permissionSetService = 
+            new PermissionSetService(permissionSetBroker)
+        const authenticationService = new AuthenticationService();
 
         this.router.use("/restaurant", new RestaurantRouteConfiguration().setup());
         this.router.use("/check_in", new CheckInRouteConfiguration(
@@ -81,9 +126,11 @@ export default class APIRouteConfiguration extends RouterConfiguration {
                 new CheckoutService(
                     checkInBroker
                 ),
-                new SimpleCheckInQRService(),
+                new SimpleCheckInQRService(
+                    organizationBroker
+                ),
                 new SyncCheckInsService(
-                    new AuthenticationService(),
+                    authenticationService,
                     checkInBroker,
                     permissionBroker,
                     permissionSetBroker,
@@ -94,13 +141,78 @@ export default class APIRouteConfiguration extends RouterConfiguration {
             appBroker
         ).setup());
 
-        this.router.use("/authentication", new AuthenticationRouteConfiguration().setup());
+        this.router.use("/authentication", new AuthenticationRouteConfiguration(
+            new AuthenticationController(authenticationService)
+        ).setup());
 
-        this.router.use("/user", new UserRouteConfiguration().setup());
+        this.router.use("/user", new UserRouteConfiguration(
+            new UserController(
+                new UserService()
+            ),
+            new UserRegistrationRouteConfiguration(
+                new UserRegistrationController(
+                    new UserRegistrationService(),
+                    verificationTokenService,
+                    userBroker,
+                    emailService,
+                    new UserPermissionSetupService(permissionSetService),
+                    new VerifyUserService(),
+                    new UsernameAvailabilityService()
+                )
+            ),
+            new VerificationRouteConfiguration(),
+            new PasswordRecoveryRouteConfiguration(
+                new UserPasswordRecoveryService(
+                    resetPasswordTokenService
+                )
+            ),
+            new ProfilePictureRouteConfiguration(),
+            new PasswordUpdateRouteConfiguration(),
+        ).setup());
 
         this.router.use("/organization", new OrganizationRouteConfiguration(
-            new OrganizationController(),
-            tokenBroker
+            new OrganizationController(
+                new RegisterOrganizationService(permissionSetService),
+                new GetOrganizationService(organizationBroker)
+            ),
+            new OrganizationRegistrationRouteConfiguration(
+                new OrganizationRegistrationController(
+                    new RegisterOrganizationService(permissionSetService),
+                    new OrganizationExistsService(organizationBroker)
+                )
+            ),
+            new OrganizationAccountRouteConfiguration(
+                new OrganizationAccountController(
+                    new OrganizationAccountExistsService(organizationBroker),
+                    authenticationService,
+                    new UserVerificationService(),
+                    tokenBroker
+                )
+            ),
+            new RegisterOrganizationAccountRouteConfiguration(
+                new RegisterOrganizationAccountController(
+                    new RegisterOrganizationAccountService(
+                        organizationBroker,
+                        new UserPermissionSetupService(permissionSetService),
+                        userBroker
+                    ),
+                    new VerifyUserService(),
+                    new RegisterAnonymousOrganizationAccountService(
+                        userBroker,
+                        new UserPermissionSetupService(permissionSetService),
+                        organizationBroker
+                    ),
+                    authenticationService,
+                    userBroker
+                )
+            ),
+            new OrganizationBuildingRouteConfiguration(
+                new OrganizationBuildingController(
+                    new GetBuildingService(
+                        buildingBroker
+                    )
+                )
+            )
         ).setup());
 
         this.router.use("/building", new BuildingRouterController(
@@ -124,7 +236,6 @@ export default class APIRouteConfiguration extends RouterConfiguration {
 
         this.router.use("/payment", new PaymentRouteConfiguration(
             new PaymentController(
-                new PaymentService(stripeBroker),
                 new CreateCustomerService(stripeBroker, organizationBroker),
                 new CreateSubscriptionService(stripeBroker),
                 new GetSetupIntentService(stripeBroker),

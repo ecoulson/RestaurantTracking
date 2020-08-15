@@ -60,7 +60,8 @@ export default class UserBroker {
                 firstName: userParams.firstName,
                 lastName: userParams.lastName,
                 number: userParams.number,
-                anonymous: userParams.anonymous ? userParams.anonymous : false
+                anonymous: userParams.anonymous ? userParams.anonymous : false,
+                organizations: []
             })
         } catch (error) {
             throw error;

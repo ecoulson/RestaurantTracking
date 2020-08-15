@@ -26,4 +26,12 @@ export default class TokenBroker {
             throw new Error(`Failed to save token ${token.id} from database`);
         }
     }
+
+    async findExpiredTokens() {
+        try {
+            return await TokenModel.findExpiredTokens();
+        } catch (error) {
+            throw error;
+        }
+    }
 }

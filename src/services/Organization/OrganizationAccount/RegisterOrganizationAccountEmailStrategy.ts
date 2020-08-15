@@ -1,25 +1,23 @@
 import IBuildEmailStrategy from "../../Email/IBuildEmailStrategy";
-import IEmailMessageBuilder from "../../Email/IEmailMessageBuilder";
 import IUser from "../../../models/User/IUser";
+import EmailMessageBuilder from "../../Email/EmailMessageBuilder";
 
 export default class RegisterOrganizationAccountEmailStrategy implements IBuildEmailStrategy {
-    private emailBuilder : IEmailMessageBuilder;
     private user : IUser;
-    private PIN: string;
+    private password: string;
 
-    constructor(emailBuilder : IEmailMessageBuilder, user : IUser, PIN: string) {
-        this.emailBuilder = emailBuilder;
+    constructor(user : IUser, password: string) {
         this.user = user;
-        this.PIN = PIN
+        this.password = password
     }
 
     async build() {
-        return this.emailBuilder
+        return new EmailMessageBuilder()
             .setFrom("support@adaptsolutions.tech")
             .setTo(this.user.email)
             .setTemplateId("d-b3a11d69cfcc4b30940ac5f28e181770")
             .setData({
-                PIN: this.PIN
+                PIN: this.password
             })
             .build();
     }

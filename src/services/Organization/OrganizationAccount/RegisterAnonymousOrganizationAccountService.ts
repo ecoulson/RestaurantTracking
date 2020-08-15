@@ -23,6 +23,9 @@ export default class RegisterAnonymousOrganizationAccountService implements IReg
         organizationId: string
     }) {
         const organization = await this.organizationBroker.findOrganizationById(params.organizationId);
+        if (!organization) {
+            throw new Error(`No organization with id: ${params.organizationId}`)
+        }
         const user = await this.userBroker.createUser({
             username: params.username,
             email: params.email,

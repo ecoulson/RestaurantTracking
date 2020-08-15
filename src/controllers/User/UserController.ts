@@ -2,14 +2,13 @@ import IUserController from "./IUserController";
 import { Request, Response } from "express";
 import JSONResponse from "../../lib/HTTP/JSONResponse";
 import IUserService from "../../services/User/IUserService";
-import UserService from "../../services/User/UserService";
 import IUpdatedProfile from "./IUpdatedProfile";
 
 export default class UserController implements IUserController {
     private userService : IUserService;
 
-    constructor() {
-        this.userService = new UserService();
+    constructor(userService : IUserService) {
+        this.userService = userService;
     }
 
     handleGetSessionUser() {

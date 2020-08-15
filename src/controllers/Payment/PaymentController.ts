@@ -1,5 +1,4 @@
 import IPaymentController from "./IPaymentController";
-import IPaymentService from "../../services/Payment/IPaymentService";
 import { Request, Response } from "express";
 import JSONResponse from "../../lib/HTTP/JSONResponse";
 import ICreateCustomerService from "../../services/Payment/CreateCustomer/ICreateCustomerService";
@@ -10,7 +9,6 @@ import ICancelSubscriptionService from "../../services/Payment/CancelSubscriptio
 import ICreateInvoiceService from "../../services/Payment/CreateInvoice/ICreateInvoiceService";
 
 export default class PaymentController implements IPaymentController {
-    private paymentService : IPaymentService;
     private createCustomerService : ICreateCustomerService;
     private createSubscriptionService : ICreateSubscriptionService;
     private getSetupIntentService : IGetSetupIntentService;
@@ -19,7 +17,6 @@ export default class PaymentController implements IPaymentController {
     private createInvoiceService : ICreateInvoiceService;
 
     constructor(
-        paymentService: IPaymentService, 
         createCustomerService : ICreateCustomerService, 
         createSubscriptionService : ICreateSubscriptionService,
         getSetupIntentService: IGetSetupIntentService,
@@ -27,21 +24,12 @@ export default class PaymentController implements IPaymentController {
         cancelSubscriptionService : ICancelSubscriptionService,
         createInvoiceService : ICreateInvoiceService
     ) {
-        this.paymentService = paymentService
         this.createCustomerService = createCustomerService;
         this.createSubscriptionService = createSubscriptionService;
         this.getSetupIntentService = getSetupIntentService;
         this.updatePaymentService = updatePaymentService;
         this.cancelSubscriptionService = cancelSubscriptionService
         this.createInvoiceService = createInvoiceService;
-    }
-
-    handlePayment() {
-        return async (req : Request, res : Response) => {
-            return new JSONResponse(res).send({
-                paymentIntent: await this.paymentService.handlePayment(req.body.cart)
-            })
-        }
     }
 
     handleCreateCustomer() {

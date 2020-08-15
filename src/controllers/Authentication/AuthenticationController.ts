@@ -1,6 +1,5 @@
 import { RequestHandler, Response, Request } from "express";
 import IAuthenticationService from "../../services/Authentication/IAuthenticationService";
-import AuthenticationService from "../../services/Authentication/AuthenticationService";
 import ILoginBody from "./ILoginBody";
 import JSONResponse from "../../lib/HTTP/JSONResponse";
 import jsonwebtoken from "jsonwebtoken";
@@ -10,8 +9,8 @@ import LoginArguments from "../../services/Authentication/LoginArguments";
 export default class AuthenticationController {
     authenticationService : IAuthenticationService;
 
-    constructor() {
-        this.authenticationService = new AuthenticationService();
+    constructor(authenticationService : IAuthenticationService) {
+        this.authenticationService = authenticationService;
     }
 
     handleLogin() : RequestHandler {

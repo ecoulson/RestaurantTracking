@@ -11,6 +11,9 @@ export default class AppIsActiveService implements IAppIsActiveService {
 
     async isActive(appType : AppType, organizationId: string) {
         const app = await this.appBroker.findByOrganizationId(organizationId, appType);
+        if (!app) {
+            throw new Error(`[${organizationId}]: does not have a registered ${appType} application`)
+        }
         return app.isActive
     }
 }

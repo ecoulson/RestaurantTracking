@@ -2,7 +2,6 @@ import RouterConfiguration from "../RouterConfiguration";
 import VerificationRouteConfiguration from "./VerificationRouteConfiguration";
 import UserRegistrationRouteConfiguration from "./UserRegistrationRouteConfiguration";
 import PasswordRecoveryRouteConfiguration from "./PasswordRecoveryRouteConfiguration";
-import UserController from "../../controllers/User/UserController";
 import JSONWebTokenAuthenticationStrategy from "../../middleware/Authentication/JSONWebTokenAuthenticationStrategy";
 import IUserController from "../../controllers/User/IUserController";
 import ProfilePictureRouteConfiguration from "./ProfilePictureRouteConfiguration";
@@ -14,28 +13,38 @@ import ErrorCatchingMiddleware from "../../middleware/ErrorHandling/ErrorCatchin
 import ValidationMiddleware from "../../middleware/Validation/ValidationMiddleware";
 import { UpdatedProfileSchema } from "./UserSchema";
 import PasswordUpdateRouteConfiguration from "./PasswordUpdateRouteConfiguration";
-import TokenService from "../../services/Token/TokenService";
-import Scope from "../../services/Token/Scope";
-import UserPasswordRecoveryService from "../../services/User/PasswordRecovery/UserPasswordRecoveryService";
 
 export default class UserRouteConfiguration extends RouterConfiguration {
     private controller : IUserController;
+    private registrationRoute : UserRegistrationRouteConfiguration;
+    private verificationRoute : VerificationRouteConfiguration;
+    private passwordRecoveryRoute : PasswordRecoveryRouteConfiguration;
+    private profilePictureRoute : ProfilePictureRouteConfiguration;
+    private passwordUpdateRoute : PasswordUpdateRouteConfiguration;
 
-    constructor() {
+    constructor(
+        controller : IUserController,
+        registrationRoute : UserRegistrationRouteConfiguration,
+        verificationRoute : VerificationRouteConfiguration,
+        passwordRecoveryRoute : PasswordRecoveryRouteConfiguration,
+        profilePictureRoute : ProfilePictureRouteConfiguration,
+        passwordUpdateRoute : PasswordUpdateRouteConfiguration,
+    ) {
         super();
-        this.controller = new UserController();
+        this.controller = controller;
+        this.registrationRoute = registrationRoute;
+        this.verificationRoute = verificationRoute;
+        this.passwordRecoveryRoute = passwordRecoveryRoute;
+        this.profilePictureRoute = profilePictureRoute;
+        this.passwordUpdateRoute = passwordUpdateRoute;
     }
 
     configureRoutes() {
-        this.router.use("/registration", new UserRegistrationRouteConfiguration().setup());
-        this.router.use("/verification", new VerificationRouteConfiguration().setup());
-        this.router.use("/password_recovery", new PasswordRecoveryRouteConfiguration(
-            new UserPasswordRecoveryService(
-                new TokenService([Scope.ResetPassword], 1)
-            )
-        ).setup());
-        this.router.use("/avatar", new ProfilePictureRouteConfiguration().setup())
-        this.router.use("/password", new PasswordUpdateRouteConfiguration().setup());
+        this.router.use("/registration", this.registrationRoute.setup());
+        this.router.use("/verification", this.verificationRoute.setup());
+        this.router.use("/password_recovery", this.passwordRecoveryRoute.setup());
+        this.router.use("/avatar", this.profilePictureRoute.setup())
+        this.router.use("/password", this.passwordUpdateRoute.setup());
         this.router.get(
             "/session", 
             new JSONWebTokenAuthenticationStrategy().authenticate(),
