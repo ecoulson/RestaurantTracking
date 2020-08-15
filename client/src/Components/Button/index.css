@@ -2,10 +2,9 @@
     font-family: 'sweet-sans-pro';
     width: auto;
     padding: 2px 25px;
-    font-size: 20px;
+    font-size: 28px;
+    letter-spacing: 2px;
     font-weight: 600;
-    line-height: 30px;
-    letter-spacing: 0px;
     height: auto;
     min-height: auto;
     box-sizing: border-box;
@@ -13,12 +12,12 @@
     border-radius: 5px;
     border: none;
     color: white;
-    background: -webkit-linear-gradient(-225,#45DFC2, #41D4C0, #3DC9BE, #2488B3);
-    background: linear-gradient(315deg,#45DFC2, #41D4C0, #3DC9BE, #2488B3);
+    background: -webkit-linear-gradient(2,#45DFC2, #2488B3);
+    background: linear-gradient(-2deg,#45DFC2, #2488B3);
     outline: none;
     transition: all 0.5s ease-in-out;
     max-width: 300px;
-    margin: 15px auto;
+    margin: 35px auto;
     display: block;
 }
 
@@ -48,8 +47,8 @@
 }
 
 .show {
-    background: -webkit-linear-gradient(-225,#45DFC2, #41D4C0, #3DC9BE, #2488B3);
-    background: linear-gradient(315deg,#45DFC2, #41D4C0, #3DC9BE, #2488B3);
+    background: -webkit-linear-gradient(2,#45DFC2, #2488B3);
+    background: linear-gradient(-2deg,#45DFC2, #2488B3);
 }
 
 .hide {

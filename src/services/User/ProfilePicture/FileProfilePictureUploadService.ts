@@ -1,41 +1,37 @@
 import IProfilePictureUploadService from "./IProfilePictureUploadService";
 import IUser from "../../../models/User/IUser";
-import AWS from "aws-sdk";
 import { basename } from "path";
 import UserBroker from "../../../brokers/UserBroker";
+import IStorageBroker from "../../../brokers/StorageBroker.ts/IStorageBroker";
+import IAWSStorageItem from "../../../brokers/StorageBroker.ts/IAWSStorageItemt";
+import StorageItemType from "../../../brokers/StorageBroker.ts/StorageItemType";
 
 export default class FileProfilePictureUploadService implements IProfilePictureUploadService<Express.Multer.File> {
-    private bucket : AWS.S3;
     private userBroker : UserBroker;
+    private storageBroker : IStorageBroker
 
-    constructor(userBroker : UserBroker) {
-        this.bucket = new AWS.S3();
+    constructor(userBroker : UserBroker, storageBroker : IStorageBroker) {
         this.userBroker = userBroker
+        this.storageBroker = storageBroker;
     }
 
     async upload(user : IUser, file : Express.Multer.File) {
         if (!file.mimetype.includes("image")) {
             throw new Error("Your profile picture must be an image")
         }
-        const awsURL = await this.uploadToAWS(user, file);
-        const profilePicturePath  = `profile_pictures/${basename(awsURL)}`;
+        const imageUrl = await this.uploadToStorage(user, file);
+        const profilePicturePath  = `profile_pictures/${basename(imageUrl)}`;
         user.profilePicture = profilePicturePath;
         await this.userBroker.save(user);
     }
 
-    private uploadToAWS(user : IUser, file : Express.Multer.File) : Promise<string> {
-        return new Promise((resolve, reject) => {
-            const fileType = file.mimetype.split("/")[1];
-            this.bucket.upload({
-                Bucket: process.env.BUCKET_NAME,
-                Key: `profile_pictures/${user.id}.${fileType}`,
-                Body: file.buffer
-            }, (err, data) => {
-                if (err) {
-                    return reject(err);
-                }  
-                return resolve(data.Location);
-            })
-        })
+    private async uploadToStorage(user : IUser, file: Express.Multer.File) {
+        const fileType = file.mimetype.split("/")[1];
+        return await this.storageBroker.upload({
+            Bucket: process.env.BUCKET_NAME,
+            Key: `profile_pictures/${user.id}.${fileType}`,
+            Body: file.buffer,
+            type: StorageItemType.AWS_S3_Bucket
+        } as IAWSStorageItem)
     }
 }
