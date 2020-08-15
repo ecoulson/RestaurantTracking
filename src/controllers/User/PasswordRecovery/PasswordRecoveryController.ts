@@ -10,6 +10,8 @@ import ICancelPasswordRecoveryService from "../../../services/User/PasswordRecov
 import { Request, Response } from "express";
 import ITokenCallbackQuery from "../ITokenCallback";
 import IPasswordResetBody from "./IPasswordResetBody";
+import UserBroker from "../../../brokers/UserBroker";
+import TokenBroker from "../../../brokers/TokenBroker";
 
 export default class PasswordRecoveryController implements IPasswordRecoveryController {
     private passwordRecoveryService : IPasswordRecoveryService;
@@ -20,7 +22,10 @@ export default class PasswordRecoveryController implements IPasswordRecoveryCont
     constructor(passwordRecoveryService : IPasswordRecoveryService) {
         this.passwordRecoveryService = passwordRecoveryService;
         this.passwordRecoveryConfirmationService = new PasswordRecoveryConfirmationService();
-        this.passwordResetService = new PasswordResetService();
+        this.passwordResetService = new PasswordResetService(
+            new UserBroker(),
+            new TokenBroker()
+        );
         this.cancelPasswordResetService = new CancelPasswordRecoveryService();
     }
     

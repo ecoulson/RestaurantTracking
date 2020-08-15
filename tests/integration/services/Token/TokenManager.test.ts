@@ -5,6 +5,7 @@ import { generateObjectId } from "../../../helpers/mongo";
 import crypto from "crypto";
 import Scope from "../../../../src/services/Token/Scope";
 import TokenManager from "../../../../src/services/Token/TokenManger";
+import TokenBroker from "../../../../src/brokers/TokenBroker";
 
 mongoose.set('useCreateIndex', true);
 
@@ -28,7 +29,7 @@ describe("Token Manager Suite", () => {
             await token.save();
             const beforeRun = await TokenModel.findById(token._id);
 
-            await new TokenManager().run();
+            await new TokenManager(new TokenBroker()).run();
 
             const afterRun = await TokenModel.findById(token._id);
             expect(afterRun).toEqual(null)

@@ -2,22 +2,25 @@ import IProfilePictureUploadService from "./IProfilePictureUploadService";
 import IUser from "../../../models/User/IUser";
 import AWS from "aws-sdk";
 import { basename } from "path";
+import UserBroker from "../../../brokers/UserBroker";
 
 export default class FileProfilePictureUploadService implements IProfilePictureUploadService<Express.Multer.File> {
     private bucket : AWS.S3;
+    private userBroker : UserBroker;
 
-    constructor() {
+    constructor(userBroker : UserBroker) {
         this.bucket = new AWS.S3();
+        this.userBroker = userBroker
     }
 
-    async upload(user : IUser, file : Express.Multer.File) : Promise<void>{
+    async upload(user : IUser, file : Express.Multer.File) {
         if (!file.mimetype.includes("image")) {
-            throw new Error("Not an image")
+            throw new Error("Your profile picture must be an image")
         }
         const awsURL = await this.uploadToAWS(user, file);
         const profilePicturePath  = `profile_pictures/${basename(awsURL)}`;
         user.profilePicture = profilePicturePath;
-        await user.save();
+        await this.userBroker.save(user);
     }
 
     private uploadToAWS(user : IUser, file : Express.Multer.File) : Promise<string> {

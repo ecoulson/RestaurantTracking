@@ -7,6 +7,8 @@ import { generateObjectId } from "../../../../helpers/mongo";
 import OrganizationGenerator from "../../../../mocks/Generators/OrganizationGenerator";
 import OrganizationModel from "../../../../../src/models/Organization/OrganizationModel";
 import UserGenerator from "../../../../mocks/Generators/UserGenerator";
+import PermissionSetService from "../../../../../src/services/Permission/PermissionSetService";
+import PermissionSetBroker from "../../../../../src/brokers/PermissionSetBroker";
 
 const organizationGenerator = new OrganizationGenerator();
 const userGenerator = new UserGenerator();
@@ -18,7 +20,9 @@ describe("Register Anonymous Organization Account Service", () => {
             jest.fn().mockResolvedValue(null);
         const service = new RegisterAnonymousOrganizationAccountService(
             new UserBroker(),
-            new UserPermissionSetupService(),
+            new UserPermissionSetupService(
+                new PermissionSetService(new PermissionSetBroker())
+            ),
             new OrganizationBroker()
         )
 
@@ -51,7 +55,9 @@ describe("Register Anonymous Organization Account Service", () => {
         OrganizationModel.prototype.addStudent = jest.fn();
         const service = new RegisterAnonymousOrganizationAccountService(
             new UserBroker(),
-            new UserPermissionSetupService(),
+            new UserPermissionSetupService(
+                new PermissionSetService(new PermissionSetBroker())
+            ),
             new OrganizationBroker()
         )
         const params = {
