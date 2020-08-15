@@ -1,11 +1,18 @@
 import IStorageBroker from "./IStorageBroker";
 import { S3 } from "aws-sdk"
+import IAWSStorageItem from "./IAWSStorageItemt";
 
-export default class AWSStorageBroker implements IStorageBroker<S3, S3.PutObjectRequest> {
-    async upload(bucket : S3, params : S3.PutObjectRequest) {
+export default class AWSStorageBroker implements IStorageBroker {
+    private bucket : S3;
+
+    constructor(bucket : S3) {
+        this.bucket = bucket;
+    }
+
+    async upload(params : IAWSStorageItem) {
         return new Promise(
             (resolve : (value : string) => void, reject : (error : Error) => void) => {
-                bucket.upload({
+                this.bucket.upload({
                     Bucket: params.Bucket,
                     Key: params.Key,
                     Body: params.Body
