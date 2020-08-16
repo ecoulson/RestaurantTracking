@@ -1,6 +1,10 @@
 #button-active-check-in--checkout {
     width: 230px;
     height: 50px;
+    margin: 35px auto;
+    font-size: 28px;
+    letter-spacing: 2px;
+    font-weight: 600;
 }
 
 .current-building-name {

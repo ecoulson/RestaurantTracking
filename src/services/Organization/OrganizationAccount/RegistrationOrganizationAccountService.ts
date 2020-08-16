@@ -13,7 +13,7 @@ export default class RegisterOrganizationAccountService implements IRegisterOrga
 
     constructor(organizationBroker : OrganizationBroker, setupUserPermissionService : IUserPermissionSetupService, userBroker : UserBroker) {
         this.organizationBroker = organizationBroker;
-        this.registrationService = new UserRegistrationService();
+        this.registrationService = new UserRegistrationService(userBroker);
         this.userBroker = userBroker
         this.setupUserPermissionService = setupUserPermissionService;
     }

@@ -8,8 +8,8 @@ import UserBroker from "../../../brokers/UserBroker";
 export default class UserRegistrationService implements IUserRegistrationService {
     private userBroker : UserBroker;
 
-    constructor() {
-        this.userBroker = new UserBroker();
+    constructor(userBroker : UserBroker) {
+        this.userBroker = userBroker;
     }
 
     async register(registration : IRegistrationBody) {

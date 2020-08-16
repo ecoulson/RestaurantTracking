@@ -185,6 +185,7 @@ class PurchaseContactLogsPage extends React.Component<Props, IPurchaseContactLog
 
     async onOrganizationResponse(response: IResponse<IRegisterOrganizationResponse>) {
         const organization = await this.createCustomer(response.data.organization.organizationId)
+        await this.createBuildings();
         if (this.props.stripe && this.props.elements) {
             const paymentMethod = await this.createPaymentMethod(this.props.stripe, this.props.elements);
             if (!paymentMethod) {
@@ -197,6 +198,30 @@ class PurchaseContactLogsPage extends React.Component<Props, IPurchaseContactLog
                     this.state.billingPlan?.id as string
                 )
             }
+        }
+    }
+
+    async createBuildings() {
+        try {
+            await Promise.all(
+                this.props.cart
+                    .filter((item) => {
+                        return item.productType === ProductType.Physical
+                    })
+                    .map((item) => {
+                        return Axios.post(`/api/building/`, {
+                            buildingName: item.name,
+                            organizationId: this.state.organizationId,
+                            buildingType: "Academic"
+                        }, {
+                            headers: {
+                                "Authorization": `bearer ${Cookie.getCookie("token")}`
+                            }
+                        })
+                    })
+            )
+        } catch (error) {
+            this.props.showError("Failed to create buildings", 5000);
         }
     }
 

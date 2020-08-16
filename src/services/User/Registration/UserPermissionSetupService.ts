@@ -5,14 +5,17 @@ import IPermissionBuilder from "../../Permission/IPermissionBuilder";
 import PermissionBuilder from "../../Permission/PermissionBuilder";
 import OperationType from "../../../lib/Authorization/OperationType";
 import ResourceType from "../../../lib/Authorization/ResourceType";
+import UserBroker from "../../../brokers/UserBroker";
 
 export default class UserPermissionSetupService implements IUserPermissionSetupService {
     private permissionSetService : IPermissionSetService;
     private permissionBuilder : IPermissionBuilder;
+    private userBroker : UserBroker;
 
-    constructor(permissionSetService : IPermissionSetService) {
+    constructor(permissionSetService : IPermissionSetService, userBroker : UserBroker) {
         this.permissionSetService = permissionSetService;
         this.permissionBuilder = new PermissionBuilder();
+        this.userBroker = userBroker;
     }
 
     async setup(user : IUser) {
@@ -20,7 +23,7 @@ export default class UserPermissionSetupService implements IUserPermissionSetupS
         await user.addPermissionSet(userPermissionSet);
         const userPermission = await this.createSelfAccessPermission(user);
         await userPermissionSet.addPermission(userPermission);
-        return await this.saveUser(user);
+        return await this.userBroker.save(user);
     }
 
     private async createSelfAccessPermission(user : IUser) {
@@ -32,13 +35,5 @@ export default class UserPermissionSetupService implements IUserPermissionSetupS
                                 .build();
         await userPermission.save();
         return userPermission;
-    }
-
-    private async saveUser(user : IUser) {
-        try {
-            return await user.save();
-        } catch (error) {
-            throw new Error(`Failed to save user ${user.id}`)
-        }
     }
 }
