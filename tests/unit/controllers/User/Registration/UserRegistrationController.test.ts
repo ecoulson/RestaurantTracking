@@ -27,17 +27,18 @@ describe("User Controller Suite", () => {
     describe("handleResendVerificationEmail", () => {
         test("check if user verified", async () => {
             const controller = new UserRegistrationController(
-                new UserRegistrationService(),
+                new UserRegistrationService(new UserBroker()),
                 new TokenService([Scope.VerifyEmail], 24, new TokenBroker()),
                 new UserBroker(),
                 new EmailService(new EmailBroker()),
                 new UserPermissionSetupService(
                     new PermissionSetService(
-                        new PermissionSetBroker()
-                    )
+                        new PermissionSetBroker(),
+                    ),
+                    new UserBroker()
                 ),
                 new VerifyUserService(),
-                new UsernameAvailabilityService()
+                new UsernameAvailabilityService(new UserBroker())
             );
             userGenerator.setVerified();
             const user = userGenerator.generate();
@@ -54,17 +55,18 @@ describe("User Controller Suite", () => {
 
         test("Check that verification email was sent", async () => {
             const controller = new UserRegistrationController(
-                new UserRegistrationService(),
+                new UserRegistrationService(new UserBroker()),
                 new TokenService([Scope.VerifyEmail], 24, new TokenBroker()),
                 new UserBroker(),
                 new EmailService(new EmailBroker()),
                 new UserPermissionSetupService(
                     new PermissionSetService(
-                        new PermissionSetBroker()
-                    )
+                        new PermissionSetBroker(),
+                    ),
+                    new UserBroker()
                 ),
                 new VerifyUserService(),
-                new UsernameAvailabilityService()
+                new UsernameAvailabilityService(new UserBroker())
             );
             const user = userGenerator.generate();
             const request = mockRequest({ user });
@@ -81,17 +83,18 @@ describe("User Controller Suite", () => {
 
         test("Should send successful response", async () => {
             const controller = new UserRegistrationController(
-                new UserRegistrationService(),
+                new UserRegistrationService(new UserBroker()),
                 new TokenService([Scope.VerifyEmail], 24, new TokenBroker()),
                 new UserBroker(),
                 new EmailService(new EmailBroker()),
                 new UserPermissionSetupService(
                     new PermissionSetService(
-                        new PermissionSetBroker()
-                    )
+                        new PermissionSetBroker(),
+                    ),
+                    new UserBroker()
                 ),
                 new VerifyUserService(),
-                new UsernameAvailabilityService()
+                new UsernameAvailabilityService(new UserBroker())
             );
             const user = userGenerator.generate();
             const request = mockRequest({ user });
