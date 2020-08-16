@@ -1,12 +1,14 @@
 import IUsernameAvailabilityService from "./IUsernameAvailabilityService";
-import UserModel from "../../../models/User/UserModel";
+import UserBroker from "../../../brokers/UserBroker";
 
 export default class UsernameAvailabilityService implements IUsernameAvailabilityService {
+    private userBroker : UserBroker;
+
+    constructor(userBroker : UserBroker) {
+        this.userBroker = userBroker
+    }
+
     async check(username : string) {
-        try {
-            return await UserModel.findByUsername(username) === null;
-        } catch (error) {
-            throw new Error(`Failed to check username availability`);
-        }
+        return (await this.userBroker.findUserByUsername(username)) !== null;
     }
 }

@@ -2,12 +2,21 @@ import IProfilePictureUploadController from "./IProfilePictureUploadController";
 import { Request, Response } from "express";
 import URLProfilePictureUploadService from "../../../services/User/ProfilePicture/URLProfilePictureUploadService";
 import JSONResponse from "../../../lib/HTTP/JSONResponse";
+import IProfilePictureUploadService from "../../../services/User/ProfilePicture/IProfilePictureUploadService";
+import FileSystemBroker from "../../../brokers/FileSystemBroker";
+import AWSStorageBroker from "../../../brokers/StorageBroker.ts/AWSStorageBroker";
+import { S3 } from "aws-sdk";
+import UserBroker from "../../../brokers/UserBroker";
 
 export default class URLProfilePictureUploadController implements IProfilePictureUploadController {
-    private profilePictureUploadService = new URLProfilePictureUploadService();
+    private profilePictureUploadService : IProfilePictureUploadService<string>;
 
     constructor() {
-        this.profilePictureUploadService = new URLProfilePictureUploadService();
+        this.profilePictureUploadService = new URLProfilePictureUploadService(
+            new FileSystemBroker(),
+            new AWSStorageBroker(new S3()),
+            new UserBroker()
+        );
     }
 
     handleUpload() {

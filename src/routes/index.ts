@@ -151,13 +151,13 @@ export default class APIRouteConfiguration extends RouterConfiguration {
             ),
             new UserRegistrationRouteConfiguration(
                 new UserRegistrationController(
-                    new UserRegistrationService(),
+                    new UserRegistrationService(userBroker),
                     verificationTokenService,
                     userBroker,
                     emailService,
-                    new UserPermissionSetupService(permissionSetService),
+                    new UserPermissionSetupService(permissionSetService, userBroker),
                     new VerifyUserService(),
-                    new UsernameAvailabilityService()
+                    new UsernameAvailabilityService(userBroker)
                 )
             ),
             new VerificationRouteConfiguration(),
@@ -193,13 +193,13 @@ export default class APIRouteConfiguration extends RouterConfiguration {
                 new RegisterOrganizationAccountController(
                     new RegisterOrganizationAccountService(
                         organizationBroker,
-                        new UserPermissionSetupService(permissionSetService),
+                        new UserPermissionSetupService(permissionSetService, userBroker),
                         userBroker
                     ),
                     new VerifyUserService(),
                     new RegisterAnonymousOrganizationAccountService(
                         userBroker,
-                        new UserPermissionSetupService(permissionSetService),
+                        new UserPermissionSetupService(permissionSetService, userBroker),
                         organizationBroker
                     ),
                     authenticationService,
@@ -216,7 +216,10 @@ export default class APIRouteConfiguration extends RouterConfiguration {
         ).setup());
 
         this.router.use("/building", new BuildingRouterController(
-            new BuildingController(new CreateBuildingService(new BuildingBroker())),
+            new BuildingController(new CreateBuildingService(
+                buildingBroker,
+                organizationBroker
+            )),
             organizationBroker
         ).setup())
 

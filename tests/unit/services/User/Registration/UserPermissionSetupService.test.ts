@@ -5,42 +5,19 @@ import PermissionSetService from "../../../../../src/services/Permission/Permiss
 import PermissionModel from "../../../../../src/models/Permission/PermissionModel";
 import PermissionSetModel from "../../../../../src/models/PermissionSet/PermissionSetModel";
 import PermissionSetBroker from "../../../../../src/brokers/PermissionSetBroker";
+import UserBroker from "../../../../../src/brokers/UserBroker";
 
 const userGenerator = new UserGenerator();
 
 describe("User Permission Setup Service Suite", () => {
     describe("setup", () => {
-        test("Fails to save user", async () => {
-            const service = new UserPermissionSetupService(
-                new PermissionSetService(
-                    new PermissionSetBroker()
-                )
-            );
-            const user = userGenerator.generate();
-            const set = getPermissionSet("Test");
-            PermissionSetService.prototype.create = jest.fn().mockResolvedValue(set);
-            UserModel.prototype.addPermissionSet = jest.fn().mockImplementation(() => {
-                user.permissionSets.push(set.id)
-            });
-            PermissionModel.prototype.save = jest.fn();
-            PermissionSetModel.prototype.addPermission = jest.fn().mockImplementation(() => {
-                set.permissions.push("test")
-            })
-            UserModel.prototype.save = jest.fn().mockRejectedValue(new Error());
-
-            try {
-                await service.setup(user)
-            } catch (error) {
-                expect(error).toEqual(new Error(`Failed to save user ${user._id}`))
-            }
-            expect.assertions(1);
-        })
-
         test("Saves user", async () => {
+            UserBroker.prototype.save = jest.fn().mockImplementation(x => x);
             const service = new UserPermissionSetupService(
                 new PermissionSetService(
                     new PermissionSetBroker()
-                )
+                ),
+                new UserBroker()
             );
             const user = userGenerator.generate();
             const set = getPermissionSet("Test");

@@ -16,7 +16,9 @@ const registrationGenerator = new RegistrationBodyGenerator();
 describe("User Registration Service Suite", () => {
     describe("register", () => {
         test("An error occurs while saving a user to the database", async () => {
-            const service = new UserRegistrationService();
+            const service = new UserRegistrationService(
+                new UserBroker()
+            );
             const registration : IRegistrationBody = registrationGenerator.generate();
             bcrypt.hash = jest.fn().mockRejectedValue(new Error());
 
@@ -33,7 +35,9 @@ describe("User Registration Service Suite", () => {
         test("Username has been taken", async () => {
             const registration : IRegistrationBody = registrationGenerator.generate();
             UserBroker.prototype.findUserByUsername = jest.fn().mockResolvedValue(registration);
-            const service = new UserRegistrationService();
+            const service = new UserRegistrationService(
+                new UserBroker()
+            );
 
             try {
                 await service.register(registration);
@@ -47,7 +51,9 @@ describe("User Registration Service Suite", () => {
             const registration : IRegistrationBody = registrationGenerator.generate();
             UserBroker.prototype.findUserByUsername = jest.fn().mockResolvedValue(null);
             UserBroker.prototype.findUserByEmail = jest.fn().mockResolvedValue(registration);
-            const service = new UserRegistrationService();
+            const service = new UserRegistrationService(
+                new UserBroker()
+            );
 
             try {
                 await service.register(registration);
@@ -64,7 +70,9 @@ describe("User Registration Service Suite", () => {
             UserBroker.prototype.save = jest.fn().mockResolvedValue(registration);
             UserBroker.prototype.findUserByUsername = jest.fn().mockResolvedValue(null);
             UserBroker.prototype.findUserByEmail = jest.fn().mockResolvedValue(null);
-            const service = new UserRegistrationService();
+            const service = new UserRegistrationService(
+                new UserBroker()
+            );
 
             const user = await service.register(registration);
 
