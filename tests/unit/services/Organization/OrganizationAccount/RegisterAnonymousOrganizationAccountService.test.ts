@@ -21,7 +21,8 @@ describe("Register Anonymous Organization Account Service", () => {
         const service = new RegisterAnonymousOrganizationAccountService(
             new UserBroker(),
             new UserPermissionSetupService(
-                new PermissionSetService(new PermissionSetBroker())
+                new PermissionSetService(new PermissionSetBroker()), 
+                new UserBroker()
             ),
             new OrganizationBroker()
         )
@@ -56,7 +57,8 @@ describe("Register Anonymous Organization Account Service", () => {
         const service = new RegisterAnonymousOrganizationAccountService(
             new UserBroker(),
             new UserPermissionSetupService(
-                new PermissionSetService(new PermissionSetBroker())
+                new PermissionSetService(new PermissionSetBroker()), 
+                new UserBroker()
             ),
             new OrganizationBroker()
         )
